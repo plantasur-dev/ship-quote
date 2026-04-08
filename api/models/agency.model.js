@@ -16,6 +16,10 @@ const agencySchema = new mongoose.Schema({
         enum: ["static", "api"],
         default: "static"
     },
+    active: {
+        type: Boolean,
+        default: true
+    },
     rules: {
         hasAndaluciaRule: { 
             type: Boolean, 

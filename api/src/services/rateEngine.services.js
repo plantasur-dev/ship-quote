@@ -63,9 +63,9 @@ function resolveZone(zones, postalCode, province) {
     // 1. excepciones
     for (const z of zones) {
         for (const ex of z.postalCodeExceptions || []) {
-        if (postalCode >= ex.from && postalCode <= ex.to) {
-            return zones.find(z2 => z2.name === ex.zoneName);
-        }
+            if (postalCode >= ex.from && postalCode <= ex.to) {
+                return zones.find(z2 => z2.name === ex.zoneName);
+            }
         }
     }
 
@@ -86,7 +86,7 @@ export async function compareRates({ destinationPostalCode, province, items }) {
         Rate.find({ agencyId: { $in: agencyIds } }),
         PalletType.find({ agencyId: { $in: agencyIds } })
     ]);
-
+    
     const results = [];
 
     for (const agency of agencies) {
@@ -96,12 +96,12 @@ export async function compareRates({ destinationPostalCode, province, items }) {
             const agencyPalletTypes = palletTypes.filter(p => p.agencyId.equals(agency._id));
 
             const zone = resolveZone(agencyZones, destinationPostalCode, province);
-
+            
             if (!zone) {
                 results.push({
-                agency: agency.name,
-                available: false,
-                reason: "Zona no encontrada"
+                    agency: agency.name,
+                    available: false,
+                    reason: "Zona no encontrada"
                 });
                 continue;
             }
@@ -114,25 +114,26 @@ export async function compareRates({ destinationPostalCode, province, items }) {
                 const palletItems = items.filter(i => i.type === "pallet");
 
                 if (zone.calculationMode === "weight_volume") {
-                const value = calculateWeightVolume(palletItems);
+                    const value = calculateWeightVolume(palletItems);
 
-                const rate = agencyRates.find(r =>
-                    r.type === "pallet" && r.zoneName === zone.name
-                );
+                    const rate = agencyRates.filter(agencyRate =>
+                        agencyRate.type === "pallet" && agencyRate.zoneName === zone.name
+                    );
+                
+                    if (!rate.length) throw new Error("No rate");
 
-                if (!rate) throw new Error("No rate");
+                    const match = matchPrice(rate.priceBreaks, value);
+                    if (!match) throw new Error("No break");
 
-                const match = matchPrice(rate.priceBreaks, value);
-                if (!match) throw new Error("No break");
-
-                total += match.price;
-
-                breakdown.push({
-                    type: "pallet",
-                    mode: "weight_volume",
-                    value,
-                    price: match.price
-                });
+                    console.log('Precio despues de obtener las tarifas: ', match)
+                    total += match.price;
+                    //console.log(total)
+                    breakdown.push({
+                        type: "pallet",
+                        mode: "weight_volume",
+                        value,
+                        price: match.price
+                    });
 
                 } else {
                     const groups = groupPallets(palletItems, agencyPalletTypes);

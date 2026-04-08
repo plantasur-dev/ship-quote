@@ -3,11 +3,11 @@ import express from "express";
 
 import morgan from "morgan";
 
-import "./config/db.config.js";
+import "./src/config/db.config.js";
 
-import router from "./config/routes.config.js";
+import router from "./src/config/routes.config.js";
 
-import { errorHandler } from './middlewares/errors.middleware.js';
+import { errorHandler } from './src/middlewares/errors.middleware.js';
 
 const app = express()
 

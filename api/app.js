@@ -3,9 +3,9 @@ import express from "express";
 
 import morgan from "morgan";
 
-import "./src/config/db.config.js";
+import './src/configs/server.config.js';
 
-import router from "./src/config/routes.config.js";
+import router from "./src/configs/routes.config.js";
 
 import { errorHandler } from './src/middlewares/errors.middleware.js';
 
@@ -23,4 +23,4 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`)
-})
+});

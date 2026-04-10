@@ -65,8 +65,17 @@ export function groupPallets(items, palletTypes) {
     return Object.values(groups);
 }
 
-// Resolver zona
 export function resolveZone(zones, postalCode, province) {
+    for (const zone of zones) {
+        const match = zone.postalCodeExceptions?.find(exception =>
+            postalCode >= exception.from && postalCode <= exception.to
+        );
+
+        if (match) {
+            return zones.find(z => z.name === match.zoneName);
+        }
+    }
+
     return zones.find(z => z.provinces.includes(province));
 }
 

@@ -45,8 +45,12 @@ const rateSchema = new mongoose.Schema({
     },
     services: {
         type: [servicePriceSchema]
+    },
+    calculationType: {
+        type: String,
+        enum: ["unit", "quantity"],
+        default: "unit"
     }
-
 }, { 
     timestamps: true,
     versionKey: false,

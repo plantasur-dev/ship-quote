@@ -11,7 +11,7 @@ import { seedRatesAndalucia } from './caycoSeeds/caycoRatesAndalucia.seed.js';
 
 import { seedTecumZones } from './tecumSeeds/tecumZones.seed.js';
 import { seedTecumPalletTypes } from './tecumSeeds/tecumPalletTypes.seeds.js';
-import { seedTecumRates } from './tecumSeeds/tecumRates.seed.js';
+import { seedTecumRates, seedRatesByQuantity } from './tecumSeeds/tecumRates.seed.js';
 
 await seedAgencies();
 

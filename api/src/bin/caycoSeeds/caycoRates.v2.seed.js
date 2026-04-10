@@ -86,7 +86,10 @@ export async function seedRates() {
         type: "pallet",
         zoneName: zone,
         palletTypeId: pallet._id,
-        priceBreaks: fixedPrice(prices[i])
+        services: {
+          service: 'express',
+          priceBreaks: fixedPrice(prices[i])
+        }
       });
     }
   }
@@ -99,7 +102,10 @@ export async function seedRates() {
       type: "pallet",
       zoneName: zone,
       palletTypeId: completoType._id,
-      priceBreaks: buildBreaks(prices)
+      services: {
+        service: 'express',
+        priceBreaks: buildBreaks(prices)
+      }
     });
   }
 
@@ -111,7 +117,10 @@ export async function seedRates() {
       type: "pallet",
       zoneName: zone,
       palletTypeId: superType._id,
-      priceBreaks: buildBreaks(prices)
+      services: {
+        service: 'express',
+        priceBreaks: buildBreaks(prices)
+      }
     });
   }
 

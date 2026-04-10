@@ -1,5 +1,5 @@
 
-import Agency from "../../models/agency.model.js";
+import Agency from "../models/agency.model.js";
 
 const agencies = [
     {

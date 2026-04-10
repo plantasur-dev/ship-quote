@@ -47,13 +47,19 @@ export async function seedRatesAndalucia() {
       agencyId: agency._id,
       type: "pallet",
       zoneName: "ZONA 11",
-      priceBreaks: buildBreaks(zona11)
+      services: {
+        service: 'express',
+        priceBreaks: buildBreaks(zona11)
+      }
     },
     {
       agencyId: agency._id,
       type: "pallet",
       zoneName: "ZONA 12",
-      priceBreaks: buildBreaks(zona12)
+      services: {
+        service: 'express',
+        priceBreaks: buildBreaks(zona12)
+      }
     }
   ]);
 

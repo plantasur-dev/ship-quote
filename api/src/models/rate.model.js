@@ -1,10 +1,17 @@
 
 import mongoose from "mongoose";
 
-const priceBreakSchema = new mongoose.Schema({
-    min: Number,
-    max: Number,
-    price: Number
+const servicePriceSchema = new mongoose.Schema({
+    service: {
+        type: String,
+        enum: ['economy', 'premium', 'express', 'basic'],
+        default: 'basic'
+    },
+    priceBreaks: [{
+        min: Number,
+        max: Number,
+        price: Number
+    }]
 }, { 
     timestamps: true,
     versionKey: false,
@@ -36,8 +43,8 @@ const rateSchema = new mongoose.Schema({
         ref: "PalletType",
         default: null
     },
-    priceBreaks: {
-        type: [priceBreakSchema]
+    services: {
+        type: [servicePriceSchema]
     }
 
 }, { 

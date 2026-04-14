@@ -3,11 +3,9 @@ import express from "express";
 
 import morgan from "morgan";
 
-import './src/configs/server.config.js';
+import './src/lib/configs/server.config.js';
 
-import router from "./src/configs/routes.config.js";
-
-import { errorHandler } from './src/middlewares/errors.middleware.js';
+import apiRouter from "./src/api/index.js";
 
 const app = express()
 
@@ -17,10 +15,8 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 
-app.use('/api/v1', router);
-
-app.use(errorHandler);
+app.use('/api/v1', apiRouter);
 
 app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`)
+    console.log(`App listening on port ${ PORT }`)
 });

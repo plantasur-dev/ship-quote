@@ -60,6 +60,8 @@ export async function compareRates({ destinationPostalCode, province, items }) {
             };
 
         } catch (error) {
+            console.error(error);
+
             return {
                 agency: agency.name,
                 available: false,

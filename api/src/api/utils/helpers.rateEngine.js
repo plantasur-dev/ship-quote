@@ -97,7 +97,8 @@ export function calculeRateByField(agencyRates, field = 'type') {
     const ratesMap = new Map();
 
     for (const r of agencyRates) {
-        const key = `${r.zoneName}_${r[field].toString()}`;
+        const field_select = r[field];
+        const key = `${r.zoneName}_${field_select?.toString()}`;
         ratesMap.set(key, r);
     }
 

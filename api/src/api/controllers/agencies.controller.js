@@ -5,11 +5,11 @@ import Agency from "../../lib/models/agency.model.js";
 
 export async function create(req, res) {
 
-    const { name, code, type, rules } = req.body;
+    const { name, type, rules } = req.body;
 
     const agency = await Agency.create({ 
         name, 
-        code: code.toLowerCase(), 
+        code: name.toLowerCase(), 
         type, 
         rules 
     });

@@ -5,17 +5,84 @@ import { errorHandler, routerNotFound } from './middlewares/errors.middleware.js
 
 import { schemaValidation } from './middlewares/schemaValidation.middleware.js';
 
-import * as Rate from './controllers/rates.controller.js';
 import * as Agencies from './controllers/agencies.controller.js';
+import * as Locations from './controllers/locations.controller.js';
+import * as Pallets from './controllers/palletTypes.controller.js';
+import * as Rates from './controllers/rates.controller.js';
+import * as Zones from './controllers/zones.controller.js';
 
 const apiRouter = Router();
 
-apiRouter.use(schemaValidation);
+apiRouter.post(
+    '/agencies', 
+    schemaValidation, 
+    Agencies.create
+);
+apiRouter.get(
+    '/agencies', 
+    Agencies.list
+);
+apiRouter.patch(
+    '/agencies/:agencyId', 
+    Agencies.updateAgencyStatus
+);
 
-apiRouter.post('/agencies', Agencies.create);
-apiRouter.get('/agencies', Agencies.list);
 
-apiRouter.post("/rate/compare", Rate.compare);
+apiRouter.post(
+    '/locations',
+    schemaValidation,
+    Locations.create
+);
+apiRouter.get(
+    '/locations',
+    Locations.list
+);
+apiRouter.get(
+    '/locations/:locationId',
+    Locations.details
+);
+
+
+apiRouter.post(
+    '/pallets',
+    schemaValidation,
+    Pallets.create
+);
+apiRouter.get(
+    '/pallets',
+    Pallets.list
+);
+apiRouter.get(
+    '/pallets/:palletTypeId',
+    Pallets.details
+);
+apiRouter.delete(
+    '/pallets/:palletTypeId',
+    Pallets.remove
+);
+
+
+apiRouter.post(
+    '/zones',
+    schemaValidation,
+    Zones.create
+);
+apiRouter.get(
+    '/zones',
+    Zones.list
+);
+apiRouter.get(
+    '/zones/:zoneId',
+    Zones.details
+);
+
+
+apiRouter.post(
+    '/rate/compare', 
+    schemaValidation, 
+    Rates.compare
+);
+
 
 apiRouter.use(routerNotFound);
 

@@ -1,13 +1,33 @@
 
-import PalletType from "../../lib/models/palletType.model";
+import createHttpError from "http-errors";
+
+import PalletType from "../../lib/models/palletType.model.js";
 
 export const create = async (req, res) => {
 
     const { agencyId, name, constraints } = req.body;
 
-    const palletType = PalletType.create({ agencyId, name, constraints });
+    const palletType = await PalletType.create({ agencyId, name, constraints });
 
     res.status(201).json(palletType);
+};
+
+export const list = async (req, res) => {
+
+    const pallets = await PalletType.find();
+
+    if (!pallets) throw createHttpError(404, 'Pallets not founds');
+
+    res.json(pallets);
+};
+
+export const details = async (req, res) => {
+    
+    const pallet = await PalletType.findById(req.params.palletTypeId);
+
+    if (!pallet) throw createHttpError(404, 'Pallet not found');
+
+    res.json(pallet);
 };
 
 export const remove = async (req, res) => {

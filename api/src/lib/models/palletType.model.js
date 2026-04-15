@@ -5,20 +5,39 @@ const palletTypeSchema = new mongoose.Schema({
     agencyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Agency",
+        required: [true, 'Campo id Agencia obligatorio.'],
         index: true
     },
     name: { 
-        type: String, 
-        required: true 
+        type: String,
+        maxLength: [60, 'Longitud máxima de 60 caracteres.'], 
+        required: [true, 'Campo descripción pallet obligatorio.']
     },
     constraints: {
-        maxWeight: Number,
-        maxVolume: Number,
-        maxHeight: Number,
-        maxLength: Number,
-        maxWidth: Number
+        maxWeight: {
+            type: Number,
+            min: 0,
+            required: [true, 'Campo peso pallet obligatorio.']
+        },
+        maxHeight: {
+            type: Number,
+            min: 0,
+            default: 0,
+            set: value => sanitizarIpunt(value)
+        },
+        maxLength: {
+            type: Number,
+            min: 0,
+            default: 0,
+            set: value => sanitizarIpunt(value)
+        },
+        maxWidth: {
+            type: Number,
+            min: 0,
+            default: 0,
+            set: value => sanitizarIpunt(value)
+        }
     }
-    
 }, { 
     timestamps: true,
     versionKey: false,
@@ -29,6 +48,9 @@ const palletTypeSchema = new mongoose.Schema({
         },
     }
 });
+
+const sanitizarIpunt = (value) => 
+    (value === "" || value == null ? 0 : Number(value))
 
 const PalletType = mongoose.model("PalletType", palletTypeSchema);
 

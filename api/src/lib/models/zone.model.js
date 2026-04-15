@@ -5,26 +5,40 @@ const zoneSchema = new mongoose.Schema({
     agencyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Agency",
-        require: true,
-        index: true
+        required: [true, 'agencyId de agencia obligatorio.']
     },
     name: { 
         type: String, 
-        required: true 
+        required: [true, 'name de zona obligatorio.' ]
     },
     provinces: {
-        type: [String]
+        type: [String],
     },
     calculationMode: {
         type: String,
         enum: ["pallet", "weight_volume"],
         default: "pallet"
     },
-    postalCodeExceptions: [{
-        from: String,
-        to: String,
-        zoneName: String
-    }]
+    postalCodeExceptions: {
+        type: [{
+            from: String,
+            to: String,
+            zoneName: String
+        }],
+        validate: {
+            validator: function (values) {
+                return Array.isArray(values) &&
+                    values.every(v =>
+                        v &&
+                        typeof v === 'object' &&
+                        v.from?.trim() &&
+                        v.to?.trim() &&
+                        v.zoneName?.trim()
+                );
+            },
+            message: 'postalCodeExceptions debe contener los elementos (from, to y zoneName) válidos'
+        }
+    }
 }, { 
     timestamps: true,
     versionKey: false,
@@ -34,6 +48,10 @@ const zoneSchema = new mongoose.Schema({
             delete ret._id;
         },
     }
+});
+
+zoneSchema.index({ 
+    agencyId: 1, 
 });
 
 zoneSchema.index({ 

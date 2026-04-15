@@ -57,7 +57,6 @@ const agencySchema = new mongoose.Schema({
             default: false 
         }
     }
-    
 }, { 
     timestamps: true,
     versionKey: false,

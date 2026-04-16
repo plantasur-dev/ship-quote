@@ -1,17 +1,23 @@
 
-import { connectDB } from "../configs/db.config.js";
+import { connectDB } from "../lib/configs/db.config.js";
 
 await connectDB();
 
 import { seedAgencies } from './agencies.seed.js';
-import { seedZones } from './caycoSeeds/caycoZones.seed.js';
-import { seedPalletTypes } from './caycoSeeds/caycoPalletTypes.seed.js';
-import { seedRates } from './caycoSeeds/caycoRates.v2.seed.js';
-import { seedRatesAndalucia } from './caycoSeeds/caycoRatesAndalucia.seed.js';
 
-import { seedTecumZones } from './tecumSeeds/tecumZones.seed.js';
-import { seedTecumPalletTypes } from './tecumSeeds/tecumPalletTypes.seeds.js';
-import { seedTecumRates, seedRatesByQuantity } from './tecumSeeds/tecumRates.seed.js';
+import { 
+    seedZones, 
+    seedPalletTypes, 
+    seedRates, 
+    seedRatesAndalucia 
+} from './caycoSeeds/index.js';
+
+import { 
+    seedTecumZones, 
+    seedTecumPalletTypes, 
+    seedTecumRates, 
+    seedTecumRatesByQuantity 
+} from './tecumSeeds/index.js';
 
 await seedAgencies();
 
@@ -25,5 +31,7 @@ await seedRates();
 await seedRatesAndalucia();
 
 await seedTecumRates();
+
+await seedTecumRatesByQuantity('tecum');
 
 process.exit();

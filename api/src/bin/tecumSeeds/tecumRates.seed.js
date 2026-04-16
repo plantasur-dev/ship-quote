@@ -1,132 +1,13 @@
 
-import Agency from "../../models/agency.model.js";
-import Rate from "../../models/rate.model.js";
-import PalletType from "../../models/palletType.model.js";
+import Agency from "../../lib/models/agency.model.js";
 
-// helper
-const fixed = (price) => [{ min: 1, max: 999, price }];
+import Rate from "../../lib/models/rate.model.js";
 
-// ---------------- DATA ----------------
+import PalletType from "../../lib/models/palletType.model.js";
 
-const table = {
-  "ZONA 21": [37.07, 39.39, 44.86, 46.19, 35.14, 36.29, 42.20, 44.16],
-  "ZONA 22": [38.71, 42.33, 48.69, 51.15, 36.68, 37.87, 44.81, 48.34],
-  "ZONA 23": [39.69, 44.44, 50.75, 53.19, 37.69, 38.85, 46.21, 50.40],
-  "ZONA 24": [41.39, 46.33, 52.59, 55.24, 39.29, 40.52, 48.49, 53.55],
-  "ZONA 25": [42.81, 47.60, 54.41, 57.59, 40.74, 41.93, 50.27, 55.92],
-  "ZONA 1":  [39.48, 41.81, 53.68, 58.53, 37.52, 41.83, 50.21, 55.32],
-  "ZONA 2":  [40.65, 42.98, 54.85, 59.70, 38.67, 42.98, 51.59, 57.05],
-  "ZONA 3":  [42.00, 44.33, 56.71, 62.20, 39.90, 44.20, 53.32, 59.42],
-  "ZONA 4":  [45.48, 47.82, 59.74, 64.53, 43.36, 47.67, 55.86, 60.58],
-  "ZONA 5":  [47.62, 50.00, 62.21, 67.42, 44.83, 49.18, 57.66, 62.77],
-  "ZONA 6":  [48.81, 52.96, 66.35, 73.36, 45.42, 50.95, 61.07, 68.66],
-  "ZONA 7":  [49.57, 53.64, 70.23, 82.01, 46.23, 51.70, 64.05, 74.99],
-  "ZONA 8":  [57.27, 65.04, 84.41, 100.39, 52.61, 61.69, 77.03, 92.45],
-  "ZONA 9":  [77.80, 93.73, 117.19, 140.92, 72.99, 87.12, 108.69, 129.60],
-  "ZONA 10": [79.99, 96.47, 119.93, 143.66, 74.62, 89.85, 111.41, 132.32],
-  "ZONA 11": [83.35, 99.83, 121.29, 145.02, 83.35, 99.83, 121.29, 145.02], // si cambian pesos altos, ajusta
-  "ZONA 12": [121.79, 145.96, 168.30, 193.34, 121.79, 145.96, 168.30, 193.34],
-  "ZONA 13": [139.88, 179.21, 272.45, 251.72, '', '', '', ''],
-  "ZONA 14": [145.06, 194.74, 297.29, 275.52, '', '', '', ''],
-  "ZONA 16": ['', '', '', '', 16.00, 19.00, 27.00, 27.00],
-  "ZONA 17": ['', '', '', '', 27.00, 27.00, 27.00, 27.00],
-};
+import { buildPriceBreaks, fixed, palletMap } from '../../lib/utils/tecum.util.js';
 
-const palletMap = [
-  "MINI QUARTER PALLET",
-  "QUARTER PALLET",
-  "SUPER EURO LIGHT PALLET",
-  "HALF PALLET"
-];
-
-const ExtraLight = {
-  "ZONA 21": { premium: [47.66,45.92,44.77], economy: [44.40,43.25,42.11] },
-  "ZONA 22": { premium: [51.63,49.82,48.62], economy: [48.75,46.93,45.74] },
-  "ZONA 23": { premium: [54.25,52.44,51.28], economy: [51.36,49.61,48.43] },
-  "ZONA 24": { premium: [57.58,55.73,54.49], economy: [54.57,52.74,51.52] },
-  "ZONA 25": { premium: [59.86,58.05,56.85], economy: [56.89,55.12,53.93] },
-
-  "ZONA 1": { premium: [58.61,56.87,55.11], economy: [55.40,53.67,52.52] },
-  "ZONA 2": { premium: [59.78,58.03,56.28], economy: [57.14,55.98,54.82] },
-  "ZONA 3": { premium: [62.87,61.11,60.54], economy: [59.50,58.35,57.19] },
-  "ZONA 4": { premium: [68.11,66.37,65.78], economy: [62.39,61.80,61.24] },
-  "ZONA 5": { premium: [71.67,69.88,69.29], economy: [65.22,64.63,64.04] },
-  "ZONA 6": { premium: [77.60,75.82,75.24], economy: [70.50,69.91,69.34] },
-  "ZONA 7": { premium: [87.92,86.17,85.58], economy: [77.97,77.39,76.81] },
-  "ZONA 8": { premium: [114.22,112.43,111.83], economy: [103.17,102.58,101.98] },
-  "ZONA 9": { premium: [153.61,151.95,151.40], economy: [141.06,140.52,139.97] },
-  "ZONA 10": { premium: [160.19,157.99,157.45], economy: [146.49,145.95,145.41] },
-
-  "ZONA 16": { premium: [27,27,27], economy: [27,27,27] },
-  "ZONA 17": { premium: [27,27,27], economy: [27,27,27] }
-};
-
-const EuroPallet = {
-  "ZONA 21": { premium: [49.66,47.88,46.71,46.13,45.53], economy: [45.75,43.98,42.82,42.24,41.64] },
-  "ZONA 22": { premium: [53.75,51.91,50.67,50.05,49.45], economy: [49.70,47.74,46.52,45.92,45.30] },
-  "ZONA 23": { premium: [56.99,55.19,53.98,53.35,52.76], economy: [52.86,51.06,49.86,49.26,48.66] },
-  "ZONA 24": { premium: [60.46,58.59,57.33,56.70,56.08], economy: [56.15,54.28,53.03,52.42,51.79] },
-  "ZONA 25": { premium: [62.74,60.91,59.68,59.07,58.46], economy: [58.50,56.68,55.48,54.87,54.27] },
-
-  "ZONA 1": { premium: [61.90,60.12,58.33,57.75,57.15], economy: [56.85,55.08,52.73,52.15,51.55] },
-  "ZONA 2": { premium: [65.46,63.69,60.71,60.12,59.52], economy: [60.38,58.60,55.08,55.08,53.90] },
-  "ZONA 3": { premium: [69.21,67.43,64.45,63.87,63.27], economy: [63.96,62.21,58.08,57.50,56.90] },
-  "ZONA 4": { premium: [76.33,74.56,70.99,70.39,69.80], economy: [68.68,66.91,62.78,62.21,61.03] },
-  "ZONA 5": { premium: [81.31,79.48,74.65,74.05,73.44], economy: [72.86,71.05,66.26,65.67,65.06] },
-  "ZONA 6": { premium: [90.38,87.95,84.95,83.73,82.52], economy: [78.86,76.46,71.66,71.05,69.86] },
-  "ZONA 7": { premium: [102.46,100.09,97.12,95.94,94.75], economy: [89.26,86.91,81.60,81.04,79.86] },
-  "ZONA 8": { premium: [138.10,135.67,131.40,130.19,128.97], economy: [121.84,119.42,112.80,111.59,109.79] },
-  "ZONA 9": { premium: [180.96,178.15,175.92,173.12,170.89], economy: [165.76,162.98,160.21,155.78,153.55] },
-  "ZONA 10": { premium: [193.27,190.48,188.24,184.89,180.96], economy: [177.39,174.62,171.29,163.53,159.65] },
-
-  "ZONA 11": { premium: [196.84,195.15,191.80,189.56,184.52], economy: ['', '', '', '', ''] },
-  "ZONA 12": { premium: [251.13,249.46,244.42,242.18,236.57], economy: ['', '', '', '', ''] },
-  "ZONA 13": { premium: [337.01,337.01,337.01,337.01,337.01], economy: ['', '', '', '', ''] },
-  "ZONA 14": { premium: [368.66,368.66,368.66,368.66,368.66], economy: ['', '', '', '', ''] },
-
-  "ZONA 16": { premium: [27,27,27,27,27], economy: [27,27,27,27,27] },
-  "ZONA 17": { premium: [31,31,31,31,31], economy: [27,27,27,27,27] }
-};
-
-const Full = {
-  "ZONA 21": { premium: [51.06,49.32,48.16,47.57,47.01], economy: [47.21,45.48,44.34,43.75,43.18] },
-  "ZONA 22": { premium: [55.16,53.34,52.13,51.53,50.92], economy: [51.04,49.25,48.05,47.43,46.84] },
-  "ZONA 23": { premium: [58.30,56.52,55.33,54.75,54.13], economy: [54.22,52.45,51.29,50.69,50.11] },
-  "ZONA 24": { premium: [61.77,59.92,58.69,58.08,57.46], economy: [57.52,55.68,54.46,53.85,53.24] },
-  "ZONA 25": { premium: [63.95,62.16,60.96,60.36,59.76], economy: [59.77,57.99,56.80,56.21,55.62] },
-
-  "ZONA 1": { premium: [63.20,61.44,59.70,59.11,58.53], economy: [58.20,56.48,54.17,53.59,53.02] },
-  "ZONA 2": { premium: [66.68,64.93,62.03,61.44,60.86], economy: [61.67,59.94,57.05,56.48,55.32] },
-  "ZONA 3": { premium: [70.36,68.61,65.70,65.11,64.53], economy: [64.61,63.46,59.42,58.85,58.27] },
-  "ZONA 4": { premium: [77.35,75.59,72.11,71.53,70.94], economy: [69.81,68.08,63.46,62.89,62.30] },
-  "ZONA 5": { premium: [82.86,81.07,76.32,75.74,75.14], economy: [73.95,72.18,67.49,66.89,66.31] },
-  "ZONA 6": { premium: [94.73,92.36,89.38,88.19,87.00], economy: [83.36,81.00,75.72,75.13,73.95] },
-  "ZONA 7": { premium: [106.48,104.15,101.23,100.07,98.90], economy: [93.46,91.16,85.39,84.82,83.66] },
-  "ZONA 8": { premium: [139.77,136.78,133.81,132.61,131.42], economy: [123.76,121.99,114.31,113.13,111.36] },
-  "ZONA 9": { premium: [210.67,207.37,204.62,201.32,198.03], economy: [190.52,187.25,185.07,179.09,174.73] },
-  "ZONA 10": { premium: [222.20,218.91,215.61,212.31,209.02], economy: [202.47,199.75,197.03,186.70,181.81] },
-
-  "ZONA 11": { premium: [226.84,223.55,220.25,216.96,214.22], economy: ['', '', '', '', ''] },
-  "ZONA 12": { premium: [280.12,279.02,277.37,277.37,275.17], economy: ['', '', '', '', ''] },
-  "ZONA 13": { premium: [340.73,340.73,340.73,340.73,340.73], economy: ['', '', '', '', ''] },
-  "ZONA 14": { premium: [372.81,372.81,372.81,372.81,372.81], economy: ['', '', '', '', ''] },
-
-  "ZONA 16": { premium: [27,27,27,27,27], economy: [27,27,27,27,27] },
-  "ZONA 17": { premium: [37,37,37,37,37], economy: [27,27,27,27,27] }
-};
-
-
-const buildPriceBreaks = (prices = []) => {
-  return prices
-    .map((price, i) => ({
-      min: i + 1,
-      max: i + 1,
-      price
-    }))
-    .filter(p => p.price !== '' && p.price !== null && p.price !== undefined);
-};
-
-// ---------------- MAIN ----------------
+import { palletSimple, ExtraLight, EuroPallet, Full } from '../../lib/storages/tecum.storage.js';
 
 export async function seedTecumRates() {
 
@@ -139,7 +20,7 @@ export async function seedTecumRates() {
 
   const inserts = [];
 
-  for (const [zone, prices] of Object.entries(table)) {
+  for (const [zone, prices] of Object.entries(palletSimple)) {
 
     for (let i = 0; i < palletMap.length; i++) {
 
@@ -175,7 +56,7 @@ export async function seedTecumRates() {
   console.log("✅ Tarifas TECUM importadas");
 }
 
-export const seedRatesByQuantity = async (agencyCode) => {
+export const seedTecumRatesByQuantity = async (agencyCode) => {
 
   const tablesConfig =  [
     { table: ExtraLight, palletName: "EXTRA LIGHT PALLET" },
@@ -226,7 +107,7 @@ export const seedRatesByQuantity = async (agencyCode) => {
         type: "pallet",
         zoneName,
         palletTypeId: pallet._id,
-        calculationType: "quantity", // 🔥 CLAVE
+        calculationType: "quantity",
         services
       });
     }

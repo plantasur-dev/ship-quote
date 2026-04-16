@@ -160,13 +160,12 @@ export function calculatePallet({ palletItems, agencyRates, agencyPalletTypes, z
 
             acc.push({
                 service: service.service,
-                total,
+                total: total * group.quantity,
                 breakdown: {
                     type: "pallet",
                     palletType: group.palletType.name,
                     quantity: group.quantity,
                     unitPrice: match.price,
-                    total
                 }
             });
 
@@ -188,7 +187,7 @@ function aggregateServices(items) {
             };
         }
 
-        acc[item.service].total += Math.round(item.total, 2);
+        acc[item.service].total += item.total;
         acc[item.service].breakdown.push(item.breakdown);
 
         return acc;

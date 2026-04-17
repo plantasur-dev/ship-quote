@@ -1,7 +1,7 @@
 
 import createHttpError from 'http-errors';
  
-import { compareRates } from '../services/rateEnginev3.services.js';
+import { compareRates } from '../services/rateEnginev3.service.js';
 
 export async function compare(req, res) {
     

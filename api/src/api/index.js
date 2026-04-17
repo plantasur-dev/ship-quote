@@ -78,11 +78,10 @@ apiRouter.get(
 
 
 apiRouter.post(
-    '/rate/compare', 
+    '/rates/compare', 
     schemaValidation, 
     Rates.compare
 );
-
 
 apiRouter.use(routerNotFound);
 

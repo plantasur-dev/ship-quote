@@ -7,14 +7,17 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "dev": "node --env-file .env --watch app.js",
+    "dev": "nodemon --env-file .env app.js",
     "start": "node --env-file .env app.js",
-    "seed": "node --env-file .env src/bin/seed.js"
+    "seed": "nodemon --env-file .env src/bin/seed.js"
   },
   "dependencies": {
     "express": "^5.2.1",
     "http-errors": "^2.0.1",
     "mongoose": "^9.3.3",
     "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

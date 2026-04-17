@@ -23,14 +23,14 @@ export const agencies = [
         }
     },
     {
-        name: "DHL",
-        code: "dhl",
+        name: "Dachser",
+        code: "dachser",
         type: "api",
         active: true,
         rules: {
             hasAndaluciaRule: false,
-            supportsPallets: false,
-            supportsParcels: true
+            supportsPallets: true,
+            supportsParcels: false
         }
     }
 ];

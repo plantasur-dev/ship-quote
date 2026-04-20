@@ -8,7 +8,7 @@ import {
     calculatePallet, 
     resolveZone, 
     groupByAgency 
-} from '../../utils/helpers.rateEngine.js';
+} from '../../utils/rateEngine.util.js';
 
 export async function getStaticRates(agencies, { destinationPostalCode, province, items }) {
 

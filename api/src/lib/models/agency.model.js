@@ -56,6 +56,24 @@ const agencySchema = new mongoose.Schema({
             type: Boolean, 
             default: false 
         }
+    },
+    apiConfig: {
+        timeout: { 
+            type: Number, 
+            default: 3000,
+        },
+        endpoint: { 
+            type: String,
+            required: function () {
+                return this.type === 'api'
+            },
+        },
+        apiKey: { 
+            type: String,
+            required: function () {
+                return this.type === 'api'
+            },
+        },
     }
 }, { 
     timestamps: true,

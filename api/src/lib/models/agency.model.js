@@ -62,11 +62,15 @@ const agencySchema = new mongoose.Schema({
             type: Number, 
             default: 3000,
         },
-        endpoint: { 
+        baseUrlApi: { 
             type: String,
             required: function () {
                 return this.type === 'api'
             },
+        },
+        endpoints: {
+            quotations: String,
+            transportOrders: String
         },
         apiKey: { 
             type: String,

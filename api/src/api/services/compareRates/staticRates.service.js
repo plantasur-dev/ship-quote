@@ -10,9 +10,9 @@ import {
     groupByAgency 
 } from '../../utils/rateEngine.util.js';
 
-export async function getStaticRates(agencies, { destinationPostalCode, province, items }) {
+export default async function getStaticRates(agencies, { destinationPostalCode, province, items }) {
 
-    const agencyIds = agencies.map(a => a._id);
+    const agencyIds = agencies.map(agency => agency.id);
 
     const [zones, rates, palletTypes] = await Promise.all([
         Zone.find({ agencyId: { $in: agencyIds } }),
@@ -24,7 +24,7 @@ export async function getStaticRates(agencies, { destinationPostalCode, province
     const ratesByAgency = groupByAgency(rates);
     const palletTypesByAgency = groupByAgency(palletTypes);
 
-    const palletItems = items.filter(i => i.type === "pallet");
+    const palletItems = items.filter(item => item.type === "pallet");
 
     return agencies.map(agency => {
         try {

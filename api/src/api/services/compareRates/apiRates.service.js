@@ -1,7 +1,7 @@
 
 import { carrierFactory } from '../carriers/carriers.service.js';
 
-export async function getApiRates(agencies, input) { 
+export default async function getApiRates(agencies, input) { 
 
   const results = await Promise.allSettled(
     agencies.map(async (agency) => {

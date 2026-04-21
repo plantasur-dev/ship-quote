@@ -2,29 +2,35 @@
 import { carrierFactory } from '../carriers/carriers.service.js';
 
 export default async function getApiRates(agencies, input) { 
-
-  const results = await Promise.allSettled(
+  const results = await Promise.all(
     agencies.map(async (agency) => {
-      const carrier = carrierFactory(agency);
-      
-      return carrier.getRates(input);
+      try {
+        const carrier = carrierFactory(agency);
+
+        if (!carrier) {
+          return {
+            agency: agency.name,
+            available: false,
+            reason: "API Error: Not Implemented"
+          }
+        }
+        
+        const services = await carrier.getRates(input);
+
+        return {
+          agency: agency.name,
+          available: true,
+          ...services
+        }
+      } catch (error) {
+        return {
+          agency: agency.name,
+          available: false,
+          reason: error.message || "API Error: Error from provider API"
+        };
+      }  
     })
   );
- 
-  return results.map((res, i) => {
-    const agency = agencies[i];
 
-    if (res.status === "fulfilled") {
-      return {
-        agency: agency.name,
-        ...res.value
-      };
-    }
-
-    return {
-      agency: agency.name,
-      available: false,
-      reason: "Error API"
-    };
-  });
+  return results;
 }

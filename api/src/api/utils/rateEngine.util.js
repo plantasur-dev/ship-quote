@@ -108,8 +108,11 @@ export function calculeRateByField(agencyRates, field = 'type') {
 export function groupByAgency(collection) {
     return collection.reduce((acc, item) => {
         const key = item.agencyId.toString();
+        
         if (!acc[key]) acc[key] = [];
+        
         acc[key].push(item);
+
         return acc;
     }, {});
 };

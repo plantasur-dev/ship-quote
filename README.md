@@ -1,18 +1,251 @@
 # Ship Quote API 🚀
 
-API de comparación de tarifas de envío basada en normalización de datos y motor de cálculo inteligente.
+API de comparación de tarifas de envío basada en normalización de datos, cálculo inteligente y soporte para agencias estáticas y APIs externas.
 
-## 📋 Descripción
+## 📋 Resumen
 
-**Ship Quote** es un servicio backend que calcula y compara tarifas de envío de múltiples agencias logísticas. El sistema normaliza datos de entrada, clasifica paquetes/pallets y aplica reglas de tarificación específicas por agencia.
+`Ship Quote` es el backend que permite:
+- Registrar agencias y su configuración de tarifas
+- Crear zonas y tipos de pallet por agencia
+- Guardar ubicaciones/provincias de España
+- Comparar tarifas entre múltiples proveedores
+- Integrar proveedores tipo `api` con adaptadores específicos
 
-### Concepto Central: Normalización ✨
+La API está implementada con `Node.js`, `Express 5` y `MongoDB`.
 
-El sistema normaliza todos los envíos a un formato estándar antes de calcular tarifas:
+> Documentación técnica de la API disponible en [API.md](api/docs/API.md).
 
+---
+
+## 🚀 Estructura actual del proyecto
+
+```
+api/
+├── app.js
+├── package.json
+├── src/
+│   ├── api/
+│   │   ├── index.js
+│   │   ├── controllers/
+│   │   │   ├── agencies.controller.js
+│   │   │   ├── locations.controller.js
+│   │   │   ├── palletTypes.controller.js
+│   │   │   ├── rates.controller.js
+│   │   │   └── zones.controller.js
+│   │   ├── middlewares/
+│   │   │   ├── errors.middleware.js
+│   │   │   └── schemaValidation.middleware.js
+│   │   ├── services/
+│   │   │   ├── rateEnginev3.service.js
+│   │   │   ├── compareRates/
+│   │   │   │   ├── apiRates.service.js
+│   │   │   │   ├── staticRates.service.js
+│   │   │   │   ├── carriers/
+│   │   │   │   │   ├── carriers.map.js
+│   │   │   │   │   ├── carriers.service.js
+│   │   │   │   │   ├── carriers.service.interface.js
+│   │   │   │   │   └── externalCarriers/dascher.service.js
+│   │   │   └── zoneLocation.service.js
+│   │   └── utils/
+│   │       ├── date.util.js
+│   │       └── rateEngine.util.js
+│   └── lib/
+│       ├── configs/
+│       │   ├── db.config.js
+│       │   └── server.config.js
+│       ├── models/
+│       │   ├── agency.model.js
+│       │   ├── location.model.js
+│       │   ├── palletType.model.js
+│       │   ├── rate.model.js
+│       │   └── zone.model.js
+│       └── storages/
+│           └── location.storage.js
+├── bin/
+│   ├── agencies.seed.js
+│   ├── seed.js
+│   └── tecumSeeds/
+│       ├── ...
+└── web/
+```
+
+---
+
+## ⚙️ Cómo ejecutar la API
+
+1. Ir a la carpeta `api/`
+2. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+3. Crear `.env` con variables mínimas:
+   ```env
+   PORT=3000
+   MONGODB_URI=mongodb://127.0.0.1:27017/shipQuote-db
+   ```
+4. Iniciar en modo desarrollo:
+   ```bash
+   npm run dev
+   ```
+5. Iniciar en modo producción:
+   ```bash
+   npm start
+   ```
+
+> Al arrancar, `src/lib/configs/server.config.js` conecta con MongoDB y llama a `initLocations()` para poblar las provincias si la colección `locations` aún no existe.
+
+---
+
+## 🌐 Base de rutas
+
+La API expone rutas bajo `/api/v1`.
+
+Ejemplo base:
+```bash
+http://localhost:3000/api/v1
+```
+
+---
+
+## 🧩 Endpoints disponibles
+
+### Agencias
+
+#### `POST /api/v1/agencies`
+Crea una nueva agencia.
+
+Request body:
+```json
+{
+  "name": "Dachser",
+  "type": "api",
+  "rules": {
+    "hasAndaluciaRule": false,
+    "supportsPallets": true,
+    "supportsParcels": false
+  },
+  "apiConfig": {
+    "baseUrlApi": "https://api.example.com",
+    "endpoints": {
+      "quotations": "quotations"
+    },
+    "apiKey": "abcdef123456"
+  }
+}
+```
+
+Respuesta: `201 Created` con el registro de la agencia.
+
+---
+
+#### `GET /api/v1/agencies`
+Lista todas las agencias.
+
+Respuesta: `200 OK` con arreglo de agencias.
+
+---
+
+#### `PATCH /api/v1/agencies/:agencyId`
+Activa o desactiva una agencia existente. Cambia el campo `active`.
+
+Respuesta: `200 OK` con la agencia actualizada.
+
+---
+
+### Ubicaciones
+
+#### `POST /api/v1/locations`
+Crea una ubicación/provincia.
+
+Request body:
+```json
+{
+  "country_code": "ES",
+  "country_name": "Spain",
+  "admin_code": "08",
+  "name": "Barcelona",
+  "type": "province"
+}
+```
+
+Respuesta: `201 Created`.
+
+---
+
+#### `GET /api/v1/locations`
+Devuelve todas las ubicaciones.
+
+#### `GET /api/v1/locations/:locationId`
+Obtiene detalles de una ubicación por su id.
+
+---
+
+### Pallets
+
+#### `POST /api/v1/pallets`
+Crea un tipo de pallet para una agencia.
+
+Request body:
+```json
+{
+  "agencyId": "<agencyId>",
+  "name": "Europeo",
+  "constraints": {
+    "maxWeight": 1000,
+    "maxHeight": 150,
+    "maxLength": 120,
+    "maxWidth": 80
+  }
+}
+```
+
+#### `GET /api/v1/pallets`
+Lista todos los tipos de pallets.
+
+#### `GET /api/v1/pallets/:palletTypeId`
+Detalle de un tipo de pallet.
+
+#### `DELETE /api/v1/pallets/:palletTypeId`
+Elimina un tipo de pallet existente.
+
+---
+
+### Zonas
+
+#### `POST /api/v1/zones`
+Crea una zona de cálculo para una agencia.
+
+Request body:
+```json
+{
+  "agencyId": "<agencyId>",
+  "name": "Andalucía",
+  "provinces": ["SE", "MA", "CA"],
+  "calculationMode": "weight_volume",
+  "postalCodeExceptions": [
+    { "from": "41001", "to": "41080", "zoneName": "Sevilla" }
+  ]
+}
+```
+
+#### `GET /api/v1/zones`
+Lista todas las zonas.
+
+#### `GET /api/v1/zones/:zoneId`
+Detalle de una zona.
+
+---
+
+### Comparación de tarifas
+
+#### `POST /api/v1/rates/compare`
+Compara tarifas disponibles para todas las agencias activas.
+
+Request body mínimo:
 ```json
 {
   "destinationPostalCode": "08001",
+  "province": "BCN",
   "items": [
     {
       "type": "pallet",
@@ -25,238 +258,165 @@ El sistema normaliza todos los envíos a un formato estándar antes de calcular 
 }
 ```
 
----
-
-## 🏗️ Estructura del Proyecto
-
-```
-api/
-├── app.js                      # Configuración principal
-├── package.json                # Dependencias
-├── bin/                        # Scripts de inicialización
-│   ├── seed.js                 # Seed general
-│   ├── caycoPalletTypes.js     # Tipos de pallets Cayco
-│   ├── caycoRates.v2.seed.js   # Tarifas Cayco v2
-│   └── caycoZones.seed.js      # Zonas Cayco
-├── config/
-│   ├── db.config.js            # Configuración base de datos
-│   └── routes.config.js        # Rutas principales
-├── controllers/                # Lógica de endpoints
-│   ├── agency.controller.js
-│   ├── rates.controller.js
-├── middlewares/
-│   └── errors.middleware.js    # Manejo de errores
-├── models/                     # Esquemas MongoDB
-│   ├── agency.model.js
-│   ├── palletType.model.js
-│   ├── rate.model.js
-│   └── zone.model.js
-├── services/                   # Lógica de negocio
-│   ├── rateEngine.service.js   # Motor de cálculo v1
-│   └── rateEnginev2.service.js # Motor de cálculo v2
-└── web/                        # Cliente frontend
-```
-
----
-
-## 📦 Modelos de Datos
-
-### Agency (Agencia)
-
+Respuesta esperada:
 ```json
-{
-  "name": "String",
-  "code": "String",
-  "type": {
-    "type": "String",
-    "enum": ["static", "api"],
-    "default": "static"
+[
+  {
+    "agency": "Dachser",
+    "available": true,
+    "zone": "Nacional",
+    "services": [
+      {
+        "service": "economy",
+        "total": 140,
+        "breakdown": [
+          {
+            "type": "weight_volume",
+            "totalWeight": 300,
+            "price": 140
+          }
+        ]
+      }
+    ]
   },
-  "rules": {
-    "hasAndaluciaRule": "Boolean",
-    "supportsPallets": "Boolean",
-    "supportsParcels": "Boolean"
+  {
+    "agency": "Cayco",
+    "available": false,
+    "reason": "No hay tarifa disponible"
   }
-}
+]
 ```
-
-**Tipo `api`:** Integración futura con APIs externas de agencias.
 
 ---
 
-### Zone (Zona)
+## 🧠 Lógica de negocio clave
 
+### 1. Control de tipos de agencia
+
+- `static`: tarifas calculadas desde datos internos (`zones`, `rates`, `palletTypes`).
+- `api`: tarifas obtenidas desde un proveedor externo usando `apiConfig`.
+
+### 2. Proveedores externos
+
+La integración de proveedores se basa en un `CarrierService` abstracto:
+
+- `fetchApi()` realiza la llamada HTTP con tiempo de espera y abort signal.
+- `buildRequestBody()` crea el payload específico del carrier.
+- `buildRequestHeaders()` arma encabezados con API key.
+- `mapResponse()` normaliza la respuesta.
+
+Actualmente existe un adaptador para:
+- `dachser` → `DascherService`
+
+Si una agencia API no tiene adaptador registrado, la respuesta es:
 ```json
 {
-  "agencyId": "ObjectId",
-  "name": "String",                    // "Nacional", "Andalucía"
-  "provinces": ["String"],
-  "calculationMode": {
-    "type": "String",
-    "enum": ["pallet", "weight_volume"]
-  },
-  "postalCodeExceptions": [...]
+  "agency": "MiAgencia",
+  "available": false,
+  "reason": "API Error: Not Implemented"
 }
 ```
 
-**Modos de cálculo:**
-- `pallet`: Por tipo de pallet y cantidad
-- `weight_volume`: Por peso/volumen total (ej: Andalucía)
+### 3. Cálculo de tarifas estáticas
+
+Para agencias `static`, el proceso es:
+
+1. Cargar zonas, tarifas y tipos de pallet en bulk.
+2. Agrupar datos por `agencyId`.
+3. Resolver la zona válida usando excepciones de códigos postales o provincias.
+4. Calcular tarifas según `calculationMode`:
+   - `weight_volume`: usa peso volumétrico / efectivo.
+   - `pallet`: clasifica pallets y calcula por cantidad.
+
+### 4. Funciones de utilidad importantes
+
+- `calculateVolume(item)` → m³
+- `calculateVolumetricWeight(item)` → peso volumétrico
+- `getEffectiveWeight(item)` → peso mayor entre real y volumétrico
+- `classifyPallet(item, palletTypes)` → encuentra el pallet que entra en las restricciones
+- `resolveZone(zones, postalCode, province)` → determina la zona destino
+- `groupByAgency(collection)` → agrupa documentos por agencia
 
 ---
 
-### PalletType (Tipo de Pallet)
+## 🗃️ Esquemas MongoDB y validaciones
 
-```json
-{
-  "agencyId": "ObjectId",
-  "name": "String",                    // "Europeo", "Americano"
-  "constraints": {
-    "maxWeight": "Number",
-    "maxHeight": "Number",
-    "maxLength": "Number",
-    "maxWidth": "Number"
-  }
-}
-```
+### `Agency`
+- `name`: requerido, mín 3, máx 14 caracteres.
+- `code`: generado desde `name`, lowercase y normalizado.
+- `type`: `static` o `api`.
+- `rules`: controles de soporte para Andalucía, pallets y parcels.
+- `apiConfig`: solo obligatorio para `type: api`.
 
-Cada agencia clasifica pallets de forma distinta → modelos desacoplados por agencia.
+### `Location`
+- `country_code`, `country_name`, `admin_code`, `admin_full_code`, `name`, `normalized_name`.
+- `normalized_name` se guarda en minúsculas y sin acentos.
+- Índices para búsquedas rápidas por provincia.
 
----
+### `PalletType`
+- `agencyId`: referencia a `Agency`.
+- `constraints`: máximos de peso y dimensiones.
 
-### Rate (Tarifa)
+### `Zone`
+- `agencyId` referencia a `Agency`.
+- `provinces`: lista de provincias.
+- `calculationMode`: `pallet` o `weight_volume`.
+- `postalCodeExceptions`: reglas de excepción de zona.
 
-```json
-{
-  "agencyId": "ObjectId",
-  "type": {
-    "type": "String",
-    "enum": ["pallet", "parcel"]
-  },
-  "zoneName": "String",
-  "palletTypeId": "ObjectId",          // null si es paquete
-  "priceBreaks": [
-    {
-      "min": "Number",
-      "max": "Number",
-      "price": "Number"
-    }
-  ]
-}
-```
-
-**priceBreaks:** Interpretación según zona
-- **Pallets (Nacional):** `min`/`max` = cantidad de pallets
-- **Andalucía:** `min`/`max` = peso (kg) o volumen (dm³)
+### `Rate`
+- `type`: `pallet` o `parcel`.
+- `zoneName`: zona aplicada.
+- `palletTypeId`: usado para tarifas de pallet.
+- `services`: listas de `service` y `priceBreaks`.
 
 ---
 
-## ⚙️ Motor de Cálculo (rateEngine.service.js)
+## 🔧 Manejo de errores y validaciones
 
-### Flujo Principal
+### Validación de solicitudes
+`schemaValidation.middleware.js` obliga a que los métodos `POST`, `PATCH` y `PUT` reciban un cuerpo.
 
-```
-1. Normalizar envío
-   ├─ Separar items (pallets vs parcels)
-   └─ Extraer datos estándar
-
-2. Para cada agencia:
-   ├─ Resolver zona destino
-   ├─ Clasificar pallet(s) por tipo
-   ├─ Buscar tarifa aplicable
-   └─ Calcular precio
-
-3. Devolver comparativa ordenada
-```
+### Manejo de errores global
+`errors.middleware.js` transforma errores a respuestas JSON con estados:
+- `400` → error de validación o cuerpo faltante
+- `404` → recurso no encontrado / ruta no encontrada
+- `409` → duplicados (`E11000`)
+- `502` → error en proveedor externo
+- `500` → error interno del servidor
 
 ---
 
-### 1️⃣ Resolver Zona
+## 📌 Cambios, mejoras y añadidos
 
-```js
-function resolveZone(agency, postalCode) {
-  // 1. Comprobar excepciones postal
-  // 2. Fallback a provincia
-  // 3. Retornar zona o null
-}
-```
-
----
-
-### 2️⃣ Clasificar Pallet
-
-```js
-function classifyPallet(item, palletTypes) {
-  return palletTypes.find(type => {
-    return (
-      item.weight <= type.constraints.maxWeight &&
-      item.height <= type.constraints.maxHeight
-    );
-  });
-}
-```
+- Documentación exhaustiva de la API y su arquitectura actual.
+- Actualización de la estructura real de `api/` y rutas disponibles.
+- Descripción de cada controlador y su responsabilidad.
+- Explicación del motor de cálculo moderno en `rateEnginev3.service.js`.
+- Cobertura de la integración de carriers externos via `CarrierService` y `DascherService`.
+- Aclaración del proceso de arranque del servidor y la inicialización de `locations`.
+- Inclusión de ejemplos de request/response para reducir la barrera para desarrolladores nuevos.
 
 ---
 
-### 3️⃣ Agrupar Pallets por Tipo
+## 📍 Notas finales
 
-```js
-function groupPallets(items, palletTypes) {
-  const groups = {};
-
-  items.forEach(item => {
-    const type = classifyPallet(item, palletTypes);
-    if (!type) return;
-
-    if (!groups[type._id]) {
-      groups[type._id] = {
-        palletType: type,
-        quantity: 0
-      };
-    }
-
-    groups[type._id].quantity += 1;
-  });
-
-  return Object.values(groups);
-}
-```
+- La ruta base es `/api/v1`.
+- El motor actual es compatible con tarifas estáticas y con APIs de proveedores externos.
+- La colección `locations` se popula automáticamente al iniciar si no existe.
+- Utiliza `npm run seed` para cargar datos de ejemplo cuando sea necesario.
 
 ---
 
-### 4️⃣ Calcular Precios
+## 📚 Referencias
 
-**Para Pallets (NACIONAL)**
-
-```js
-function calculatePalletGroupRate(rate, quantity) {
-  const match = rate.priceBreaks.find(b =>
-    quantity >= b.min && quantity <= b.max
-  );
-
-  return match ? match.price : null;
-}
-```
-
-**Para Andalucía (PESO/VOLUMEN)**
-
-```js
-function calculateWeightVolume(items) {
-  let totalWeight = 0;
-  let totalVolume = 0;
-
-  items.forEach(i => {
-    totalWeight += i.weight;
-    totalVolume += (i.length * i.width * i.height) / 1000000;
-  });
-
-  return Math.max(totalWeight, totalVolume);
-}
-```
-
----
-
-## 🚀 Endpoint Principal
+- `api/app.js`
+- `api/src/api/index.js`
+- `api/src/lib/configs/server.config.js`
+- `api/src/api/services/rateEnginev3.service.js`
+- `api/src/api/services/compareRates/staticRates.service.js`
+- `api/src/api/services/compareRates/apiRates.service.js`
+- `api/src/api/services/carriers/carriers.service.interface.js`
+- `api/src/lib/models/*.js`
 
 ### `POST /rates/compare`
 
@@ -346,16 +506,6 @@ const rates = await Rate.find({
   "name": "MiAgencia",
   "type": "api",
   "apiEndpoint": "https://api.miagencia.com/rates"
-}
-```
-
-### Motor adaptable
-
-```js
-if (agency.type === "api") {
-  return callExternalAPI(agency.apiEndpoint, shipment);
-} else {
-  return calculateLocal(agency, shipment);
 }
 ```
 

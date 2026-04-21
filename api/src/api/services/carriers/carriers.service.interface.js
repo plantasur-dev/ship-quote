@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 
 export default class CarrierService {
     constructor(agency) {
@@ -6,6 +7,7 @@ export default class CarrierService {
         }
 
         this.agency = agency;
+        this.apiConfig = agency.apiConfig;
     }
 
     async fetchApi (url, options = {}, data = {}, timeout = 5000) {
@@ -29,7 +31,7 @@ export default class CarrierService {
         } catch (error) {
             console.error("API Error: ", error);
 
-            throw error;
+            throw createHttpError(502, `Carrier API request failed ${ error }`);
         } finally {
             clearTimeout(id);
         }
@@ -49,10 +51,18 @@ export default class CarrierService {
 
     async getRates(input) {
 
-        const { endpoint, apiKey, timeout } = this.agency.apiConfig;
+        const { baseUrlApi, endpoints, apiKey, timeout } = this.apiConfig;
+        
+        const { quotations } = endpoints;
+
+        if (!baseUrlApi)
+            throw new createHttpError(400, "Empty baseUrlAPI");
+
+        if (!quotations) 
+            throw new createHttpError(400, "Empty endpoint quotations");
 
         const response = await this.fetchApi(
-            endpoint, 
+            `${ baseUrlApi }/${ quotations }`, 
             this.buildRequestHeaders(apiKey), 
             this.buildRequestBody(input), 
             timeout

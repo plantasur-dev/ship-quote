@@ -46,7 +46,7 @@ const locationSchema = new mongoose.Schema({
         }
     },
     postalCode: {
-        type: Number,
+        type: String,
         required: true,
         minlength: 2,
         maxlength: 2,

@@ -1,12 +1,12 @@
 
 // Volumen en m3
 export function calculateVolume(item) {
-    return (item.length * item.width * item.height) / 1000000;
+    return (item.large * item.width * item.height) / 1000000;
 }
 
 // Peso volumétrico (estándar transporte)
 export function calculateVolumetricWeight(item) {
-    return (item.length * item.width * item.height) / 5000;
+    return (item.large * item.width * item.height) / 5000;
 }
 
 // Peso efectivo
@@ -29,7 +29,7 @@ export function classifyPallet(item, palletTypes) {
         const c = type.constraints;
 
         const fitsWeight = !c.maxWeight || effectiveWeight <= c.maxWeight;
-        const fitsLength = !c.maxLength || item.length <= c.maxLength;
+        const fitsLength = !c.maxLength || item.large <= c.maxLength;
         const fitsWidth  = !c.maxWidth  || item.width  <= c.maxWidth;
         const fitsHeight = !c.maxHeight || item.height <= c.maxHeight;
 

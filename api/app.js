@@ -3,6 +3,8 @@ import express from "express";
 
 import morgan from "morgan";
 
+import cors from 'cors';
+
 import './src/lib/configs/server.config.js';
 
 import apiRouter from "./src/api/index.js";
@@ -12,6 +14,8 @@ const app = express()
 const PORT = process.env.PORT || 3000;
 
 app.use(morgan("dev"));
+
+app.use(cors());
 
 app.use(express.json());
 

@@ -2,24 +2,24 @@
 import mongoose from "mongoose";
 
 const locationSchema = new mongoose.Schema({
-    country_code: {
+    countryCode: {
         type: String,
         required: [true, 'Código de país obligatorio.'],
         maxlength: [2, 'Longitud mínima de 2.'],
         uppercase: true
     },
-    country_name: {
+    countryName: {
         type: String,
         required: [true, 'Nombre de país obligatorio.'],
         maxlength: [50, 'Longitud máxima de 50.'],
         set: values => normalizeString(values)
     },
-    admin_code: {
+    adminCode: {
         type: String,
         required: [true, 'Código provincia obligatorio.'],
         uppercase: true
     },
-    admin_full_code: {
+    adminFullCode: {
         type: String,
         required: [true, 'Código admin provincia obligatorio.'],
         uppercase: true        
@@ -30,7 +30,7 @@ const locationSchema = new mongoose.Schema({
         maxlength: [50, 'Longitud máxima de 50.'],
         set: values => normalizeString(values)
     },
-    normalized_name: {
+    normalizedName: {
         type: String,
         required: [true, 'Nombre de provincia normalizado obligatorio.'],
         lowercase: true,
@@ -44,6 +44,12 @@ const locationSchema = new mongoose.Schema({
             .split(/\s+/)
             .join('_')
         }
+    },
+    postalCode: {
+        type: Number,
+        required: true,
+        minlength: 2,
+        maxlength: 2,
     },
     type: {
         type: String,
@@ -63,12 +69,12 @@ const locationSchema = new mongoose.Schema({
 
 
 locationSchema.index({ 
-    country_code: 1, 
-    normalized_name: 1 
+    countryCode: 1, 
+    normalizedName: 1 
 });
 
 locationSchema.index({ 
-    admin_full_code: 1 
+    adminFullCode: 1 
 }, { unique: true });
 
 function normalizeString(values) {

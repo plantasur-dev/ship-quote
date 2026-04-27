@@ -18,12 +18,13 @@ function createLocations(locationsArray) {
 
     locationsArray.forEach(p => {
         provinces.push({
-            country_code: "ES",
-            country_name: "Spain",
-            admin_code: p.admin_code,
-            admin_full_code: `ES-${p.admin_code}`,
+            countryCode: "ES",
+            countryName: "Spain",
+            adminCode: p.adminCode,
+            adminFullCode: `ES-${p.adminCode}`,
             name: p.name,
-            normalized_name: normalizeName(p.name),
+            normalizedName: normalizeName(p.name),
+            postalCode: p.postalCode,
             type: "province"
         });
     });

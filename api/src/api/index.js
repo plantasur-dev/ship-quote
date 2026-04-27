@@ -38,6 +38,10 @@ apiRouter.get(
     Locations.list
 );
 apiRouter.get(
+    '/locations/countries',
+    Locations.countries
+);
+apiRouter.get(
     '/locations/:locationId',
     Locations.details
 );

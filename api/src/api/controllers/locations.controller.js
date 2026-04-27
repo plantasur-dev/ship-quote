@@ -3,22 +3,25 @@ import createHttpError from "http-errors";
 
 import Location from "../../lib/models/location.model.js";
 
+import { listCountries } from '../services/locations.service.js';
+
 export const create = async (req, res) => {
 
     const { 
-        country_code, 
-        country_name, 
-        admin_code,
+        countryCode, 
+        countryName, 
+        adminCode,
         name,
-        type } = req.body;
+        type 
+    } = req.body;
 
     const location = await Location.create({
-        country_code, 
-        country_name, 
-        admin_code, 
-        admin_full_code: country_code + '-' + admin_code, 
+        countryCode, 
+        countryName, 
+        adminCode, 
+        adminFullCode: countryCode + '-' + adminCode, 
         name, 
-        normalized_name: name, 
+        normalizedName: name, 
         type
     });
 
@@ -27,7 +30,14 @@ export const create = async (req, res) => {
 
 export const list = async (req, res) => {
 
-    const locations = await Location.find();
+    const criteria = {};
+
+    if (req.query.address) {
+        criteria.normalizedName = { $regex: req.query.address, $options: "i" };
+    }
+
+    const locations = await Location
+        .find( criteria );
 
     if(!locations) throw createHttpError(404, 'Locations not found');
 
@@ -41,4 +51,13 @@ export const details = async (req, res) => {
     if (!locations) throw createHttpError(404, 'Location not found');
 
     res.json(locations);
+};
+
+export const countries = async (req, res) => {
+
+    const countries = await listCountries();
+
+    if (!countries) throw createHttpError(countries?.error, countries?.message);
+
+    res.json(countries);
 };

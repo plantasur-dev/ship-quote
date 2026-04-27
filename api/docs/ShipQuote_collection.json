@@ -1,0 +1,379 @@
+{
+  "info": {
+    "_postman_id": "b86dd0a7-47a0-4870-a0f5-d92b49b61e0e",
+    "name": "ShipQuote",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45993380"
+  },
+  "item": [
+    {
+      "name": "Agencies",
+      "item": [
+        {
+          "name": "List Agencies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agencies",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agencies"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Agencies",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Mrw\",\r\n    \"type\": \"api\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://api-mrw/rest/v2\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/agencies",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agencies"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Status Agencies",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": \"69df4338af0c211956345372\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/agencies/{{agencyId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agencies",
+                "{{agencyId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Rates",
+      "item": [
+        {
+          "name": "Compare Ratev3",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"destinationPostalCode\": \"23400\",\r\n  \"province\": \"ES-J\",\r\n  \"items\": [\r\n    { \"type\": \"pallet\", \"weight\": 230, \"length\": 100, \"width\": 80, \"height\": 100 },\r\n    { \"type\": \"pallet\", \"weight\": 100, \"length\": 100, \"width\": 80, \"height\": 100 }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rates/compare",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rates",
+                "compare"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Locations",
+      "item": [
+        {
+          "name": "Create Location",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"country_code\": \"pt\",\r\n    \"country_name\": \"portugal\", \r\n    \"admin_code\": \"al\",\r\n    \"name\": \"algarve\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/locations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "locations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "LIst Location",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/locations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "locations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Details Location",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/locations/{{locationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "locations",
+                "{{locationId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pallets",
+      "item": [
+        {
+          "name": "Create Pallet",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"agencyId\": \"69df4338af0c211956345372\",\r\n    \"name\": \"Pallet prueba\",\r\n    \"constraints\": {\r\n        \"maxWeight\": \"300\",\r\n        \"maxHeight\": \"\",\r\n        \"maxLength\": \"\",\r\n        \"maxWidth\": \"\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pallets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pallets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Pallets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pallets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pallets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Details Pallet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pallets/{{palletTypeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pallets",
+                "{{palletTypeId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Pallet",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pallets/{{palletTypeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pallets",
+                "{{palletTypeId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Zones",
+      "item": [
+        {
+          "name": "List Zones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/zones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zones"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Zone",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"agencyId\": \"69df43d18ffcede5f63b2dac\",\r\n    \"name\": \"ZONA PRUEBAS 2\",\r\n    \"provinces\": [\"ES-J\", \"ES-J\"],\r\n    \"calculationMode\": \"weight_volume\",\r\n    \"postalCodeExceptions\": [{\r\n        \"from\": \"23400\", \r\n        \"to\": \"23400\", \r\n        \"zoneName\": \"ZONA PRUEBAS 2\"\r\n    }]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/zones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zones"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Details Zone",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/zones/{{zoneId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zones",
+                "{{zoneId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    },
+    {
+      "key": "agencyId",
+      "value": ""
+    },
+    {
+      "key": "locationId",
+      "value": ""
+    },
+    {
+      "key": "palletTypeId",
+      "value": ""
+    },
+    {
+      "key": "zoneId",
+      "value": ""
+    }
+  ]
+}

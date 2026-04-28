@@ -16,7 +16,7 @@ function CompareRates() {
 
     const [resultRates, setResultRates] = useState([]);
 
-    const handlecalculatePallet = async () => {
+    const handlerCalculateRates = async () => {
         try {
             const rates = await compareRate(data);
             setResultRates(rates);
@@ -31,7 +31,7 @@ function CompareRates() {
                 <FormCompareRate 
                     data={ data } 
                     setData={ setData }
-                    handlecalculatePallet={ handlecalculatePallet } 
+                    handlerCalculateRates={ handlerCalculateRates } 
                 />
             </section>
 

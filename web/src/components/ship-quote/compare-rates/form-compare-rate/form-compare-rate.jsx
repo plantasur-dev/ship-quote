@@ -7,7 +7,7 @@ import DetailsItemsRate from '../details-items-rate/details-items-rate';
 
 import { locationsCountries, locationsProvinces } from '../../../../services/api-services';
 
-function FormCompareRate({ data, setData, handlecalculatePallet }) {
+function FormCompareRate({ data, setData, handlerCalculateRates }) {
 
     const [countries, setCountries] = useState([]);
     const [provinces, setProvinces] = useState([]);
@@ -244,7 +244,7 @@ function FormCompareRate({ data, setData, handlecalculatePallet }) {
                     />
 
                     <button 
-                        onClick={ handlecalculatePallet }
+                        onClick={ handlerCalculateRates }
                         disabled={ !data.items.length }
                         className={`w-full 
                             py-3 

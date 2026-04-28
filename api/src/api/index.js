@@ -56,6 +56,10 @@ apiRouter.get(
     '/pallets',
     Pallets.list
 );
+apiRouter.post(
+    '/pallets/compare',
+    Pallets.compare
+);
 apiRouter.get(
     '/pallets/:palletTypeId',
     Pallets.details

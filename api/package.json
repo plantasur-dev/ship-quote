@@ -12,6 +12,7 @@
     "seed": "nodemon --env-file .env src/bin/seed.js"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.2.1",
     "http-errors": "^2.0.1",
     "mongoose": "^9.3.3",

@@ -39,13 +39,23 @@ function CompareRateForm({ handlerCalculateRates }) {
    
     if (isLoadingCountries || isLoadingProvinces) return <CompareRateSkeletonForm />;
     
+    const externalErrors = {
+        ...(countriesError ? { countries: countriesError } : {}),
+        ...(provincesError ? { provinces: provincesError } : {})
+    };
+
+    const allServerErrors = {
+        ...form.serverErrors,
+        ...externalErrors
+    };
+
     return (
         <FormProvider { ...form }>
             <form 
                 onSubmit={ form.handleSubmit(handlerCalculateRates) }
                 className="backdrop-blur-xl bg-white/60 border border-white/70 shadow-xl rounded-2xl p-6"
             >
-                <ErrorsForm serverErrors={ form.serverErrors } />
+                <ErrorsForm serverErrors={ allServerErrors } />
 
                 <div className="space-y-4">
                     <CountrySelector

@@ -24,7 +24,7 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
     const ratesByAgency = groupByAgency(rates);
     const palletTypesByAgency = groupByAgency(palletTypes);
 
-    const palletItems = items.filter(item => item.type === "pallet");
+    const palletItems = items.filter(item => item.typeServices === "pallet");
 
     return agencies.map(agency => {
         try {

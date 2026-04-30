@@ -56,8 +56,8 @@ export const details = async (req, res) => {
 export const countries = async (req, res) => {
 
     const countries = await listCountries();
-
-    if (!countries) throw createHttpError(countries?.error, countries?.message);
-
+    
+    if (countries?.error) throw createHttpError(countries?.error, countries?.message);
+    
     res.json(countries);
 };

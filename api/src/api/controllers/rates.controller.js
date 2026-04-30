@@ -21,12 +21,12 @@ export async function compare(req, res) {
     }
 
     for (const item of items) {
-        if (item.type === undefined ||
+        if (item.typeServices === undefined ||
             item.weight === undefined ||
             item.large === undefined ||
             item.width === undefined ||
             item.height === undefined ) {
-            throw createHttpError(400, 'Each item must include type, weight, large, width, and height');
+            throw createHttpError(400, 'Each item must include typeServices, weight, large, width, and height');
         }
     }
 

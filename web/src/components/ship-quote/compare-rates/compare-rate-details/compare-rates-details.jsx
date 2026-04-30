@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-export default function DetailsCompareRates({ resultRates = [] }) {
+export default function CompareRatesDetails({ resultRates = [] }) {
     const [open, setOpen] = useState(null);
 
     return (
@@ -15,12 +15,12 @@ export default function DetailsCompareRates({ resultRates = [] }) {
                     >
                         <div className="flex justify-between items-center">
                             <div>
-                            <h3 className="text-lg font-semibold capitalize">
-                                { agency.agency }
-                            </h3>
-                            <p className="text-sm text-slate-500">
-                                { agency.zone || "" }
-                            </p>
+                                <h3 className="text-lg font-semibold capitalize">
+                                    { agency.agency }
+                                </h3>
+                                <p className="text-sm text-slate-500">
+                                    { agency.zone || "" }
+                                </p>
                             </div>
 
                             { agency.available ? (
@@ -45,20 +45,20 @@ export default function DetailsCompareRates({ resultRates = [] }) {
 
                             { agency.services.map((service, j) => (
                                 <div
-                                    key={j}
+                                    key={ j }
                                     className="bg-white/80 border border-slate-200 rounded-xl p-4"
                                 >
                                 <div className="flex justify-between items-center">
                                     <div>
-                                    <p className="font-medium capitalize">
-                                        {service.service}
-                                    </p>
+                                        <p className="font-medium capitalize">
+                                            { service.service }
+                                        </p>
                                     </div>
 
                                     <div className="text-right">
-                                    <p className="text-xl font-bold text-indigo-600">
-                                        { service.total } €
-                                    </p>
+                                        <p className="text-xl font-bold text-indigo-600">
+                                            { service.total } €
+                                        </p>
                                     </div>
                                 </div>
 
@@ -81,18 +81,18 @@ export default function DetailsCompareRates({ resultRates = [] }) {
                                         >
                                         <div>
                                             <p className="font-medium">
-                                            {b.type}
+                                                { b.type }
                                             </p>
 
-                                            {b.palletType && (
-                                            <p className="text-xs text-slate-500">
-                                                {b.palletType}
-                                            </p>
+                                            { b.palletType && (
+                                                <p className="text-xs text-slate-500">
+                                                    { b.palletType }
+                                                </p>
                                             )}
 
                                             {b.totalWeight && (
                                             <p className="text-xs text-slate-500">
-                                                {b.totalWeight} kg
+                                                { b.totalWeight } kg
                                             </p>
                                             )}
                                         </div>
@@ -100,10 +100,10 @@ export default function DetailsCompareRates({ resultRates = [] }) {
                                         <div className="text-right">
                                             {b.unitPrice && (
                                             <p>
-                                                € {b.unitPrice} x {b.quantity}
+                                                € { b.unitPrice } x { b.quantity }
                                             </p>
                                             )}
-                                            {b.price && <p>€ {b.price}</p>}
+                                            { b.price && <p>€ { b.price }</p> }
                                         </div>
                                         </div>
                                     ))}

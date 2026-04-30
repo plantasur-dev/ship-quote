@@ -1,5 +1,5 @@
 
-function FormCompareRateSkeleton() {
+function CompareRateSkeletonForm() {
     return (
         <>
             {/* LEFT */}
@@ -55,4 +55,4 @@ function FormCompareRateSkeleton() {
     );
 }
 
-export default FormCompareRateSkeleton;
+export default CompareRateSkeletonForm;

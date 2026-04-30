@@ -1,5 +1,5 @@
 
-function DetailsItemsRate({ items, onRemove }) {
+function CompareRateItemsDetails({ items, onRemove }) {
 
     if (!items?.length) {
        return (
@@ -70,4 +70,4 @@ function DetailsItemsRate({ items, onRemove }) {
     );
 }
 
-export default DetailsItemsRate;
+export default CompareRateItemsDetails;

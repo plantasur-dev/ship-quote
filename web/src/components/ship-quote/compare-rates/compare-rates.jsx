@@ -1,22 +1,16 @@
 
 import { useState } from "react";
 
-import FormCompareRate from "./form-compare-rate/form-compare-rate";
-import DetailsCompareRates from "./details-compare-rate/details-compare-rates";
+import CompareRateForm from "./compare-rate-form/compare-rate-form";
+import CompareRatesDetails from "./compare-rate-details/compare-rates-details";
 
 import { compareRate } from "../../../services/api-services";
 
 function CompareRates() {
 
-    const [data, setData] = useState({
-        destinationPostalCode: '',
-        province: '',
-        items: []
-    });
-
     const [resultRates, setResultRates] = useState([]);
 
-    const handlerCalculateRates = async () => {
+    const handlerCalculateRates = async (data) => {
         try {
             const rates = await compareRate(data);
             setResultRates(rates);
@@ -28,15 +22,24 @@ function CompareRates() {
     return (
         <>
             <section className="max-w-6xl mx-auto px-6 mt-10 grid md:grid-cols-2 gap-10 items-start">
-                <FormCompareRate 
-                    data={ data } 
-                    setData={ setData }
+                
+                <div>
+                    <h2 className="text-4xl md:text-5xl font-semibold leading-tight">
+                        Calcula la cotización de envíos
+                    </h2>
+                    <p className="mt-4 text-slate-600 text-lg">
+                        Compara tarifas de múltiples transportistas.
+                        Cayco, Tecum, Dascher...
+                    </p>
+                </div>
+                
+                <CompareRateForm
                     handlerCalculateRates={ handlerCalculateRates } 
                 />
             </section>
 
             <section className="max-w-6xl mx-auto px-6 mt-10 gap-10 items-center">
-               <DetailsCompareRates 
+               <CompareRatesDetails 
                     resultRates={ resultRates }
                />
             </section>

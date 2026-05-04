@@ -1,31 +1,23 @@
 
 import { useState } from "react";
-import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 
 export function useCompareRateForm () {
 
     const [serverErrors, setErrorsServer] = useState({});
 
     const form = useForm({
-        mode: 'onSubmit',
+        mode: 'onBlur',
         defaultValues: {
             countryCode: "ES",
             destinationPostalCode: "",
             province: "",
-            items: [],
-            itemDraft: {
-                typeServices: "",
-                large: "",
-                width: "",
-                height: "",
-                weight: ""
-            }
+            items: []
         }
     });
 
     const {
         control,
-        setValue,
     } = form;
 
     const { fields, append, remove } = useFieldArray({
@@ -33,9 +25,7 @@ export function useCompareRateForm () {
         name: "items"
     }); 
     
-    const watchDraft = useWatch({ control, name: 'itemDraft' });
-
-    const addItem = () => {
+    const addItem = (watchDraft) => {
         
         if (
             !watchDraft.large ||
@@ -46,14 +36,6 @@ export function useCompareRateForm () {
         ) return;
 
         append(watchDraft);
-
-        setValue('itemDraft', {
-            typeServices: "",
-            large: "",
-            width: "",
-            height: "",
-            weight: ""
-        });
     };
 
     const removeItem = (index) => remove(index);

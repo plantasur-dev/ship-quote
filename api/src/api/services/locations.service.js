@@ -1,22 +1,16 @@
 
+import { countryLang } from "../../lib/configs/country.lang.config.js";
+
 export async function listCountries() {
 
     try {
-        const res = await fetch(`https://restcountries.com/v4/all?fields=translations,cca2,name`);
+        const res = await fetch(process.env?.COUNTRIES_URL || '');
 
         const countries = await res.json();
-
-        const countryLang = {
-            'ES':'spa', 
-            'IT':'ita', 
-            'FR':'fra', 
-            'US':'en'
-        };
 
         const countriesObj = {};
 
         countries.forEach(country => {
-
             const translations = country.translations.reduce((acc, t) => {
                 acc[t.lang] = t.common;
                 return acc;

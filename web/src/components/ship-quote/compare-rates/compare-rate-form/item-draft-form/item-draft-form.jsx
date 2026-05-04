@@ -1,17 +1,65 @@
-import { useFormContext, useWatch } from "react-hook-form";
+
+import { useState } from "react";
 
 function ItemDraftForm({ onAddItem }) {
 
-    const { register, control } = useFormContext();
+    const [itemDraft, setItemDraft ] = useState({
+        typeServices: "",
+        large: "",
+        width: "",
+        height: "",
+        weight: ""
+    });
 
-    const watchDraft = useWatch({ control, name: "itemDraft" });
+    const [errors, setErrors] = useState({});
+    
+    const handleChange = (field, value) => {
+        validateClean(field);
+        setItemDraft(prev => ({ ...prev, [field]: value }));
+    };
+
+    const validate = () => {
+        const newErrors = {};
+
+        if (!itemDraft.typeServices) newErrors.typeServices = "Selecciona un tipo";
+        if (!itemDraft.large) newErrors.large = true;
+        if (!itemDraft.width) newErrors.width = true;
+        if (!itemDraft.height) newErrors.height = true;
+        if (!itemDraft.weight) newErrors.weight = true;
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const validateClean = (field) => {
+        errors[field] = false;
+        setErrors(errors);
+    };
+
+    const handleAddItem = async () => {
+        if (!validate()) return;
+
+        onAddItem(itemDraft);
+
+        setItemDraft({
+            typeServices: "",
+            large: "",
+            width: "",
+            height: "",
+            weight: ""
+        });
+
+        setErrors({});
+    };
 
     return (
         <div>
             <label className="text-sm text-slate-500">Tipo servicio</label>
 
             <select
-                { ...register('itemDraft.typeServices') }
+                value={ itemDraft.typeServices }
+                onChange={(e) => handleChange("typeServices", e.target.value)}
                 className={`
                     w-full 
                     mt-1 
@@ -20,10 +68,12 @@ function ItemDraftForm({ onAddItem }) {
                     rounded-lg 
                     bg-white/70 
                     border 
-                    border-gray-200 
                     focus:outline-none 
                     focus:ring-2 
-                    focus:ring-indigo-400
+                    ${ errors.typeServices 
+                        ? "border-red-200 focus:ring-red-400"
+                        : "border-gray-200 focus:ring-indigo-400"
+                    }
                 `}
             >
                 <option value="">Selecciona una opción</option>
@@ -31,85 +81,44 @@ function ItemDraftForm({ onAddItem }) {
                 <option value="parcel">Paqueteria</option>
             </select>
 
+            { errors.typeServices && (
+                <p className="text-red-500 text-sm">
+                    { errors.typeServices }
+                </p>
+            )}
+
             <label className="text-sm text-slate-500">Dimensiones (cm) y Peso (Kg)</label>
 
             <div className="flex gap-2 mt-2">
-                <input 
-                    {...register("itemDraft.large")} 
-                    placeholder="Largo" 
-                    className={`
-                        w-full 
-                        px-3 
-                        py-3 
-                        rounded-lg 
-                        bg-white/70 
-                        border 
-                        border-gray-200 
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-indigo-400
-                    `} 
-                />
-                <input 
-                    {...register("itemDraft.width")} 
-                    placeholder="Ancho" 
-                    className={`
-                        w-full 
-                        px-3 
-                        py-3 
-                        rounded-lg 
-                        bg-white/70 
-                        border 
-                        border-gray-200 
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-indigo-400
-                    `} 
-                />
-                <input 
-                    {...register("itemDraft.height")} 
-                    placeholder="Alto" 
-                    className={`
-                        w-full 
-                        px-3 
-                        py-3 
-                        rounded-lg 
-                        bg-white/70 
-                        border 
-                        border-gray-200 
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-indigo-400
-                    `}   
-                />
-                <input 
-                    {...register("itemDraft.weight")} 
-                    placeholder="Peso" 
-                    className={`
-                        w-full 
-                        px-3 
-                        py-3 
-                        rounded-lg 
-                        bg-white/70 
-                        border 
-                        border-gray-200 
-                        focus:outline-none 
-                        focus:ring-2 
-                        focus:ring-indigo-400
-                    `}   
-                />
+                {["large", "width", "height", "weight"].map((field) => (
+                    <input 
+                        key={ field }
+                        value={ itemDraft[field] }
+                        onChange={(e) => handleChange(field, e.target.value)}
+                        placeholder="Largo" 
+                        className={`
+                            w-full 
+                            px-3 
+                            py-3 
+                            rounded-lg 
+                            bg-white/70 
+                            border 
+                            border-gray-200 
+                            focus:outline-none 
+                            focus:ring-2 
+                            focus:ring-indigo-400
+                            ${errors[field] 
+                                ? "border-red-400 focus:ring-red-400"
+                                : "border-gray-200 focus:ring-indigo-400"
+                            }
+                        `} 
+                    />
+                ))}
             </div>
         
             <button
                 type="button"
-                onClick={ onAddItem }
-                disabled={
-                    !watchDraft.typeServices ||
-                    !watchDraft.large ||
-                    !watchDraft.width ||
-                    !watchDraft.height ||
-                    !watchDraft.weight
-                }
+                onClick={ handleAddItem }
                 className="py-3 text-indigo-400 text-sm font-medium cursor-pointer"
             >
                 Añadir

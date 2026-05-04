@@ -1,12 +1,26 @@
 
 import { useState } from "react";
 
-export default function CompareRatesDetails({ resultRates = [] }) {
+import { Alert } from "../../../ui";
+
+import CompareRateSekeletonDetails from './compare-rate-skeleton-details';
+
+export default function CompareRateDetails({ isLoading, error, resultRates = [] }) {
     const [open, setOpen] = useState(null);
 
+    if (isLoading) return <CompareRateSekeletonDetails />;
+
+    if (error) {
+        return <Alert 
+            message={ error } 
+            type="warning" 
+            center={ true } 
+        />;
+    } 
+        
     return (
         <div className="mx-auto mt-10 space-y-4">
-            { resultRates
+            { resultRates && resultRates
                 .sort((a, b) => (b.available - a.available))
                 .map((agency, i) => (
                     <div

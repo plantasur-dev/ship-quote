@@ -5,7 +5,7 @@ import { locationsCountries } from '../services/api-services';
 
 export function useCountries() {
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [countries, setCountries] = useState([]);
 
@@ -13,14 +13,11 @@ export function useCountries() {
         const fetchCountries = async () => {
             try {
                 setIsLoading(true);
-
                 const countries = await locationsCountries();
                 const langClient = navigator.language.split('-')[1];
                 setCountries(countries?.[langClient] || countries?.['US']);    
             } catch (error) {
-                error.message = 
-                    'País asignado por defecto: España | ' + error.message;
-                setError(error.message);
+                setError('País asignado por defecto: España | ' + error.message);
             } finally {
                 setIsLoading(false);
             }

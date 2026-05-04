@@ -5,7 +5,7 @@ import { locationsProvinces } from '../services/api-services';
 
 export function useProvinces(countryCode) {
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [provinces, setProvinces] = useState([]);
 

@@ -6,10 +6,5 @@ export const validations = {
             value: 5,
             message: "Postal Code must be at least 5 characters",
         },
-    },
-    itemDraft: {
-        typeServices: {
-            required: "Type service is required" 
-        }
-    }   
+    }  
 };

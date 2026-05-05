@@ -1,12 +1,17 @@
 
 import createHttpError from "http-errors";
 
-export const compareDimensions = (item, maxDimensions) => {
-    
-    if (item.width > maxDimensions[0].maxWidth ||
-        item.large > maxDimensions[0].maxLength ||
-        item.height > maxDimensions[0].maxHeight
-    ) {
+import PalletType from "../../lib/models/palletType.model.js";
+
+export const compareDimensions = async (item) => {
+
+    const validPallet = await PalletType.findOne({
+        "constraints.maxWidth": { $gte: item.width },
+        "constraints.maxLength": { $gte: item.large },
+        "constraints.maxHeight": { $gte: item.height }
+    });
+
+    if (!validPallet) {
         throw createHttpError(400, 'Item dimensions exceed the maximum allowed for any pallet');
     }
 

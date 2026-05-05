@@ -90,7 +90,7 @@ function ItemDraftForm({ onAddItem }) {
             <label className="text-sm text-slate-500">Dimensiones (cm) y Peso (Kg)</label>
 
             <div className="flex gap-2 mt-2">
-                {["large", "width", "height", "weight"].map((field) => (
+                { ["large", "width", "height", "weight"].map((field) => (
                     <input 
                         key={ field }
                         value={ itemDraft[field] }

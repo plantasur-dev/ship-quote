@@ -95,7 +95,7 @@ function ItemDraftForm({ onAddItem }) {
                         key={ field }
                         value={ itemDraft[field] }
                         onChange={(e) => handleChange(field, e.target.value)}
-                        placeholder="Largo" 
+                        placeholder={ field.charAt(0).toUpperCase() + field.slice(1) }
                         className={`
                             w-full 
                             px-3 

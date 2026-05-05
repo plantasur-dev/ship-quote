@@ -12,7 +12,7 @@ function CompareRateItemsDetails({ items, onRemove }) {
     return (
         <div className="mt-6 space-y-3">
             <h3 className="text-sm font-semibold text-slate-600">
-                Pallets añadidos ({items.length})
+                Pallets añadidos ({ items.length })
             </h3>
 
             <div className="space-y-3">

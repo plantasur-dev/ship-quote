@@ -119,7 +119,14 @@ function ItemDraftForm({ onAddItem }) {
             <button
                 type="button"
                 onClick={ handleAddItem }
-                className="py-3 text-indigo-400 text-sm font-medium cursor-pointer"
+                className="
+                    py-3 
+                    text-indigo-500 
+                    text-sm 
+                    font-medium
+                    cursor-pointer
+                    hover:text-shadow-2xs 
+                "    
             >
                 Añadir
             </button>

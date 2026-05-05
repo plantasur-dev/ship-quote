@@ -1,28 +1,21 @@
 
-import { useState } from "react";
+import { useCompareRateResult } from "../../../hooks/use-compare-rate-result";
 
 import CompareRateForm from "./compare-rate-form/compare-rate-form";
-import CompareRatesDetails from "./compare-rate-details/compare-rates-details";
-
-import { compareRate } from "../../../services/api-services";
+import CompareRateDetails from "./compare-rate-details/compare-rate-details";
 
 function CompareRates() {
 
-    const [resultRates, setResultRates] = useState([]);
+    const { 
+        isLoading, 
+        error, 
+        resultRates, 
+        handlerCalculateRates 
+    } = useCompareRateResult();
 
-    const handlerCalculateRates = async (data) => {
-        try {
-            const rates = await compareRate(data);
-            setResultRates(rates);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    
     return (
         <>
             <section className="max-w-6xl mx-auto px-6 mt-10 grid md:grid-cols-2 gap-10 items-start">
-                
                 <div>
                     <h2 className="text-4xl md:text-5xl font-semibold leading-tight">
                         Calcula la cotización de envíos
@@ -39,9 +32,11 @@ function CompareRates() {
             </section>
 
             <section className="max-w-6xl mx-auto px-6 mt-10 gap-10 items-center">
-               <CompareRatesDetails 
+                <CompareRateDetails
+                    isLoading={ isLoading }
+                    error={error} 
                     resultRates={ resultRates }
-               />
+                />
             </section>
         </>
     );

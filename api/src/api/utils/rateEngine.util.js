@@ -118,9 +118,8 @@ export function groupByAgency(collection) {
 };
 
 export function calculateWeightVolume({ palletItems, agencyRates, zone }) {
-    const totalWeight = palletItems.reduce(
-        (sum, item) => sum + getEffectiveWeight(item),
-        0
+    const totalWeight = palletItems.reduce((sum, item) => 
+        sum + getEffectiveWeight(item), 0
     );
 
     const rateMap = calculeRateByField(agencyRates);

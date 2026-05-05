@@ -18,6 +18,7 @@ import {
     ProvinceDisplay,
     ItemDraftForm,
     SubmitButton,
+    ResetButton,
     ErrorsForm
 } from './.'
 
@@ -78,8 +79,9 @@ function CompareRateForm({ handlerCalculateRates }) {
                         onRemove={ form.removeItem }
                     />
 
-                    <SubmitButton />
+                    <ResetButton />
 
+                    <SubmitButton />
                 </div>
             </form>
         </FormProvider>

@@ -5,7 +5,8 @@ import PalletType from "../../../lib/models/palletType.model.js";
 
 import { 
     calculateWeightVolume, 
-    calculatePallet, 
+    calculatePallet,
+    calculateParcel, 
     resolveZone, 
     groupByAgency 
 } from '../../utils/rateEngine.util.js';
@@ -25,6 +26,7 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
     const palletTypesByAgency = groupByAgency(palletTypes);
 
     const palletItems = items.filter(item => item.typeServices === "pallet");
+    const parcelItems = items.filter(item => item.typeServices === "parcel");
 
     return agencies.map(agency => {
         try {
@@ -43,9 +45,19 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
                 };
             }
 
-            const services = (zone.calculationMode === "weight_volume") 
-                ? calculateWeightVolume({ palletItems, agencyRates, zone })
-                : calculatePallet({ palletItems, agencyRates, agencyPalletTypes, zone });
+            let services = []; 
+           
+            switch (zone.calculationMode) {
+                case "weight_volume":
+                    services = calculateWeightVolume({ palletItems, agencyRates, zone });    
+                    break;
+                case "pallet":
+                    services = calculatePallet({ palletItems, agencyRates, agencyPalletTypes, zone });
+                    break;
+                case "parcel":
+                    services = calculateParcel({ parcelItems, agencyRates, zone });
+                    break;
+            }
 
             if (services.length === 0) {
                 return {

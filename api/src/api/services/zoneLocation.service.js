@@ -3,7 +3,10 @@ import mongoose from "mongoose";
 
 import Location from '../../lib/models/location.model.js';
 
-import { provincesData, specialIslands } from '../../lib/storages/location.storage.js';
+import { 
+    provincesData, 
+    specialIslands 
+} from '../../lib/storages/location.storage.js';
 
 function normalizeName(name) {
     return name

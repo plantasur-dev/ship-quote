@@ -1,9 +1,12 @@
 
 import Agency from "../../lib/models/agency.model.js";
 
-import { getStaticRates, getApiRates } from "./compareRates/index.js";
+import { 
+    getStaticRates, 
+    getApiRates 
+} from "./rateEngine/index.js";
 
-export async function compareRates(input) {
+async function rateEngine(input) {
 
     const agencies = await Agency.find({ active: { $ne: false } });
 
@@ -23,3 +26,5 @@ export async function compareRates(input) {
         ...apiResults
     ];
 }
+
+export default rateEngine;

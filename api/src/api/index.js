@@ -4,6 +4,7 @@ import { Router } from "express";
 import { errorHandler, routerNotFound } from './middlewares/errors.middleware.js';
 
 import { schemaValidation } from './middlewares/schemaValidation.middleware.js';
+import { validateCompareRateRequest } from './middlewares/compareRateValidation.middleware.js';
 
 import * as Agencies from './controllers/agencies.controller.js';
 import * as Locations from './controllers/locations.controller.js';
@@ -87,7 +88,8 @@ apiRouter.get(
 
 apiRouter.post(
     '/rates/compare', 
-    schemaValidation, 
+    schemaValidation,
+    validateCompareRateRequest,
     Rates.compare
 );
 

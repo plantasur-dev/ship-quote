@@ -11,7 +11,25 @@ const servicePriceSchema = new mongoose.Schema({
         min: Number,
         max: Number,
         price: Number
-    }]
+    }],
+    extraKg: {
+        type: Number,
+        default: 0
+    },
+    constraints: {
+        maxWeight: {
+            type: Number,
+            default: 0
+        },
+        maxLength: {
+            type: Number,
+            default: 0
+        },
+        maxSumDimensions: {
+            type: Number,
+            default: 0
+        }
+    },
 }, { 
     timestamps: true,
     versionKey: false,

@@ -36,7 +36,7 @@ const agencySchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["static", "api"],
+        enum: ["static", "api", "hybrid"],
         default: "static"
     },
     active: {

@@ -178,6 +178,123 @@ export function calculatePallet({ palletItems, agencyRates, agencyPalletTypes, z
     return aggregateServices(results);
 };
 
+export function calculateParcel({ parcelItems, agencyRates, zone }) {
+    if (!parcelItems?.length) return [];
+
+    const rate = findRate(agencyRates, { zoneName: zone.name, type: 'parcel' });
+    if (!rate) return [];
+
+    return parcelItems.flatMap((item, index) => {
+        const itemWeight = Number(item.weight || 0);
+       
+        return rate.services.map(service => {
+            const { service: serviceName, constraints = {} } = service;
+
+            if (constraints.maxWeight && itemWeight > constraints.maxWeight) {
+                return buildParcelOverweight(index, constraints.weight, itemWeight);
+            }
+
+            const result = resolveParcelPrice({ itemWeight, service });
+
+            return formatParcelResult({ 
+                result, 
+                serviceName, 
+                index, 
+                itemWeight 
+            });
+        });
+    });
+};
+
+function resolveParcelPrice({ itemWeight, service }) {
+    const { priceBreaks, extraKg = 0 } = service;
+
+    const match = matchPrice(priceBreaks, itemWeight);
+    if (match) {
+        return {
+            calculeType: 'base',
+            weight: itemWeight,
+            price: match.price
+        };
+    }
+
+    const last = priceBreaks?.[priceBreaks.length - 1];
+    if (!last || !extraKg) return buildParcelError(index);
+
+    const excessWeight = itemWeight - last.max;
+    
+    const extraCost = excessWeight * extraKg;
+
+    return {
+        calculeType: 'extra',
+        basePrice: last.price,
+        extraCost,
+        excessWeight
+    };
+}
+
+const buildParcelError = (index, message = '') => ({
+    service: `No hay tarifa disponible - Paquete ${ index + 1 }`,
+    total: 0,
+    breakdown: [{ type: message }]
+});
+
+const buildParcelOverweight = (index, maxWeight, itemWeight) => ({
+    service: `Fuera tarifa (Exceso peso) - Paquete ${ index + 1 }`,
+    total: 0,
+    breakdown: [{
+        type: `Superior al peso máximo: ${ maxWeight } kg`,
+        totalWeight: itemWeight
+    }]
+});
+
+const round = (num) => num.toFixed(2);
+
+function formatParcelResult({ result, serviceName, index, itemWeight }) {
+    if (!result) {
+        return {
+            service: `No hay tarifa disponible - Paquete ${ index + 1 }`,
+            total: 0,
+            breakdown: [{
+                type: "No hay tarifa disponible para las dimensiones"
+            }]
+        };
+    }
+
+    if (result.calculeType === 'base') {
+        return {
+            service: `${ serviceName } - Paquete ${ index + 1 }`,
+            total: result.price,
+            breakdown: [{
+                type: "parcel",
+                totalWeight: itemWeight,
+                price: result.price
+            }]
+        };
+    }
+
+    if (result.calculeType === 'extra') {
+        const total = result.basePrice + result.extraCost;
+
+        return {
+            service: `${ serviceName } - Paquete ${ index + 1 }`,
+            total: round(total),
+            breakdown: [
+                {
+                    type: "parcel",
+                    totalWeight: itemWeight,
+                    price: result.basePrice
+                },
+                {
+                    type: "extra kg",
+                    totalWeight: result.excessWeight,
+                    price: round(result.extraCost)
+                }
+            ]
+        };
+    }
+}
+
 function aggregateServices(items) {
     return Object.values(items.reduce((acc, item) => {
 

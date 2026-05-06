@@ -19,17 +19,36 @@ function ItemDraftForm({ onAddItem }) {
     };
 
     const validate = () => {
-        const newErrors = {};
+        const errors = {};
 
-        if (!itemDraft.typeServices) newErrors.typeServices = "Selecciona un tipo";
-        if (!itemDraft.large) newErrors.large = true;
-        if (!itemDraft.width) newErrors.width = true;
-        if (!itemDraft.height) newErrors.height = true;
-        if (!itemDraft.weight) newErrors.weight = true;
+        const isInvalidNumber = (value) => {
+            const n = Number(value);
+            return isNaN(n) || n <= 0;
+        };
 
-        setErrors(newErrors);
+        if (!itemDraft.typeServices || itemDraft.typeServices.length === 0) {
+            errors.typeServices = 'Selecciona un tipo';
+        }
 
-        return Object.keys(newErrors).length === 0;
+        if (isInvalidNumber(itemDraft.large)) {
+            errors.large = 'Largo requerido';
+        }
+
+        if (isInvalidNumber(itemDraft.width)) {
+            errors.width = 'Ancho requerido';
+        }
+
+        if (isInvalidNumber(itemDraft.height)) {
+            errors.height = 'Altura requerida';
+        }
+
+        if (isInvalidNumber(itemDraft.weight)) {
+            errors.weight = 'Peso debe ser superior a 0';
+        }
+
+        setErrors(errors);
+
+        return Object.keys(errors).length === 0;
     };
 
     const validateClean = (field) => {
@@ -70,8 +89,8 @@ function ItemDraftForm({ onAddItem }) {
                     border 
                     focus:outline-none 
                     focus:ring-2 
-                    ${ errors.typeServices 
-                        ? "border-red-200 focus:ring-red-400"
+                    ${ errors['typeServices']?.state 
+                        ? "border-red-400 focus:ring-red-400"
                         : "border-gray-200 focus:ring-indigo-400"
                     }
                 `}
@@ -82,7 +101,7 @@ function ItemDraftForm({ onAddItem }) {
             </select>
 
             { errors.typeServices && (
-                <p className="text-red-500 text-sm">
+                <p className="text-red-500 text-xs">
                     { errors.typeServices }
                 </p>
             )}
@@ -91,28 +110,34 @@ function ItemDraftForm({ onAddItem }) {
 
             <div className="flex gap-2 mt-2">
                 { ["large", "width", "height", "weight"].map((field) => (
-                    <input 
-                        key={ field }
-                        value={ itemDraft[field] }
-                        onChange={(e) => handleChange(field, e.target.value)}
-                        placeholder={ field.charAt(0).toUpperCase() + field.slice(1) }
-                        className={`
-                            w-full 
-                            px-3 
-                            py-3 
-                            rounded-lg 
-                            bg-white/70 
-                            border 
-                            border-gray-200 
-                            focus:outline-none 
-                            focus:ring-2 
-                            focus:ring-indigo-400
-                            ${errors[field] 
-                                ? "border-red-400 focus:ring-red-400"
-                                : "border-gray-200 focus:ring-indigo-400"
-                            }
-                        `} 
-                    />
+                    <div key={ field }>
+                        <input 
+                            value={ itemDraft[field] }
+                            onChange={(e) => handleChange(field, e.target.value)}
+                            placeholder={ field.charAt(0).toUpperCase() + field.slice(1) }
+                            className={`
+                                w-full 
+                                px-3 
+                                py-3 
+                                rounded-lg 
+                                bg-white/70 
+                                border  
+                                focus:outline-none 
+                                focus:ring-2 
+                                focus:ring-indigo-400
+                                ${ errors[field] 
+                                    ? "border-red-400 focus:ring-red-400"
+                                    : "border-gray-200 focus:ring-indigo-400"
+                                }
+                            `} 
+                        />
+
+                        { errors[field] && (
+                            <p  className="text-red-500 text-xs">
+                                { errors[field] }
+                            </p>
+                        )}
+                    </div>
                 ))}
             </div>
         

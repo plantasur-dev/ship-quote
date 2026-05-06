@@ -34,7 +34,7 @@ function CompareRates() {
             <section className="max-w-6xl mx-auto px-6 mt-10 gap-10 items-center">
                 <CompareRateDetails
                     isLoading={ isLoading }
-                    error={error} 
+                    error={ error } 
                     resultRates={ resultRates }
                 />
             </section>

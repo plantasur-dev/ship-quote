@@ -1,5 +1,5 @@
 
-import { Navbar } from "../../ui";
+import { Navbar, Footer } from "../../ui";
 
 function LayoutPage ({ children }) {
     
@@ -9,6 +9,8 @@ function LayoutPage ({ children }) {
                 <Navbar />
 
                 { children }
+
+                <Footer />
             </main>
         </>
     );

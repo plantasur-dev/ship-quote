@@ -3,6 +3,39 @@ import createHttpError from 'http-errors';
  
 import { compareRates } from '../services/rateEnginev3.service.js';
 
+const isInvalidNumber = (value) => {
+    const n = Number(value);
+    return isNaN(n) || n <= 0;
+};
+
+const validateItem = (item, index) => {
+    const errors = [];
+
+    if (item.typeServices == null) {
+        errors.push('typeServices is required');
+    }
+
+    if (isInvalidNumber(item.weight)) {
+        errors.push('weight must be a number > 0');
+    }
+
+    if (isInvalidNumber(item.large)) {
+        errors.push('large must be a number > 0');
+    }
+
+    if (isInvalidNumber(item.width)) {
+        errors.push('width must be a number > 0');
+    }
+
+    if (isInvalidNumber(item.height)) {
+        errors.push('height must be a number > 0');
+    }
+
+    if (errors.length) {
+        throw createHttpError(400, `Item ${index + 1}: ${errors.join(', ')}`);
+    }
+};
+
 export async function compare(req, res) {
     
     const { destinationPostalCode, province, items } = req.body;
@@ -20,17 +53,7 @@ export async function compare(req, res) {
         throw createHttpError(400, 'items cannot be empty');
     }
 
-    for (const item of items) {
-        if (item.typeServices === undefined ||
-            (item.weight === undefined || item.weight <= 0) ||
-            (item.large === undefined || item.large <= 0) ||
-            (item.width === undefined || item.width <= 0) ||
-            (item.height === undefined || item.height <= 0) ) {
-            throw createHttpError(
-                400, 
-                'Each item must include service type, weight, size, width, and height, and none of these values can be 0.');
-        }
-    }
+    items.forEach(validateItem);
 
     const result = await compareRates({
         destinationPostalCode,

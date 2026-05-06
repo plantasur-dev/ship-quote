@@ -11,11 +11,11 @@ const typeStyles = {
 }
 
 function CompareRateItemsDetails({ items, onRemove }) {
-
+    
     if (!items?.length) {
        return (
             <div className="text-sm text-slate-400 mt-4 text-center py-6 border border-dashed rounded-xl bg-white/40">
-                No hay pallets añadidos todavía
+                No hay bultos añadidos todavía
             </div>
         );
     }
@@ -27,9 +27,9 @@ function CompareRateItemsDetails({ items, onRemove }) {
             </h3>
 
             <div className="space-y-3">
-                {items.map((item, index) => (
+                { items.map((item, index) => (
                     <div
-                        key={index}
+                        key={ index }
                         className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white/70 backdrop-blur-md shadow-sm hover:shadow-md transition"
                     >
                         <div
@@ -38,7 +38,7 @@ function CompareRateItemsDetails({ items, onRemove }) {
                                 overflow-hidden
                                 rounded-lg
                                 p-4 flex items-center justify-between gap-4
-                                ${typeStyles[item.typeServices]?.container}
+                                ${ typeStyles[item.typeServices]?.container }
                             `}
                         >
                             <span className={`text-xs font-semibold ${ typeStyles[item.typeServices]?.accent }`}>
@@ -68,7 +68,7 @@ function CompareRateItemsDetails({ items, onRemove }) {
                             </div>
 
                             <button
-                                onClick={() => onRemove(item)}
+                                onClick={() => onRemove(index)}
                                 className="
                                 relative z-10
                                 opacity-0 group-hover:opacity-100 transition

@@ -1,5 +1,5 @@
 
-import { carrierFactory } from '../carriers/carriers.service.js';
+import { carrierFactory } from './carriers/carriers.service.js';
 
 export default async function getApiRates(agencies, input) { 
   const results = await Promise.all(

@@ -3,16 +3,18 @@ import Zone from "../../../lib/models/zone.model.js";
 import Rate from "../../../lib/models/rate.model.js";
 import PalletType from "../../../lib/models/palletType.model.js";
 
+import {
+    resolveZone, 
+    groupByAgency
+} from '../../utils/rateEngine.util.js'
+
 import { 
     calculateWeightVolume, 
     calculatePallet,
-    calculateParcel, 
-    resolveZone, 
-    groupByAgency 
-} from '../../utils/rateEngine.util.js';
+    calculateParcel 
+} from './rateEngine.calculator.js';
 
 export default async function getStaticRates(agencies, { destinationPostalCode, province, items }) {
-
     const agencyIds = agencies.map(agency => agency.id);
 
     const [zones, rates, palletTypes] = await Promise.all([
@@ -49,13 +51,26 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
            
             switch (zone.calculationMode) {
                 case "weight_volume":
-                    services = calculateWeightVolume({ palletItems, agencyRates, zone });    
+                    services = calculateWeightVolume({ 
+                        palletItems, 
+                        agencyRates, 
+                        zone 
+                    });    
                     break;
                 case "pallet":
-                    services = calculatePallet({ palletItems, agencyRates, agencyPalletTypes, zone });
+                    services = calculatePallet({ 
+                        palletItems, 
+                        agencyRates, 
+                        agencyPalletTypes, 
+                        zone 
+                    });
                     break;
                 case "parcel":
-                    services = calculateParcel({ parcelItems, agencyRates, zone });
+                    services = calculateParcel({ 
+                        parcelItems, 
+                        agencyRates, 
+                        zone 
+                    });
                     break;
             }
 

@@ -11,6 +11,7 @@ export function useCompareRateResult() {
     
     const handlerCalculateRates = async (data) => {
         setResultRates([]);
+        setError(null);
         setIsLoading(true);
 
         try {

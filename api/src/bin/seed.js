@@ -19,6 +19,10 @@ import {
     seedTecumRatesByQuantity 
 } from './tecumSeeds/index.js';
 
+import { 
+    seedCorreosRates 
+} from "./cexp.seed.js";
+
 await seedAgencies();
 
 await seedZones();
@@ -33,5 +37,7 @@ await seedRatesAndalucia();
 await seedTecumRates();
 
 await seedTecumRatesByQuantity('tecum');
+
+await seedCorreosRates();
 
 process.exit();

@@ -7,95 +7,6 @@ import {
     findRate
 } from '../../utils/rateEngine.util.js';
 
-export function calculateWeightVolume({ palletItems, agencyRates, zone }) {
-    const totalWeight = palletItems.reduce((sum, item) => 
-        sum + getEffectiveWeight(item), 0
-    );
-
-    const rateMap = calculeRateByField(agencyRates);
-    const rate = rateMap.get(`${zone.name}_pallet`);
-    if (!rate) return [];
-
-    return rate.services.reduce((acc, service) => {
-        const match = matchPrice(service.priceBreaks, totalWeight);
-        if (!match) return acc;
-
-        acc.push({
-            service: service.service,
-            total: match.price,
-            breakdown: [{
-                type: "weight_volume",
-                totalWeight,
-                price: match.price
-            }]
-        });
-
-        return acc;
-    }, []);
-};
-
-export function calculatePallet({ palletItems, agencyRates, agencyPalletTypes, zone }) {
-    const groups = groupPallets(palletItems, agencyPalletTypes);
-    const rateMap = calculeRateByField(agencyRates, 'palletTypeId');
-
-    const results = groups.flatMap(group => {
-        const rate = rateMap.get(`${zone.name}_${group.palletType.id}`);
-        if (!rate) return [];
-
-        return rate.services.reduce((acc, service) => {
-            const match = matchPrice(service.priceBreaks, group.quantity);
-            if (!match?.price) return acc;
-
-            const total = rate.calculationType === "quantity"
-                ? match.price * group.quantity
-                : match.price;
-
-            acc.push({
-                service: service.service,
-                total: total * group.quantity, // REVISAR CANTIDAD MULTIPLICADA
-                breakdown: {
-                    type: "pallet",
-                    palletType: group.palletType.name,
-                    quantity: group.quantity,
-                    unitPrice: match.price,
-                }
-            });
-
-            return acc;
-        }, []);
-    });
-
-    return aggregateServices(results);
-};
-
-export function calculateParcel({ parcelItems, agencyRates, zone }) {
-    if (!parcelItems?.length) return [];
-
-    const rate = findRate(agencyRates, { zoneName: zone.name, type: 'parcel' });
-    if (!rate) return [];
-
-    return parcelItems.flatMap((item, index) => {
-        const itemWeight = Number(item.weight || 0);
-       
-        return rate.services.map(service => {
-            const { service: serviceName, constraints = {} } = service;
-
-            if (constraints.maxWeight && itemWeight > constraints.maxWeight) {
-                return buildParcelOverweight(index, constraints.weight, itemWeight);
-            }
-
-            const result = resolveParcelPrice({ index, itemWeight, service });
-
-            return formatParcelResult({ 
-                result, 
-                serviceName, 
-                index, 
-                itemWeight 
-            });
-        });
-    });
-};
-
 function resolveParcelPrice({ index, itemWeight, service }) {
     const { priceBreaks, extraKg = 0 } = service;
 
@@ -202,3 +113,92 @@ const buildParcelOverweight = (index, maxWeight, itemWeight) => ({
 });
 
 const round = (num) => num.toFixed(2);
+
+export function calculateWeightVolume({ palletItems, agencyRates, zone }) {
+    const totalWeight = palletItems.reduce((sum, item) => 
+        sum + getEffectiveWeight(item), 0
+    );
+
+    const rateMap = calculeRateByField(agencyRates);
+    const rate = rateMap.get(`${zone.name}_pallet`);
+    if (!rate) return [];
+
+    return rate.services.reduce((acc, service) => {
+        const match = matchPrice(service.priceBreaks, totalWeight);
+        if (!match) return acc;
+
+        acc.push({
+            service: service.service,
+            total: match.price,
+            breakdown: [{
+                type: "weight_volume",
+                totalWeight,
+                price: match.price
+            }]
+        });
+
+        return acc;
+    }, []);
+};
+
+export function calculatePallet({ palletItems, agencyRates, agencyPalletTypes, zone }) {
+    const groups = groupPallets(palletItems, agencyPalletTypes);
+    const rateMap = calculeRateByField(agencyRates, 'palletTypeId');
+
+    const results = groups.flatMap(group => {
+        const rate = rateMap.get(`${zone.name}_${group.palletType.id}`);
+        if (!rate) return [];
+
+        return rate.services.reduce((acc, service) => {
+            const match = matchPrice(service.priceBreaks, group.quantity);
+            if (!match?.price) return acc;
+
+            const total = rate.calculationType === "quantity"
+                ? match.price * group.quantity
+                : match.price;
+
+            acc.push({
+                service: service.service,
+                total: total * group.quantity,
+                breakdown: {
+                    type: "pallet",
+                    palletType: group.palletType.name,
+                    quantity: group.quantity,
+                    unitPrice: match.price,
+                }
+            });
+
+            return acc;
+        }, []);
+    });
+
+    return aggregateServices(results);
+};
+
+export function calculateParcel({ parcelItems, agencyRates, zone }) {
+    if (!parcelItems?.length) return [];
+
+    const rate = findRate(agencyRates, { zoneName: zone.name, type: 'parcel' });
+    if (!rate) return [];
+
+    return parcelItems.flatMap((item, index) => {
+        const itemWeight = Number(item.weight || 0);
+       
+        return rate.services.map(service => {
+            const { service: serviceName, constraints = {} } = service;
+
+            if (constraints.maxWeight && itemWeight > constraints.maxWeight) {
+                return buildParcelOverweight(index, constraints.weight, itemWeight);
+            }
+
+            const result = resolveParcelPrice({ index, itemWeight, service });
+
+            return formatParcelResult({ 
+                result, 
+                serviceName, 
+                index, 
+                itemWeight 
+            });
+        });
+    });
+};

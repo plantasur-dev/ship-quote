@@ -22,11 +22,13 @@ export async function compare(req, res) {
 
     for (const item of items) {
         if (item.typeServices === undefined ||
-            item.weight === undefined ||
-            item.large === undefined ||
-            item.width === undefined ||
-            item.height === undefined ) {
-            throw createHttpError(400, 'Each item must include typeServices, weight, large, width, and height');
+            (item.weight === undefined || item.weight <= 0) ||
+            (item.large === undefined || item.large <= 0) ||
+            (item.width === undefined || item.width <= 0) ||
+            (item.height === undefined || item.height <= 0) ) {
+            throw createHttpError(
+                400, 
+                'Each item must include service type, weight, size, width, and height, and none of these values can be 0.');
         }
     }
 

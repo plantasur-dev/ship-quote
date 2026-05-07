@@ -17,6 +17,7 @@ export async function seedTecumZones() {
     name: z.name,
     provinces: z.provinces,
     calculationMode: "pallet",
+    pricingMode: "weight",
     postalCodeExceptions: exceptions.filter(e => e.zoneName === z.name)
   }));
 

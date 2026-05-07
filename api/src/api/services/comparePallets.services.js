@@ -17,3 +17,23 @@ export const compareDimensions = async (item) => {
 
     return true;
 };
+
+export const compareDimensionsParcel = () => {
+    if (constraints) {
+
+        const exceedsWeight = constraints.maxWeight && totalWeight > constraints.maxWeight;
+
+        const exceedsDimensions = items.some(i => {
+            const sumDimensions = i.length + i.width + i.height;
+
+            return (
+                (constraints.maxLength && i.length > constraints.maxLength) ||
+                (constraints.maxSumDimensions && sumDimensions > constraints.maxSumDimensions)
+            );
+        });
+
+        if (exceedsWeight || exceedsDimensions) {
+            
+        }
+    }
+};

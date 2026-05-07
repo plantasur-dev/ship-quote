@@ -1,5 +1,5 @@
 
-import { calculateVolume } from '../../../../utils/rateEngine.util.js';
+import { calculateVolumetricWeight } from '../../../../utils/rateEngine.util.js';
 
 import { dateFormat } from '../../../../utils/date.util.js'
 
@@ -44,7 +44,7 @@ export default class DascherService extends CarrierService {
                             "height": item.height,
                             "unit": "CM",
                             "volume": {
-                                "amount": calculateVolume(item),
+                                "amount": calculateVolumetricWeight(item),
                                 "unit": "M3"
                             }
                         }

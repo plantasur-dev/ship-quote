@@ -27,9 +27,10 @@ export async function seedZones() {
     agencyId: agency._id,
     name: zoneName,
     provinces,
-    calculationMode: ["ZONA 11", "ZONA 12"].includes(zoneName)
+    calculationMode: "pallet",
+    pricingMode: ["ZONA 11", "ZONA 12"].includes(zoneName)
       ? "weight_volume"
-      : "pallet"
+      : "weight"
   }));
 
   await Zone.insertMany(zonesToInsert);

@@ -8,8 +8,7 @@ import {
     groupByAgency
 } from '../../utils/rateEngine.util.js'
 
-import { 
-    calculateWeightVolume, 
+import {
     calculatePallet,
     calculateParcel 
 } from './rateEngine.calculator.js';
@@ -48,32 +47,20 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
             }
 
             let services = []; 
-           
-            switch (zone.calculationMode) {
-                case "weight_volume":
-                    services = calculateWeightVolume({ 
-                        palletItems, 
-                        agencyRates, 
-                        zone 
-                    });    
-                    break;
-                case "pallet":
-                    services = calculatePallet({ 
+            
+            services = (zone.calculationMode === 'pallet')
+                ? calculatePallet({ 
                         palletItems, 
                         agencyRates, 
                         agencyPalletTypes, 
                         zone 
-                    });
-                    break;
-                case "parcel":
-                    services = calculateParcel({ 
+                    })
+                : calculateParcel({ 
                         parcelItems, 
                         agencyRates, 
                         zone 
                     });
-                    break;
-            }
-
+        
             if (services.length === 0) {
                 return {
                     agency: agency.name,

@@ -16,8 +16,13 @@ const zoneSchema = new mongoose.Schema({
     },
     calculationMode: {
         type: String,
-        enum: ["pallet", "weight_volume", "parcel"],
+        enum: ["pallet", "parcel"],
         default: "pallet"
+    },
+    pricingMode: {
+        type: String,
+        enum: ["weight", "weight_volume"],
+        default: "weight"
     },
     postalCodeExceptions: {
         type: [{

@@ -41,5 +41,45 @@ export const agencies = [
             },
             apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiaS5iMmIucG9ydGFsIiwiZXhwIjoxNzc3MjgzNjE2LCJjdXN0b21lck51bWJlciI6NDYzMzM0NjEsImN1c3RvbWVyTmFtZSI6IlBydWViYSJ9.dak3h0b4urZxva4rDQ12YoIlq7efiPIddGsJaKWaW7k'
         }
+    },
+    {
+        name: "Correosexpress",
+        code: "correosexpress",
+        type: "hybrid",
+        active: true,
+        rules: {
+            hasAndaluciaRule: false,
+            supportsPallets: false,
+            supportsParcels: true
+        },
+        apiConfig: {
+            timeout: 3000,
+            baseUrlApi: 'https://www.desa.cexpr.es/wspsc',
+            endpoints: {
+                quotations: '',
+                transportOrders: ''
+            },
+            apiKey: 'pruebas'
+        }
+    },{
+        name: "Mrw",
+        code: "mrw",
+        type: "hybrid",
+        active: true,
+        rules: {
+            hasAndaluciaRule: false,
+            supportsPallets: false,
+            supportsParcels: true
+        },
+        apiConfig: {
+            timeout: 3000,
+            baseUrlApi: 'https://sagec-test.mrw.es/MRWEnvio.asmx',
+            endpoints: {
+                quotations: '',
+                transportOrders: ''
+            },
+            apiKey: 'pruebas'
+        }
     }
+
 ];

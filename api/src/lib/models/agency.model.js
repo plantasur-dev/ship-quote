@@ -57,6 +57,23 @@ const agencySchema = new mongoose.Schema({
             default: false 
         }
     },
+    supplements: {
+        fuelSurcharge: {
+            enabled: {
+                type: Boolean,
+                default: false
+            },
+            type: {
+                type: String,
+                enum: ["percentage", "fixed"],
+                default: "percentage"
+            },
+            value: {
+                type: Number,
+                default: 0
+            }
+        }
+    },
     apiConfig: {
         timeout: { 
             type: Number, 

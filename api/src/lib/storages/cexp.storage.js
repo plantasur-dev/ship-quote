@@ -7,7 +7,9 @@ export const correosZones = {
             "ES-V", "ES-TO", "ES-T", "ES-TE",
             "ES-SA", "ES-SG", "ES-SO", "ES-SS",
             "ES-O", "ES-OR", "ES-P", "ES-PO",
-            "ES-S", "ES-A"
+            "ES-S", "ES-A","ES-J", "ES-CA", 
+            "ES-CO", "ES-H", "ES-SE", "ES-AL", 
+            "ES-MA", "ES-GR"
         ],
         calculationMode: "parcel",
         pricingMode: "weight_volume",
@@ -15,14 +17,14 @@ export const correosZones = {
     },
     ANDALUCIA: {
         name: "ANDALUCIA",
-        provinces: ["ES-J", "ES-CA", "ES-CO", "ES-H", "ES-SE", "ES-AL", "ES-MA"],
+        provinces: [],
         calculationMode: "parcel",
         pricingMode: "weight_volume",
         postalCodeExceptions: []
     },
     PROVINCIAL: {
         name: "PROVINCIAL",
-        provinces: ["ES-GR"],
+        provinces: [],
         calculationMode: "parcel",
         pricingMode: "weight_volume",
         postalCodeExceptions: []

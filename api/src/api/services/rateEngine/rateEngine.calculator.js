@@ -5,7 +5,9 @@ import {
     calculeRateByField,
     matchPrice,
     groupPallets,
-    findRate
+    findRate,
+    calculateFuelSurcharge,
+    matchDimensions
 } from '../../utils/rateEngine.util.js';
 
 const buildParcelError = (message = '') => ({
@@ -25,29 +27,36 @@ const buildParcelOverweight = (index, maxWeight, itemWeight) => ({
 
 const round = (num) => Number(num.toFixed(2));
 
-function resolveParcelPrice({ totalWeight, service }) {
+function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, agencySupplements }) {
     const { priceBreaks, extraKg = 0 } = service;
 
     const match = matchPrice(priceBreaks, totalWeight);
+
     if (match) {
+        const fuelExtra = 
+            calculateFuelSurcharge(agencySupplements, match.price);
+
         return {
             calculeType: 'base',
             weight: totalWeight,
-            price: match.price
+            price: round(match.price + fuelExtra + extraDimensionsCost)
         };
     }
 
     const last = priceBreaks?.[priceBreaks.length - 1];
     if (!last || !extraKg) return null;
-
+    
     const excessWeight = totalWeight - last.max;
     if (excessWeight <= 0) return null;
 
     const extraCost = excessWeight * extraKg;
-
+    
+    const fuelExtraExcessWeight = 
+        calculateFuelSurcharge(agencySupplements, last.price);
+    
     return {
         calculeType: 'extra',
-        basePrice: last.price,
+        basePrice: round(last.price + fuelExtraExcessWeight + extraDimensionsCost),
         extraCost,
         excessWeight
     };
@@ -71,35 +80,35 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
     if (result.calculeType === 'base') {
         return {
             service: typeof index === 'number'
-                ? `${ serviceName } - Paquete ${ index + 1 }`
+                ? `${ serviceName } - ${ itemCount > 1 ? 'MultiBulto' : 'Paquete ' + Number(index + 1) }`
                 : serviceName,
             total: result.price,
             breakdown: [{
                 type: "parcel",
-                totalWeight: totalWeight ?? itemWeight,
+                totalWeight: round(totalWeight ?? itemWeight),
                 items: itemCount,
                 price: result.price
             }]
         };
     }
 
-    const total = round(result.basePrice + result.extraCost);
+    const priceTotal = round(result.basePrice + result.extraCost);
 
     return {
         service: typeof index === 'number'
-            ? `${ serviceName } - Paquete ${ index + 1 }`
+            ? `${ serviceName } - ${ itemCount > 1 ? 'MultiBulto' : 'Paquete ' + Number(index + 1) }`
             : serviceName,
-        total,
+        total: priceTotal,
         breakdown: [
             {
                 type: "parcel",
-                totalWeight: totalWeight ?? itemWeight,
+                totalWeight: round(totalWeight ?? itemWeight),
                 items: itemCount,
                 price: result.basePrice
             },
             {
                 type: "extra kg",
-                totalWeight: result.excessWeight,
+                totalWeight: round(result.excessWeight),
                 price: round(result.extraCost)
             }
         ]
@@ -185,132 +194,122 @@ function calculateSinglePallet({ palletItems, agencyRates, agencyPalletTypes, zo
     return aggregateServices(results);
 };
 
-function calculateSingleParcel({ parcelItems, agencyRates, zone }) {
+export function calculatePallet(params) {
+    const { zone } = params;
+
+    return (zone.pricingMode === 'weight_volume')
+        ? calculateWeightVolume({ ...params })
+        : calculateSinglePallet({ ...params });
+};
+
+export function calculateParcel({
+    parcelItems,
+    agencyRates,
+    zone,
+    agencySupplements
+}) {
     if (!parcelItems?.length) return [];
 
-    const rate = findRate(agencyRates, { zoneName: zone.name, type: 'parcel' });
+    const rate = findRate(agencyRates, {
+        zoneName: zone.name,
+        type: 'parcel'
+    });
+
     if (!rate) return [];
 
-    return parcelItems.flatMap((item, index) => {
-        const currentWeight = Number(item.weight || 0);
-        const volumetricWeight = getEffectiveWeight(item, 6000);
-        const itemWeight = zone.pricingMode === 'weight_volume'
-            ? volumetricWeight
-            : currentWeight;
+    return rate.services.flatMap((service, index) => {
+        
+        const { service: serviceName, constraints = {}, dimensionSurcharges } = service;
 
-        const large = item.large || 0;
-        const width = item.width || 0;
-        const height = item.height || 0;
-        const sumDimensions = Number(large) + Number(width) + Number(height);
+        const excludedPackages = [];
 
-        return rate.services.map(service => {
-            const { service: serviceName, constraints = {} } = service;
+        const items = parcelItems.map((item, index) => {
+            const weight = Number(item.weight || 0);
+            const large = item.large || 0;
+            const width = item.width || 0;
+            const height = item.height || 0;
+            const sumDimensions = Number(large) + Number(width) + Number(height);
+
             const maxWeight = constraints.maxPieceWeight || constraints.maxWeight;
 
             if (constraints.maxLength && large > constraints.maxLength) {
-                return formatParcelResult({ result: null, serviceName, index, itemWeight });
+                excludedPackages.push(
+                    formatParcelResult({ result: null, serviceName, index, weight })
+                );
+                return null;
             }
 
             if (constraints.maxSumDimensions && sumDimensions > constraints.maxSumDimensions) {
-                return formatParcelResult({ result: null, serviceName, index, itemWeight });
+                excludedPackages.push(
+                    formatParcelResult({ result: null, serviceName, index, weight })
+                );
+                return null;
             }
 
-            if (maxWeight && itemWeight > maxWeight) {
-                return buildParcelOverweight(index, maxWeight, itemWeight);
+            if (maxWeight && weight > maxWeight) {
+                excludedPackages.push(
+                    buildParcelOverweight(index, maxWeight, weight)
+                );
+                return null;
             }
 
-            const result = resolveParcelPrice({ totalWeight: itemWeight, service });
+            const extraDimensions = matchDimensions(dimensionSurcharges, sumDimensions);
 
-            return formatParcelResult({
-                result,
-                serviceName,
-                index,
-                itemWeight
-            });
+            const suppDimensions = (extraDimensions) ? extraDimensions?.price : 0;
+
+            return { ...item, suppDimensions };
+        }).filter(Boolean);
+
+        const {
+            extraDimensionsCost,
+            totalItemsWeight,
+            volumetric,
+        } = items.reduce(
+            (acc, item) => ({
+                extraDimensionsCost:
+                    acc.extraDimensionsCost + (item.suppDimensions || 0),
+
+                totalItemsWeight:
+                    acc.totalItemsWeight + (Number(item.weight) || 0),
+
+                volumetric:
+                    acc.volumetric + calculateVolumetricWeight(item, 6000),
+            }),
+            {
+                extraDimensionsCost: 0,
+                totalItemsWeight: 0,
+                volumetric: 0,
+            }
+        );
+
+        const parcelItemWeight = round(totalItemsWeight || 0);
+        
+        const volumetricWeight = Math.max(round(volumetric), parcelItemWeight);
+
+        const totalWeight = Math.ceil(
+            zone.pricingMode === 'weight_volume'
+                ? volumetricWeight
+                : parcelItemWeight
+        );
+        
+        const result = resolveParcelPrice({ 
+            totalWeight, 
+            extraDimensionsCost, 
+            service, 
+            agencySupplements 
         });
-    });
-};
 
-function calculateMultiParcel({ parcelItems, agencyRates, zone }) {
-    if (!parcelItems?.length) return [];
-
-    const rate = findRate(agencyRates, { zoneName: zone.name, type: 'parcel' });
-    if (!rate) return [];
-
-    return rate.services.flatMap(service => {
-        const { service: serviceName, constraints = {}, volumetricDivisor = 6000 } = service;
-
-        const items = parcelItems.map(item => {
-            const itemWeight = Number(item.weight || 0);
-            const length = item.large || item.length || 0;
-            const width = item.width || 0;
-            const height = item.height || 0;
-            const volWeight = calculateVolumetricWeight(item, volumetricDivisor);
-            const sumDimensions = length + width + height;
-
-            return {
-                itemWeight,
-                volWeight,
-                length,
-                sumDimensions
-            };
-        });
-
-        const maxPieceWeight = constraints.maxPieceWeight || constraints.maxWeight;
-        if (maxPieceWeight && items.some(i => i.itemWeight > maxPieceWeight)) {
-            return [];
-        }
-
-        if (constraints.maxLength && items.some(i => i.length > constraints.maxLength)) {
-            return [];
-        }
-
-        if (constraints.maxSumDimensions && items.some(i => i.sumDimensions > constraints.maxSumDimensions)) {
-            return [];
-        }
-
-        const totalActualWeight = items.reduce((sum, item) => sum + item.itemWeight, 0);
-        const totalVolumetricWeight = items.reduce((sum, item) => sum + item.volWeight, 0);
-        const totalWeight = zone.pricingMode === 'weight_volume'
-            ? Math.max(totalActualWeight, totalVolumetricWeight)
-            : totalActualWeight;
-
-        const maxTotalWeight = constraints.maxTotalWeight || constraints.maxWeight;
-        if (maxTotalWeight && totalWeight > maxTotalWeight) {
-            return [];
-        }
-
-        const result = resolveParcelPrice({ totalWeight, service });
-        if (!result) return [];
-
-        return formatParcelResult({
+        const ratedPackages = formatParcelResult({
             result,
             serviceName,
-            totalWeight: round(totalWeight),
-            itemCount: parcelItems.length
+            index,
+            itemWeight: totalWeight,
+            itemCount: items.length
         });
-    });
-}
-
-export function calculatePallet({ palletItems, agencyRates, agencyPalletTypes, zone }) {
-    return (zone.pricingMode === 'weight_volume')
-        ? calculateWeightVolume({ 
-                palletItems, 
-                agencyRates, 
-                zone 
-            })
-        : calculateSinglePallet({ 
-                palletItems, 
-                agencyRates, 
-                agencyPalletTypes, 
-                zone 
-            });
-};
-
-export function calculateParcel({ parcelItems, agencyRates, zone }) {
-    if (!parcelItems?.length) return [];
         
-    return (parcelItems.length === 1) 
-        ? calculateSingleParcel({ parcelItems, agencyRates, zone })
-        : calculateMultiParcel({ parcelItems, agencyRates, zone });
+        return [
+            ratedPackages,
+            ...excludedPackages
+        ];
+    });
 }

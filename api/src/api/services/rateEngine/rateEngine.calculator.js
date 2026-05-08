@@ -39,7 +39,8 @@ function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, agencyS
         return {
             calculeType: 'base',
             weight: totalWeight,
-            price: round(match.price + fuelExtra + extraDimensionsCost)
+            price: round(match.price + fuelExtra + extraDimensionsCost),
+            extraDimensionsCost
         };
     }
 
@@ -58,7 +59,8 @@ function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, agencyS
         calculeType: 'extra',
         basePrice: round(last.price + fuelExtraExcessWeight + extraDimensionsCost),
         extraCost,
-        excessWeight
+        excessWeight,
+        extraDimensionsCost
     };
 }
 
@@ -83,12 +85,18 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
                 ? `${ serviceName } - ${ itemCount > 1 ? 'MultiBulto' : 'Paquete ' + Number(index + 1) }`
                 : serviceName,
             total: result.price,
-            breakdown: [{
-                type: "parcel",
-                totalWeight: round(totalWeight ?? itemWeight),
-                items: itemCount,
-                price: result.price
-            }]
+            breakdown: [
+                {
+                    type: "parcel",
+                    totalWeight: round(totalWeight ?? itemWeight),
+                    items: itemCount,
+                    price: result.price
+                },
+                ...(result.extraDimensionsCost > 0 ? [{
+                    type: "extra dimensiones",
+                    price: round(result.extraDimensionsCost)
+                }] : [])
+            ]
         };
     }
 
@@ -106,6 +114,10 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
                 items: itemCount,
                 price: result.basePrice
             },
+            ...(result.extraDimensionsCost > 0 ? [{
+                type: "extra dimensiones",
+                price: round(result.extraDimensionsCost)
+            }] : []),
             {
                 type: "extra kg",
                 totalWeight: round(result.excessWeight),

@@ -16,7 +16,7 @@ export const mrwZones = {
 }
 
 export const mrwRates = {
-    PROVINCIAL: {
+    NACIONAL: {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 2, price: 3.78 },

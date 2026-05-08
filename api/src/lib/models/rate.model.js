@@ -1,17 +1,30 @@
 
 import mongoose from "mongoose";
 
+const rangeAmountSchema = new mongoose.Schema({
+    min: Number,
+    max: Number,
+    price: Number
+},
+{
+    timestamps: true,
+    versionKey: false,
+    toJSON: {
+        virtuals: true,
+        transform: function (doc, ret) {
+            delete ret._id;
+        },
+    }
+});
+
 const servicePriceSchema = new mongoose.Schema({
     service: {
         type: String,
         enum: ['economy', 'premium', 'express', 'basic'],
         default: 'basic'
     },
-    priceBreaks: [{
-        min: Number,
-        max: Number,
-        price: Number
-    }],
+    priceBreaks: [rangeAmountSchema],
+    dimensionSurcharges: [rangeAmountSchema],
     extraKg: {
         type: Number,
         default: 0

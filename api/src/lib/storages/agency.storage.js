@@ -52,6 +52,13 @@ export const agencies = [
             supportsPallets: false,
             supportsParcels: true
         },
+        supplements: {
+            fuelSurcharge: {
+                enabled: true,
+                type: 'percentage',
+                value: 5
+            }
+        },
         apiConfig: {
             timeout: 3000,
             baseUrlApi: 'https://www.desa.cexpr.es/wspsc',
@@ -70,6 +77,13 @@ export const agencies = [
             hasAndaluciaRule: false,
             supportsPallets: false,
             supportsParcels: true
+        },
+        supplements: {
+            fuelSurcharge: {
+                enabled: true,
+                type: 'percentage',
+                value: 3.5
+            }
         },
         apiConfig: {
             timeout: 3000,

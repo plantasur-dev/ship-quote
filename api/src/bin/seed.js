@@ -24,6 +24,11 @@ import {
     seedCorreosZones
 } from "./cexp.seed.js";
 
+import {
+    seedMrwZone,
+    seedMrwRate
+} from './mrw.seed.js';
+
 await seedAgencies();
 
 await seedZones();
@@ -41,6 +46,7 @@ await seedTecumRatesByQuantity('tecum');
 await seedCorreosRates();
 await seedCorreosZones();
 
-
+await seedMrwRate();
+await seedMrwZone();
 
 process.exit();

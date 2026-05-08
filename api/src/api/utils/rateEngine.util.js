@@ -136,3 +136,7 @@ export function calculateFuelSurcharge(supplements, basePrice) {
 
     return surchargeAmount;
 }
+
+export function matchDimensions(breaks, value) {
+    return breaks.find(b => value >= b.min && value <= b.max);
+}

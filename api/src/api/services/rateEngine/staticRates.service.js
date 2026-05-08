@@ -32,7 +32,8 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
     return agencies.map(agency => {
         try {
             const agencyId = agency.id.toString();
-
+            
+            const agencySupplements = agency?.supplements;
             const agencyZones = zonesByAgency[agencyId] || [];
             const agencyRates = ratesByAgency[agencyId] || [];
             const agencyPalletTypes = palletTypesByAgency[agencyId] || [];
@@ -53,12 +54,14 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
                         palletItems, 
                         agencyRates, 
                         agencyPalletTypes, 
-                        zone 
+                        zone,
+                        agencySupplements 
                     })
                 : calculateParcel({ 
                         parcelItems, 
                         agencyRates, 
-                        zone 
+                        zone,
+                        agencySupplements 
                     });
         
             if (services.length === 0) {

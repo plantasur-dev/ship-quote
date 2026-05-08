@@ -116,3 +116,23 @@ export function groupByAgency(collection) {
         return acc;
     }, {});
 };
+
+export function calculateFuelSurcharge(supplements, basePrice) {
+    const fuel = supplements?.fuelSurcharge;
+
+    if (!fuel?.enabled) return 0;
+
+    const { type, value } = fuel;
+
+    if (!value) return 0;
+
+    let surchargeAmount = 0;
+
+    if (type === 'percentage') {
+        surchargeAmount = basePrice * (value / 100);
+    } else if (type === 'fixed') {
+        surchargeAmount = value;
+    }
+
+    return surchargeAmount;
+}

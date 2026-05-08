@@ -29,15 +29,16 @@ export const mrwRates = {
             { min: 31, max: 35, price: 13.09 },
             { min: 36, max: 40, price: 14.41 }
         ],
-        extraKg: 0.24,
+        dimensionSurcharges: [
+            { min: 150, max: 200, price: 2.55 }, 
+            { min: 200, max: 250, price: 3.84 }, 
+            { min: 250, max: 300, price: 26.56 }
+        ],
+        extraKg: 0,
         constraints: {
             maxWeight: 40,
-            maxLength: 150,
-            maxSumDimensions: 240
+            maxLength: 0,
+            maxSumDimensions: 0
         }
     }
 }
-
-150-200	2,55 €
-200-250	3,84 €
-250-300	26,56 €

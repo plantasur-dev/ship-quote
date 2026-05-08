@@ -37,8 +37,8 @@ export const mrwRates = {
         extraKg: 0,
         constraints: {
             maxWeight: 40,
-            maxLength: 0,
-            maxSumDimensions: 0
+            maxLength: 300,
+            maxSumDimensions: 300
         }
     }
 }

@@ -30,8 +30,8 @@ export async function seedCorreosRates() {
             services: [{
                 service: "basic",
                 priceBreaks: data.priceBreaks,
-                extraKg: data.extraKg,
-                constraints: data.constraints
+                surcharges: data.surcharges,
+                limits: data.limits
             }]
         });
     }

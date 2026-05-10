@@ -41,8 +41,20 @@ export const correosRates = {
             { min: 2, max: 5, price: 3.83 },
             { min: 5, max: 10, price: 4.25 }
         ],
-        extraKg: 0.24,
-        constraints: {
+        surcharges: {
+            extraKg: {
+                enabled: true,
+                pricePerKg: 0.24
+            },
+            dimensionRanges: [],
+            multiParcelExcess: {
+                enabled: false,
+                thresholdKg: 40,
+                divisor: 1,
+                pricePerBlock: 0
+            }
+        },
+        limits: {
             maxWeight: 40,
             maxLength: 150,
             maxSumDimensions: 240
@@ -57,8 +69,20 @@ export const correosRates = {
             { min: 2, max: 5, price: 3.98 },
             { min: 5, max: 10, price: 4.40 }
         ],
-        extraKg: 0.27,
-        constraints: {
+        surcharges: {
+            extraKg: {
+                enabled: true,
+                pricePerKg: 0.27
+            },
+            dimensionRanges: [],
+            multiParcelExcess: {
+                enabled: false,
+                thresholdKg: 40,
+                divisor: 1,
+                pricePerBlock: 0
+            }
+        },
+        limits: {
             maxWeight: 40,
             maxLength: 150,
             maxSumDimensions: 240
@@ -73,8 +97,20 @@ export const correosRates = {
             { min: 2, max: 5, price: 4.80 },
             { min: 5, max: 10, price: 5.51 }
         ],
-        extraKg: 0.39,
-        constraints: {
+        surcharges: {
+            extraKg: {
+                enabled: true,
+                pricePerKg: 0.39
+            },
+            dimensionRanges: [],
+            multiParcelExcess: {
+                enabled: false,
+                thresholdKg: 40,
+                divisor: 1,
+                pricePerBlock: 0
+            }
+        },
+        limits: {
             maxWeight: 40,
             maxLength: 150,
             maxSumDimensions: 240

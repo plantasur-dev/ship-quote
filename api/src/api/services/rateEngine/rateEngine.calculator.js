@@ -28,7 +28,7 @@ const buildParcelOverweight = (index, maxWeight, itemWeight) => ({
 const round = (num) => Number(num.toFixed(2));
 
 function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, agencySupplements }) {
-    const { priceBreaks, extraKg = 0 } = service;
+    const { priceBreaks, surcharges } = service;
 
     const match = matchPrice(priceBreaks, totalWeight);
 
@@ -45,12 +45,12 @@ function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, agencyS
     }
 
     const last = priceBreaks?.[priceBreaks.length - 1];
-    if (!last || !extraKg) return null;
+    if (!last || !surcharges?.extraKg?.enabled) return null;
     
     const excessWeight = totalWeight - last.max;
     if (excessWeight <= 0) return null;
 
-    const extraCost = excessWeight * extraKg;
+    const extraCost = excessWeight * surcharges.extraKg.pricePerKg;
     
     const fuelExtraExcessWeight = 
         calculateFuelSurcharge(agencySupplements, last.price);
@@ -231,7 +231,7 @@ export function calculateParcel({
 
     return rate.services.flatMap((service, index) => {
         
-        const { service: serviceName, constraints = {}, dimensionSurcharges } = service;
+        const { service: serviceName, surcharges, limits = {} } = service;
 
         const excludedPackages = [];
 
@@ -242,16 +242,16 @@ export function calculateParcel({
             const height = item.height || 0;
             const sumDimensions = Number(large) + Number(width) + Number(height);
 
-            const maxWeight = constraints.maxPieceWeight || constraints.maxWeight;
+            const maxWeight = limits.maxPieceWeight || limits.maxWeight;
 
-            if (constraints.maxLength && large > constraints.maxLength) {
+            if (limits.maxLength && large > limits.maxLength) {
                 excludedPackages.push(
                     formatParcelResult({ result: null, serviceName, index, weight })
                 );
                 return null;
             }
 
-            if (constraints.maxSumDimensions && sumDimensions > constraints.maxSumDimensions) {
+            if (limits.maxSumDimensions && sumDimensions > limits.maxSumDimensions) {
                 excludedPackages.push(
                     formatParcelResult({ result: null, serviceName, index, weight })
                 );
@@ -265,7 +265,7 @@ export function calculateParcel({
                 return null;
             }
 
-            const extraDimensions = matchDimensions(dimensionSurcharges, sumDimensions);
+            const extraDimensions = matchDimensions(surcharges?.dimensionRanges || [], sumDimensions);
 
             const suppDimensions = (extraDimensions) ? extraDimensions?.price : 0;
 

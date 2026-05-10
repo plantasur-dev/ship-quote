@@ -29,13 +29,24 @@ export const mrwRates = {
             { min: 31, max: 35, price: 13.09 },
             { min: 36, max: 40, price: 14.41 }
         ],
-        dimensionSurcharges: [
-            { min: 150, max: 200, price: 2.55 }, 
-            { min: 200, max: 250, price: 3.84 }, 
-            { min: 250, max: 300, price: 26.56 }
-        ],
-        extraKg: 0,
-        constraints: {
+        surcharges: {
+            extraKg: {
+                enabled: false,
+                pricePerKg: 0
+            },
+            dimensionRanges: [
+                { min: 150, max: 200, price: 2.55 }, 
+                { min: 200, max: 250, price: 3.84 }, 
+                { min: 250, max: 300, price: 26.56 }
+            ],
+            multiParcelExcess: {
+                enabled: false,
+                thresholdKg: 40,
+                divisor: 1,
+                pricePerBlock: 0
+            }
+        },
+        limits: {
             maxWeight: 40,
             maxLength: 300,
             maxSumDimensions: 300

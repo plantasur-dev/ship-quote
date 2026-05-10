@@ -29,9 +29,8 @@ export async function seedMrwRate() {
             services: [{
                 service: "basic",
                 priceBreaks: data.priceBreaks,
-                dimensionSurcharges: data.dimensionSurcharges,
-                extraKg: data.extraKg,
-                constraints: data.constraints
+                surcharges: data.surcharges,
+                limits: data.limits
             }]
         });
     }

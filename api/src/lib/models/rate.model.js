@@ -17,19 +17,65 @@ const rangeAmountSchema = new mongoose.Schema({
     }
 });
 
+const surchargeSchema = new mongoose.Schema({
+    extraKg: {
+        enabled: {
+            type: Boolean,
+            default: false
+        },
+        pricePerKg: {
+            type: Number,
+            default: 0
+        }
+    },
+
+    dimensionRanges: [rangeAmountSchema],
+
+    multiParcelExcess: {
+        enabled: {
+            type: Boolean,
+            default: false
+        },
+
+        thresholdKg: {
+            type: Number,
+            default: 40
+        },
+
+        divisor: {
+            type: Number,
+            default: 1
+        },
+
+        pricePerBlock: {
+            type: Number,
+            default: 0
+        }
+    }
+}, {
+    timestamps: true,
+    versionKey: false,
+    toJSON: {
+        virtuals: true,
+        transform: function (doc, ret) {
+            delete ret._id;
+        },
+    }
+});
+
+
 const servicePriceSchema = new mongoose.Schema({
     service: {
         type: String,
         enum: ['economy', 'premium', 'express', 'basic'],
         default: 'basic'
     },
+
     priceBreaks: [rangeAmountSchema],
-    dimensionSurcharges: [rangeAmountSchema],
-    extraKg: {
-        type: Number,
-        default: 0
-    },
-    constraints: {
+
+    surcharges: surchargeSchema,
+
+    limits: {
         maxWeight: {
             type: Number,
             default: 0

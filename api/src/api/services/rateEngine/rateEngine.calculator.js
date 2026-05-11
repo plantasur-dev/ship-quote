@@ -7,6 +7,8 @@ import {
     groupPallets,
     findRate,
     calculateFuelSurcharge,
+    calculateAdditionalWeightBlockCost,
+    calculateExcessWeight,
     matchDimensions
 } from '../../utils/rateEngine.util.js';
 
@@ -45,21 +47,26 @@ function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, agencyS
     }
 
     const last = priceBreaks?.[priceBreaks.length - 1];
-    if (!last || !surcharges?.extraKg?.enabled) return null;
+    if (!last) return null;
     
     const excessWeight = totalWeight - last.max;
     if (excessWeight <= 0) return null;
 
-    const extraCost = excessWeight * surcharges.extraKg.pricePerKg;
+    const excessWeightCost = 
+        calculateExcessWeight(surcharges?.extraKg, excessWeight);
+    
+    const additionalBlockCost = 
+        calculateAdditionalWeightBlockCost(surcharges?.multiParcelExcess, totalWeight);
     
     const fuelExtraExcessWeight = 
         calculateFuelSurcharge(agencySupplements, last.price);
     
     return {
         calculeType: 'extra',
-        basePrice: round(last.price + fuelExtraExcessWeight + extraDimensionsCost),
-        extraCost,
+        basePrice: round(last.price + fuelExtraExcessWeight),
+        extraCost: excessWeightCost,
         excessWeight,
+        additionalBlockCost,
         extraDimensionsCost
     };
 }
@@ -87,20 +94,25 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
             total: result.price,
             breakdown: [
                 {
-                    type: "parcel",
+                    type: "Parcel",
                     totalWeight: round(totalWeight ?? itemWeight),
                     items: itemCount,
                     price: result.price
                 },
                 ...(result.extraDimensionsCost > 0 ? [{
-                    type: "extra dimensiones",
+                    type: "Extra dimensiones",
                     price: round(result.extraDimensionsCost)
                 }] : [])
             ]
         };
     }
 
-    const priceTotal = round(result.basePrice + result.extraCost);
+    const priceTotal = round(
+        result.basePrice + 
+        result.extraCost + 
+        result.additionalBlockCost +
+        result.extraDimensionsCost
+    );
 
     return {
         service: typeof index === 'number'
@@ -109,20 +121,24 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
         total: priceTotal,
         breakdown: [
             {
-                type: "parcel",
+                type: "Parcel",
                 totalWeight: round(totalWeight ?? itemWeight),
                 items: itemCount,
                 price: result.basePrice
             },
             ...(result.extraDimensionsCost > 0 ? [{
-                type: "extra dimensiones",
+                type: "Extra dimensiones",
                 price: round(result.extraDimensionsCost)
             }] : []),
-            {
-                type: "extra kg",
+            ...(result.additionalBlockCost > 0 ? [{
+                type: "Extra: suplemento por bloques de kg",
+                price: round(result.additionalBlockCost)
+            }] : []),
+            ...(result.extraCost > 0 ? [{
+                type: "Extra kg",
                 totalWeight: round(result.excessWeight),
                 price: round(result.extraCost)
-            }
+            }] : [])
         ]
     };
 }

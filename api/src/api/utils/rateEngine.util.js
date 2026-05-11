@@ -137,6 +137,27 @@ export function calculateFuelSurcharge(supplements, basePrice) {
     return surchargeAmount;
 }
 
+export function calculateExcessWeight(extraKg, excessWeight) {
+
+    if (!extraKg?.enabled) return 0;
+
+    return excessWeight * extraKg.pricePerKg;
+}
+
+export function calculateAdditionalWeightBlockCost(multiParcelExcess, totalWeight) {
+
+    if(!multiParcelExcess?.enabled) return 0;
+
+    const { thresholdKg, divisor, pricePerBlock } = multiParcelExcess;
+
+    if(totalWeight <= thresholdKg) return 0;
+    
+    const excessWeight = totalWeight - thresholdKg;
+    const numBlocks = Math.ceil(excessWeight / divisor);
+
+    return (numBlocks * pricePerBlock || 0);
+}
+
 export function matchDimensions(breaks, value) {
     return breaks.find(b => value >= b.min && value <= b.max);
 }

@@ -40,10 +40,10 @@ export const mrwRates = {
                 { min: 250, max: 300, price: 26.56 }
             ],
             multiParcelExcess: {
-                enabled: false,
+                enabled: true,
                 thresholdKg: 40,
-                divisor: 1,
-                pricePerBlock: 0
+                divisor: 5,
+                pricePerBlock: 4.15
             }
         },
         limits: {

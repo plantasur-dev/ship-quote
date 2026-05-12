@@ -80,7 +80,6 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
             };
 
         } catch (error) {
-            console.error(error);
 
             return {
                 agency: agency.name,

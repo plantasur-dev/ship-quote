@@ -75,10 +75,10 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
     if (!result) {
         if (typeof index === 'number') {
             return {
-                service: `No hay tarifa disponible - Paquete ${ index + 1 }`,
+                service: `Sin tarifa disponible - Paquete ${ index + 1 }`,
                 total: 0,
                 breakdown: [{
-                    type: "No hay tarifa disponible para las dimensiones"
+                    type: "Sin tarifa disponible para las dimensiones"
                 }]
             };
         }
@@ -92,6 +92,7 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
                 ? `${ serviceName } - ${ itemCount > 1 ? 'MultiBulto' : 'Paquete ' + Number(index + 1) }`
                 : serviceName,
             total: result.price,
+            itemCount,
             breakdown: [
                 {
                     type: "Parcel",
@@ -100,7 +101,7 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
                     price: result.price
                 },
                 ...(result.extraDimensionsCost > 0 ? [{
-                    type: "Extra dimensiones",
+                    type: "Recargo por dimensiones. El paquete supera las dimensiones estándar permitidas.",
                     price: round(result.extraDimensionsCost)
                 }] : [])
             ]
@@ -119,6 +120,7 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
             ? `${ serviceName } - ${ itemCount > 1 ? 'MultiBulto' : 'Paquete ' + Number(index + 1) }`
             : serviceName,
         total: priceTotal,
+        itemCount,
         breakdown: [
             {
                 type: "Parcel",
@@ -127,15 +129,15 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
                 price: result.basePrice
             },
             ...(result.extraDimensionsCost > 0 ? [{
-                type: "Extra dimensiones",
+                type: "Recargo por dimensiones. El paquete supera las dimensiones estándar permitidas.",
                 price: round(result.extraDimensionsCost)
             }] : []),
             ...(result.additionalBlockCost > 0 ? [{
-                type: "Extra: suplemento por bloques de kg",
+                type: "Recargo por peso adicional. El envío supera el peso incluido y se ha añadido un suplemento por bloques adicionales de kg.",
                 price: round(result.additionalBlockCost)
             }] : []),
             ...(result.extraCost > 0 ? [{
-                type: "Extra kg",
+                type: "Recargo por exceso de peso.",
                 totalWeight: round(result.excessWeight),
                 price: round(result.extraCost)
             }] : [])
@@ -154,14 +156,14 @@ function aggregateServices(items) {
             };
         }
 
-        acc[item.service].total += item.total;
+        acc[item.service].total = round(acc[item.service].total + item.total);
         acc[item.service].breakdown.push(item.breakdown);
 
         return acc;
     }, {}));
 }
 
-function calculateWeightVolume({ palletItems, agencyRates, zone }) {
+function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplements }) {
     const totalWeight = palletItems.reduce((sum, item) => 
         sum + getEffectiveWeight(item), 0
     );
@@ -174,13 +176,16 @@ function calculateWeightVolume({ palletItems, agencyRates, zone }) {
         const match = matchPrice(service.priceBreaks, totalWeight);
         if (!match) return acc;
 
+        const fuelExtraCost = 
+            calculateFuelSurcharge(agencySupplements, match.price);
+
         acc.push({
             service: service.service,
-            total: match.price,
+            total: round(match.price + fuelExtraCost),
             breakdown: [{
                 type: "weight_volume",
                 totalWeight,
-                price: match.price
+                price: round(match.price + fuelExtraCost)
             }]
         });
 
@@ -188,7 +193,7 @@ function calculateWeightVolume({ palletItems, agencyRates, zone }) {
     }, []);
 };
 
-function calculateSinglePallet({ palletItems, agencyRates, agencyPalletTypes, zone }) {
+function calculateSinglePallet({ palletItems, agencyRates, agencyPalletTypes, zone, agencySupplements }) {
     const groups = groupPallets(palletItems, agencyPalletTypes);
     const rateMap = calculeRateByField(agencyRates, 'palletTypeId');
 
@@ -200,9 +205,12 @@ function calculateSinglePallet({ palletItems, agencyRates, agencyPalletTypes, zo
             const match = matchPrice(service.priceBreaks, group.quantity);
             if (!match?.price) return acc;
 
+            const fuelExtraCost = 
+                calculateFuelSurcharge(agencySupplements, match.price);
+
             const total = rate.calculationType === "quantity"
-                ? match.price
-                : match.price * group.quantity;
+                ? round(match.price + fuelExtraCost)
+                : round((match.price + fuelExtraCost) * group.quantity);
 
             acc.push({
                 service: service.service,
@@ -211,7 +219,7 @@ function calculateSinglePallet({ palletItems, agencyRates, agencyPalletTypes, zo
                     type: "pallet",
                     palletType: group.palletType.name,
                     quantity: group.quantity,
-                    unitPrice: match.price,
+                    unitPrice: round(match.price + fuelExtraCost),
                 }
             });
 
@@ -260,7 +268,11 @@ export function calculateParcel({
 
             const maxWeight = limits.maxPieceWeight || limits.maxWeight;
 
-            if (limits.maxLength && large > limits.maxLength) {
+            if (limits.maxLength && 
+                    large > limits.maxLength ||
+                    width > limits.maxLength ||
+                    height > limits.maxLength
+                ) {
                 excludedPackages.push(
                     formatParcelResult({ result: null, serviceName, index, weight })
                 );
@@ -287,6 +299,10 @@ export function calculateParcel({
 
             return { ...item, suppDimensions };
         }).filter(Boolean);
+
+        if (items.length === 0) {
+            return [];
+        }
 
         const {
             extraDimensionsCost,
@@ -327,17 +343,15 @@ export function calculateParcel({
             agencySupplements 
         });
 
-        const ratedPackages = formatParcelResult({
-            result,
-            serviceName,
-            index,
-            itemWeight: totalWeight,
-            itemCount: items.length
-        });
-        
-        return [
-            ratedPackages,
-            ...excludedPackages
-        ];
+        const ratedPackages =
+            formatParcelResult({
+                result,
+                serviceName,
+                index,
+                itemWeight: totalWeight,
+                itemCount: items.length
+            });
+
+        return [ratedPackages, ...excludedPackages];
     });
 }

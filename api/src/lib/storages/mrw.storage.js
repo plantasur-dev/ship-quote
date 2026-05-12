@@ -3,11 +3,13 @@ export const mrwZones = {
     NACIONAL: {
         name: "NACIONAL",
         provinces: [
-            "ES-ZA", "ES-Z", "ES-VA", "ES-VI",
-            "ES-V", "ES-TO", "ES-T", "ES-TE",
-            "ES-SA", "ES-SG", "ES-SO", "ES-SS",
-            "ES-O", "ES-OR", "ES-P", "ES-PO",
-            "ES-S", "ES-A", "ES-J", "ES-CA", "ES-CO", "ES-H", "ES-SE", "ES-AL", "ES-MA","ES-GR"
+            "ES-J","ES-CO","ES-AB", "ES-AL", "ES-CR", "ES-SE", "ES-MA",
+            "ES-BA", "ES-CU", "ES-H", "ES-MU", "ES-A", "ES-CA", "ES-GR",
+            "ES-GU", "ES-M", "ES-SO", "ES-TO", "ES-AV", "ES-BU", "ES-LO", 
+            "ES-SG", "ES-VA", "ES-Z", "ES-VI", "ES-HU", "ES-LE", "ES-NA", 
+            "ES-P", "ES-SA", "ES-TE", "ES-V", "ES-ZA", "ES-CS", "ES-SS", 
+            "ES-L", "ES-O", "ES-S", "ES-T", "ES-BI", "ES-B", "ES-CC",
+            "ES-C", "ES-GI", "ES-LU", "ES-OR", "ES-PO"
         ],
         calculationMode: "parcel",
         pricingMode: "weight",

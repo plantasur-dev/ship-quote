@@ -22,7 +22,7 @@ export async function seedRatesAndalucia() {
       type: "pallet",
       zoneName: "ZONA 11",
       services: {
-        service: 'express',
+        service: 'economy',
         priceBreaks: buildVolumenBreaks(zona11)
       }
     },
@@ -31,7 +31,7 @@ export async function seedRatesAndalucia() {
       type: "pallet",
       zoneName: "ZONA 12",
       services: {
-        service: 'express',
+        service: 'economy',
         priceBreaks: buildVolumenBreaks(zona12)
       }
     }

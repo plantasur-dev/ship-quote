@@ -29,7 +29,7 @@ export async function seedRates() {
         zoneName: zone,
         palletTypeId: pallet._id,
         services: {
-          service: 'express',
+          service: 'economy',
           priceBreaks: fixedPrice(prices[i])
         }
       });
@@ -46,7 +46,7 @@ export async function seedRates() {
       palletTypeId: completoType._id,
       calculationType: 'quantity',
       services: {
-        service: 'express',
+        service: 'economy',
         priceBreaks: buildBreaks(prices)
       }
     });
@@ -62,7 +62,7 @@ export async function seedRates() {
       palletTypeId: superType._id,
       calculationType: 'quantity',
       services: {
-        service: 'express',
+        service: 'economy',
         priceBreaks: buildBreaks(prices)
       }
     });

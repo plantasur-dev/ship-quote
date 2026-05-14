@@ -14,6 +14,7 @@ export const provincesData = [
     { name: "Castellón", adminCode: "CS", postalCode: "12" },
     { name: "Ciudad Real", adminCode: "CR", postalCode: "13" },
     { name: "Córdoba", adminCode: "CO", postalCode: "14" },
+    { name: "Coruña", adminCode: "C", postalCode: "15" },
     { name: "Cuenca", adminCode: "CU", postalCode: "16" },
     { name: "Gerona", adminCode: "GI", postalCode: "17" },
     { name: "Granada", adminCode: "GR", postalCode: "18" },

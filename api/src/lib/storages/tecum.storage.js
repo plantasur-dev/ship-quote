@@ -107,14 +107,14 @@ export const exceptions = [
 
 //------------------------------ PALLETS --------------------------------
 export const palletTypesRaw = [
-  { name: "FULL PALLET", maxWeight: 1200,  maxLength: 100, maxWidth: 120, maxHeight: 220 },
-  { name: "EURO PALLET", maxWeight: 900,  maxLength: 80, maxWidth: 120, maxHeight: 220 },
-  { name: "HALF PALLET", maxWeight: 600,  maxLength: 100, maxWidth: 120, maxHeight: 160 },
-  { name: "EXTRA LIGHT PALLET", maxWeight: 450,  maxLength: 100, maxWidth: 120, maxHeight: 220 },
-  { name: "SUPER EURO LIGHT PALLET", maxWeight: 300,  maxLength: 80, maxWidth: 120, maxHeight: 220 },
+  { name: "FULL PALLET", maxWeight: 1200,  maxLength: 120, maxWidth: 100, maxHeight: 220 },
+  { name: "EURO PALLET", maxWeight: 900,  maxLength: 120, maxWidth: 80, maxHeight: 220 },
+  { name: "HALF PALLET", maxWeight: 600,  maxLength: 120, maxWidth: 100, maxHeight: 160 },
+  { name: "EXTRA LIGHT PALLET", maxWeight: 450,  maxLength: 120, maxWidth: 100, maxHeight: 220 },
+  { name: "SUPER EURO LIGHT PALLET", maxWeight: 300,  maxLength: 120, maxWidth: 80, maxHeight: 220 },
   { name: "QUARTER PALLET", maxWeight: 300,  maxLength: 120, maxWidth: 120, maxHeight: 110 },
-  { name: "MINI QUARTER PALLET", maxWeight: 150,  maxLength: 100, maxWidth: 120, maxHeight: 80 },
-  { name: "MINI QUARTER PALLET", maxWeight: 150,  maxLength: 80, maxWidth: 60, maxHeight: 120 }
+  { name: "MINI QUARTER PALLET", maxWeight: 150,  maxLength: 120, maxWidth: 1000, maxHeight: 80 },
+  { name: "MINI QUARTER PALLET", maxWeight: 150,  maxLength: 60, maxWidth: 80, maxHeight: 120 }
 ];
 
 // ---------------- RATES TECUM ----------------

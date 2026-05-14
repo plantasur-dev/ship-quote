@@ -5,7 +5,7 @@ export function calculateVolume(item) {
 }
 
 // Peso volumétrico (estándar transporte)
-export function calculateVolumetricWeight(item, volQuantity) {
+export function calculateVolumetricWeight(item, volQuantity = 1000000) {
     return calculateVolume(item) / volQuantity;
 }
 

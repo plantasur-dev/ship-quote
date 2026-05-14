@@ -41,28 +41,41 @@ export function classifyPallet(item, palletTypes) {
     return null;
 }
 
-// Agrupar pallets
 export function groupPallets(items, palletTypes) {
-    const groups = {};
 
-    items.forEach(item => {
+    const result = items.reduce((acc, item) => {
         const type = classifyPallet(item, palletTypes);
 
-        if (!type) return;
+        if (!type) {
+            acc.rejected.push({
+                type: 'No pallet type matched',
+                ...item
+            });
 
-        if (!groups[type.id]) {
-            groups[type.id] = {
+            return acc;
+        }
+
+        if (!acc.groups[type.id]) {
+            acc.groups[type.id] = {
                 palletType: type,
                 quantity: 0,
                 items: []
             };
         }
 
-        groups[type.id].quantity += 1;
-        groups[type.id].items.push(item);
+        acc.groups[type.id].quantity += 1;
+        acc.groups[type.id].items.push(item);
+
+        return acc;
+    }, {
+        groups: {},
+        rejected: []
     });
 
-    return Object.values(groups);
+    return { 
+        groups: Object.values(result.groups), 
+        rejected: result.rejected 
+    }
 }
 
 export function resolveZone(zones, postalCode, province) {
@@ -161,3 +174,5 @@ export function calculateAdditionalWeightBlockCost(multiParcelExcess, totalWeigh
 export function matchDimensions(breaks, value) {
     return breaks.find(b => value >= b.min && value <= b.max);
 }
+
+export const round = (num) => Number(num.toFixed(2));

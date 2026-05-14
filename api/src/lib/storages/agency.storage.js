@@ -9,6 +9,13 @@ export const agencies = [
             hasAndaluciaRule: true,
             supportsPallets: true,
             supportsParcels: false
+        },
+        supplements: {
+            fuelSurcharge: {
+                enabled: true,
+                type: 'percentage',
+                value: 10.81
+            }
         }
     },
     {

@@ -12,21 +12,21 @@ export const correosZones = {
             "ES-C", "ES-GI", "ES-LU", "ES-OR", "ES-PO"
         ],
         calculationMode: "parcel",
-        pricingMode: "weight_volume",
+        pricingMode: { type: "weight_volume" },
         postalCodeExceptions: []
     },
     ANDALUCIA: {
         name: "ANDALUCIA",
         provinces: [],
         calculationMode: "parcel",
-        pricingMode: "weight_volume",
+        pricingMode: { type: "weight_volume" },
         postalCodeExceptions: []
     },
     PROVINCIAL: {
         name: "PROVINCIAL",
         provinces: [],
         calculationMode: "parcel",
-        pricingMode: "weight_volume",
+        pricingMode: { type: "weight_volume" },
         postalCodeExceptions: []
     }
 

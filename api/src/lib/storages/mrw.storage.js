@@ -12,7 +12,7 @@ export const mrwZones = {
             "ES-C", "ES-GI", "ES-LU", "ES-OR", "ES-PO"
         ],
         calculationMode: "parcel",
-        pricingMode: "weight",
+        pricingMode: { type: "weight" },
         postalCodeExceptions: []
     }
 }

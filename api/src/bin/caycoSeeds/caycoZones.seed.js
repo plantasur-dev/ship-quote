@@ -23,15 +23,27 @@ export async function seedZones() {
     grouped[zone].push(province.trim());
   });
 
-  const zonesToInsert = Object.entries(grouped).map(([zoneName, provinces]) => ({
-    agencyId: agency._id,
-    name: zoneName,
-    provinces,
-    calculationMode: "pallet",
-    pricingMode: ["ZONA 11", "ZONA 12"].includes(zoneName)
-      ? "weight_volume"
-      : "weight"
-  }));
+  const zonesToInsert = Object.entries(grouped)
+    .map(([zoneName, provinces]) => {
+
+      const type = ["ZONA 11", "ZONA 12"].includes(zoneName)
+        ? "weight_volume"
+        : "weight"
+
+      return {
+        agencyId: agency._id,
+        name: zoneName,
+        provinces,
+        calculationMode: "pallet",
+        pricingMode: {
+          type,
+          tonnagePricingRule: {
+            enabled: type === "weight_volume"
+          }
+        }
+      }
+    }
+  );
 
   await Zone.insertMany(zonesToInsert);
 

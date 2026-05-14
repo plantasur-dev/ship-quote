@@ -20,9 +20,25 @@ const zoneSchema = new mongoose.Schema({
         default: "pallet"
     },
     pricingMode: {
-        type: String,
-        enum: ["weight", "weight_volume"],
-        default: "weight"
+        type: {
+            type: String,
+            enum: ["weight", "weight_volume"],
+            default: "weight"
+        },
+        tonnagePricingRule: {
+            enabled: { 
+                type: Boolean, 
+                default: false 
+            },
+            threshold: { 
+                type: Number, 
+                default: 2001 
+            },
+            unit: { 
+                type: String, 
+                default: "€/ton" 
+            }
+        }
     },
     postalCodeExceptions: {
         type: [{

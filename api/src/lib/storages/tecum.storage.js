@@ -9,7 +9,7 @@ export const zones = [
   { name: "ZONA 24", provinces: ["ES-BA", "ES-CU", "ES-H", "ES-MU"] },
   { name: "ZONA 25", provinces: ["ES-A", "ES-CA"] },
   { name: "ZONA 16", provinces: ["ES-GR"] },
-  { name: "ZONA 17", provinces: [] },
+  { name: "ZONA 17", provinces: ["ES-GR"] },
 
   { name: "ZONA 1", provinces: ["ES-GU", "ES-M"] },
 
@@ -102,7 +102,12 @@ export const exceptions = [
   ex("25720", "25721", "ZONA 7"),
   ex("25724", "25724", "ZONA 7"),
   ex("25726", "25726", "ZONA 7"),
-  ex("25727", "25727", "ZONA 7")
+  ex("25727", "25727", "ZONA 7"),
+
+  ex("18001", "18015", "ZONA 16"),
+  ex("18100", "18199", "ZONA 16"),
+  ex("18200", "18330", "ZONA 16"),
+  ex("18600", "18700", "ZONA 16")
 ];
 
 //------------------------------ PALLETS --------------------------------

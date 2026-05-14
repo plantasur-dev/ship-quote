@@ -21,18 +21,28 @@ export default class CarrierService {
             const response = await fetch(url, {
                 ...options,
                 signal: controller.signal,
-                body: options.method === "GET" 
+                body: options.method === "GET" || !data
                     ? undefined 
                     : JSON.stringify(data)
             });
-
+            
             const dataRes = await response.json();
+            
+            if (!response.ok) {
+                throw createHttpError(
+                    dataRes?.status || 400,
+                    `${ dataRes?.message } \n ${ dataRes?.details }` || 
+                    ` Request failed ${ dataRes }` ||
+                    ` Request failed with status ${ response.status } `
+                );
+            }
 
             return dataRes;    
         } catch (error) {
-            console.error("API Error: ", error);
-
-            throw createHttpError(502, `Carrier API request failed ${ error }`);
+            throw createHttpError(
+                502, 
+                `Carrier API request failed  ${ error?.error }.  ${ error?.message }`
+            );
         } finally {
             clearTimeout(id);
         }
@@ -57,10 +67,10 @@ export default class CarrierService {
         const { quotations } = endpoints;
 
         if (!baseUrlApi)
-            throw new createHttpError(400, "Empty baseUrlAPI");
+            throw createHttpError(400, "Empty baseUrlAPI");
 
         if (!quotations) 
-            throw new createHttpError(400, "Empty endpoint quotations");
+            throw createHttpError(400, "Empty endpoint quotations");
 
         const response = await this.fetchApi(
             `${ baseUrlApi }/${ quotations }`, 

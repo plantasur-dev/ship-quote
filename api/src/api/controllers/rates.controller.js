@@ -1,4 +1,5 @@
 
+import createHttpError from 'http-errors';
 import rateEngine from '../services/rateEngine.service.js';
 
 export async function compare(req, res) {
@@ -9,6 +10,8 @@ export async function compare(req, res) {
         province,
         items
     });
+
+    if(!result) createHttpError(404, 'Compare not found');
 
     res.json(result);
 }

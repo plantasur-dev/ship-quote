@@ -15,19 +15,13 @@ export default class DascherService extends CarrierService {
                     "product": "Y",
                     "term": "031",
                     "consignor": {
-                        "id": "<consignor id>"
+                        "id": "46333461"
                     },
                 "consignee": {
                     "addressInformation": {
                         "postalCode": input.destinationPostalCode,
                         "countryCode": "ES"
                     }
-                },
-                "transportOptions": {
-                    "deliveryTailLift": true,
-                    "selfCollector": true,
-                    "frostProtected": true,
-                    "storageSpace": 10
                 },
                 "transportOrderLines": input.items.map(item => {
                     return {
@@ -39,7 +33,7 @@ export default class DascherService extends CarrierService {
                         },
                         "loadingMetre": 0.4,
                         "measure": {
-                            "length": item.length,
+                            "length": item.large,
                             "width": item.width,
                             "height": item.height,
                             "unit": "CM",
@@ -60,14 +54,13 @@ export default class DascherService extends CarrierService {
             headers: {
                 "accept": "application/json",
                 "Content-Type": "application/json",
-                "X-API-Key": apiKey,
+                "X-API-Key": apiKey.trim(),
             },
         }
     }
 
     mapResponse(data) {
         return {
-            available: true,
             services: [{
                 service: data?.id,
                 total: data?.totalAmount?.amount,

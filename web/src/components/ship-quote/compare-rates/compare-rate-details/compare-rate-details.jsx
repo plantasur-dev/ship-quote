@@ -7,7 +7,7 @@ import CompareRateSekeletonDetails from './compare-rate-skeleton-details';
 
 export default function CompareRateDetails({ isLoading, error, resultRates = [] }) {
     const [open, setOpen] = useState(null);
-
+    
     if (isLoading) return <CompareRateSekeletonDetails />;
 
     if (error) {
@@ -62,19 +62,30 @@ export default function CompareRateDetails({ isLoading, error, resultRates = [] 
                                     key={ j }
                                     className="bg-white/80 border border-slate-200 rounded-xl p-4"
                                 >
-                                <div className="flex justify-between items-center">
-                                    <div>
-                                        <p className="font-medium capitalize">
-                                            { service.service }
-                                        </p>
-                                    </div>
 
-                                    <div className="text-right">
-                                        <p className="text-xl font-bold text-indigo-600">
-                                            { service.total } €
-                                        </p>
+                                { !service.isRejected ?
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            <p className="font-medium capitalize">
+                                                { service.service } { service?.itemCount && <> | Total Bultos ({ service?.itemCount }) </> }
+                                            </p>
+                                        </div>
+
+                                        <div className="text-right">
+                                            <p className="text-xl font-bold text-indigo-600">
+                                                { service.total } €
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
+                                :
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            <p className="font-medium">
+                                                { service.service }
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
 
                                 <button
                                     onClick={ () =>
@@ -98,26 +109,49 @@ export default function CompareRateDetails({ isLoading, error, resultRates = [] 
                                                 { b.type }
                                             </p>
 
-                                            { b.palletType && (
-                                                <p className="text-xs text-slate-500">
-                                                    { b.palletType }
-                                                </p>
-                                            )}
+                                            <div className="mt-1 flex flex-wrap gap-x-3 text-xs text-slate-500">
+                                                { b.palletType && 
+                                                    <span>{ b.palletType }</span> 
+                                                }
 
-                                            {b.totalWeight && (
-                                            <p className="text-xs text-slate-500">
-                                                { b.totalWeight } kg
-                                            </p>
-                                            )}
+                                                { b.totalWeight && 
+                                                    <span>{ b.totalWeight.toFixed(2) } kg</span> 
+                                                }
+
+                                                { service?.isRejected && (
+                                                    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                                                        <span className="text-sm">
+                                                            <span className="font-medium text-slate-700">Peso:</span>{" "}
+                                                            { b.weight } kg
+                                                        </span>
+
+                                                        <span>
+                                                            <span className="font-medium text-slate-700">L:</span>{" "}
+                                                            { b.large }
+                                                        </span>
+
+                                                        <span>
+                                                            <span className="font-medium text-slate-700">A:</span>{" "}
+                                                            { b.width }
+                                                        </span>
+
+                                                        <span>
+                                                            <span className="font-medium text-slate-700">H:</span>{" "}
+                                                            { b.height }
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
 
                                         <div className="text-right">
-                                            {b.unitPrice && (
-                                            <p>
-                                                € { b.unitPrice } x { b.quantity }
-                                            </p>
+                                            { b.unitPrice && (
+                                                <p>
+                                                    { b.unitPrice } € x { b.quantity } 
+                                                </p>
                                             )}
-                                            { b.price && <p>€ { b.price }</p> }
+
+                                            { b.price && <p> { b.price } €</p> }
                                         </div>
                                         </div>
                                     ))}

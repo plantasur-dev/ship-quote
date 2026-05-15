@@ -41,11 +41,11 @@ function CompareRateItemsDetails({ items, onRemove }) {
                                 ${ typeStyles[item.typeServices]?.container }
                             `}
                         >
-                            <span className={`text-xs font-semibold ${ typeStyles[item.typeServices]?.accent }`}>
-                                { item.typeServices.charAt(0).toUpperCase() + item.typeServices.slice(1) }
+                            <span className={`text-xs font-semibold whitespace-nowrap ${ typeStyles[item.typeServices]?.accent }`}>
+                                { item.typeServices.charAt(0).toUpperCase() + item.typeServices.slice(1) } ({ index + 1 })
                             </span>
  
-                            <div className="relative z-10 grid grid-cols-4 gap-4 w-full text-sm">
+                            <div className="relative z-10 grid grid-cols-4 gap-2 w-full text-sm">
                                 <div>
                                     <p className="text-slate-400 text-xs">Largo</p>
                                     <p className="font-medium text-slate-700">{ item.large } cm</p>

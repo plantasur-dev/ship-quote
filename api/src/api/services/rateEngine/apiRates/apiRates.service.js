@@ -26,7 +26,7 @@ export default async function getApiRates(agencies, input) {
         return {
           agency: agency.name,
           available: false,
-          reason: `API Error (${ error?.status }): Error from provider API: ${ error?.message }`
+          reason: `API (${ error?.status }) Error from provider: ${ error?.message }`
         };
       }  
     })

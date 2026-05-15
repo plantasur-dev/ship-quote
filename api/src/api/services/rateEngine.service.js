@@ -10,10 +10,11 @@ async function rateEngine(input) {
 
     const agencies = await Agency.find({ active: { $ne: false } });
 
-    const staticAgencies = agencies.filter(agency => 
-        agency.type === "static" || 
-        agency.type === "hybrid"
-    );
+    const staticAgencies = 
+        agencies.filter(agency => 
+            agency.type === "static" || agency.type === "hybrid"
+        );
+        
     const apiAgencies = agencies.filter(agency => agency.type === "api");
 
     const [staticResults, apiResults] = await Promise.all([

@@ -1,16 +1,14 @@
 
 import {
-    getEffectiveWeight,
     calculateVolumetricWeight,
-    calculeRateByField,
     matchPrice,
-    groupPallets,
     findRate,
     calculateFuelSurcharge,
     calculateAdditionalWeightBlockCost,
     calculateExcessWeight,
-    matchDimensions
-} from '../../utils/rateEngine.util.js';
+    matchDimensions,
+    round
+} from '../../../utils/rateEngine.util.js';
 
 const buildParcelError = (message = '') => ({
     service: `No hay tarifa disponible`,
@@ -26,8 +24,6 @@ const buildParcelOverweight = (index, maxWeight, itemWeight) => ({
         totalWeight: itemWeight
     }]
 });
-
-const round = (num) => Number(num.toFixed(2));
 
 function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, agencySupplements }) {
     const { priceBreaks, surcharges } = service;
@@ -144,99 +140,6 @@ function formatParcelResult({ result, serviceName, index, itemWeight, totalWeigh
         ]
     };
 }
-
-function aggregateServices(items) {
-    return Object.values(items.reduce((acc, item) => {
-
-        if (!acc[item.service]) {
-            acc[item.service] = {
-                service: item.service,
-                total: 0,
-                breakdown: []
-            };
-        }
-
-        acc[item.service].total = round(acc[item.service].total + item.total);
-        acc[item.service].breakdown.push(item.breakdown);
-
-        return acc;
-    }, {}));
-}
-
-function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplements }) {
-    const totalWeight = palletItems.reduce((sum, item) => 
-        sum + getEffectiveWeight(item), 0
-    );
-
-    const rateMap = calculeRateByField(agencyRates);
-    const rate = rateMap.get(`${zone.name}_pallet`);
-    if (!rate) return [];
-
-    return rate.services.reduce((acc, service) => {
-        const match = matchPrice(service.priceBreaks, totalWeight);
-        if (!match) return acc;
-
-        const fuelExtraCost = 
-            calculateFuelSurcharge(agencySupplements, match.price);
-
-        acc.push({
-            service: service.service,
-            total: round(match.price + fuelExtraCost),
-            breakdown: [{
-                type: "weight_volume",
-                totalWeight,
-                price: round(match.price + fuelExtraCost)
-            }]
-        });
-
-        return acc;
-    }, []);
-};
-
-function calculateSinglePallet({ palletItems, agencyRates, agencyPalletTypes, zone, agencySupplements }) {
-    const groups = groupPallets(palletItems, agencyPalletTypes);
-    const rateMap = calculeRateByField(agencyRates, 'palletTypeId');
-
-    const results = groups.flatMap(group => {
-        const rate = rateMap.get(`${zone.name}_${group.palletType.id}`);
-        if (!rate) return [];
-
-        return rate.services.reduce((acc, service) => {
-            const match = matchPrice(service.priceBreaks, group.quantity);
-            if (!match?.price) return acc;
-
-            const fuelExtraCost = 
-                calculateFuelSurcharge(agencySupplements, match.price);
-
-            const total = rate.calculationType === "quantity"
-                ? round(match.price + fuelExtraCost)
-                : round((match.price + fuelExtraCost) * group.quantity);
-
-            acc.push({
-                service: service.service,
-                total,
-                breakdown: {
-                    type: "pallet",
-                    palletType: group.palletType.name,
-                    quantity: group.quantity,
-                    unitPrice: round(match.price + fuelExtraCost),
-                }
-            });
-
-            return acc;
-        }, []);
-    });
-
-    return aggregateServices(results);
-};
-
-export function calculatePallet(params) {
-    const { zone } = params;
-
-    return (zone.pricingMode === 'weight_volume')
-        ? calculateWeightVolume({ ...params })
-        : calculateSinglePallet({ ...params });
-};
 
 export function calculateParcel({
     parcelItems,

@@ -37,7 +37,7 @@ export default class CarrierService {
                 responseData = await response.text();
             }
             
-            if (!responseData.ok) {
+            if (!response.ok) {
                 const message =
                 responseData?.message ||
                 responseData?.details ||
@@ -52,6 +52,13 @@ export default class CarrierService {
 
             return responseData;    
         } catch (error) {
+            if (error.name === "AbortError") {
+                throw createHttpError(
+                    408,
+                    `Request timeout after ${ timeout }ms`
+                );
+            }
+
             throw createHttpError(
                 error?.status || 502, 
                 error?.message

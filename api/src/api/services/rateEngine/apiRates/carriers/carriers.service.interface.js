@@ -1,6 +1,5 @@
 
 import createHttpError from "http-errors";
-
 export default class CarrierService {
     constructor(agency) {
         if (new.target === CarrierService) {
@@ -15,36 +14,50 @@ export default class CarrierService {
     
         const controller = new AbortController();
 
-        const id = setTimeout(() => controller.abort(), timeout);
+        const timeoutId = setTimeout(() => {
+            controller.abort();
+        }, timeout);
 
         try {
+            const method = options.method?.toUpperCase() || "GET";
+
             const response = await fetch(url, {
                 ...options,
                 signal: controller.signal,
-                body: options.method === "GET" || !data
-                    ? undefined 
+                body: ["GET", "HEAD"].includes(method)
+                    ? undefined
                     : JSON.stringify(data)
             });
             
-            const dataRes = await response.json();
+            let responseData = null;
+
+            try {
+                responseData = await response.json();    
+            } catch (error) {
+                responseData = await response.text();
+            }
             
-            if (!response.ok) {
+            if (!responseData.ok) {
+                const message =
+                responseData?.message ||
+                responseData?.details ||
+                response.statusText ||
+                "Request failed";
+
                 throw createHttpError(
-                    dataRes?.status || 400,
-                    `${ dataRes?.message } \n ${ dataRes?.details }` || 
-                    ` Request failed ${ dataRes }` ||
-                    ` Request failed with status ${ response.status } `
+                    response.status || 400,
+                    message
                 );
             }
 
-            return dataRes;    
+            return responseData;    
         } catch (error) {
             throw createHttpError(
-                502, 
-                `Carrier API request failed  ${ error?.error }.  ${ error?.message }`
+                error?.status || 502, 
+                error?.message
             );
         } finally {
-            clearTimeout(id);
+            clearTimeout(timeoutId);
         }
     }
 

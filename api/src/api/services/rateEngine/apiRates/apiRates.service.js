@@ -1,7 +1,7 @@
 
 import { carrierFactory } from './carriers/carriers.service.js';
 
-export default async function getApiRates(agencies, input) { 
+export default async function getApiRates(agencies, input) {
   const results = await Promise.all(
     agencies.map(async (agency) => {
       try {
@@ -26,7 +26,7 @@ export default async function getApiRates(agencies, input) {
         return {
           agency: agency.name,
           available: false,
-          reason: error?.message || " API Error: Error from provider API"
+          reason: `API Error (${ error?.status }): Error from provider API: ${ error?.message }`
         };
       }  
     })

@@ -7,20 +7,44 @@ function ResetButton() {
 
     const items = useWatch({ control, name:'items' })
 
-    return(
-        <button 
-            onClick={ () => reset() }
+    return (
+        <button
+            type="button"
+
+            onClick={() => reset()}
+
             disabled={ items.length === 0 }
-            className={`
-                py-3 
-                text-sm 
-                font-medium 
+
+            className="
+                inline-flex
+                h-11
+                items-center
+                justify-center
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                px-5
+                text-sm
+                font-medium
+                text-slate-700
+                shadow-sm
+                transition-all
+                duration-200
+
                 cursor-pointer
-                ${ items.length 
-                    ? `text-indigo-500 hover:text-shadow-2xs` 
-                    : `text-indigo-300`
-                }
-            `}>
+
+                hover:border-slate-300
+                hover:bg-slate-50
+
+                active:scale-[0.98]
+
+                disabled:cursor-not-allowed
+                disabled:opacity-40
+                disabled:hover:border-slate-200
+                disabled:hover:bg-white
+            "
+        >
             Limpiar campos
         </button>
     );

@@ -14,20 +14,39 @@ function ProvinceDisplay({ provinces }) {
     const provincesFilter = findProvinceByPostalCode(provinces, postalCode);
     
     return (
-        <> 
-            { watchCountry === 'ES' && (
-                <div>
-                    <label className="text-sm text-slate-500">Provincia</label>
-                    <input
-                        value={ provincesFilter?.name || 'Desconocido' }
-                        className="w-full mt-1 px-4 py-3 rounded-lg bg-white/60 border border-slate-200 opacity-60 disabled"
-                        placeholder="Granada"
-                        disabled
-                    />
+    <>
+        { watchCountry === 'ES' && (
+            <div className="space-y-2">
+
+                <label className="text-sm font-medium text-slate-700">
+                    Provincia
+                </label>
+
+                <div
+                    className="
+                        flex
+                        h-12
+                        items-center
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-slate-50/80
+                        px-4
+                        text-sm
+                        text-slate-700
+                        shadow-sm
+                    "
+                >
+                    <span className="mr-2 opacity-70">
+                        📍
+                    </span>
+
+                    { provincesFilter?.name || 'Desconocido' }
                 </div>
-            )}
-        </>
-    );
+            </div>
+        )}
+    </>
+);
 }
 
 export default ProvinceDisplay;

@@ -80,8 +80,7 @@ export default class CarrierService {
         throw new Error("normalizeResponse() not Implemented");
     }
 
-    async getRates(input) {
-
+    async getRates(input) {        
         const { baseUrlApi, endpoints, apiKey, timeout } = this.apiConfig;
         
         const { quotations } = endpoints;
@@ -92,13 +91,19 @@ export default class CarrierService {
         if (!quotations) 
             throw createHttpError(400, "Empty endpoint quotations");
 
+        const { supportsPallets } = this.agency?.rules;
+
+        const items = input?.items
+            .filter(item => supportsPallets && item.typeServices === "pallet") 
+            || [];
+
         const response = await this.fetchApi(
             `${ baseUrlApi }/${ quotations }`, 
             this.buildRequestHeaders(apiKey), 
-            this.buildRequestBody(input), 
+            this.buildRequestBody(input, items), 
             timeout
         );
 
-        return this.mapResponse(response);
+        return this.mapResponse(response, items);
     }
 }

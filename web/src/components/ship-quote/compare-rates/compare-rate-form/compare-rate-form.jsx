@@ -8,20 +8,19 @@ import {
     useCountries, 
 } from "../../../../hooks";
 
-import CompareRateSkeletonForm from '../compare-rate-skeleton/compare-rate-skeleton-form';
+import CompareRateItemsDetails from './item-draft-details/item-draft-details';
 
-import CompareRateItemsDetails from '../compare-rate-items-details/compare-rate-items-details';
-
-import { 
+import {
+    SkeletonForm,
     CountrySelector,
     PostalCodeInput,
     ProvinceDisplay,
     ItemDraftForm,
+    ItemDraftDetails,
     SubmitButton,
     ResetButton,
     ErrorsForm
 } from './.'
-
 
 function CompareRateForm({ handlerCalculateRates }) {
 
@@ -38,7 +37,7 @@ function CompareRateForm({ handlerCalculateRates }) {
         setValue: form.setValue
     });
    
-    if (isLoadingCountries || isLoadingProvinces) return <CompareRateSkeletonForm />;
+    if (isLoadingCountries || isLoadingProvinces) return <SkeletonForm />;
     
     const externalErrors = {
         ...(countriesError ? { countries: countriesError } : {}),
@@ -53,37 +52,61 @@ function CompareRateForm({ handlerCalculateRates }) {
     return (
         <FormProvider { ...form }>
             <form 
+                className="relative rounded-3xl border border-slate-200 bg-white/80 p-8 shadow-2xl backdrop-blur-xl"
                 onSubmit={ form.handleSubmit(handlerCalculateRates) }
-                className="backdrop-blur-xl bg-white/60 border border-white/70 shadow-xl rounded-2xl p-6"
             >
-                <ErrorsForm serverErrors={ allServerErrors } />
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent" />
 
-                <div className="space-y-4">
-                    <CountrySelector
-                        countries={ countries } 
-                        isLoadingCountries={ isLoadingCountries }
-                    />
+                <div className="mb-8">
+                    <h2 className="text-2xl font-semibold tracking-tight">
+                    Compare shipping rates
+                    </h2>
 
-                    <PostalCodeInput />
-                    
-                    <ProvinceDisplay 
-                        provinces={ provinces }
-                    />
-
-                    <ItemDraftForm
-                        onAddItem={ form.addItem }
-                    />
-
-                    <CompareRateItemsDetails 
-                        items={ form.items } 
-                        onRemove={ form.removeItem }
-                    />
-
-                    <ResetButton />
-
-                    <SubmitButton />
+                    <p className="mt-2 text-sm text-slate-500">
+                    Get the best shipping option instantly.
+                    </p>
                 </div>
+
+                <div className="space-y-8">
+
+                    <section className="space-y-5">
+                        <CountrySelector 
+                            countries={ countries } 
+                            isLoadingCountries={ isLoadingCountries }
+                        />
+
+                        <PostalCodeInput />
+
+                        <ProvinceDisplay 
+                            provinces={ provinces }
+                        />
+                    </section>
+
+                    <section className="space-y-5">
+                        <ItemDraftForm 
+                            onAddItem={ form.addItem }
+                        />
+                        
+                        <ItemDraftDetails 
+                            items={ form.items } 
+                            onRemove={ form.removeItem }
+                        />
+                    </section>
+
+                    <section className="flex gap-3 pt-2">
+                        <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row">
+                            <ResetButton />
+
+                            <div className="flex-1">
+                                <SubmitButton />
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
             </form>
+
         </FormProvider>
     );
 }

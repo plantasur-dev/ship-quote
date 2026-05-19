@@ -6,51 +6,40 @@ import {
     groupPallets,
     calculateFuelSurcharge,
     round
-} from '../../../utils/rateEngine.util.js';
+} from '../../../../utils/rateEngine.util.js';
 
-function buildRejectedServices(rejected) {
+import { 
+    buildRateResult,
+    buildConcept, 
+    buildIncident 
+} from '../../domains/buildRateResult.js';
+
+import { presentRate } from '../../presenters/rate.presenter.js';
+
+export function buildRejectedServices(rejected) {
     if (!rejected.length) return [];
 
-    return [{
-        service: "Pallet sin tarifa por dimensión",
-        isRejected: true,
-        breakdown: [...rejected]
-    }];
-}
-
-function aggregateServices(items) {
-    return Object.values(items.reduce((acc, item) => {
-
-        if (!acc[item.service]) {
-            acc[item.service] = {
-                service: item.service,
-                total: 0,
-                breakdown: []
-            };
-        }
-
-        acc[item.service].total = 
-            round(acc[item.service].total + item.total);
-        acc[item.service].breakdown.push(item.breakdown);
-
-        return acc;
-    }, {}));
+    return [
+        buildRateResult({
+            service: 'REJECTED_PALLET',
+            transportType: 'pallet',
+            incidents: rejected.map(item => (
+                buildIncident('PALLET_DIMENSION_REJECTED', item)
+            ))
+        })
+    ];
 }
 
 function calculeTonnagePricing(tonnagePricingRule, priceBase, totalWeight) {
 
     const price = round(priceBase);
 
-    if (!tonnagePricingRule?.enabled) {
-        return { price, unit: '€/kg' };
-    }
+    if (!tonnagePricingRule?.enabled) return { price, unit: '€/kg' };
 
     const { threshold, unit } = tonnagePricingRule;
-
-    if (totalWeight < threshold) {
-        return { price, unit: '€/kg' };
-    }
-
+    
+    if (totalWeight < threshold) return { price, unit: '€/kg' };
+    
     return { 
         price: round(( totalWeight / 1000 ) * price),
         unit 
@@ -73,7 +62,7 @@ function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplemen
     const totalWeight = palletItems.reduce((sum, item) => 
         sum + getEffectiveWeight(item), 0
     );
-    
+
     const rateMap = calculeRateByField(agencyRates);
     const rate = rateMap.get(`${zone.name}_pallet`);
     if (!rate) return [];
@@ -81,7 +70,7 @@ function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplemen
     return rate.services.reduce((acc, service) => {
         const match = matchPrice(service.priceBreaks, totalWeight);
         if (!match) return acc;
-
+        
         const { price, unit } = 
             calculePricing(
                 agencySupplements,
@@ -90,16 +79,24 @@ function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplemen
                 totalWeight
             );
 
-        acc.push({
-            service: service.service,
-            total: price,
-            breakdown: [{
-                type: zone.pricingMode?.type,
-                unit,
+        acc.push(
+            buildRateResult({
+                service: service.service,
+                transportType: 'pallet',
+                itemCount: palletItems.length,
                 totalWeight,
-                price
-            }]
-        });
+                concepts: [
+                    buildConcept(
+                        'BASE', 
+                        price, 
+                        { 
+                            unit,
+                            pricingType: zone.pricingMode?.type
+                        }
+                    )
+                ]
+            })
+        );
 
         return acc;
     }, []);
@@ -130,16 +127,24 @@ function calculateGroupServices({
                 ? round((match.price + fuelExtraCost) * group.quantity)
                 : round((match.price + fuelExtraCost) * group.quantity);
 
-            acc.push({
-                service: service.service,
-                total,
-                breakdown: {
-                    type: "pallet",
-                    palletType: group.palletType.name,
-                    quantity: group.quantity,
-                    unitPrice,
-                }
-            });
+            acc.push(
+                buildRateResult({
+                    service: service.service,
+                    transportType: 'pallet',
+                    itemCount: group.quantity,
+                    concepts: [
+                        buildConcept(
+                            'BASE', 
+                            total, 
+                            {
+                                palletType: group.palletType.name,
+                                quantity: group.quantity,
+                                unitPrice,
+                                items: group.items
+                            })
+                        ]
+                    })
+                );
 
             return acc;
         }, []);
@@ -149,23 +154,21 @@ function calculateGroupServices({
 function calculateSinglePallet({  palletItems, agencyRates, agencyPalletTypes, zone, agencySupplements }) {
     const { groups, rejected } = groupPallets(palletItems, agencyPalletTypes);
 
-    const calculatedServices = calculateGroupServices({
-        groups,
-        agencyRates,
-        zone,
-        agencySupplements
-    });
-
     return [
-        ...aggregateServices(calculatedServices),
+        ...calculateGroupServices({
+            groups,
+            agencyRates,
+            zone,
+            agencySupplements
+        }),
         ...buildRejectedServices(rejected)
     ];
 }
 
 export function calculatePallet(params) {
     const { zone } = params;
-
+    
     return (zone.pricingMode.type === 'weight_volume')
-        ? calculateWeightVolume({ ...params })
-        : calculateSinglePallet({ ...params });
+        ? presentRate(calculateWeightVolume({ ...params }))
+        : presentRate(calculateSinglePallet({ ...params }));
 };

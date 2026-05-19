@@ -4,7 +4,7 @@ import Agency from "../../lib/models/agency.model.js";
 import { 
     getStaticRates, 
     getApiRates 
-} from "./rateEngine/index.js";
+} from "./rates/index.js";
 
 async function rateEngine(input) {
 

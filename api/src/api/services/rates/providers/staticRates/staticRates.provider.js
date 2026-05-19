@@ -1,12 +1,12 @@
 
-import Zone from "../../../../lib/models/zone.model.js";
-import Rate from "../../../../lib/models/rate.model.js";
-import PalletType from "../../../../lib/models/palletType.model.js";
+import Zone from "../../../../../lib/models/zone.model.js";
+import Rate from "../../../../../lib/models/rate.model.js";
+import PalletType from "../../../../../lib/models/palletType.model.js";
 
 import {
     resolveZone, 
     groupByAgency
-} from '../../../utils/rateEngine.util.js'
+} from '../../../../utils/rateEngine.util.js'
 
 import {
     calculatePallet
@@ -15,6 +15,13 @@ import {
 import {
     calculateParcel
 } from './parcelRateEngine.calculator.js';
+
+import { 
+    buildStaticErrorResult, 
+    buildRateComplete 
+} from '../../domains/buildRateResult.js';
+
+import { presentRate } from "../../presenters/rate.presenter.js";
 
 export default async function getStaticRates(agencies, { destinationPostalCode, province, items }) {
     const agencyIds = agencies.map(agency => agency.id);
@@ -43,16 +50,15 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
             
             const zone = resolveZone(agencyZones, destinationPostalCode, province);
             if (!zone) {
-                return {
+                return buildStaticErrorResult({
+                    presentRate,
                     agency: agency.name,
-                    available: false,
-                    reason: "Zona no encontrada"
-                };
+                    code: 'ZONE_NOT_FOUND'
+                });
             }
-
-            let services = []; 
             
-            services = (zone.calculationMode === 'pallet')
+            const services = 
+                (zone.calculationMode === 'pallet')
                 ? calculatePallet({ 
                         palletItems, 
                         agencyRates, 
@@ -66,28 +72,27 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
                         zone,
                         agencySupplements 
                     });
-        
+                    
             if (services.length === 0) {
-                return {
+                return buildStaticErrorResult({
+                    presentRate,
                     agency: agency.name,
-                    available: false,
-                    reason: "No hay tarifa disponible"
-                };
+                    code: 'NO_RATE'
+                });
             }
             
-            return {
+            return buildRateComplete({
                 agency: agency.name,
-                available: true,
                 zone: zone.name,
                 services
-            };
+            });
 
         } catch (error) {
-            return {
+            return buildStaticErrorResult({
+                presentRate,
                 agency: agency.name,
-                available: false,
-                reason: "Error en cálculo"
-            };
+                code: 'CALCULATION_ERROR'
+            });
         }
     });
 }

@@ -18,7 +18,6 @@ import {
 
 import { 
     buildStaticErrorResult, 
-    buildRateComplete 
 } from '../../domains/buildRateResult.js';
 
 import { presentRate } from "../../presenters/rate.presenter.js";
@@ -57,41 +56,30 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
                 });
             }
             
-            const services = 
-                (zone.calculationMode === 'pallet')
-                ? calculatePallet({ 
-                        palletItems, 
-                        agencyRates, 
-                        agencyPalletTypes, 
-                        zone,
-                        agencySupplements 
-                    })
-                : calculateParcel({ 
-                        parcelItems, 
-                        agencyRates, 
-                        zone,
-                        agencySupplements 
-                    });
-                    
-            if (services.length === 0) {
-                return buildStaticErrorResult({
-                    presentRate,
-                    agency: agency.name,
-                    code: 'NO_RATE'
+            return (zone.calculationMode === 'pallet')
+            ? calculatePallet({
+                    nameAgency: agency.name,
+                    palletItems, 
+                    agencyRates, 
+                    agencyPalletTypes, 
+                    zone,
+                    agencySupplements 
+                })
+            : calculateParcel({
+                    nameAgency: agency.name, 
+                    parcelItems, 
+                    agencyRates, 
+                    zone,
+                    agencySupplements 
                 });
-            }
-            
-            return buildRateComplete({
-                agency: agency.name,
-                zone: zone.name,
-                services
-            });
-
+                
         } catch (error) {
+            console.log(error)
             return buildStaticErrorResult({
                 presentRate,
                 agency: agency.name,
-                code: 'CALCULATION_ERROR'
+                code: 'CALCULATION_ERROR',
+                message: error
             });
         }
     });

@@ -109,7 +109,8 @@ export function buildStaticErrorResult({
     presentRate,
     agency,
     transportType = 'unknown',
-    code
+    code,
+    message = ''
 }) {
     return buildRateComplete({
         agency,
@@ -121,7 +122,10 @@ export function buildStaticErrorResult({
 
                 incidents: [
                     buildIncident(
-                        code
+                        code,
+                        {
+                            message
+                        }
                     )
                 ]
             })

@@ -8,8 +8,10 @@ import {
     round
 } from '../../../../utils/rateEngine.util.js';
 
-import { 
+import {
+    buildStaticErrorResult, 
     buildRateResult,
+    buildRateComplete,
     buildConcept, 
     buildIncident 
 } from '../../domains/buildRateResult.js';
@@ -166,9 +168,23 @@ function calculateSinglePallet({  palletItems, agencyRates, agencyPalletTypes, z
 }
 
 export function calculatePallet(params) {
-    const { zone } = params;
+    const { nameAgency, zone } = params;
     
-    return (zone.pricingMode.type === 'weight_volume')
+    const services = (zone.pricingMode.type === 'weight_volume')
         ? presentRate(calculateWeightVolume({ ...params }))
         : presentRate(calculateSinglePallet({ ...params }));
+
+    if (services.length === 0) {
+        return buildStaticErrorResult({
+            presentRate,
+            agency: nameAgency,
+            code: 'NO_RATE'
+        });
+    }
+
+    return buildRateComplete({
+        agency: nameAgency,
+        zone: zone.name,
+        services
+    });
 };

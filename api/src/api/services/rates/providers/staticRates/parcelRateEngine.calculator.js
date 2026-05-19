@@ -11,7 +11,9 @@ import {
     resolveParcelPrice
 } from './parcelRateEngine.util.js';
 
-import { 
+import {
+    buildStaticErrorResult,
+    buildRateComplete, 
     buildParcelRate, 
     buildIncident 
 } from '../../domains/buildRateResult.js';
@@ -112,5 +114,21 @@ function calculateParcelRate({
 }
 
 export function calculateParcel(params = {}) {
-    return presentRate(calculateParcelRate({ ...params }));
+    const services = presentRate(calculateParcelRate({ ...params }));
+
+    const { nameAgency, zone } = params;
+
+    if (services.length === 0) {
+        return buildStaticErrorResult({
+            presentRate,
+            agency: nameAgency,
+            code: 'NO_RATE'
+        });
+    }
+
+    return buildRateComplete({
+        agency: nameAgency,
+        zone: zone.name,
+        services
+    });
 }

@@ -1,5 +1,4 @@
 
-
 import axios from 'axios';
 
 const http = axios.create({
@@ -11,11 +10,9 @@ http.interceptors.response.use(
     (err) => {
         const { status, data } = err?.response || {};
         
-        if (status === 400) {
-            console.error('API Error:', data || err.message);
-        }
+        console.error(`API Error [${ status }]: `, data || err.message);
 
-        return Promise.reject(data);
+        return Promise.reject(data || { message: 'Unknown error' });
     }
 );
 

@@ -74,7 +74,6 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
                 });
                 
         } catch (error) {
-            console.log(error)
             return buildStaticErrorResult({
                 presentRate,
                 agency: agency.name,

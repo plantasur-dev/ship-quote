@@ -5,13 +5,13 @@ const locationSchema = new mongoose.Schema({
     countryCode: {
         type: String,
         required: [true, 'Código de país obligatorio.'],
-        maxlength: [2, 'Longitud mínima de 2.'],
+        maxLength: [2, 'Longitud mínima de 2.'],
         uppercase: true
     },
     countryName: {
         type: String,
         required: [true, 'Nombre de país obligatorio.'],
-        maxlength: [50, 'Longitud máxima de 50.'],
+        maxLength: [50, 'Longitud máxima de 50.'],
         set: values => normalizeString(values)
     },
     adminCode: {
@@ -27,7 +27,7 @@ const locationSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Nombre de provincia obligatorio.'],
-        maxlength: [50, 'Longitud máxima de 50.'],
+        maxLength: [50, 'Longitud máxima de 50.'],
         set: values => normalizeString(values)
     },
     normalizedName: {
@@ -48,8 +48,8 @@ const locationSchema = new mongoose.Schema({
     postalCode: {
         type: String,
         required: true,
-        minlength: 2,
-        maxlength: 2,
+        minLength: 2,
+        maxLength: 2,
     },
     type: {
         type: String,

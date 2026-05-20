@@ -23,14 +23,14 @@ function CompareRates() {
                 px-6
                 py-6
 
-                xl:grid-cols-[380px_1fr]
+                xl:grid-cols-[45%_55%]
             "
         >
-            <aside className="xl:sticky xl:top-6">
+            <section className="xl:sticky xl:top-6">
                 <CompareRateForm
                     handlerCalculateRates={ handlerCalculateRates }
                 />
-            </aside>
+            </section>
 
             <section>
                 <CompareRateDetails
@@ -40,7 +40,6 @@ function CompareRates() {
                 />
             </section>
         </section>
-
     );
 }
 

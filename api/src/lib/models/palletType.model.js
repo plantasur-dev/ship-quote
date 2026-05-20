@@ -23,19 +23,19 @@ const palletTypeSchema = new mongoose.Schema({
             type: Number,
             min: 0,
             default: 0,
-            set: value => sanitizarIpunt(value)
+            set: value => sanitizeInput(value)
         },
         maxLength: {
             type: Number,
             min: 0,
             default: 0,
-            set: value => sanitizarIpunt(value)
+            set: value => sanitizeInput(value)
         },
         maxWidth: {
             type: Number,
             min: 0,
             default: 0,
-            set: value => sanitizarIpunt(value)
+            set: value => sanitizeInput(value)
         }
     }
 }, { 
@@ -49,7 +49,7 @@ const palletTypeSchema = new mongoose.Schema({
     }
 });
 
-const sanitizarIpunt = (value) => 
+const sanitizeInput = (value) => 
     (value === "" || value == null ? 0 : Number(value))
 
 const PalletType = mongoose.model("PalletType", palletTypeSchema);

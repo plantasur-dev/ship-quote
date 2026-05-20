@@ -18,7 +18,7 @@ export function useProvinces(countryCode) {
                 const provinces = await locationsProvinces();
                 setProvinces(provinces);
             } catch (error) {
-                setError(err.message);
+                setError(error.message);
             } finally {
                 setIsLoading(false);
             }

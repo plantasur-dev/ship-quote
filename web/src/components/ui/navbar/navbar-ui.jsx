@@ -1,11 +1,35 @@
 
 function Navbar() {
     return (
-        <header className="flex justify-between items-center px-6 py-4 max-w-6xl mx-auto">
-            <h1 className="font-semibold text-lg">ShipQuote</h1>
-            <button className="text-sm font-medium hover:opacity-70">
-            
-            </button>
+        <header
+            className="
+                border-b
+                border-slate-200/80
+                bg-white/70
+                backdrop-blur-xl
+            "
+        >
+            <div
+                className="
+                    mx-auto
+                    flex
+                    h-16
+                    max-w-7xl
+                    items-center
+                    justify-between
+                    px-6
+                "
+            >
+                <div>
+                    <h1 className="text-sm font-semibold text-slate-900">
+                        Cotizador de envíos
+                    </h1>
+
+                    <p className="text-xs text-slate-500">
+                        Comparador interno de tarifas
+                    </p>
+                </div>
+            </div>
         </header>
     );
 }

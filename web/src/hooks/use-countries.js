@@ -14,10 +14,10 @@ export function useCountries() {
             try {
                 setIsLoading(true);
                 const countries = await locationsCountries();
-                const langClient = navigator.language.split('-')[1];
-                setCountries(countries?.[langClient] || countries?.['US']);    
+                const langClient = navigator.language.split('-')[1] || 'ES';;
+                setCountries(countries?.[langClient] || countries?.['US'] || []);    
             } catch (error) {
-                setError('País asignado por defecto: España | ' + error.message);
+                setError('País asignado por defecto: España | ' + error?.message);
             } finally {
                 setIsLoading(false);
             }

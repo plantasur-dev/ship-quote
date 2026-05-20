@@ -15,55 +15,108 @@ function CountrySelector({ countries, isLoadingCountries }) {
     const countriesFilter = findCountriesByName(countries, searchLocation);
 
     return (
-        <div>
-            <label className="text-sm text-slate-500">País</label>
+        <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700">
+                País destino
+            </label>
 
-            <input
-                value={ searchLocation }
-                
-                placeholder={ isLoadingCountries ? "Cargando paises..." : "País" }
-                
-                onChange={(e) => {
-                    setSearchLocation(e.target.value);
-                    setShowDropdown(true);
-                }}
+            <div className="relative">
+                <input
+                    value={ searchLocation }
 
-                onFocus={ () => setShowDropdown(true) }
-                
-                disabled={ isLoadingCountries }
-                
-                className="
-                    w-full 
-                    mt-1 
-                    px-4 
-                    py-3 
-                    rounded-lg 
-                    bg-white/70 
-                    border 
-                    border-slate-200 
-                    focus:outline-none 
-                    focus:ring-2 
-                    focus:ring-indigo-400
-                "
-            />
+                    placeholder={
+                        isLoadingCountries
+                            ? "Cargando países..."
+                            : "Buscar país..."
+                    }
+
+                    onChange={(e) => {
+                        setSearchLocation(e.target.value);
+                        setShowDropdown(true);
+                    }}
+
+                    onFocus={() => setShowDropdown(true)}
+
+                    disabled={ isLoadingCountries }
+
+                    className="
+                        h-12
+                        w-full
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white/80
+                        px-4
+                        pr-10
+                        text-sm
+                        text-slate-900
+                        shadow-sm
+                        outline-none
+                        transition-all
+                        duration-200
+
+                        placeholder:text-slate-400
+
+                        hover:border-slate-300
+
+                        focus:border-indigo-500
+                        focus:ring-4
+                        focus:ring-indigo-500/10
+                    "
+                />
+
+                <div className="absolute inset-y-0 right-4 flex items-center text-slate-400">
+                    🌍
+                </div>
+            </div>
 
             { showDropdown && searchLocation && (
-                <div className="mt-2 bg-white border rounded-xl shadow max-h-60 overflow-y-auto">
-                    { !isLoadingCountries && countriesFilter.map((item) => (
-                        <div
-                            key={ item.countryCode }
+                <div
+                    className="
+                        overflow-hidden
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white/95
+                        shadow-xl
+                        backdrop-blur-xl
+                    "
+                >
+                    <div className="max-h-64 overflow-y-auto py-2">
+                        {
+                            !isLoadingCountries &&
+                            countriesFilter.map((item) => (
+                                <button
+                                    type="button"
 
-                            onClick={() => {
-                                setSearchLocation(item.countryName);
-                                setValue("countryCode", item.countryCode);
-                                setShowDropdown(false);
-                            }}
+                                    key={ item.countryCode }
 
-                            className="px-4 py-2 hover:bg-indigo-50 cursor-pointer text-sm"
-                        >
-                            { item.countryName }
-                        </div>
-                    ))}
+                                    onClick={() => {
+                                        setSearchLocation(item.countryName);
+                                        setValue("countryCode", item.countryCode);
+                                        setShowDropdown(false);
+                                    }}
+
+                                    className="
+                                        flex
+                                        w-full
+                                        items-center
+                                        px-4
+                                        py-3
+                                        text-left
+                                        text-sm
+                                        text-slate-700
+                                        transition-colors
+
+                                        hover:bg-indigo-50
+                                        hover:text-indigo-700
+                                    "
+                                >
+                                    { item.countryName }
+                                </button>
+                            ))
+                        }
+                    </div>
                 </div>
             )}
         </div>

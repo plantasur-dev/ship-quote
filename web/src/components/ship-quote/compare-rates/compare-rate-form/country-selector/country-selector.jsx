@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-import { findCountriesByName } from "../../compare-rate-utils/compare-rate-utils";
+import { findCountriesByName } from "../../utils/compare-rate-utils";
 
 function CountrySelector({ countries, isLoadingCountries }) {
 

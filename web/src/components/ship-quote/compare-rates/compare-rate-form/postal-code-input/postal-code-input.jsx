@@ -1,7 +1,7 @@
 
 import { useFormContext } from "react-hook-form";
 
-import { validations } from '../../compare-rate-utils/validations-util';
+import { validations } from '../../utils/validation-utils';
 
 function PostalCodeInput() {
 

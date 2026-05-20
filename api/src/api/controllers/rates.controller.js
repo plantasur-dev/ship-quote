@@ -11,7 +11,7 @@ export async function compare(req, res) {
         items
     });
 
-    if(!result) createHttpError(404, 'Compare not found');
+    if(!result) throw createHttpError(404, 'Compare not found');
 
     res.json(result);
 }

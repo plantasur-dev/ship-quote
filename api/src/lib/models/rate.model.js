@@ -104,6 +104,7 @@ const rateSchema = new mongoose.Schema({
     agencyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Agency",
+        required: true,
         index: true
     },
     type: {

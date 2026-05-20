@@ -15,9 +15,7 @@ function LayoutPage ({ children }) {
                 "
             >
                 <Navbar />
-
-                { children }
-
+                    { children }
                 <Footer />
             </main>
         </>

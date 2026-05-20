@@ -1,7 +1,7 @@
 
 import { useFormContext, useWatch } from "react-hook-form";
 
-import { findProvinceByPostalCode } from "../../compare-rate-utils/compare-rate-utils";
+import { findProvinceByPostalCode } from "../../utils/compare-rate-utils";
 
 function ProvinceDisplay({ provinces }) {
 

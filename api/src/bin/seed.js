@@ -3,50 +3,50 @@ import { connectDB } from "../lib/configs/db.config.js";
 
 await connectDB();
 
-import { seedAgencies } from './agencies.seed.js';
+import { seedAgencies } from './agencies/agencies.seed.js';
 
 import { 
-    seedZones, 
-    seedPalletTypes, 
-    seedRates, 
-    seedRatesAndalucia 
-} from './caycoSeeds/index.js';
+    seedZonesCayco, 
+    seedPalletTypesCayco, 
+    seedRatesCayco, 
+    seedRatesAndaluciaCayco 
+} from './agencies/cayco/index.js';
 
 import { 
-    seedTecumZones, 
-    seedTecumPalletTypes, 
-    seedTecumRates, 
-    seedTecumRatesByQuantity 
-} from './tecumSeeds/index.js';
+    seedZonesTecum, 
+    seedPalletTypesTecum, 
+    seedRatesTecum, 
+    seedRatesByQuantityTecum 
+} from './agencies/tecum/index.js';
 
 import { 
-    seedCorreosRates, 
-    seedCorreosZones
-} from "./cexp.seed.js";
+    seedRatesCorreos, 
+    seedZonesCorreos
+} from "./agencies/cexp.seed.js";
 
 import {
-    seedMrwZone,
-    seedMrwRate
-} from './mrw.seed.js';
+    seedZoneMrw,
+    seedRateMrw
+} from './agencies/mrw.seed.js';
 
 await seedAgencies();
 
-await seedZones();
-await seedTecumZones();
+await seedZonesCayco();
+await seedZonesTecum();
 
-await seedPalletTypes();
-await seedTecumPalletTypes();
+await seedPalletTypesCayco();
+await seedPalletTypesTecum();
 
-await seedRates();
-await seedRatesAndalucia();
+await seedRatesCayco();
+await seedRatesAndaluciaCayco();
 
-await seedTecumRates();
-await seedTecumRatesByQuantity('tecum');
+await seedRatesTecum();
+await seedRatesByQuantityTecum('tecum');
 
-await seedCorreosRates();
-await seedCorreosZones();
+await seedRatesCorreos();
+await seedZonesCorreos();
 
-await seedMrwRate();
-await seedMrwZone();
+await seedRateMrw();
+await seedZoneMrw();
 
 process.exit();

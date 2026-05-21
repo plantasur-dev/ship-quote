@@ -1,10 +1,10 @@
 
 import { Router } from "express";
 
-import { errorHandler, routerNotFound } from './middlewares/errors.middleware.js';
+import * as Errors from './middlewares/errors.middleware.js';
 
-import { schemaValidation } from './middlewares/schemaValidation.middleware.js';
-import { validateCompareRateRequest } from './middlewares/compareRateValidation.middleware.js';
+import { schemaValidation } from './middlewares/schema.validation.middleware.js';
+import { rateValidation } from './middlewares/rate.validation.middleware.js';
 
 import * as Agencies from './controllers/agencies.controller.js';
 import * as Locations from './controllers/locations.controller.js';
@@ -100,12 +100,12 @@ apiRouter.get(
 apiRouter.post(
     '/rates/compare', 
     schemaValidation,
-    validateCompareRateRequest,
+    rateValidation,
     Rates.compare
 );
 
-apiRouter.use(routerNotFound);
+apiRouter.use(Errors.routerNotFound);
 
-apiRouter.use(errorHandler);
+apiRouter.use(Errors.errorHandler);
 
 export default apiRouter;

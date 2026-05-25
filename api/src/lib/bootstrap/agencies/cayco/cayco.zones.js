@@ -1,16 +1,17 @@
 
-import Agency from '../../../lib/models/agency.model.js';
+import Agency from '../../../models/agency.model.js';
 
-import Zone from '../../../lib/models/zone.model.js';
+import Zone from '../../../models/zone.model.js';
 
-import { zonesRaw } from '../../../lib/data/cayco.js';
+import { zonesRaw } from '../../../data/cayco.js';
 
-export async function seedZonesCayco() {
+export async function zonesCayco() {
 
   const agency = await Agency.findOne({ code: 'cayco' });
 
   if (!agency) {
-    throw new Error('Agency Cayco not found');
+    console.log('Agency Cayco not found');
+    return;
   }
 
   await Zone.deleteMany({ agencyId: agency._id });
@@ -39,7 +40,8 @@ export async function seedZonesCayco() {
         pricingMode: {
           type,
           tonnagePricingRule: {
-            enabled: type === 'weight_volume'
+            enabled: type === 'weight_volume',
+            threshold: 1001
           }
         }
       }

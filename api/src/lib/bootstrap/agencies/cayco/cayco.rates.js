@@ -1,27 +1,32 @@
 
-import Agency from '../../../lib/models/agency.model.js';
+import Agency from '../../../models/agency.model.js';
 
-import Rate from '../../../lib/models/rate.model.js';
+import Rate from '../../../models/rate.model.js';
 
-import PalletType from '../../../lib/models/palletType.model.js';
+import PalletType from '../../../models/palletType.model.js';
 
 import { 
   fixedPrice, 
   buildBreaks, 
   buildWeightBreaks 
-} from '../../../lib/utils/cayco.utils.js';
+} from '../../../utils/cayco.utils.js';
 
 import { 
   basicRates, 
   basicNames, 
   completoRates, 
   superRates 
-} from '../../../lib/data/cayco.js';
+} from '../../../data/cayco.js';
 
-export async function seedRatesCayco() {
+export async function ratesCayco() {
   
   const agency = await Agency.findOne({ code: 'cayco' });
   const palletTypes = await PalletType.find({ agencyId: agency._id });
+
+  if (!agency) {
+    console.log('Agency Cayco not found');
+    return;
+  }
 
   await Rate.deleteMany({ agencyId: agency._id });
 
@@ -79,5 +84,5 @@ export async function seedRatesCayco() {
 
   await Rate.insertMany(inserts);
 
-  console.log('✅ Seed completo Cayco listo');
+  console.log('✅ Completo rates Cayco');
 }

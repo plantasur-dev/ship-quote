@@ -1,19 +1,22 @@
 
-import Agency from '../../lib/models/agency.model.js';
+import Agency from '../../models/agency.model.js';
 
-import Rate from '../../lib/models/rate.model.js';
-import Zone from '../../lib/models/zone.model.js';
+import Rate from '../../models/rate.model.js';
+import Zone from '../../models/zone.model.js';
 
 import { 
     correosRates, 
     correosZones
-} from '../../lib/data/cexp.js';
+} from '../../data/cexp.js';
 
-export async function seedCorreosRates() {
+export async function ratesCorreos() {
 
     const agency = await Agency.findOne({ code: 'correosexpress' });
-
-    if (!agency) throw new Error('No existe Correos Express');
+   
+    if (!agency) {
+        console.log('No existe Correos Express');
+        return;
+    }
 
     await Rate.deleteMany({ agencyId: agency.id, type: 'parcel' });
 
@@ -41,11 +44,14 @@ export async function seedCorreosRates() {
     console.log('✅ Correos Express rates insertados');
 };
 
-export async function seedCorreosZones() {
+export async function zonesCorreos() {
 
     const agency = await Agency.findOne({ code: 'correosexpress' });
-
-    if (!agency) throw new Error('No existe Correos Express');
+    
+    if (!agency) {
+        console.log('No existe Correos Express');
+        return;
+    }
 
     await Zone.deleteMany({ agencyId: agency.id });
 

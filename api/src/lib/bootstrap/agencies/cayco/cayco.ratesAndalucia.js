@@ -1,15 +1,20 @@
 
-import Agency from '../../../lib/models/agency.model.js';
+import Agency from '../../../models/agency.model.js';
 
-import Rate from '../../../lib/models/rate.model.js';
+import Rate from '../../../models/rate.model.js';
 
-import { buildVolumenBreaks } from '../../../lib/utils/cayco.utils.js';
+import { buildVolumenBreaks } from '../../../utils/cayco.utils.js';
 
-import { zona11, zona12 } from '../../../lib/data/cayco.js';
+import { zona11, zona12 } from '../../../data/cayco.js';
 
-export async function seedRatesAndaluciaCayco() {
+export async function ratesAndaluciaCayco() {
   
   const agency = await Agency.findOne({ code: 'cayco' });
+
+  if (!agency) {
+    console.log('Agency Cayco not found');
+    return;
+  }
 
   await Rate.deleteMany({
     agencyId: agency._id,

@@ -1,14 +1,18 @@
 
-import Agency from "../../../lib/models/agency.model.js";
+import Agency from "../../../models/agency.model.js";
 
-import PalletType from "../../../lib/models/palletType.model.js";
+import PalletType from "../../../models/palletType.model.js";
 
-import { palletTypesRaw } from '../../../lib/data/cayco.js';
+import { palletTypesRaw } from '../../../data/cayco.js';
 
-export async function seedPalletTypesCayco() {
+export async function palletTypesCayco() {
 
   const agency = await Agency.findOne({ code: "cayco" });
-  if (!agency) throw new Error("Cayco no existe");
+  
+  if (!agency) {
+    console.log('Agency Cayco not found');
+    return;
+  }
 
   await PalletType.deleteMany({ agencyId: agency._id });
 

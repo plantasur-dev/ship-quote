@@ -1,20 +1,24 @@
 
-import Agency from '../../lib/models/agency.model.js';
+import Agency from '../../models/agency.model.js';
 
-import Rate from '../../lib/models/rate.model.js';
+import Rate from '../../models/rate.model.js';
 
-import Zone from '../../lib/models/zone.model.js';
+import Zone from '../../models/zone.model.js';
 
 import { 
     mrwRates, 
     mrwZones
-} from '../../lib/data/mrw.js';
+} from '../../data/mrw.js';
 
-export async function seedMrwRate() {
+export async function rateMrw() {
 
     const agency = await Agency.findOne({ code: 'mrw' });
-
-    if (!agency) throw new Error('No existe Mrw');
+    
+    if (!agency) {
+        console.log('No existe Mrw');
+        return;
+    }
+    
     await Rate.deleteMany({ agencyId: agency.id, type: 'parcel' });
 
     const inserts = [];
@@ -41,11 +45,14 @@ export async function seedMrwRate() {
     console.log('✅ Mrw rates insertados');
 };
 
-export async function seedMrwZone() {
+export async function zoneMrw() {
 
     const agency = await Agency.findOne({ code: 'mrw' });
 
-    if (!agency) throw new Error('No existe Mrw');
+    if (!agency) {
+        console.log('No existe Mrw');
+        return;
+    }
 
     await Zone.deleteMany({ agencyId: agency.id });
 

@@ -1,27 +1,31 @@
 
-import Agency from '../../../lib/models/agency.model.js';
+import Agency from '../../../models/agency.model.js';
 
-import Rate from '../../../lib/models/rate.model.js';
+import Rate from '../../../models/rate.model.js';
 
-import PalletType from '../../../lib/models/palletType.model.js';
+import PalletType from '../../../models/palletType.model.js';
 
 import { 
   buildPriceBreaks, 
   fixed, 
   palletMap 
-} from '../../../lib/utils/tecum.utils.js';
+} from '../../../utils/tecum.utils.js';
 
 import { 
   palletSimple, 
   ExtraLight, 
   EuroPallet, 
   Full 
-} from '../../../lib/data/tecum.js';
+} from '../../../data/tecum.js';
 
-export async function seedRatesTecum() {
+export async function ratesTecum() {
 
   const agency = await Agency.findOne({ code: 'tecum' });
-  if (!agency) throw new Error('No existe TECUM');
+    
+  if (!agency) {
+    console.log('No existe TECUM');
+    return;
+  }
 
   const palletTypes = await PalletType.find({ agencyId: agency._id });
 
@@ -65,7 +69,7 @@ export async function seedRatesTecum() {
   console.log('✅ Tarifas TECUM importadas');
 }
 
-export const seedRatesByQuantityTecum = async (agencyCode) => {
+export const ratesByQuantityTecum = async (agencyCode) => {
 
   const tablesConfig =  [
     { table: ExtraLight, palletName: 'EXTRA LIGHT PALLET' },

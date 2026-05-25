@@ -1,7 +1,9 @@
 
 import express from "express";
 
-import morgan from "morgan";
+import logger from "./src/lib/looger/looger.js";
+
+import httpLogger from "./src/lib/looger/morgan.js";
 
 import cors from 'cors';
 
@@ -16,9 +18,12 @@ const app = express()
 
 const PORT = process.env.PORT || 3000;
 
-if (process.env.NODE_ENV === 'test') {
-    app.use(morgan("dev"));
-}
+const loggerMiddleware = 
+    process.env.NODE_ENV === 'test'
+        ? morgan("dev")
+        : httpLogger;
+
+app.use(loggerMiddleware);
 
 app.use(cors());
 
@@ -29,5 +34,5 @@ app.use('/api/v1', apiRouter);
 app.use(webRoute);
 
 app.listen(PORT, '0.0.0.0',() => {
-    console.log(`App listening on port ${ PORT }`);
+    logger.info(`App listening on port ${ PORT }`);
 });

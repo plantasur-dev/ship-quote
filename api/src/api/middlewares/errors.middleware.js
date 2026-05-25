@@ -1,6 +1,8 @@
 
 import createHttpError from "http-errors";
 
+import logger from "../../lib/looger/looger.js";
+
 export const errorHandler = (err, req, res, next) => {
 
     if (err.name === 'ValidationError') {
@@ -23,7 +25,11 @@ export const errorHandler = (err, req, res, next) => {
         return;
     }
 
-    console.error('Error internal server', err.message);
+    logger.error(err.message, { 
+        stack: err.stack,
+        method: req.method,
+    });
+
     res.status(500).json({ message: 'Error internal server' });
 };
 

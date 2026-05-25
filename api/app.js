@@ -18,12 +18,7 @@ const app = express()
 
 const PORT = process.env.PORT || 3000;
 
-const loggerMiddleware = 
-    process.env.NODE_ENV === 'test'
-        ? morgan("dev")
-        : httpLogger;
-
-app.use(loggerMiddleware);
+app.use(httpLogger);
 
 app.use(cors());
 

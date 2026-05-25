@@ -1,5 +1,5 @@
 
-export default agencies = [
+const agenciesData = [
     {
         name: 'Cayco',
         code: 'cayco',
@@ -33,7 +33,7 @@ export default agencies = [
         name: 'Dachser',
         code: 'dachser',
         type: 'api',
-        active: true,
+        active: false,
         rules: {
             hasAndaluciaRule: false,
             supportsPallets: true,
@@ -102,5 +102,6 @@ export default agencies = [
             apiKey: 'pruebas'
         }
     }
-
 ];
+
+export default agenciesData;

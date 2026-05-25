@@ -1,6 +1,8 @@
 # Dependencies
 node_modules/
 
+src/web/build/*
+
 # File
 OLD_*
 

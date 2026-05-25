@@ -1,14 +1,18 @@
 
-import Agency from '../../lib/models/agency.model.js';
+import Agency from '../../../models/agency.model.js';
 
-import PalletType from '../../lib/models/palletType.model.js';
+import PalletType from '../../../models/palletType.model.js';
 
-import { palletTypesRaw } from '../../../lib/data/tecum.js';
+import { palletTypesRaw } from '../../../data/tecum.js';
 
-export async function seedPalletTypesTecum() {
+export async function palletTypesTecum() {
 
   const agency = await Agency.findOne({ code: 'tecum' });
-  if (!agency) throw new Error('Tecum no existe');
+  
+  if (!agency) {
+    console.log('Tecum no existe');
+    return;
+  }
 
   await PalletType.deleteMany({ agencyId: agency._id });
 

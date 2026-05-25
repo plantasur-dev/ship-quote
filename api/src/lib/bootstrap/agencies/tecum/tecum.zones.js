@@ -1,14 +1,18 @@
 
-import Agency from '../../../lib/models/agency.model.js';
+import Agency from '../../../models/agency.model.js';
 
-import Zone from '../../../lib/models/zone.model.js';
+import Zone from '../../../models/zone.model.js';
 
-import { zones, exceptions } from '../../../lib/data/tecum.js';
+import { zones, exceptions } from '../../../data/tecum.js';
 
-export async function seedZonesTecum() {
+export async function zonesTecum() {
 
   const agency = await Agency.findOne({ code: 'tecum' });
-  if (!agency) throw new Error('No existe TECUM');
+  
+  if (!agency) {
+    console.log('No existe TECUM');
+    return;
+  }
 
   await Zone.deleteMany({ agencyId: agency._id });
 

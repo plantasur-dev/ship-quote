@@ -22,17 +22,18 @@ function CompareRateDetails({ isLoading, error, resultRates = [] }) {
 
     return (
         <div className="mx-auto mt-10 space-y-4">
-            {resultRates
+            { resultRates
                 .sort((a, b) => Number(b.available) - Number(a.available))
                 .map((agency, i) => (
                     <AgencyCard
-                        key={agency.agency + i}
-                        agency={agency}
-                        index={i}
-                        open={open}
-                        onToggle={toggle}
+                        key={ agency.agency + i }
+                        agency={ agency }
+                        index={ i }
+                        open={ open }
+                        onToggle={ toggle }
                     />
-                ))}
+                ))
+            }
         </div>
     );
 }

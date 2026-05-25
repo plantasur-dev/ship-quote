@@ -6,16 +6,14 @@ import ServiceCard from '../service-card/service-card';
 function AgencyCard({ agency, index, open, onToggle }) {
     return (
         <div className="rounded-2xl border border-white/60 bg-white/70 p-5 shadow-md backdrop-blur-xl transition hover:shadow-lg">
-            
-            {/* HEADER */}
             <div className="flex items-start justify-between gap-4">
                 <div>
                     <h3 className="text-lg font-semibold capitalize">
-                        {agency.agency}
+                        { agency.agency }
                     </h3>
 
                     <p className="text-sm text-slate-500">
-                        {agency.zone || ""}
+                        { agency.zone || "" }
                     </p>
                 </div>
 
@@ -26,23 +24,21 @@ function AgencyCard({ agency, index, open, onToggle }) {
                             : "bg-red-100 text-red-700"
                     }`}
                 >
-                    {agency.available ? "Disponible" : "No disponible"}
+                    { agency.available ? "Disponible" : "No disponible" }
                 </span>
             </div>
 
-            {/* TOTAL SERVICES */}
             <TotalServices services={agency.services} />
 
-            {/* SERVICES */}
             <div className="mt-5 space-y-4">
                 {agency.services?.map((service, j) => (
                     <ServiceCard
-                        key={j}
-                        service={service}
-                        agencyIndex={index}
-                        serviceIndex={j}
-                        open={open}
-                        onToggle={onToggle}
+                        key={ j }
+                        service={ service }
+                        agencyIndex={ index }
+                        serviceIndex={ j }
+                        open={ open }
+                        onToggle={ onToggle }
                     />
                 ))}
             </div>

@@ -1,402 +1,233 @@
-# Ship Quote API 🚀
+# Ship Quote — Documentación del proyecto
 
-API de comparación de tarifas de envío basada en normalización de datos, cálculo inteligente y soporte para agencias estáticas y APIs externas.
+Este documento ofrece una visión completa del proyecto y la documentación técnica dividida en dos partes: **API** (backend) y **Web** (frontend). Está redactado en español y contiene instrucciones de arranque, variables de entorno, endpoints, esquemas de recursos y ejemplos de uso.
 
-## 📋 Resumen
+## 📚 Centro de Documentación
 
-`Ship Quote` es el backend que permite:
-- Registrar agencias y su configuración de tarifas
-- Crear zonas y tipos de pallet por agencia
-- Guardar ubicaciones/provincias de España
-- Comparar tarifas entre múltiples proveedores
-- Integrar proveedores tipo `api` con adaptadores específicos
-
-La API está implementada con `Node.js`, `Express 5` y `MongoDB`.
-
-> Documentación técnica de la API disponible en [API.md](api/docs/API.md).
+Para una documentación completa y organizada, consulta:
+- **[📖 Centro de Documentación](docs/DOCUMENTATION.md)** — Índice de toda la documentación disponible
+- **[🔌 Referencia de Endpoints](docs/API-ENDPOINTS.md)** — Todos los endpoints con ejemplos curl
+- **[📋 OpenAPI YAML](api/openapi.yaml)** — Especificación en formato YAML
+- **[📋 OpenAPI JSON](api/openapi.json)** — Especificación en formato JSON
 
 ---
 
-## 🚀 Estructura actual del proyecto
+Índice
+- **API** — Cómo ejecutar, endpoints, modelos y ejemplos
+- **Web** — Cómo ejecutar, variables y notas de integración
+- Docker — Arranque con Docker Compose
 
+---
+
+**PARTE 1 — API (backend)**
+
+Resumen
+Ship Quote ofrece un motor de comparación de tarifas que puede consumir datos estáticos (almacenados en MongoDB) o consultar APIs externas configuradas por agencia. Está implementado con Node.js (ES Modules), Express 5 y MongoDB (mongoose).
+
+Estructura relevante (resumida)
 ```
 api/
-├── app.js
-├── package.json
-├── src/
-│   ├── api/
-│   │   ├── index.js
-│   │   ├── controllers/
-│   │   │   ├── agencies.controller.js
-│   │   │   ├── locations.controller.js
-│   │   │   ├── palletTypes.controller.js
-│   │   │   ├── rates.controller.js
-│   │   │   └── zones.controller.js
-│   │   ├── middlewares/
-│   │   │   ├── errors.middleware.js
-│   │   │   └── schemaValidation.middleware.js
-│   │   ├── services/
-│   │   │   ├── rateEnginev3.service.js
-│   │   │   ├── compareRates/
-│   │   │   │   ├── apiRates.service.js
-│   │   │   │   ├── staticRates.service.js
-│   │   │   │   ├── carriers/
-│   │   │   │   │   ├── carriers.map.js
-│   │   │   │   │   ├── carriers.service.js
-│   │   │   │   │   ├── carriers.service.interface.js
-│   │   │   │   │   └── externalCarriers/dascher.service.js
-│   │   │   └── zoneLocation.service.js
-│   │   └── utils/
-│   │       ├── date.util.js
-│   │       └── rateEngine.util.js
-│   └── lib/
-│       ├── configs/
-│       │   ├── db.config.js
-│       │   └── server.config.js
-│       ├── models/
-│       │   ├── agency.model.js
-│       │   ├── location.model.js
-│       │   ├── palletType.model.js
-│       │   ├── rate.model.js
-│       │   └── zone.model.js
-│       └── storages/
-│           └── location.storage.js
-├── bin/
-│   ├── agencies.seed.js
-│   ├── seed.js
-│   └── tecumSeeds/
-│       ├── ...
-└── web/
+├─ app.js                 # Entrada del servidor
+├─ package.json
+└─ src/
+   ├─ api/
+   │  ├─ index.js         # Ruteo principal (/api/v1)
+   │  ├─ controllers/     # Lógica por recurso
+   │  ├─ middlewares/     # Validaciones y errores
+   │  └─ services/        # Motor de tarifas y providers
+   └─ lib/
+      ├─ configs/         # Conexión DB + bootstrap
+      └─ models/          # Esquemas mongoose
 ```
 
----
+Requisitos previos
+- Node.js 18+ / npm
+- MongoDB (local o remoto)
 
-## ⚙️ Cómo ejecutar la API
+Variables de entorno clave (API)
+- `PORT` — puerto del servidor (por defecto 3000)
+- `MONGODB_URI` — cadena de conexión a MongoDB
+- `MONGODB_URI_TEST` — cadena para entorno de test (opcional)
 
-1. Ir a la carpeta `api/`
-2. Instalar dependencias:
-   ```bash
-   npm install
-   ```
-3. Crear `.env` con variables mínimas:
-   ```env
-   PORT=3000
-   MONGODB_URI=mongodb://127.0.0.1:27017/shipQuote-db
-   ```
-4. Iniciar en modo desarrollo:
-   ```bash
-   npm run dev
-   ```
-5. Iniciar en modo producción:
-   ```bash
-   npm start
-   ```
-
-> Al arrancar, `src/lib/configs/server.config.js` conecta con MongoDB y llama a `initLocations()` para poblar las provincias si la colección `locations` aún no existe.
-
----
-
-## 🌐 Base de rutas
-
-La API expone rutas bajo `/api/v1`.
-
-Ejemplo base:
+Arranque local (API)
 ```bash
-http://localhost:3000/api/v1
+cd api
+npm install
+# crear .env con al menos:
+# PORT=3000
+# MONGODB_URI=mongodb://127.0.0.1:27017/shipQuote-db
+npm run dev    # desarrollo (nodemon)
+npm start      # producción
 ```
 
----
-
-## 🧩 Endpoints disponibles
-
-### Agencias
-
-#### `POST /api/v1/agencies`
-Crea una nueva agencia.
-
-Request body:
-```json
-{
-  "name": "Dachser",
-  "type": "api",
-  "rules": {
-    "hasAndaluciaRule": false,
-    "supportsPallets": true,
-    "supportsParcels": false
-  },
-  "apiConfig": {
-    "baseUrlApi": "https://api.example.com",
-    "endpoints": {
-      "quotations": "quotations"
-    },
-    "apiKey": "abcdef123456"
-  }
-}
+Seed de datos
+```bash
+cd api
+npm run seed
 ```
 
-Respuesta: `201 Created` con el registro de la agencia.
+Base URL
+Todos los endpoints están montados bajo: `/api/v1` (ej. `http://localhost:3000/api/v1`).
 
----
+Endpoints principales
+Nota: las rutas siguientes se extraen de `api/src/api/index.js` y de los controladores.
 
-#### `GET /api/v1/agencies`
-Lista todas las agencias.
-
-Respuesta: `200 OK` con arreglo de agencias.
-
----
-
-#### `PATCH /api/v1/agencies/:agencyId`
-Activa o desactiva una agencia existente. Cambia el campo `active`.
-
-Respuesta: `200 OK` con la agencia actualizada.
-
----
-
-### Ubicaciones
-
-#### `POST /api/v1/locations`
-Crea una ubicación/provincia.
-
-Request body:
-```json
-{
-  "country_code": "ES",
-  "country_name": "Spain",
-  "admin_code": "08",
-  "name": "Barcelona",
-  "type": "province"
-}
-```
-
-Respuesta: `201 Created`.
-
----
-
-#### `GET /api/v1/locations`
-Devuelve todas las ubicaciones.
-
-#### `GET /api/v1/locations/:locationId`
-Obtiene detalles de una ubicación por su id.
-
----
-
-### Pallets
-
-#### `POST /api/v1/pallets`
-Crea un tipo de pallet para una agencia.
-
-Request body:
-```json
-{
-  "agencyId": "<agencyId>",
-  "name": "Europeo",
-  "constraints": {
-    "maxWeight": 1000,
-    "maxHeight": 150,
-    "maxLength": 120,
-    "maxWidth": 80
-  }
-}
-```
-
-#### `GET /api/v1/pallets`
-Lista todos los tipos de pallets.
-
-#### `GET /api/v1/pallets/:palletTypeId`
-Detalle de un tipo de pallet.
-
-#### `DELETE /api/v1/pallets/:palletTypeId`
-Elimina un tipo de pallet existente.
-
----
-
-### Zonas
-
-#### `POST /api/v1/zones`
-Crea una zona de cálculo para una agencia.
-
-Request body:
-```json
-{
-  "agencyId": "<agencyId>",
-  "name": "Andalucía",
-  "provinces": ["SE", "MA", "CA"],
-  "calculationMode": "weight_volume",
-  "postalCodeExceptions": [
-    { "from": "41001", "to": "41080", "zoneName": "Sevilla" }
-  ]
-}
-```
-
-#### `GET /api/v1/zones`
-Lista todas las zonas.
-
-#### `GET /api/v1/zones/:zoneId`
-Detalle de una zona.
-
----
-
-### Comparación de tarifas
-
-#### `POST /api/v1/rates/compare`
-Compara tarifas disponibles para todas las agencias activas.
-
-Request body mínimo:
-```json
-{
-  "destinationPostalCode": "08001",
-  "province": "BCN",
-  "items": [
+- POST /api/v1/agencies — Crear agencia
+  - Body (ejemplo):
+    ```json
     {
-      "type": "pallet",
-      "length": 120,
-      "width": 80,
-      "height": 150,
-      "weight": 300
+      "name": "Dachser",
+      "type": "api", // "static" | "api" | "hybrid"
+      "rules": { "hasAndaluciaRule": false, "supportsPallets": true },
+      "apiConfig": { "baseUrlApi": "https://...", "apiKey": "..." }
     }
-  ]
-}
+    ```
+  - Respuestas: `201` con el recurso creado; `400` validación; `409` duplicado.
+
+- GET /api/v1/agencies — Listar agencias
+
+- PATCH /api/v1/agencies/:agencyId — Alternar `active` (activa/desactiva)
+
+- POST /api/v1/locations — Crear ubicación/provincia
+  - Body (campos principales): `countryCode` (2), `countryName`, `adminCode`, `name`, `type`
+  - Respuesta: `201` con el recurso.
+
+- GET /api/v1/locations — Listar ubicaciones (opcional query `?address=` para búsqueda)
+- GET /api/v1/locations/:locationId — Detalle por id
+- GET /api/v1/locations/countries — Lista de países (servicio)
+
+- POST /api/v1/pallets — Crear tipo de pallet
+  - Body: `agencyId`, `name`, `constraints` ({ maxWeight, maxHeight, maxLength, maxWidth })
+- GET /api/v1/pallets — Listar pallets
+- GET /api/v1/pallets/:palletTypeId — Detalle
+- POST /api/v1/pallets/compare — Comparación/validación de dimensiones (body: { item })
+- DELETE /api/v1/pallets/:palletTypeId — Eliminar
+
+- POST /api/v1/zones — Crear zona
+  - Body: `agencyId`, `name`, `provinces` (array de códigos), `calculationMode` (`pallet` | `parcel`), `postalCodeExceptions` (array de {from,to,zoneName})
+- GET /api/v1/zones — Listar
+- GET /api/v1/zones/:zoneId — Detalle
+
+- POST /api/v1/rates/compare — Comparar tarifas (motor principal)
+  - Validaciones aplicadas: `schemaValidation` (req.body presente) y `rateValidation` (estructura de `items`)
+  - Body mínimo:
+    ```json
+    {
+      "destinationPostalCode": "08001",
+      "province": "BCN",
+      "items": [
+        {
+          "typeServices": "pallet", // "pallet" o "parcel"
+          "weight": 300,
+          "large": 120,
+          "width": 80,
+          "height": 150
+        }
+      ]
+    }
+    ```
+  - Comportamiento:
+    - El servicio consulta agencias activas y lanza dos flujos en paralelo: tarifas estáticas y tarifas vía API (según `agency.type`).
+    - Para `static` usa `zones`, `rates` y `palletTypes` para calcular costos.
+    - Para `api` invoca adaptadores/carriers (si existen) y normaliza la respuesta.
+
+Validaciones y errores comunes
+- `schemaValidation.middleware.js`: fuerza que POST/PATCH/PUT tenga body.
+- `rateValidation.middleware.js`: valida `destinationPostalCode` y `province` como strings, `items` como array no vacío y cada item con `typeServices`, `weight`, `large`, `width`, `height` > 0.
+- `errors.middleware.js`: mapea errores a códigos HTTP (400, 404, 409, 500) y maneja errores de cast y duplicados.
+
+Modelos (resumen de campos importantes)
+- Agency (`api/src/lib/models/agency.model.js`)
+  - `name`, `code`, `type` (static|api|hybrid), `active`, `rules`, `supplements`, `apiConfig` (timeout, baseUrlApi, endpoints, apiKey)
+
+- Location (`location.model.js`)
+  - `countryCode`, `countryName`, `adminCode`, `adminFullCode`, `name`, `normalizedName`, `postalCode`, `type`
+
+- PalletType (`palletType.model.js`)
+  - `agencyId`, `name`, `constraints` (maxWeight, maxHeight, maxLength, maxWidth)
+
+- Zone (`zone.model.js`)
+  - `agencyId`, `name`, `provinces`, `calculationMode`, `pricingMode`, `postalCodeExceptions`
+
+- Rate (`rate.model.js`)
+  - `agencyId`, `type` (pallet|parcel), `zoneName`, `palletTypeId`, `services` (service, priceBreaks, surcharges, limits)
+
+Notas de arquitectura / lógica
+- Soporta agencias `static`, `api` y `hybrid`.
+- Para agencias `api` existe una fábrica de carriers (`carrierFactory`) que crea adaptadores para cada proveedor.
+- El flujo principal junta resultados (arrays) de proveedores estáticos y APIs externas y devuelve un array plano de resultados por agencia.
+
+---
+
+**PARTE 2 — WEB (frontend)**
+
+Resumen
+La carpeta `web/` contiene una aplicación React (Vite) que consume la API (`/api/v1`) para mostrar la UI de comparación de tarifas. Está configurada para usar `VITE_API_URL` como variable para apuntar a la API.
+
+Estructura relevante
+```
+web/
+├─ package.json
+├─ src/
+│  ├─ main.jsx
+│  ├─ App.jsx
+│  ├─ services/api-services.js  # cliente axios con baseURL
+│  └─ components/ ...
 ```
 
-Respuesta esperada:
-```json
-[
-  {
-    "agency": "Dachser",
-    "available": true,
-    "zone": "Nacional",
-    "services": [
-      {
-        "service": "economy",
-        "total": 140,
-        "breakdown": [
-          {
-            "type": "weight_volume",
-            "totalWeight": 300,
-            "price": 140
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "agency": "Cayco",
-    "available": false,
-    "reason": "No hay tarifa disponible"
-  }
-]
+Instalación y arranque (desarrollo)
+```bash
+cd web
+npm install
+npm run dev
 ```
 
----
+Variables de entorno (frontend)
+- `VITE_API_URL` — URL base de la API (ej. `http://localhost:3000/api/v1`). Si no está, el cliente usa `http://localhost:3000/api/v1` por defecto.
 
-## 🧠 Lógica de negocio clave
+Peticiones desde el frontend
+El cliente axios está en `web/src/services/api-services.js`. Los endpoints usados son:
+- `GET /locations` → `locationsProvinces()`
+- `GET /locations/countries` → `locationsCountries()`
+- `POST /rates/compare` → `compareRate(data)`
 
-### 1. Control de tipos de agencia
-
-- `static`: tarifas calculadas desde datos internos (`zones`, `rates`, `palletTypes`).
-- `api`: tarifas obtenidas desde un proveedor externo usando `apiConfig`.
-
-### 2. Proveedores externos
-
-La integración de proveedores se basa en un `CarrierService` abstracto:
-
-- `fetchApi()` realiza la llamada HTTP con tiempo de espera y abort signal.
-- `buildRequestBody()` crea el payload específico del carrier.
-- `buildRequestHeaders()` arma encabezados con API key.
-- `mapResponse()` normaliza la respuesta.
-
-Actualmente existe un adaptador para:
-- `dachser` → `DascherService`
-
-Si una agencia API no tiene adaptador registrado, la respuesta es:
-```json
-{
-  "agency": "MiAgencia",
-  "available": false,
-  "reason": "API Error: Not Implemented"
-}
+Build y producción
+```bash
+cd web
+npm run build   # genera /dist
 ```
-
-### 3. Cálculo de tarifas estáticas
-
-Para agencias `static`, el proceso es:
-
-1. Cargar zonas, tarifas y tipos de pallet en bulk.
-2. Agrupar datos por `agencyId`.
-3. Resolver la zona válida usando excepciones de códigos postales o provincias.
-4. Calcular tarifas según `calculationMode`:
-   - `weight_volume`: usa peso volumétrico / efectivo.
-   - `pallet`: clasifica pallets y calcula por cantidad.
-
-### 4. Funciones de utilidad importantes
-
-- `calculateVolume(item)` → m³
-- `calculateVolumetricWeight(item)` → peso volumétrico
-- `getEffectiveWeight(item)` → peso mayor entre real y volumétrico
-- `classifyPallet(item, palletTypes)` → encuentra el pallet que entra en las restricciones
-- `resolveZone(zones, postalCode, province)` → determina la zona destino
-- `groupByAgency(collection)` → agrupa documentos por agencia
+En el Dockerfile del proyecto la carpeta `web/dist` se copia dentro del contenedor de la API (`/opt/ship-api/web/build`) y el servidor sirve el frontend.
 
 ---
 
-## 🗃️ Esquemas MongoDB y validaciones
+Docker
+El proyecto incluye `Dockerfile` y `docker-compose.yml` para levantar la API y MongoDB.
 
-### `Agency`
-- `name`: requerido, mín 3, máx 14 caracteres.
-- `code`: generado desde `name`, lowercase y normalizado.
-- `type`: `static` o `api`.
-- `rules`: controles de soporte para Andalucía, pallets y parcels.
-- `apiConfig`: solo obligatorio para `type: api`.
+Levantar con Docker Compose
+```bash
+docker-compose up --build
+```
+El `docker-compose.yml` expone el servicio `app` en `localhost:8080` (mappeado a `3000` interno) y una instancia de `mongo`.
 
-### `Location`
-- `country_code`, `country_name`, `admin_code`, `admin_full_code`, `name`, `normalized_name`.
-- `normalized_name` se guarda en minúsculas y sin acentos.
-- Índices para búsquedas rápidas por provincia.
+Notas útiles
+- La imagen multi-stage construye y compila la app frontend dentro del contenedor y la copia al contenedor de la API.
+- Si trabajas localmente y quieres usar la UI de desarrollo (`vite`), ejecuta `npm run dev` dentro de `web`.
 
-### `PalletType`
-- `agencyId`: referencia a `Agency`.
-- `constraints`: máximos de peso y dimensiones.
+Comandos rápidos
+- API dev: `cd api && npm install && npm run dev`
+- API prod: `cd api && npm start`
+- Web dev: `cd web && npm install && npm run dev`
+- Docker: `docker-compose up --build`
 
-### `Zone`
-- `agencyId` referencia a `Agency`.
-- `provinces`: lista de provincias.
-- `calculationMode`: `pallet` o `weight_volume`.
-- `postalCodeExceptions`: reglas de excepción de zona.
-
-### `Rate`
-- `type`: `pallet` o `parcel`.
-- `zoneName`: zona aplicada.
-- `palletTypeId`: usado para tarifas de pallet.
-- `services`: listas de `service` y `priceBreaks`.
+Contacto y siguientes pasos
+- Si quieres, puedo:
+  - Generar un OpenAPI / Swagger básico desde los controladores.
+  - Añadir ejemplos curl para cada endpoint.
+  - Crear tests unitarios básicos para `rateValidation` y los controladores.
 
 ---
 
-## 🔧 Manejo de errores y validaciones
-
-### Validación de solicitudes
-`schemaValidation.middleware.js` obliga a que los métodos `POST`, `PATCH` y `PUT` reciban un cuerpo.
-
-### Manejo de errores global
-`errors.middleware.js` transforma errores a respuestas JSON con estados:
-- `400` → error de validación o cuerpo faltante
-- `404` → recurso no encontrado / ruta no encontrada
-- `409` → duplicados (`E11000`)
-- `502` → error en proveedor externo
-- `500` → error interno del servidor
-
----
-
-## 📌 Cambios, mejoras y añadidos
-
-- Documentación exhaustiva de la API y su arquitectura actual.
-- Actualización de la estructura real de `api/` y rutas disponibles.
-- Descripción de cada controlador y su responsabilidad.
-- Explicación del motor de cálculo moderno en `rateEnginev3.service.js`.
-- Cobertura de la integración de carriers externos via `CarrierService` y `DascherService`.
-- Aclaración del proceso de arranque del servidor y la inicialización de `locations`.
-- Inclusión de ejemplos de request/response para reducir la barrera para desarrolladores nuevos.
-
----
+Documento generado automáticamente a partir del código del repositorio (endpoints y modelos consultados el 26/05/2026).
 
 ## 📍 Notas finales
 

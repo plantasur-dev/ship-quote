@@ -1,6 +1,8 @@
 # Dependencies
 node_modules/
 
+logs/
+
 src/web/build/*
 
 # File

@@ -9,6 +9,9 @@ const stream = {
     },
 };
 
-const httpLogger = morgan("combined", { stream });
+const httpLogger = 
+    process.env.NODE_ENV === 'test'
+        ? morgan("dev")
+        : morgan("combined", { stream });
 
 export default httpLogger;

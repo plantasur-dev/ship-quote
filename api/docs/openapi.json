@@ -1,0 +1,850 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Ship Quote API",
+    "version": "1.0.0",
+    "description": "API para gestión de agencias, ubicaciones, pallets, zonas y comparación de tarifas."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1",
+      "description": "Servidor local (desarrollo)"
+    }
+  ],
+  "paths": {
+    "/agencies": {
+      "post": {
+        "summary": "Crear una nueva agencia",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgencyCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Agencia creada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agency"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar agencias",
+        "responses": {
+          "200": {
+            "description": "Lista de agencias",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Agency"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    },
+    "/agencies/{agencyId}": {
+      "patch": {
+        "summary": "Alternar estado `active` de una agencia",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "agencyId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agencia actualizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agency"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/locations": {
+      "post": {
+        "summary": "Crear una ubicación / provincia",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Ubicación creada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar ubicaciones (opcional `?address=` para búsqueda)",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "address",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Texto para búsqueda por nombre normalizado"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de ubicaciones",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Location"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations/{locationId}": {
+      "get": {
+        "summary": "Detalle de una ubicación por id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "locationId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalle de ubicación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/locations/countries": {
+      "get": {
+        "summary": "Listar países disponibles",
+        "responses": {
+          "200": {
+            "description": "Array de países",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pallets": {
+      "post": {
+        "summary": "Crear tipo de pallet",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PalletCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pallet creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PalletType"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar tipos de pallet",
+        "responses": {
+          "200": {
+            "description": "Lista de pallet types",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PalletType"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pallets/compare": {
+      "post": {
+        "summary": "Comparar/validar dimensiones contra pallets existentes",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "item": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultado de comparación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pallets/{palletTypeId}": {
+      "get": {
+        "summary": "Detalle de tipo de pallet",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "palletTypeId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pallet type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PalletType"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Eliminar un tipo de pallet",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "palletTypeId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Eliminado (sin contenido)"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/zones": {
+      "post": {
+        "summary": "Crear zona",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZoneCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Zona creada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Zone"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar zonas",
+        "responses": {
+          "200": {
+            "description": "Lista de zonas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Zone"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zones/{zoneId}": {
+      "get": {
+        "summary": "Detalle de zona",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "zoneId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Zona",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Zone"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/rates/compare": {
+      "post": {
+        "summary": "Comparar tarifas entre agencias activas",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RateCompareRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultados de comparación por agencia",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RateCompareResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "Petición inválida",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Recurso no encontrado",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Recurso duplicado",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "Error interno",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Agency": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["static", "api", "hybrid"]
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "rules": {
+            "type": "object",
+            "properties": {
+              "hasAndaluciaRule": {
+                "type": "boolean"
+              },
+              "supportsPallets": {
+                "type": "boolean"
+              },
+              "supportsParcels": {
+                "type": "boolean"
+              }
+            }
+          },
+          "supplements": {
+            "type": "object"
+          },
+          "apiConfig": {
+            "type": "object",
+            "properties": {
+              "timeout": {
+                "type": "integer"
+              },
+              "baseUrlApi": {
+                "type": "string"
+              },
+              "endpoints": {
+                "type": "object"
+              },
+              "apiKey": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "AgencyCreate": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["static", "api", "hybrid"]
+          },
+          "rules": {
+            "type": "object"
+          },
+          "apiConfig": {
+            "type": "object"
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "countryName": {
+            "type": "string"
+          },
+          "adminCode": {
+            "type": "string"
+          },
+          "adminFullCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "normalizedName": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["province", "state", "region"]
+          }
+        }
+      },
+      "LocationCreate": {
+        "type": "object",
+        "required": ["countryCode", "countryName", "adminCode", "name"],
+        "properties": {
+          "countryCode": {
+            "type": "string",
+            "description": "Código país (2 letras)"
+          },
+          "countryName": {
+            "type": "string"
+          },
+          "adminCode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["province", "state", "region"]
+          }
+        }
+      },
+      "PalletType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "agencyId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "constraints": {
+            "type": "object",
+            "properties": {
+              "maxWeight": {
+                "type": "number"
+              },
+              "maxHeight": {
+                "type": "number"
+              },
+              "maxLength": {
+                "type": "number"
+              },
+              "maxWidth": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "PalletCreate": {
+        "type": "object",
+        "required": ["agencyId", "name", "constraints"],
+        "properties": {
+          "agencyId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "constraints": {
+            "type": "object",
+            "properties": {
+              "maxWeight": {
+                "type": "number"
+              },
+              "maxHeight": {
+                "type": "number"
+              },
+              "maxLength": {
+                "type": "number"
+              },
+              "maxWidth": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "Zone": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "agencyId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "provinces": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "calculationMode": {
+            "type": "string",
+            "enum": ["pallet", "parcel"]
+          },
+          "postalCodeExceptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "from": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "zoneName": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ZoneCreate": {
+        "type": "object",
+        "required": ["agencyId", "name"],
+        "properties": {
+          "agencyId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "provinces": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "calculationMode": {
+            "type": "string",
+            "enum": ["pallet", "parcel"]
+          },
+          "postalCodeExceptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "from": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "zoneName": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "RateCompareItem": {
+        "type": "object",
+        "properties": {
+          "typeServices": {
+            "type": "string",
+            "description": "\"pallet\" o \"parcel\""
+          },
+          "weight": {
+            "type": "number"
+          },
+          "large": {
+            "type": "number"
+          },
+          "width": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          }
+        }
+      },
+      "RateCompareRequest": {
+        "type": "object",
+        "required": ["destinationPostalCode", "province", "items"],
+        "properties": {
+          "destinationPostalCode": {
+            "type": "string"
+          },
+          "province": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RateCompareItem"
+            }
+          }
+        }
+      },
+      "RateCompareResponse": {
+        "type": "object",
+        "properties": {
+          "agency": {
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "zone": {
+            "type": "string"
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "service": {
+                  "type": "string"
+                },
+                "total": {
+                  "type": "number"
+                },
+                "breakdown": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

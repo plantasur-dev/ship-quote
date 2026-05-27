@@ -19,6 +19,16 @@ const zoneSchema = new mongoose.Schema({
         enum: ["pallet", "parcel"],
         default: "pallet"
     },
+    volumetric: {
+        enabled: {
+            type: Boolean,
+            default: false
+        },
+        factor: {
+            type: Number,
+            default: 200
+        }
+    },
     pricingMode: {
         type: {
             type: String,

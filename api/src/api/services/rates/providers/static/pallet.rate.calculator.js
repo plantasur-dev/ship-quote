@@ -61,8 +61,10 @@ function calculePricing(agencySupplements, tonnagePricingRule, priceBase, totalW
 }
 
 function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplements }) {
+    
     const totalWeight = palletItems.reduce((sum, item) => 
-        sum + getEffectiveWeight(item), 0
+        sum += getEffectiveWeight(item, zone?.volumetric)
+        , 0
     );
 
     const rateMap = calculeRateByField(agencyRates);

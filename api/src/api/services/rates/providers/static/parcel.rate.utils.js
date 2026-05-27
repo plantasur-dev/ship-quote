@@ -1,6 +1,6 @@
 
 import {
-    calculateVolumetricWeight,
+    calculateVolumeM3,
     matchPrice,
     calculateFuelSurcharge,
     calculateAdditionalWeightBlockCost,
@@ -93,12 +93,20 @@ export function enrichParcelItem(item, surcharges = {}) {
 }
 
 export function calculateParcelTotals(items) {
+
+    const envVolume = Number(process.env.DEFAULT_PARCEL_VOLUME);
+
+    const PARCEL_VOL =
+        Number.isFinite(envVolume) && envVolume > 0
+            ? envVolume
+            : 6000;
+
     return items.reduce((acc, item) => {
         acc.extraDimensionsCost += item.dimensionSupplement || 0;
 
         acc.totalItemsWeight += Number(item.weight || 0);
 
-        acc.volumetric += calculateVolumetricWeight(item, 6000);
+        acc.volumetric += calculateVolumeM3(item, PARCEL_VOL);
 
         return acc;
     }, {

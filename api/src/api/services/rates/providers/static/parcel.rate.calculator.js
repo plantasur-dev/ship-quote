@@ -48,7 +48,7 @@ function calculateParcelRate({
                 incidents.push(
                     buildParcelRate({
                         serviceName,
-                        itemCount: 1,
+                        itemCount: 0,
                         totalWeight: item.weight,
                         incidents: [incident]
                     })

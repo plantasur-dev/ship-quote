@@ -37,6 +37,9 @@ export async function zonesCayco() {
         name: zoneName,
         provinces,
         calculationMode: 'pallet',
+        volumetric: {
+          enabled: type === 'weight_volume'
+        },
         pricingMode: {
           type,
           tonnagePricingRule: {

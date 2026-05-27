@@ -13,6 +13,7 @@ import apiRouter from "./src/api/index.js";
 
 import webRoute from './web/index.js';
 
+import docRouter from "./docs/index.js";
 
 const app = express()
 
@@ -23,6 +24,8 @@ app.use(httpLogger);
 app.use(cors());
 
 app.use(express.json());
+
+app.use('/docs', docRouter);
 
 app.use('/api/v1', apiRouter);
 

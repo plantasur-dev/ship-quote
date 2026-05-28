@@ -1,7 +1,7 @@
 
 import createHttpError from "http-errors";
 
-import logger from "../../lib/looger/looger.js";
+import logger from "../../lib/logger/logger.js";
 
 export const errorHandler = (err, req, res, next) => {
 

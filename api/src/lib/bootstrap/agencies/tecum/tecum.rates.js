@@ -20,6 +20,13 @@ import {
 
 export async function ratesTecum() {
 
+  const exists = await Rate.findOne();
+
+  if (exists) {
+      console.log('Rate ya existen para TECUM, se omite');
+      return;
+  }
+
   const agency = await Agency.findOne({ code: 'tecum' });
     
   if (!agency) {
@@ -70,6 +77,13 @@ export async function ratesTecum() {
 }
 
 export const ratesByQuantityTecum = async (agencyCode) => {
+
+  const exists = await Rate.findOne();
+
+  if (exists) {
+      console.log('ratesByQuantity ya existen para TECUM, se omite');
+      return;
+  }
 
   const tablesConfig =  [
     { table: ExtraLight, palletName: 'EXTRA LIGHT PALLET' },

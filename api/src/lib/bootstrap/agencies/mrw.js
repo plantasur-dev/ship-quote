@@ -12,6 +12,13 @@ import {
 
 export async function rateMrw() {
 
+    const exists = await Rate.findOne();
+
+    if (exists) {
+        console.log('Rate ya existen para MRW, se omite');
+        return;
+    }
+
     const agency = await Agency.findOne({ code: 'mrw' });
     
     if (!agency) {
@@ -46,6 +53,13 @@ export async function rateMrw() {
 };
 
 export async function zoneMrw() {
+
+    const exists = await Zone.findOne();
+
+    if (exists) {
+        console.log('Zone ya existen para MRW, se omite');
+        return;
+    }
 
     const agency = await Agency.findOne({ code: 'mrw' });
 

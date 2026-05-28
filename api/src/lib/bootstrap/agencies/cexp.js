@@ -11,6 +11,13 @@ import {
 
 export async function ratesCorreos() {
 
+    const exists = await Rate.findOne();
+
+    if (exists) {
+        console.log('Rate ya existen para CEXP, se omite');
+        return;
+    }
+
     const agency = await Agency.findOne({ code: 'correosexpress' });
    
     if (!agency) {
@@ -45,6 +52,13 @@ export async function ratesCorreos() {
 };
 
 export async function zonesCorreos() {
+
+    const exists = await Zone.findOne();
+
+    if (exists) {
+        console.log('Zone ya existen para CEXP, se omite');
+        return;
+    }
 
     const agency = await Agency.findOne({ code: 'correosexpress' });
     

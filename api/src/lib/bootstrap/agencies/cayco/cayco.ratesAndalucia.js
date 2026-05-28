@@ -8,6 +8,13 @@ import { buildVolumenBreaks } from '../../../utils/cayco.utils.js';
 import { zona11, zona12 } from '../../../data/cayco.js';
 
 export async function ratesAndaluciaCayco() {
+
+  const exists = await Rate.findOne();
+      
+  if (exists) {
+    console.log('Rate Andalucía ya existen para Cayco, se omite');
+    return;
+  }
   
   const agency = await Agency.findOne({ code: 'cayco' });
 

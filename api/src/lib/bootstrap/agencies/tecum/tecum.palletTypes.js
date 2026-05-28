@@ -7,6 +7,13 @@ import { palletTypesRaw } from '../../../data/tecum.js';
 
 export async function palletTypesTecum() {
 
+  const exists = await PalletType.findOne();
+
+  if (exists) {
+      console.log('PalletType ya existen para TECUM, se omite');
+      return;
+  }
+
   const agency = await Agency.findOne({ code: 'tecum' });
   
   if (!agency) {

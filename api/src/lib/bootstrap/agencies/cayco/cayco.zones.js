@@ -7,6 +7,13 @@ import { zonesRaw } from '../../../data/cayco.js';
 
 export async function zonesCayco() {
 
+  const exists = await Zone.findOne();
+    
+  if (exists) {
+    console.log('Zone ya existen para Cayco, se omite');
+    return;
+  }
+
   const agency = await Agency.findOne({ code: 'cayco' });
 
   if (!agency) {

@@ -19,16 +19,24 @@ import {
 } from '../../../data/cayco.js';
 
 export async function ratesCayco() {
+
+  const exists = await Rate.findOne();
+      
+  if (exists) {
+    console.log('Rate ya existen para Cayco, se omite');
+    return;
+  }
   
   const agency = await Agency.findOne({ code: 'cayco' });
-  const palletTypes = await PalletType.find({ agencyId: agency._id });
-
+  
   if (!agency) {
     console.log('Agency Cayco not found');
     return;
   }
 
   await Rate.deleteMany({ agencyId: agency._id });
+
+  const palletTypes = await PalletType.find({ agencyId: agency._id });
 
   const inserts = [];
 

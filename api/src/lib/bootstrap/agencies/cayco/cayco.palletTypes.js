@@ -7,6 +7,13 @@ import { palletTypesRaw } from '../../../data/cayco.js';
 
 export async function palletTypesCayco() {
 
+  const exists = await PalletType.findOne();
+        
+  if (exists) {
+    console.log('PalletType ya existen para Cayco, se omite');
+    return;
+  }
+
   const agency = await Agency.findOne({ code: "cayco" });
   
   if (!agency) {

@@ -1,6 +1,6 @@
 
 import mongoose from "mongoose";
-import logger from "../looger/looger.js";
+import logger from "../logger/logger.js";
 
 
 const MONGODB_URI =

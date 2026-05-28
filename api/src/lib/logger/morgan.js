@@ -1,7 +1,7 @@
 
 import morgan from 'morgan';
 
-import looger from './looger.js';
+import looger from './logger.js';
 
 const stream = {
     write: (message) => {

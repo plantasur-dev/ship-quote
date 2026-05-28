@@ -1,9 +1,9 @@
 
 import express from "express";
 
-import logger from "./src/lib/looger/looger.js";
+import logger from "./src/lib/logger/logger.js";
 
-import httpLogger from "./src/lib/looger/morgan.js";
+import httpLogger from "./src/lib/logger/morgan.js";
 
 import cors from 'cors';
 

@@ -1,6 +1,12 @@
 
 import { useState } from "react";
 
+import {
+    inputStyle,
+    servicesLabel,
+    dimensionsLabel
+ } from './item-draft-form-styles';
+
 function ItemDraftForm({ onAddItem }) {
 
     const [itemDraft, setItemDraft] = useState({
@@ -77,30 +83,6 @@ function ItemDraftForm({ onAddItem }) {
         setErrors({});
     };
 
-    const inputStyle = `
-        h-12
-        w-full
-        rounded-2xl
-        border
-        bg-white
-        px-4
-        pr-12
-        text-sm
-        text-slate-900
-        shadow-sm
-        outline-none
-        transition-all
-        duration-200
-
-        placeholder:text-slate-400
-
-        hover:border-slate-300
-
-        focus:border-indigo-500
-        focus:ring-4
-        focus:ring-indigo-500/10
-    `;
-
     return (
         <div
             className="
@@ -115,7 +97,6 @@ function ItemDraftForm({ onAddItem }) {
             "
         >
             <div className="mb-6">
-
                 <h3 className="text-base font-semibold text-slate-900">
                     Añadir paquete
                 </h3>
@@ -126,45 +107,27 @@ function ItemDraftForm({ onAddItem }) {
             </div>
 
             <div className="space-y-6">
-
                 <div className="space-y-3">
-
                     <label className="text-sm font-medium text-slate-700">
                         Tipo de servicio
                     </label>
 
                     <div className="grid grid-cols-2 gap-3">
-
-                        {[
-                            {
-                                value: 'pallet',
-                                label: 'Pallet',
-                                icon: '📦'
-                            },
-                            {
-                                value: 'parcel',
-                                label: 'Paquetería',
-                                icon: '🚚'
-                            }
-                        ].map((service) => {
+                        { servicesLabel.map((service) => {
 
                             const active =
                                 itemDraft.typeServices === service.value;
 
                             return (
-
                                 <button
                                     key={ service.value }
-
                                     type="button"
-
                                     onClick={() =>
                                         handleChange(
                                             'typeServices',
                                             service.value
                                         )
                                     }
-
                                     className={`
                                         rounded-2xl
                                         border
@@ -172,7 +135,7 @@ function ItemDraftForm({ onAddItem }) {
                                         text-left
                                         transition-all
                                         duration-200
-
+                                        cursor-pointer
                                         ${
                                             active
                                                 ? `
@@ -196,7 +159,6 @@ function ItemDraftForm({ onAddItem }) {
                                     <div className="mt-3 text-sm font-medium text-slate-900">
                                         { service.label }
                                     </div>
-
                                 </button>
                             );
                         })}
@@ -210,70 +172,32 @@ function ItemDraftForm({ onAddItem }) {
                 </div>
 
                 <div className="space-y-3">
-
                     <label className="text-sm font-medium text-slate-700">
                         Dimensiones y peso
                     </label>
 
                     <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-
-                        {[
-                            {
-                                field: 'large',
-                                label: 'Largo',
-                                unit: 'cm'
-                            },
-                            {
-                                field: 'width',
-                                label: 'Ancho',
-                                unit: 'cm'
-                            },
-                            {
-                                field: 'height',
-                                label: 'Alto',
-                                unit: 'cm'
-                            },
-                            {
-                                field: 'weight',
-                                label: 'Peso',
-                                unit: 'kg'
-                            }
-                        ].map((item) => (
-
+                        { dimensionsLabel.map((item) => (
                             <div
                                 key={ item.field }
                                 className="space-y-2"
                             >
-
-                                <label
-                                    className="
-                                        text-xs
-                                        font-medium
-                                        uppercase
-                                        tracking-wide
-                                        text-slate-500
-                                    "
-                                >
+                                <label className="text-xs font-medium uppercase tracking-wide text-slate-500">
                                     { item.label }
                                 </label>
 
                                 <div className="relative">
-
                                     <input
                                         value={ itemDraft[item.field] }
-
                                         onChange={(e) =>
                                             handleChange(
                                                 item.field,
                                                 e.target.value
                                             )
                                         }
-
                                         placeholder="0"
-
                                         className={`
                                             ${ inputStyle }
-
                                             ${
                                                 errors[item.field]
                                                     ? `
@@ -314,12 +238,9 @@ function ItemDraftForm({ onAddItem }) {
                 </div>
 
                 <div className="flex justify-end pt-2">
-
                     <button
                         type="button"
-
                         onClick={ handleAddItem }
-
                         className="
                             inline-flex
                             h-11
@@ -347,6 +268,8 @@ function ItemDraftForm({ onAddItem }) {
                             hover:shadow-xl
 
                             active:scale-[0.98]
+
+                            cursor-pointer
                         "
                     >
                         + Añadir paquete

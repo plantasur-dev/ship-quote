@@ -1,9 +1,11 @@
 
 import axios from 'axios';
 
-const http = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'
-});
+const baseURL = import.meta.env.REACT_ENV !== 'test' 
+    ? import.meta.env.VITE_API_URL || '/api/v1'
+    : 'http://localhost:3000/api/v1'
+    
+const http = axios.create({ baseURL });
 
 http.interceptors.response.use(
     (res) => res.data,
@@ -12,7 +14,8 @@ http.interceptors.response.use(
         
         console.error(`API Error [${ status }]: `, data || err.message);
 
-        return Promise.reject(data || { message: 'Unknown error' });
+        return Promise.reject(data || 
+            { message: `API Error [${ status }]: ${ data || err.message } ` });
     }
 );
 

@@ -32,5 +32,9 @@ app.use('/api/v1', apiRouter);
 app.use(webRoute);
 
 app.listen(PORT, '0.0.0.0',() => {
-    logger.info(`App listening on port ${ PORT }`);
+    logger.info('Server', {
+        type: 'http',
+        message: `App listening on port ${ PORT }`,
+        port: PORT
+    });
 });

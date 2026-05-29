@@ -7,18 +7,18 @@ import { palletTypesRaw } from '../../../data/tecum.js';
 
 export async function palletTypesTecum() {
 
-  const exists = await PalletType.findOne();
-
-  if (exists) {
-      console.log('PalletType ya existen para TECUM, se omite');
-      return;
-  }
-
   const agency = await Agency.findOne({ code: 'tecum' });
   
   if (!agency) {
     console.log('Tecum no existe');
     return;
+  }
+
+  const exists = await PalletType.findOne({ agencyId: agency._id });
+
+  if (exists) {
+      console.log('PalletType ya existen para TECUM, se omite');
+      return;
   }
 
   await PalletType.deleteMany({ agencyId: agency._id });
@@ -36,5 +36,5 @@ export async function palletTypesTecum() {
 
   await PalletType.insertMany(docs);
 
-  console.log('✅ PalletTypes importados');
+  console.log('✅ Tecum PalletTypes importados');
 }

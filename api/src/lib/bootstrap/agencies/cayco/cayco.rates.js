@@ -5,6 +5,8 @@ import Rate from '../../../models/rate.model.js';
 
 import PalletType from '../../../models/palletType.model.js';
 
+import { ratesAndaluciaCayco } from './cayco.ratesAndalucia.js';
+
 import { 
   fixedPrice, 
   buildBreaks, 
@@ -19,13 +21,6 @@ import {
 } from '../../../data/cayco.js';
 
 export async function ratesCayco() {
-
-  const exists = await Rate.findOne();
-      
-  if (exists) {
-    console.log('Rate ya existen para Cayco, se omite');
-    return;
-  }
   
   const agency = await Agency.findOne({ code: 'cayco' });
   
@@ -34,9 +29,18 @@ export async function ratesCayco() {
     return;
   }
 
-  await Rate.deleteMany({ agencyId: agency._id });
+  const agencyId = { agencyId: agency._id };
 
-  const palletTypes = await PalletType.find({ agencyId: agency._id });
+  const exists = await Rate.findOne(agencyId);
+      
+  if (exists) {
+    console.log('Rate ya existen para Cayco, se omite');
+    return;
+  }
+
+  await Rate.deleteMany(agencyId);
+
+  const palletTypes = await PalletType.find(agencyId);
 
   const inserts = [];
 
@@ -93,4 +97,6 @@ export async function ratesCayco() {
   await Rate.insertMany(inserts);
 
   console.log('✅ Completo rates Cayco');
+
+  await ratesAndaluciaCayco();
 }

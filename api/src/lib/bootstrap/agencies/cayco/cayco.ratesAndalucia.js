@@ -8,13 +8,6 @@ import { buildVolumenBreaks } from '../../../utils/cayco.utils.js';
 import { zona11, zona12 } from '../../../data/cayco.js';
 
 export async function ratesAndaluciaCayco() {
-
-  const exists = await Rate.findOne();
-      
-  if (exists) {
-    console.log('Rate Andalucía ya existen para Cayco, se omite');
-    return;
-  }
   
   const agency = await Agency.findOne({ code: 'cayco' });
 
@@ -49,5 +42,5 @@ export async function ratesAndaluciaCayco() {
     }
   ]);
 
-  console.log('✅ Tarifas Andalucía importadas');
+  console.log('✅ Rate Cayco Andalucía importadas');
 }

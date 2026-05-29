@@ -7,17 +7,17 @@ import { palletTypesRaw } from '../../../data/cayco.js';
 
 export async function palletTypesCayco() {
 
-  const exists = await PalletType.findOne();
-        
-  if (exists) {
-    console.log('PalletType ya existen para Cayco, se omite');
-    return;
-  }
-
   const agency = await Agency.findOne({ code: "cayco" });
   
   if (!agency) {
     console.log('Agency Cayco not found');
+    return;
+  }
+
+  const exists = await PalletType.findOne({ agencyId: agency._id });
+        
+  if (exists) {
+    console.log('PalletType ya existen para Cayco, se omite');
     return;
   }
 
@@ -37,5 +37,5 @@ export async function palletTypesCayco() {
 
   await PalletType.insertMany(docs);
 
-  console.log("✅ PalletTypes importados");
+  console.log("✅ Cayco PalletTypes importados");
 }

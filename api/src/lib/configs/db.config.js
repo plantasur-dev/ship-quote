@@ -11,6 +11,12 @@ const MONGODB_URI =
 export const connectDB = async () => {
     await mongoose
         .connect(MONGODB_URI)
-        .then((db) => logger.info(`MongoDB connected: `, { message: db.connection.host }))
-        .catch((error) => logger.error(`error MongoDB: `, { message: error }));
+        .then((db) => logger.info(`MongoDB connected: `, {
+            type: 'dataBase', 
+            message: db.connection.host 
+        }))
+        .catch((error) => logger.error(`error MongoDB: `, { 
+            type: 'dataBase', 
+            message: error 
+        }));
 };

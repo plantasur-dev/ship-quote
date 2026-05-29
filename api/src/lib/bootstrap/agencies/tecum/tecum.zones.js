@@ -7,18 +7,18 @@ import { zones, exceptions } from '../../../data/tecum.js';
 
 export async function zonesTecum() {
 
-  const exists = await Zone.findOne();
-  
-  if (exists) {
-      console.log('Zone ya existen para TECUM, se omite');
-      return;
-  }
-
   const agency = await Agency.findOne({ code: 'tecum' });
   
   if (!agency) {
     console.log('No existe TECUM');
     return;
+  }
+
+  const exists = await Zone.findOne({ agencyId: agency._id });
+  
+  if (exists) {
+      console.log('Zone ya existen para TECUM, se omite');
+      return;
   }
 
   await Zone.deleteMany({ agencyId: agency._id });

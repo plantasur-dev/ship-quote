@@ -27,6 +27,13 @@ const agenciesData = [
             hasAndaluciaRule: false,
             supportsPallets: true,
             supportsParcels: false
+        },
+        supplements: {
+            fuelSurcharge: {
+                enabled: true,
+                type: 'percentage',
+                value: 4
+            }
         }
     },
     {

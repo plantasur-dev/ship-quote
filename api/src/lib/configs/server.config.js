@@ -1,7 +1,11 @@
 
 import { connectDB } from './db.config.js';
+
 import { initLocations } from '../../api/services/location.zone.service.js';
+
 import bootstrap from '../bootstrap/bootstrap.js';
+
+import logger from '../logger/logger.js';
 
 async function startServer() {
     await connectDB();
@@ -10,3 +14,9 @@ async function startServer() {
 }
 
 startServer();
+
+logger.info('Bootstrap', {
+    type: 'startup',
+    message: 'Environment data loaded',
+    component: 'database'
+});

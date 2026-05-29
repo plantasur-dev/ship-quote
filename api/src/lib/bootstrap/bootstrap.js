@@ -4,15 +4,13 @@ import { agencies } from './agencies/agencies.js';
 import { 
     zonesCayco, 
     palletTypesCayco, 
-    ratesCayco, 
-    ratesAndaluciaCayco 
+    ratesCayco 
 } from './agencies/cayco/index.js';
 
 import { 
     zonesTecum, 
     palletTypesTecum, 
-    ratesTecum, 
-    ratesByQuantityTecum 
+    ratesTecum 
 } from './agencies/tecum/index.js';
 
 import { 
@@ -35,10 +33,8 @@ async function bootstrap() {
     await palletTypesTecum();
 
     await ratesCayco();
-    await ratesAndaluciaCayco();
 
     await ratesTecum();
-    await ratesByQuantityTecum('tecum');
 
     await ratesCorreos();
     await zonesCorreos();

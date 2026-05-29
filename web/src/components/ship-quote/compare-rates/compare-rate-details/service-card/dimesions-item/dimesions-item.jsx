@@ -73,11 +73,11 @@ function DimensionsItem({ item }) {
                     <Ruler size={ 14 } className="text-slate-500" />
 
                     <span className="text-xs text-slate-400">
-                        Lg. <span className="text-base text-slate-600">{ item.large }</span> cm
+                        lg. <span className="text-base text-slate-600">{ item.large }</span> cm
                         <span className="mx-1">×</span>
-                        An. <span className="text-base text-slate-600">{ item.width }</span> cm
+                        an. <span className="text-base text-slate-600">{ item.width }</span> cm
                         <span className="mx-1">×</span>
-                        Al. <span className="text-base text-slate-600">{ item.height }</span> cm
+                        al. <span className="text-base text-slate-600">{ item.height }</span> cm
                     </span>
                 </div>
             </div>

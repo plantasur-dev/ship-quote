@@ -8,8 +8,6 @@ import Breakdown from './breakdown';
 
 function ServiceBreakdown({ item }) {
 
-    console.log(item)
-
     return (
         <>
             { item.breakdown?.length > 0 && (

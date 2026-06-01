@@ -21,7 +21,7 @@ export default class DascherService extends CarrierService {
                 "product": "Y",
                 "term": "031",
                 "consignor": {
-                    "id": "46333461"
+                    "id": process.env.DACHSER_API_N_CUSTOMER
                 },
                 "consignee": {
                     "addressInformation": {
@@ -68,12 +68,17 @@ export default class DascherService extends CarrierService {
     mapResponse(data, items = []) {
         
         const { name, rules } = this.agency;
+
+        const typePallet = 
+            rules.supportsPallets 
+                ? 'pallet' 
+                : 'parcel';
         
         if (data?.totalAmount.amount === 0) {
             return [
                 buildRateResult({
                     service: 'NO_RATE',
-                    transportType: rules.supportsPallets ? 'pallet' : 'parcel',
+                    transportType: typePallet,
                     itemCount: items.length || 0,
                     concepts: [],
                     incidents: [
@@ -88,7 +93,7 @@ export default class DascherService extends CarrierService {
         return [
             buildRateResult({
                 service: data?.id || name,
-                transportType: rules.supportsPallets ? 'pallet' : 'parcel',
+                transportType: typePallet,
                 itemCount: items.length || 0,
                 concepts: [ 
                     ...data?.quotationDetails?.map(r => (

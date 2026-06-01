@@ -50,7 +50,7 @@ const agenciesData = [
             timeout: 3000,
             baseUrlApi: 'https://api-gateway.dachser.com/rest/v2',
             endpoints: {
-                quotations: '/quotations',
+                quotations: 'quotations',
                 transportOrders: ''
             },
             apiKey: process.env.DACHSER_API_KEY

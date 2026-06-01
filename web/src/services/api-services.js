@@ -14,7 +14,7 @@ http.interceptors.response.use(
     (err) => {
         const { status, data } = err?.response || {};
 
-        const message = `API Error [${ status }]: ${ data || err.message } `;
+        const message = `API Error [${ status }]: ${ data?.message || err.message } `;
         
         console.error(message);
 

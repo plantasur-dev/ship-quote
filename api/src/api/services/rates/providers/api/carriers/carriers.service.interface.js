@@ -96,9 +96,9 @@ export default class CarrierService {
         const items = input?.items
             .filter(item => supportsPallets && item.typeServices === "pallet") 
             || [];
-
+        
         const response = await this.fetchApi(
-            `${ baseUrlApi }/${ quotations }`, 
+            `${ baseUrlApi }/${ quotations.trim() }`, 
             this.buildRequestHeaders(apiKey), 
             this.buildRequestBody(input, items), 
             timeout

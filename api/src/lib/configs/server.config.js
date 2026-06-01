@@ -16,7 +16,7 @@ async function startServer() {
 startServer();
 
 logger.info('Bootstrap', {
-    type: 'startup',
+    event: 'startup',
     message: 'Environment data loaded',
     component: 'database'
 });

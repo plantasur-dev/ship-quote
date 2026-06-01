@@ -4,10 +4,10 @@ import morgan, { token } from 'morgan';
 import looger from './logger.js';
 
 const httpLogger = morgan((tokens, req, res) => {
-    looger.info('HTTP Request', {
-        type: 'http',
+    looger.info({
+        event: 'http_request',
         method: tokens.method(req, res),
-        route: tokens.url(req, res),
+        path: req.path,
         status: Number(tokens.status(req, res)),
         responseTime: Number(
             tokens['response-time'](req, res)
@@ -16,12 +16,9 @@ const httpLogger = morgan((tokens, req, res) => {
             req,
             res,
             'content-length'
-        ),
+        ) || 0,
 
         ip: tokens['remote-addr'](req, res),
-
-        referrer: tokens.referrer(req, res),
-
         userAgent: tokens['user-agent'](req, res)
     });
 

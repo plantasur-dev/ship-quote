@@ -3,36 +3,70 @@ import createHttpError from "http-errors";
 
 import logger from "../../lib/logger/logger.js";
 
+const loggerHandler = (status, message, err, req, type = 'warn') => {
+    logger.type({
+        event: 'request_error',
+        errorName: err?.name,
+        message,
+        status,
+        method: req.method,
+        path: req.originalUrl,
+        stack: err.stack
+    });
+};
+
 export const errorHandler = (err, req, res, next) => {
 
     if (err.name === 'ValidationError') {
-        res.status(400).json(err.errors)
+        const status = 400;
+        const message = err.errors;
+
+        loggerHandler(status, message, err, req);
+
+        res.status(status).json(message);
         return;
     }
 
     if (err.status) {
-        res.status(err.status).json({ message: err.message });
+        const status = err.status;
+        const message = err.message;
+
+        loggerHandler(status, message, err, req);
+
+        res.status(status).json({ message });
         return;
     }
 
     if (err.name === 'CastError') {
-        res.status(404).json({ message: 'Resource not found' });
+        const status = 404;
+        const message = 'Resource not found';
+
+        loggerHandler(status, message, err, req);
+
+        res.status(status).json({ message });
         return;
     }
 
     if (err.message?.includes('E11000')) {
-        res.status(409).json({ message: 'Resource duplicate' });
+        const status = 409;
+        const message = 'Resource duplicate';
+
+        loggerHandler(status, message, err, req);
+
+        res.status(status).json({ message });
         return;
     }
 
-    logger.error(err.message, { 
-        stack: err.stack,
-        method: req.method,
-    });
+    const status = 500;
+    const message = 'Error internal server';
 
-    res.status(500).json({ message: 'Error internal server' });
+    loggerHandler(status, message, err, req, 'error');
+
+    res.status(status).json({ message });
 };
 
 export const routerNotFound = (req, res) => {
-    throw new createHttpError(404, "Route Not Found");
+    loggerHandler(404, 'Route Not Found', err, req);
+
+    throw new createHttpError(404, 'Route Not Found');
 };

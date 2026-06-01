@@ -33,7 +33,7 @@ app.use(webRoute);
 
 app.listen(PORT, '0.0.0.0',() => {
     logger.info('Server', {
-        type: 'http',
+        event: 'server',
         message: `App listening on port ${ PORT }`,
         port: PORT
     });

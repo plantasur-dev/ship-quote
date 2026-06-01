@@ -4,8 +4,9 @@ services:
       context: .
       args:
         VITE_API_URL: /api/v1
+    image: ship-quote:1.0.0
 
-    container_name: ship-quote-app
+    container_name: ship-quote-app-prod
 
     ports:
       - "8080:3000"
@@ -21,7 +22,7 @@ services:
   mongo:
     image: mongo:8
 
-    container_name: ship-quote-mongo
+    container_name: ship-quote-mongo-prod
 
     ports:
       - "27018:27017"

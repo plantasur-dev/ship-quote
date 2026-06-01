@@ -22,7 +22,7 @@ function Incident({ incidents = [] }) {
                         shadow-sm
                     "
                 >
-                    <p className="mb-1 font-medium">
+                    <div className="mb-1 font-medium">
                         <div className="space-y-2">
                             <p className="font-semibold text-red-900">
                                 { incident.type }
@@ -90,7 +90,7 @@ function Incident({ incidents = [] }) {
                                 )}
                             </div>
                         </div>
-                    </p>
+                    </div>
 
                     { incident.message && (
                         <p className="mt-1 text-sm">{ incident.message }</p>

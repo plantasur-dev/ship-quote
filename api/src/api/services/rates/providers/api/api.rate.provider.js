@@ -18,7 +18,7 @@ export default async function getApiRates(agencies, input = {}) {
           return buildApiErrorResult({
             agency: agency.name,
             error: {
-                message: 'Carrier not implemented'
+              message: 'Carrier not implemented'
             },
             presentRate
           });
@@ -34,9 +34,9 @@ export default async function getApiRates(agencies, input = {}) {
       } catch (error) {
 
         return buildApiErrorResult({
-            agency: agency.name,
-            error,
-            presentRate
+          agency: agency.name,
+          error,
+          presentRate
         });
       }  
     })

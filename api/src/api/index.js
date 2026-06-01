@@ -43,13 +43,13 @@ apiRouter.get(
 );
 
 apiRouter.get(
-    '/locations/:locationId',
-    Locations.details
+    '/locations/countries',
+    Locations.countries
 );
 
 apiRouter.get(
-    '/locations/countries',
-    Locations.countries
+    '/locations/:locationId',
+    Locations.details
 );
 
 

@@ -84,7 +84,9 @@ function Breakdown({ breakdowns = [] }) {
                                             text-slate-600
                                         "
                                     >
-                                        { breakdown.type } { breakdown?.excessWeight && 
+                                        { breakdown.type[0].toUpperCase() + breakdown.type.slice(1) } 
+                                        
+                                        { breakdown?.excessWeight && 
                                             ( breakdown?.excessWeight + ` kg`) }
                                     </h3>
                                 )}

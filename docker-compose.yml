@@ -36,22 +36,23 @@ services:
   # LOKI (almacenamiento logs)
   # -------------------------
   loki:
-    image: grafana/loki:2.9.0
+    image: grafana/loki:3.6.6
     container_name: ship-quote-loki
 
     ports:
       - "3100:3100"
 
-    command: -config.file=/etc/loki/config.yml
-
     volumes:
       - ./config/loki/config.yml:/etc/loki/config.yml
+      - loki_data:/loki
+
+    command: -config.file=/etc/loki/config.yml
 
   # -------------------------
   # PROMTAIL (lector logs docker)
   # -------------------------
   promtail:
-    image: grafana/promtail:2.9.0
+    image: grafana/promtail:3.6.10
     container_name: ship-quote-promtail
 
     volumes:
@@ -88,3 +89,4 @@ services:
 volumes:
   mongo_data_dev:
   grafana_data:
+  loki_data:

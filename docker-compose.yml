@@ -43,7 +43,7 @@ services:
       - "3100:3100"
 
     volumes:
-      - ./config/loki/config.yml:/etc/loki/config.yml
+      - ./infra/monitoring/loki/config.yml:/etc/loki/config.yml
       - loki_data:/loki
 
     command: -config.file=/etc/loki/config.yml
@@ -58,7 +58,7 @@ services:
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/log:/var/log
-      - ./config/promtail/config.yml:/etc/promtail/config.yml
+      - ./infra/monitoring/promtail/config.yml:/etc/promtail/config.yml
       - /var/run/docker.sock:/var/run/docker.sock
 
     command: -config.file=/etc/promtail/config.yml

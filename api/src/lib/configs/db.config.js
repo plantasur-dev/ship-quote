@@ -4,7 +4,7 @@ import logger from "../logger/logger.js";
 
 
 const MONGODB_URI =
-    process.env.NODE_ENV === 'test'
+    process.env.NODE_ENV === 'dev'
         ? process.env.MONGODB_URI_TEST
         : process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/shipQuote-db";
 

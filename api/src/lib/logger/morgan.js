@@ -3,38 +3,37 @@ import morgan, { token } from 'morgan';
 
 import logger from './logger.js';
 
-const loggerHandler = (type, params) => {
-    switch (type) {
-        case 'warn':
-            logger.warn({ ...params });
-            break;
-        case 'error':
-            logger.error({ ...params });
-            break;
-        default:
-            logger.info('http_resquets', 
-                { 
-                    ...params, 
-                    event: 'http_resquets' 
-                });
-            break;
+const logHttpRequest = (type, params) => {
+    const method = ['warn', 'error'].includes(type) 
+        ? type 
+        : 'info';
+
+    if (type !== 'info') {
+        return logger[method]({ ...params });;
     }
+
+    logger.info('http_requests', { 
+        ...params, 
+        event: 'http_requests' 
+    });
 };
 
-const loggerSetup = (status) => {
-    return status >= 500 ? 'error'
-        : status >= 400 ? 'warn'
-        : 'info';
+const getLogLevelFromStatus = (status) => {
+    return status >= 500 
+        ? 'error'
+        : status >= 400 
+            ? 'warn'
+            : 'info';
 };
 
 const httpLogger = morgan((tokens, req, res) => {
 
     const status = Number(tokens.status(req, res));
 
-    const statusCode = loggerSetup(status);
+    const logLevel = getLogLevelFromStatus(status);
 
-    loggerHandler(
-        statusCode, 
+    logHttpRequest(
+        logLevel, 
         {
             service: 'ship-quote-api',
             ...res?.locals.logData,

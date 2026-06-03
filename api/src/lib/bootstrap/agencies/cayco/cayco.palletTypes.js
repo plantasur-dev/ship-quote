@@ -1,27 +1,24 @@
 
-import Agency from "../../../models/agency.model.js";
-
 import PalletType from "../../../models/palletType.model.js";
 
 import { palletTypesRaw } from '../../../data/cayco.js';
 
+import { checkExists, loggerMsg } from "../../../utils/logger.utils.js";
+
+const params = { 
+  code: 'cayco', 
+  collection: 'palletType'
+};
+
 export async function palletTypesCayco() {
 
-  const agency = await Agency.findOne({ code: "cayco" });
-  
-  if (!agency) {
-    console.log('Agency Cayco not found');
-    return;
-  }
+  const result = await checkExists(params);
 
-  const exists = await PalletType.findOne({ agencyId: agency._id });
-        
-  if (exists) {
-    console.log('PalletType ya existen para Cayco, se omite');
-    return;
-  }
+  if (!result) return;
 
-  await PalletType.deleteMany({ agencyId: agency._id });
+  const { agency, model } = result;
+
+  await model.deleteMany({ agencyId: agency._id });
 
   const docs = palletTypesRaw.map(p => ({
       agencyId: agency._id,
@@ -35,7 +32,11 @@ export async function palletTypesCayco() {
     })
   );
 
-  await PalletType.insertMany(docs);
+  await model.insertMany(docs);
 
-  console.log("✅ Cayco PalletTypes importados");
+  loggerMsg({ 
+    status: 'success',
+    collection: params.collection,
+    message: `${ params.code } ${ params.collection } importadas correctamente`,
+  });
 }

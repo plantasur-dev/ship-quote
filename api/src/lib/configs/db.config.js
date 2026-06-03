@@ -13,10 +13,12 @@ export const connectDB = async () => {
         .connect(MONGODB_URI)
         .then((db) => logger.info({
             event: 'db_connection_success',
+            service: 'ship-quote-api',
             message: db.connection.host 
         }))
         .catch((error) => logger.error({
-            event: 'db_connection_failed', 
+            event: 'db_connection_failed',
+            service: 'ship-quote-api', 
             error 
         }));
 };

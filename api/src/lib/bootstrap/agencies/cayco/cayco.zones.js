@@ -1,27 +1,24 @@
 
-import Agency from '../../../models/agency.model.js';
-
 import Zone from '../../../models/zone.model.js';
 
 import { zonesRaw } from '../../../data/cayco.js';
 
+import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
+
+const params = { 
+  code: 'cayco', 
+  collection: 'zone'
+};
+
 export async function zonesCayco() {
 
-  const agency = await Agency.findOne({ code: 'cayco' });
+  const result = await checkExists(params);
 
-  if (!agency) {
-    console.log('Agency Cayco not found');
-    return;
-  }
+  if (!result) return;
 
-  const exists = await Zone.findOne({ agencyId: agency._id });
-    
-  if (exists) {
-    console.log('Zone ya existen para Cayco, se omite');
-    return;
-  }
+  const { agency, model } = result;
 
-  await Zone.deleteMany({ agencyId: agency._id });
+  await model.deleteMany({ agencyId: agency._id });
 
   const grouped = {};
 
@@ -58,7 +55,11 @@ export async function zonesCayco() {
     }
   );
 
-  await Zone.insertMany(zonesToInsert);
+  await model.insertMany(zonesToInsert);
 
-  console.log('✅ Zonas de Cayco importadas correctamente');
+  loggerMsg({ 
+    status: 'success',
+    collection: params.collection,
+    message: `${ params.code } ${ params.collection } importadas correctamente`,
+  });
 }

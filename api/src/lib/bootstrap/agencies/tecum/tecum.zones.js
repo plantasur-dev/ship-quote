@@ -1,27 +1,24 @@
 
-import Agency from '../../../models/agency.model.js';
-
 import Zone from '../../../models/zone.model.js';
 
 import { zones, exceptions } from '../../../data/tecum.js';
 
+import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
+
+const params = { 
+  code: 'tecum', 
+  collection: 'zone'
+};
+
 export async function zonesTecum() {
 
-  const agency = await Agency.findOne({ code: 'tecum' });
+  const result = await checkExists(params);
   
-  if (!agency) {
-    console.log('No existe TECUM');
-    return;
-  }
+  if (!result) return;
 
-  const exists = await Zone.findOne({ agencyId: agency._id });
+  const { agency, model } = result;
   
-  if (exists) {
-      console.log('Zone ya existen para TECUM, se omite');
-      return;
-  }
-
-  await Zone.deleteMany({ agencyId: agency._id });
+  await model.deleteMany({ agencyId: agency._id });
 
   const docs = zones.map(z => ({
     agencyId: agency._id,
@@ -32,7 +29,11 @@ export async function zonesTecum() {
     postalCodeExceptions: exceptions.filter(e => e.zoneName === z.name)
   }));
 
-  await Zone.insertMany(docs);
+  await model.insertMany(docs);
 
-  console.log('✅ TECUM zonas importadas correctamente');
+  loggerMsg({ 
+    status: 'success',
+    collection: params.collection,
+    message: `${ params.code } ${ params.collection } importadas correctamente`,
+  });
 }

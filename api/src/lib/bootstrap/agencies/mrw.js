@@ -1,8 +1,5 @@
 
-import Agency from '../../models/agency.model.js';
-
 import Rate from '../../models/rate.model.js';
-
 import Zone from '../../models/zone.model.js';
 
 import { 
@@ -10,23 +7,27 @@ import {
     mrwZones
 } from '../../data/mrw.js';
 
+import { checkExists, loggerMsg } from '../../utils/logger.utils.js';
+
+const paramsRate = { 
+    code: 'mrw', 
+    collection: 'rate'
+};
+
+const paramsZone = { 
+    code: 'mrw', 
+    collection: 'zone'
+};
+
 export async function rateMrw() {
 
-    const agency = await Agency.findOne({ code: 'mrw' });
-    
-    if (!agency) {
-        console.log('No existe Mrw');
-        return;
-    }
+    const result = await checkExists(paramsRate);
 
-    const exists = await Rate.findOne({ agencyId: agency.id });
+    if (!result) return;
 
-    if (exists) {
-        console.log('Rate ya existen para MRW, se omite');
-        return;
-    }
+    const { agency, model } = result;
     
-    await Rate.deleteMany({ agencyId: agency.id, type: 'parcel' });
+    await model.deleteMany({ agencyId: agency.id, type: 'parcel' });
 
     const inserts = [];
 
@@ -47,28 +48,24 @@ export async function rateMrw() {
         });
     }
 
-    await Rate.insertMany(inserts);
+    await model.insertMany(inserts);
 
-    console.log('✅ Mrw rates insertados');
+    loggerMsg({ 
+        status: 'success',
+        collection: paramsRate.collection,
+        message: `${ paramsRate.code } ${ paramsRate.collection } importadas correctamente`,
+    });
 };
 
 export async function zoneMrw() {
 
-    const agency = await Agency.findOne({ code: 'mrw' });
+    const result = await checkExists(paramsZone);
 
-    if (!agency) {
-        console.log('No existe Mrw');
-        return;
-    }
+    if (!result) return;
 
-    const exists = await Zone.findOne({ agencyId: agency.id });
+    const { agency, model } = result;
 
-    if (exists) {
-        console.log('Zone ya existen para MRW, se omite');
-        return;
-    }
-
-    await Zone.deleteMany({ agencyId: agency.id });
+    await model.deleteMany({ agencyId: agency.id });
 
     const inserts = [];
 
@@ -79,7 +76,11 @@ export async function zoneMrw() {
         });
     }
 
-    await Zone.insertMany(inserts);
+    await model.insertMany(inserts);
 
-    console.log('✅ Mrw zones insertados');
+    loggerMsg({ 
+        status: 'success',
+        collection: paramsZone.collection,
+        message: `${ paramsZone.code } ${ paramsZone.collection } importadas correctamente`,
+    });
 };

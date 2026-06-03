@@ -7,14 +7,16 @@ import { buildVolumenBreaks } from '../../../utils/cayco.utils.js';
 
 import { zona11, zona12 } from '../../../data/cayco.js';
 
+import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
+
+const params = { 
+  code: 'cayco', 
+  collection: 'rate'
+};
+
 export async function ratesAndaluciaCayco() {
   
-  const agency = await Agency.findOne({ code: 'cayco' });
-
-  if (!agency) {
-    console.log('Agency Cayco not found');
-    return;
-  }
+  const agency = await Agency.findOne({ code: params.code });
 
   await Rate.deleteMany({
     agencyId: agency._id,
@@ -42,5 +44,9 @@ export async function ratesAndaluciaCayco() {
     }
   ]);
 
-  console.log('✅ Rate Cayco Andalucía importadas');
+  loggerMsg({ 
+    status: 'success',
+    collection: params.collection,
+    message: `${ params.code } Andalucía ${ params.collection } importadas correctamente`,
+  });
 }

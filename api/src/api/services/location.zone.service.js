@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 
 import Location from '../../lib/models/location.model.js';
 
+import logger from '../../lib/logger/logger.js';
+
 import { 
     provincesData, 
     specialIslands 
@@ -38,11 +40,19 @@ function createLocations(locationsArray) {
 export const initLocations = async () => {
     const collections = await mongoose.connection.db.listCollections({ name: "locations" }).toArray();
     if (collections.length > 0) {
-        console.log("La colección 'location' ya existe. No se realiza ninguna acción.");
+        logger.info({
+            event: 'locations:bootstrap:skip',
+            message: `La colección 'location' ya existe. No se realiza ninguna acción.`,
+            component: 'database'
+        });
         return;
     }
 
-    console.log("Creando la colección 'location' y poblando datos...");
+    logger.info({
+        event: 'locations:bootstrap:start',
+        message: "Creando la colección 'locations' y poblando datos...",
+        component: 'database'
+    });
 
     const provinces = [];
 
@@ -53,5 +63,9 @@ export const initLocations = async () => {
 
     await Location.insertMany(locationsAll);
     
-    console.log(`Se han insertado ${ locationsAll.length } provincias en la colección 'location'.`);
+    logger.info({
+        event: 'locations:bootstrap:success',
+        message: `Se han insertado ${ locationsAll.length } provincias en la colección 'locations'.`,
+        component: 'database'
+    });
 }

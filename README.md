@@ -60,7 +60,7 @@ npm run dev    # desarrollo (nodemon)
 npm start      # producción
 ```
 
-Seed de datos
+Bootstrap de datos
 ```bash
 cd api
 npm run seed
@@ -219,15 +219,9 @@ Comandos rápidos
 - Web dev: `cd web && npm install && npm run dev`
 - Docker: `docker-compose up --build`
 
-Contacto y siguientes pasos
-- Si quieres, puedo:
-  - Generar un OpenAPI / Swagger básico desde los controladores.
-  - Añadir ejemplos curl para cada endpoint.
-  - Crear tests unitarios básicos para `rateValidation` y los controladores.
-
 ---
 
-Documento generado automáticamente a partir del código del repositorio (endpoints y modelos consultados el 26/05/2026).
+Documento generado (endpoints y modelos consultados el 26/05/2026).
 
 ## 📍 Notas finales
 
@@ -342,7 +336,7 @@ const rates = await Rate.find({
 
 ---
 
-## 📊 Seed de Datos
+## 📊 Bootstrap de Datos
 
 Inicializar base de datos:
 
@@ -351,10 +345,7 @@ npm run seed
 ```
 
 Scripts disponibles:
-- `seed.js` - Seed general
-- `caycoPalletTypes.js` - Tipos de pallets Cayco
-- `caycoRates.v2.seed.js` - Tarifas Cayco v2
-- `caycoZones.seed.js` - Zonas Cayco
+- `bootstrap.js` - Bootstrap general
 
 ---
 

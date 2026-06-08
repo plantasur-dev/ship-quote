@@ -1,11 +1,19 @@
 
 import axios from 'axios';
 
-const isTest = import.meta.env.VITE_MODE === 'dev';
+const config = {
+    isTest: import.meta.env.VITE_MODE === 'dev',
+    api_url_dev: import.meta.env.VITE_API_URL_DEV,
+    api_url_pro: import.meta.env.VITE_API_URL_PROD
+};
 
-const baseURL = isTest
-  ? import.meta.env.VITE_API_URL_DEV
-  : (import.meta.env.VITE_API_URL_PROD || '/api/v1');
+const baseURL = config.isTest 
+    ? config.api_url_dev 
+    : config.api_url_pro;
+
+if (!baseURL) {
+    throw new Error('No se encontró la URL de la API. Revisa las variables de entorno.');
+}
 
 const http = axios.create({ baseURL });
 

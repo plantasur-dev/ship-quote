@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-const isTest = import.meta.env.VITE_MODE === 'test';
+const isTest = import.meta.env.VITE_MODE === 'dev';
 
 const baseURL = isTest
   ? import.meta.env.VITE_API_URL_DEV
@@ -23,7 +23,7 @@ http.interceptors.response.use(
 );
 
 export const locationsProvinces = () =>
-    http.get('/locations');
+    http.get('/locations/provinces');
 
 export const locationsCountries = () =>
     http.get('/locations/countries');

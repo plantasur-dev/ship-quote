@@ -30,7 +30,13 @@ export async function listCountries() {
  
         return countriesObj;
     } catch (err) {
+        const error = {
+            status: 502,
+            message: 'Failed to fetch countries. ' + err
+        };
+
         console.error("Error loading country ", err);
-        return { error: 502, message: 'Failed to fetch countries. ' + err };
+        
+        return error;
     } 
 };

@@ -37,7 +37,7 @@ function createLocations(locationsArray) {
     return provinces;
 }
 
-export const initLocations = async () => {
+export const initProvinces = async () => {
     const collections = await mongoose.connection.db.listCollections({ name: "locations" }).toArray();
     if (collections.length > 0) {
         logger.info({
@@ -61,8 +61,17 @@ export const initLocations = async () => {
 
     const locationsAll = provinces.flat();
 
-    await Location.insertMany(locationsAll);
+    const result = await Location.insertMany(locationsAll);
     
+    if (!result){
+        logger.error({
+            event: 'locations:bootstrap:error',
+            message: `Se ha producido un error en la carga de provincias.`,
+            component: 'database'
+        });
+        return;
+    }
+
     logger.info({
         event: 'locations:bootstrap:success',
         message: `Se han insertado ${ locationsAll.length } provincias en la colección 'locations'.`,

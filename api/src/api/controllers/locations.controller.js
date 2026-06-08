@@ -3,7 +3,7 @@ import createHttpError from "http-errors";
 
 import Location from "../../lib/models/location.model.js";
 
-import { listCountries } from '../services/locations.service.js';
+import * as country from '../services/countries.service.js';
 
 export const create = async (req, res) => {
 
@@ -28,7 +28,7 @@ export const create = async (req, res) => {
     res.status(201).json(location);
 };
 
-export const list = async (req, res) => {
+export const listProvinces = async (req, res) => {
 
     const criteria = {};
 
@@ -53,11 +53,15 @@ export const details = async (req, res) => {
     res.json(locations);
 };
 
-export const countries = async (req, res) => {
+export const listCountries = async (req, res) => {
 
-    const countries = await listCountries();
+    const countries = await country.listCountries();
     
-    if (countries?.error) throw createHttpError(countries?.error, countries?.message);
+    if (countries?.error) {
+        const { status, message } = countries.error;
+
+        throw createHttpError(status, message);
+    }
     
     res.json(countries);
 };

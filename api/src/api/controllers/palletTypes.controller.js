@@ -3,8 +3,6 @@ import createHttpError from "http-errors";
 
 import PalletType from "../../lib/models/palletType.model.js";
 
-import { compareDimensions } from '../services/compare.pallets.service.js';
-
 export const create = async (req, res) => {
 
     const { agencyId, name, constraints } = req.body;
@@ -37,13 +35,4 @@ export const remove = async (req, res) => {
     await PalletType.findByIdAndDelete(req.params.palletTypeId);
 
     res.status(204).end();
-};
-
-export const compare = async (req, res) => {
- 
-    const { item } = req.body;
-
-    await compareDimensions(item);
-
-    res.send();
 };

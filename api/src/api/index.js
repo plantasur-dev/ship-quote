@@ -38,13 +38,13 @@ apiRouter.post(
 );
 
 apiRouter.get(
-    '/locations',
-    Locations.list
+    '/locations/provinces',
+    Locations.listProvinces
 );
 
 apiRouter.get(
     '/locations/countries',
-    Locations.countries
+    Locations.listCountries
 );
 
 apiRouter.get(
@@ -62,11 +62,6 @@ apiRouter.post(
 apiRouter.get(
     '/pallets',
     Pallets.list
-);
-
-apiRouter.post(
-    '/pallets/compare',
-    Pallets.compare
 );
 
 apiRouter.get(

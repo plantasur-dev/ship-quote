@@ -15,7 +15,7 @@ Para una documentación completa y organizada, consulta:
 Índice
 - **API** — Cómo ejecutar, endpoints, modelos y ejemplos
 - **Web** — Cómo ejecutar, variables y notas de integración
-- Docker — Arranque con Docker Compose
+- **Docker** — Arranque con Docker Compose
 
 ---
 

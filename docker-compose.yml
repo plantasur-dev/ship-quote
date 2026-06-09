@@ -3,7 +3,7 @@ services:
     build:
       context: .
       args:
-        VITE_API_URL: /api/v1
+        VITE_API_URL_PROD: /api/v1
     image: ship-quote-dev:1.0.0
     container_name: ship-quote-app-dev
 

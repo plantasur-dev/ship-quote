@@ -27,6 +27,9 @@ scrape_configs:
             status: status
             level: level
             event: event
+            path: path
+            responseTime: responseTime
+            ip: ip
 
       - labels:
           service:

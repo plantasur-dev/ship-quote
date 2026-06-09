@@ -70,6 +70,10 @@ function CompareRateForm({ handlerCalculateRates }) {
                 <div className="space-y-8">
 
                     <section className="space-y-5">
+                        <ErrorsForm 
+                            serverErrors={ allServerErrors } 
+                        />
+
                         <CountrySelector 
                             countries={ countries } 
                             isLoadingCountries={ isLoadingCountries }

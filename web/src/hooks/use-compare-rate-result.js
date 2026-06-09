@@ -19,7 +19,10 @@ export function useCompareRateResult() {
             setResultRates(rates);
         } catch (error) {
             console.log(error);
-            setError(error?.message || 'Error al calcular tarifas');
+            setError({
+                type: 'error',
+                message: error?.message || 'Error al calcular tarifas'
+            });
         } finally {
             setIsLoading(false);
         }

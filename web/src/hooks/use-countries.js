@@ -17,7 +17,10 @@ export function useCountries() {
                 const langClient = navigator.language.split('-')[1] || 'ES';;
                 setCountries(countries?.[langClient] || countries?.['US'] || []);    
             } catch (error) {
-                setError('País asignado por defecto: España | ' + error?.message);
+                setError({
+                    type: 'warning',
+                    message: 'País asignado por defecto: España | ' + error?.message
+                });
             } finally {
                 setIsLoading(false);
             }

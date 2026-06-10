@@ -22,7 +22,7 @@ export async function list(req, res) {
     
     const agencies = await Agency.find();
 
-    if (!agencies) throw createHttpError(404, 'Agencies not found');
+    if (!agencies.length) throw createHttpError(404, 'Agencies not found');
 
     res.json(agencies);
 };

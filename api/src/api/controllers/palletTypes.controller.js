@@ -16,7 +16,7 @@ export const list = async (req, res) => {
 
     const pallets = await PalletType.find();
 
-    if (!pallets) throw createHttpError(404, 'Pallets not found');
+    if (!pallets.length) throw createHttpError(404, 'Pallets not found');
 
     res.json(pallets);
 };

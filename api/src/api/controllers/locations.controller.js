@@ -36,10 +36,9 @@ export const listProvinces = async (req, res) => {
         criteria.normalizedName = { $regex: req.query.address, $options: "i" };
     }
 
-    const locations = await Location
-        .find( criteria );
+    const locations = await Location.find( criteria );
 
-    if(!locations) throw createHttpError(404, 'Locations not found');
+    if(!locations.length) throw createHttpError(404, 'Provinces not found');
 
     res.json(locations);
 };
@@ -48,7 +47,7 @@ export const details = async (req, res) => {
 
     const locations = await Location.findById(req.params.locationId);
 
-    if (!locations) throw createHttpError(404, 'Location not found');
+    if (!locations) throw createHttpError(404, 'Province not found');
 
     res.json(locations);
 };

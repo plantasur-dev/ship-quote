@@ -1,14 +1,18 @@
 
 import { countryLang } from "../../lib/configs/country.lang.config.js";
 
-export async function listCountries() {
+const countriesMap = new Map();
+
+export async function loadCountries() {
 
     try {
         const res = await fetch(process.env?.COUNTRIES_URL || '');
 
-        const countries = await res.json();
+        if (!res.ok) {
+            throw new Error(`HTTP ${ res.status }`);
+        }
 
-        const countriesObj = {};
+        const countries = await res.json();
 
         countries.forEach(country => {
             const translations = country.translations.reduce((acc, t) => {
@@ -17,26 +21,27 @@ export async function listCountries() {
             }, {});
 
             Object.entries(countryLang).forEach(([baseCode, langCode]) => {
-                if (!countriesObj[baseCode]) {
-                    countriesObj[baseCode] = [];
+                if (!countriesMap.has(baseCode)) {
+                    countriesMap.set(baseCode, []);
                 }
 
-                countriesObj[baseCode].push({
+                countriesMap.get(baseCode).push({
                     countryCode: country.cca2,
                     countryName: translations[langCode] || country.name.common
                 });
             });
         });
- 
-        return countriesObj;
+
     } catch (err) {
-        const error = {
+        console.error("Error loading country ", err);
+        
+        return {
             status: 502,
             message: 'Failed to fetch countries. ' + err
         };
-
-        console.error("Error loading country ", err);
-        
-        return error;
     } 
 };
+
+export function listCountries(lang = 'ES') {
+    return countriesMap.get(lang) || [];
+}

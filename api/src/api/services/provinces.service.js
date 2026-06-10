@@ -10,6 +10,8 @@ import {
     specialIslands 
 } from '../../lib/data/location.js';
 
+let provincesMap = new Map();
+
 function normalizeName(name) {
     return name
         .toLowerCase()
@@ -77,4 +79,19 @@ export const initProvinces = async () => {
         message: `Se han insertado ${ locationsAll.length } provincias en la colección 'locations'.`,
         component: 'database'
     });
+}
+
+export async function loadProvinces() {
+    const provinces = await Location.find().lean();
+
+    provincesMap = new Map(
+        provinces.map(province => [
+            province.postalCode,
+            province
+        ])
+    );
+}
+
+export function getProvinceByPostalCode(postalCode) {
+    return provincesMap.get(postalCode.slice(0, 2));
 }

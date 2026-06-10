@@ -4,7 +4,10 @@ import { Router } from "express";
 import * as Errors from './middlewares/errors.middleware.js';
 
 import { schemaValidation } from './middlewares/schema.validation.middleware.js';
-import { rateValidation } from './middlewares/rate.validation.middleware.js';
+import { 
+    rateItemsValidation,  
+    rateDestinationValidation
+} from './middlewares/rate.validation.middleware.js';
 
 import * as Agencies from './controllers/agencies.controller.js';
 import * as Locations from './controllers/locations.controller.js';
@@ -45,11 +48,6 @@ apiRouter.get(
 apiRouter.get(
     '/locations/countries',
     Locations.listCountries
-);
-
-apiRouter.get(
-    '/locations/:locationId',
-    Locations.details
 );
 
 
@@ -95,8 +93,17 @@ apiRouter.get(
 apiRouter.post(
     '/rates/compare', 
     schemaValidation,
-    rateValidation,
+    rateDestinationValidation,
+    rateItemsValidation,
     Rates.compare
+);
+
+apiRouter.post(
+    '/rates/compareByCodePostal', 
+    schemaValidation,
+    rateDestinationValidation,
+    rateItemsValidation,
+    Rates.compareByCodePostal
 );
 
 apiRouter.use(Errors.routerNotFound);

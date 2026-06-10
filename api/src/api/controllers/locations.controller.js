@@ -30,10 +30,24 @@ export const create = async (req, res) => {
 
 export const listProvinces = async (req, res) => {
 
+    const provinces = await Location.find();
+
+    if (!provinces.length) {
+        throw createHttpError(404, 'Provinces not founds');
+    }
+
+    res.json(provinces);
+};
+
+export const provincesByAddress = async (req, res) => {
+
     const criteria = {};
 
     if (req.query.address) {
-        criteria.normalizedName = { $regex: req.query.address, $options: "i" };
+        criteria.normalizedName = { 
+            $regex: req.query.address, 
+            $options: "i" 
+        };
     }
 
     const locations = await Location.find( criteria );
@@ -43,24 +57,11 @@ export const listProvinces = async (req, res) => {
     res.json(locations);
 };
 
-export const details = async (req, res) => {
+export const listCountries = (req, res) => {
 
-    const locations = await Location.findById(req.params.locationId);
-
-    if (!locations) throw createHttpError(404, 'Province not found');
-
-    res.json(locations);
-};
-
-export const listCountries = async (req, res) => {
-
-    const countries = await country.listCountries();
+    const countries = country.listCountries();
     
-    if (countries?.error) {
-        const { status, message } = countries.error;
-
-        throw createHttpError(status, message);
-    }
+    if (!countries.length) throw createHttpError(404, 'Countries not founds');
     
     res.json(countries);
 };

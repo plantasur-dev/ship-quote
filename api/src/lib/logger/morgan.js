@@ -57,6 +57,6 @@ const httpLogger = morgan((tokens, req, res) => {
     return null;
 });
 
-export default process.env.NODE_ENV === 'dev'
+export default process.env.NODE_ENV === 'test'
     ? morgan('dev')
     : httpLogger;

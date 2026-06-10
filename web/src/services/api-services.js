@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const config = {
-    isTest: import.meta.env.VITE_MODE === 'dev',
+    isTest: import.meta.env.VITE_NODE_ENV === 'test',
     api_url_dev: import.meta.env.VITE_API_URL_DEV,
     api_url_pro: import.meta.env.VITE_API_URL_PROD
 };

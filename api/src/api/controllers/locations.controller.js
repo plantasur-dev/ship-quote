@@ -3,6 +3,8 @@ import createHttpError from "http-errors";
 
 import Location from "../../lib/models/location.model.js";
 
+import { getProvinceByPostalCode } from "../services/provinces.service.js";
+
 import * as country from '../services/countries.service.js';
 
 export const create = async (req, res) => {
@@ -28,12 +30,20 @@ export const create = async (req, res) => {
     res.status(201).json(location);
 };
 
-export const listProvinces = async (req, res) => {
+export const provincesByPostalCode = (req, res) => {
 
-    const provinces = await Location.find();
+    const { postalCode } = req.params;
+    
+    if (!/^\d{5}$/.test(postalCode)) {
+        throw createHttpError(400, 'Incorrect Postal Code');
+    } 
 
-    if (!provinces.length) {
-        throw createHttpError(404, 'Provinces not founds');
+    const provinces = getProvinceByPostalCode(
+        postalCode
+    );
+
+    if (!provinces) {
+        throw createHttpError(404, 'Province not found');
     }
 
     res.json(provinces);

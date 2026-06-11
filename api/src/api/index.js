@@ -41,13 +41,13 @@ apiRouter.post(
 );
 
 apiRouter.get(
-    '/locations/provinces',
-    Locations.listProvinces
+    '/locations/countries',
+    Locations.listCountries
 );
 
 apiRouter.get(
-    '/locations/countries',
-    Locations.listCountries
+    '/locations/provincesByPostalCode/:postalCode',
+    Locations.provincesByPostalCode
 );
 
 
@@ -99,7 +99,7 @@ apiRouter.post(
 );
 
 apiRouter.post(
-    '/rates/compareByCodePostal', 
+    '/rates/compareByPostalCode', 
     schemaValidation,
     rateDestinationValidation,
     rateItemsValidation,

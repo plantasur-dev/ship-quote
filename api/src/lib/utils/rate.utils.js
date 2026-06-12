@@ -27,14 +27,7 @@ export function getEffectiveWeight(item, volumetricFactor) {
 export function classifyPallet(item, palletTypes) {
     const effectiveWeight = getEffectiveWeight(item);
 
-    const sortedPallets = [...palletTypes].sort((a, b) => {
-        return (
-            a.constraints.maxWeight - b.constraints.maxWeight ||
-            a.constraints.maxHeight - b.constraints.maxHeight
-        );
-    });
-
-    for (const type of sortedPallets) {
+    for (const type of palletTypes) {
         const c = type.constraints;
 
         const fitsWeight = !c.maxWeight || effectiveWeight <= c.maxWeight;
@@ -52,42 +45,42 @@ export function classifyPallet(item, palletTypes) {
 
 export function groupPallets(items, palletTypes) {
 
-    const result = items.reduce((acc, item) => {
+    const groups = new Map();
+    const rejected = [];
+
+    for (const item of items) {
+
         const type = classifyPallet(item, palletTypes);
 
         if (!type) {
-            acc.rejected.push({
+            rejected.push({
                 type: 'No pallet type matched',
                 ...item
             });
-
-            return acc;
+            continue;
         }
 
-        if (!acc.groups[type.id]) {
-            acc.groups[type.id] = {
+        const existing = groups.get(type.id);
+
+        if (existing) {
+            existing.quantity++;
+            existing.items.push(item);
+        } else {
+            groups.set(type.id, {
                 palletType: type,
-                quantity: 0,
-                items: []
-            };
+                quantity: 1,
+                items: [item]
+            });
         }
-
-        acc.groups[type.id].quantity += 1;
-        acc.groups[type.id].items.push(item);
-
-        return acc;
-    }, {
-        groups: {},
-        rejected: []
-    });
-
-    return { 
-        groups: Object.values(result.groups), 
-        rejected: result.rejected 
     }
+
+    return {
+        groups: [...groups.values()],
+        rejected
+    };
 }
 
-export function resolveZone(zones, postalCode, province) {
+export function resolveZone_old(zones, postalCode, province) {
     for (const zone of zones) {
         const match = zone.postalCodeExceptions?.find(exception =>
             postalCode >= exception.from && postalCode <= exception.to
@@ -109,6 +102,37 @@ export function findRate(rates, { zoneName, palletTypeId, type }) {
         (!palletTypeId || r.palletTypeId?.equals(palletTypeId))
     );
 }
+
+//-------------------------------------------------------------
+export function resolveZone(agencyData, postalCode, province) {
+    
+    const zone = agencyData.zoneRulesByPostal
+        ?.get(province)
+        ?.get(postalCode);
+    
+    if (zone) {
+        return agencyData.zonesById.get(
+            zone.zoneId.toString()
+        );
+    }
+
+    const zonesInProvince =
+        agencyData.zoneRulesByProvince.get(province);
+    
+    if (!zonesInProvince || !zonesInProvince.length) return null;
+    
+    const zoneDefault = 
+        zonesInProvince.find(z => z.isDefault) || zonesInProvince[0];
+    
+    return agencyData.zonesById.get(
+        zoneDefault.zoneId.toString()
+    );
+}
+
+export function findRate2(rates, { zoneName, palletTypeId, type }) {}
+
+
+//-------------------------------------------------------------
 
 // Buscar precio en tramos
 export function matchPrice(breaks, value) {

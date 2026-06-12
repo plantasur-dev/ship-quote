@@ -10,6 +10,8 @@ import { loadCountries } from '../../api/services/countries.service.js';
 
 import bootstrap from '../bootstrap/bootstrap.js';
 
+import { loadAgencyTariffs, getAgencyTariffs } from '../../api/services/cache.service.js';
+
 async function startServer() {
     await connectDB();
 
@@ -20,6 +22,8 @@ async function startServer() {
         loadCountries(),
         loadProvinces()
     ]);
+
+    await loadAgencyTariffs();
 }
 
 await startServer();

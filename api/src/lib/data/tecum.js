@@ -2,6 +2,13 @@
 import { ex } from '../utils/bootstrap.utils.js';
 
 // ---------------- DATA ----------------
+export const palletMap = [
+    "MINI QUARTER PALLET",
+    "QUARTER PALLET",
+    "SUPER EURO LIGHT PALLET",
+    "HALF PALLET"
+];
+
 export const zones = [
   { name: "ZONA 21", provinces: ["ES-J"] },
   { name: "ZONA 22", provinces: ["ES-CO"] },
@@ -10,39 +17,31 @@ export const zones = [
   { name: "ZONA 25", provinces: ["ES-A", "ES-CA"] },
   { name: "ZONA 16", provinces: ["ES-GR"] },
   { name: "ZONA 17", provinces: ["ES-GR"] },
-
   { name: "ZONA 1", provinces: ["ES-GU", "ES-M"] },
-
   {
     name: "ZONA 2",
     provinces: ["ES-SO", "ES-TO"]
   },
-
   {
     name: "ZONA 3",
     provinces: ["ES-AV", "ES-BU", "ES-LO", "ES-SG", "ES-VA", "ES-Z"]
   },
-
   {
     name: "ZONA 4",
     provinces: ["ES-VI", "ES-HU", "ES-LE", "ES-NA", "ES-P", "ES-SA", "ES-TE", "ES-V", "ES-ZA"]
   },
-
   {
     name: "ZONA 5",
     provinces: ["ES-CS", "ES-SS", "ES-L", "ES-O", "ES-S", "ES-T", "ES-BI"]
   },
-
   {
     name: "ZONA 6",
     provinces: ["ES-B", "ES-CC"]
   },
-
   {
     name: "ZONA 7",
     provinces: ["ES-C", "ES-GI", "ES-LU", "ES-OR", "ES-PO"]
   },
-
   { name: "ZONA 8", provinces: [] },
   { name: "ZONA 9", provinces: ["ES-IB-ML"] },
   { name: "ZONA 10", provinces: ["ES-IB-IB", "ES-IB-MN"] },

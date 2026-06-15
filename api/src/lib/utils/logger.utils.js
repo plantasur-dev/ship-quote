@@ -4,11 +4,13 @@ import logger from "../logger/logger.js";
 import Agency from "../models/agency.model.js";
 import Rate from "../models/rate.model.js";
 import Zone from "../models/zone.model.js";
+import ZoneRules from '../models/zone.rules.model.js';
 import PalletType from "../models/palletType.model.js";
 
 const models = {
     rate: Rate,
     zone: Zone,
+    zoneRule: ZoneRules,
     palletType: PalletType
 };
 

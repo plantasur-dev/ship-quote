@@ -7,15 +7,15 @@ import PalletType from '../../../models/palletType.model.js';
 
 import { 
   buildPriceBreaks, 
-  fixed, 
-  palletMap 
+  fixed 
 } from '../../../utils/tecum.utils.js';
 
 import { 
   palletSimple, 
   ExtraLight, 
   EuroPallet, 
-  Full 
+  Full,
+  palletMap 
 } from '../../../data/tecum.js';
 
 import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';

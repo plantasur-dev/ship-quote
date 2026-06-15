@@ -1,11 +1,12 @@
 
 import Rate from '../../models/rate.model.js';
-import Zone from '../../models/zone.model.js';
 
 import { 
     correosRates, 
     correosZones
 } from '../../data/cexp.js';
+
+import { zonesBootstrap } from '../../utils/bootstrap.utils.js';
 
 import { checkExists, loggerMsg } from '../../utils/logger.utils.js';
 
@@ -17,6 +18,11 @@ const paramsRate = {
 const paramsZone = { 
     code: 'correosexpress', 
     collection: 'zone'
+};
+
+const paramsZoneRule = { 
+    code: 'correosexpress', 
+    collection: 'zoneRule'
 };
 
 export async function ratesCorreos() {
@@ -59,24 +65,23 @@ export async function ratesCorreos() {
 
 export async function zonesCorreos() {
 
-    const result = await checkExists(paramsZone);
+    const result1 = await checkExists(paramsZone);
 
-    if (!result) return;
+    const result2 = await checkExists(paramsZoneRule);
 
-    const { agency, model } = result;
-    
-    await model.deleteMany({ agencyId: agency.id });
+    if (!result1 || !result2) return;
 
-    const inserts = [];
-
-    for (const [name, data] of Object.entries(correosZones)) {
-        inserts.push({
-            agencyId: agency.id,
-            ...data
-        });
-    }
-
-    await model.insertMany(inserts);
+    await zonesBootstrap({ 
+        zoneModel: result1.model, 
+        agency: result1.agency, 
+        zones: correosZones.zones,
+        zoneRuleModel: result2.model,
+        rules: {
+            calculationMode: correosZones.calculationMode,
+            pricingMode: correosZones.pricingMode,
+            exceptions: correosZones.postalCodeExceptions
+        } 
+    });
 
     loggerMsg({ 
         status: 'success',

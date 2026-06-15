@@ -102,19 +102,24 @@ export async function zonesBootstrap({
     agency, 
     zones, 
     zoneRuleModel, 
-    rules }) 
-{
-    const { calculationMode, pricingMode, exceptions } = rules;
+    rules,
+    zoneBuilder 
+}) {
+    const { calculationMode = '', pricingMode = {}, exceptions = [] } = rules;
 
     await zoneModel.deleteMany({ agencyId: agency._id });
     
-    const docs = zones.map(zone => ({
-        agencyId: agency._id,
-        name: zone.name,
-        provinces: zone.provinces,
-        calculationMode,
-        pricingMode
-    }));
+    const docs = zones.map(zone => 
+     zoneBuilder
+        ? zoneBuilder(zone, agency) 
+        : {
+            agencyId: agency._id,
+            name: zone.name,
+            provinces: zone.provinces,
+            calculationMode,
+            pricingMode
+        }
+    );
 
     const insertedZones = await zoneModel.insertMany(docs);
 

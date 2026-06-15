@@ -9,57 +9,70 @@ export const palletTypesRaw = [
     { name: "SUPER", maxWeight: 1200,  maxLength: 120, maxWidth: 100, maxHeight: 220 }
 ];
 
-export const zonesRaw = [
-    { province: "ES-M", zone: "ZONA 1" },
-    { province: "ES-TO", zone: "ZONA 2" },
-    { province: "ES-AV", zone: "ZONA 3" },
-    { province: "ES-GU", zone: "ZONA 3" },
-    { province: "ES-SG", zone: "ZONA 3" },
-    { province: "ES-VA", zone: "ZONA 3" },
-
-    { province: "ES-VI", zone: "ZONA 4" },
-    { province: "ES-A", zone: "ZONA 4" },
-    { province: "ES-BU", zone: "ZONA 4" },
-    { province: "ES-CS", zone: "ZONA 4" },
-    { province: "ES-LE", zone: "ZONA 4" },
-    { province: "ES-LO", zone: "ZONA 4" },
-    { province: "ES-MU", zone: "ZONA 4" },
-    { province: "ES-SA", zone: "ZONA 4" },
-    { province: "ES-SO", zone: "ZONA 4" },
-    { province: "ES-TE", zone: "ZONA 4" },
-    { province: "ES-V", zone: "ZONA 4" },
-    { province: "ES-Z", zone: "ZONA 4" },
-    { province: "ES-CR", zone: "ZONA 4" },
-
-    { province: "ES-O", zone: "ZONA 5" },
-    { province: "ES-S", zone: "ZONA 5" },
-    { province: "ES-CU", zone: "ZONA 5" },
-    { province: "ES-SS", zone: "ZONA 5" },
-    { province: "ES-NA", zone: "ZONA 5" },
-    { province: "ES-BI", zone: "ZONA 5" },
-    { province: "ES-P", zone: "ZONA 5" },
-    { province: "ES-AB", zone: "ZONA 5" },
-    { province: "ES-ZA", zone: "ZONA 5" },
-
-    { province: "ES-B", zone: "ZONA 6" },
-    { province: "ES-HU", zone: "ZONA 6" },
-    { province: "ES-T", zone: "ZONA 6" },
-
-    { province: "ES-C", zone: "ZONA 7" },
-    { province: "ES-GI", zone: "ZONA 7" },
-    { province: "ES-LU", zone: "ZONA 7" },
-    { province: "ES-OR", zone: "ZONA 7" },
-    { province: "ES-PO", zone: "ZONA 7" },
-    { province: "ES-CC", zone: "ZONA 7" },
-    { province: "ES-BA", zone: "ZONA 7" },
-    { province: "ES-L", zone: "ZONA 7" },
-
-    { province: "ES-AL", zone: "ZONA 11" },
-    { province: "ES-J", zone: "ZONA 11" },
-    { province: "ES-MA", zone: "ZONA 11" },
-
-    { province: "ES-SE", zone: "ZONA 12" },
-    { province: "ES-CO", zone: "ZONA 12" }
+export const zones = [
+    { name: "ZONA 1", provinces: ["ES-M"] },
+    { name: "ZONA 2", provinces: ["ES-TO"] },
+    {
+        name: "ZONA 3",
+        provinces: ["ES-AV", "ES-GU", "ES-SG", "ES-VA"],
+    },
+    {
+        name: "ZONA 4",
+        provinces: [
+            "ES-VI",
+            "ES-A",
+            "ES-BU",
+            "ES-CS",
+            "ES-LE",
+            "ES-LO",
+            "ES-MU",
+            "ES-SA",
+            "ES-SO",
+            "ES-TE",
+            "ES-V",
+            "ES-Z",
+            "ES-CR",
+        ],
+    },
+    {
+        name: "ZONA 5",
+        provinces: [
+            "ES-O",
+            "ES-S",
+            "ES-CU",
+            "ES-SS",
+            "ES-NA",
+            "ES-BI",
+            "ES-P",
+            "ES-AB",
+            "ES-ZA",
+        ],
+    },
+    {
+        name: "ZONA 6",
+        provinces: ["ES-B", "ES-HU", "ES-T"],
+    },
+    {
+        name: "ZONA 7",
+        provinces: [
+            "ES-C",
+            "ES-GI",
+            "ES-LU",
+            "ES-OR",
+            "ES-PO",
+            "ES-CC",
+            "ES-BA",
+            "ES-L",
+        ],
+    },
+    {
+        name: "ZONA 11",
+        provinces: ["ES-AL", "ES-J", "ES-MA"],
+    },
+    {
+        name: "ZONA 12",
+        provinces: ["ES-SE", "ES-CO"],
+    },
 ];
 
 export const basicNames = [

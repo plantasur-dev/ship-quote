@@ -1,6 +1,4 @@
 
-import ZoneRules from '../../../models/zone.rules.model.js';
-
 import { zones, exceptions } from '../../../data/tecum.js';
 
 import { zonesBootstrap } from '../../../utils/bootstrap.utils.js';
@@ -12,19 +10,24 @@ const paramsZone = {
   collection: 'zone',
 };
 
+const paramsZoneRule = { 
+  code: 'tecum', 
+  collection: 'zoneRule',
+};
+
 export async function zonesTecum() {
 
-  const result = await checkExists(paramsZone);
-  
-  if (!result) return;
+  const result1 = await checkExists(paramsZone);
 
-  const { agency, model } = result;
+  const result2 = await checkExists(paramsZoneRule);
+  
+  if (!result1 && !result2) return;
 
   await zonesBootstrap({ 
-    zoneModel: model, 
-    agency, 
+    zoneModel: result1.model, 
+    agency: result1.agency, 
     zones,
-    zoneRuleModel: ZoneRules,
+    zoneRuleModel: result2.model,
     rules: {
       calculationMode: 'pallet',
       pricingMode: { type: 'weight' },

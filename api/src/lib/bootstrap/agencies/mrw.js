@@ -1,11 +1,12 @@
 
 import Rate from '../../models/rate.model.js';
-import Zone from '../../models/zone.model.js';
 
 import { 
     mrwRates, 
     mrwZones
 } from '../../data/mrw.js';
+
+import { zonesBootstrap } from '../../utils/bootstrap.utils.js';
 
 import { checkExists, loggerMsg } from '../../utils/logger.utils.js';
 
@@ -17,6 +18,11 @@ const paramsRate = {
 const paramsZone = { 
     code: 'mrw', 
     collection: 'zone'
+};
+
+const paramsZoneRule = { 
+    code: 'mrw', 
+    collection: 'zoneRule'
 };
 
 export async function rateMrw() {
@@ -59,24 +65,23 @@ export async function rateMrw() {
 
 export async function zoneMrw() {
 
-    const result = await checkExists(paramsZone);
+    const result1 = await checkExists(paramsZone);
 
-    if (!result) return;
+    const result2 = await checkExists(paramsZoneRule);
 
-    const { agency, model } = result;
+    if (!result1 || !result2) return;
 
-    await model.deleteMany({ agencyId: agency.id });
-
-    const inserts = [];
-
-    for (const [name, data] of Object.entries(mrwZones)) {
-        inserts.push({
-            agencyId: agency.id,
-            ...data
-        });
-    }
-
-    await model.insertMany(inserts);
+    await zonesBootstrap({ 
+        zoneModel: result1.model, 
+        agency: result1.agency, 
+        zones: mrwZones.zones,
+        zoneRuleModel: result2.model,
+        rules: {
+          calculationMode: mrwZones.calculationMode,
+          pricingMode: mrwZones.pricingMode,
+          exceptions: mrwZones.postalCodeExceptions
+        } 
+    });
 
     loggerMsg({ 
         status: 'success',

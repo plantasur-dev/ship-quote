@@ -27,12 +27,8 @@ function calculateParcelRate({
     agencySupplements
  }) {
     if (!parcelItems?.length) return [];
-
-    const rate = findRate(agencyRates, {
-        zoneName: zone.name,
-        type: 'parcel'
-    });
-
+    
+    const rate = agencyRates.get(`${zone.calculationMode}|${zone.name}|none`);
     if (!rate) return [];
 
     return rate.services.flatMap(service => {

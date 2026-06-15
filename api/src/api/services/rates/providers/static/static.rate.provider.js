@@ -40,7 +40,6 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
             const agencyRates = agencyData.ratesByKey || [];
             const agencyPalletTypes = agencyData.sortedPalletTypes || [];
             
-            //const zone = resolveZone(agencyZones, destinationPostalCode, province);
             const zone = resolveZone(agencyData, destinationPostalCode, province);
             if (!zone) {
                 return buildStaticErrorResult({

@@ -67,8 +67,7 @@ function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplemen
         , 0
     );
 
-    const rateMap = calculeRateByField(agencyRates);
-    const rate = rateMap.get(`${zone.name}_pallet`);
+    const rate = agencyRates.get(`${zone.calculationMode}|${zone.name}|none`);
     if (!rate) return [];
 
     return rate.services.reduce((acc, service) => {
@@ -112,8 +111,6 @@ function calculateGroupServices({
     zone,
     agencySupplements 
 }) {
-    //const rateMap = calculeRateByField(agencyRates, 'palletTypeId');
-    
     return groups.flatMap(group => {
         const rate = agencyRates.get(`${zone.calculationMode}|${zone.name}|${group.palletType._id.toString()}`);
         if (!rate) return [];

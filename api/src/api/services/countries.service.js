@@ -1,42 +1,73 @@
 
 import { countryLang } from "../../lib/configs/country.lang.config.js";
 
-export async function listCountries() {
+const countriesMap = new Map();
+
+async function fetchCountries(offset) {
+
+    const res = await fetch(`${process.env?.COUNTRIES_URL}&limit=100&offset=${offset}`,
+        { 
+            headers: { 
+                'Authorization': `Bearer ${process.env?.COUNTRIES_API_KEY}` 
+            } 
+        } 
+    );
+    
+    if (res.status !== 200) {
+        throw new Error(`HTTP ${ res.status }`);
+    }
+
+    return res.json();
+}
+
+export async function loadCountries() {
 
     try {
-        const res = await fetch(process.env?.COUNTRIES_URL || '');
+        if (process.env?.COUNTRIES_API_ENABLED === 'false') {
+            throw new Error(`Countries enabled ${ process.env?.COUNTRIES_API_ENABLED }`); 
+            return;
+        }
 
-        const countries = await res.json();
+        const [page1, page2, page3] = await Promise.all([
+            fetchCountries(0),
+            fetchCountries(100),
+            fetchCountries(200)
+        ]);
 
-        const countriesObj = {};
-
+        const countries = [
+            ...(page1.data?.objects ?? []),
+            ...(page2.data?.objects ?? []),
+            ...(page3.data?.objects ?? [])
+        ];
+                
         countries.forEach(country => {
-            const translations = country.translations.reduce((acc, t) => {
-                acc[t.lang] = t.common;
-                return acc;
-            }, {});
+
+            const countryCode = country.codes?.alpha_2;
+
+            if (!countryCode) return;
+
+            const translations = country.names?.translations;
 
             Object.entries(countryLang).forEach(([baseCode, langCode]) => {
-                if (!countriesObj[baseCode]) {
-                    countriesObj[baseCode] = [];
+                if (!countriesMap.has(baseCode)) {
+                    countriesMap.set(baseCode, []);
                 }
 
-                countriesObj[baseCode].push({
-                    countryCode: country.cca2,
-                    countryName: translations[langCode] || country.name.common
+                countriesMap.get(baseCode).push({
+                    countryCode,
+                    countryName: translations?.[langCode]?.common ?? country.names?.common
                 });
             });
         });
- 
-        return countriesObj;
     } catch (err) {
-        const error = {
-            status: 502,
-            message: 'Failed to fetch countries. ' + err
-        };
-
         console.error("Error loading country ", err);
         
-        return error;
+        return {
+            message: 'Failed to fetch countries. ' + err
+        };
     } 
 };
+
+export function listCountries(lang = 'ES') {
+    return countriesMap.get(lang) || [];
+}

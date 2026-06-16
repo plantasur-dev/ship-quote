@@ -1,6 +1,6 @@
 
 export const mrwZones = {
-    NACIONAL: {
+    zones: [{
         name: "NACIONAL",
         provinces: [
             "ES-J","ES-CO","ES-AB", "ES-AL", "ES-CR", "ES-SE", "ES-MA",
@@ -10,11 +10,11 @@ export const mrwZones = {
             "ES-P", "ES-SA", "ES-TE", "ES-V", "ES-ZA", "ES-CS", "ES-SS", 
             "ES-L", "ES-O", "ES-S", "ES-T", "ES-BI", "ES-B", "ES-CC",
             "ES-C", "ES-GI", "ES-LU", "ES-OR", "ES-PO"
-        ],
-        calculationMode: "parcel",
-        pricingMode: { type: "weight" },
-        postalCodeExceptions: []
-    }
+        ]
+    }],
+    calculationMode: "parcel",
+    pricingMode: { type: "weight" },
+    postalCodeExceptions: []
 }
 
 export const mrwRates = {

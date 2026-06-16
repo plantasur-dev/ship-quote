@@ -1,45 +1,43 @@
 
-import Zone from '../../../models/zone.model.js';
+import { zones } from '../../../data/cayco.js';
 
-import { zonesRaw } from '../../../data/cayco.js';
+import { zonesBootstrap } from '../../../utils/bootstrap.utils.js';
 
 import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
 
-const params = { 
+const paramsZone = { 
   code: 'cayco', 
   collection: 'zone'
 };
 
+const paramsZoneRule = { 
+  code: 'cayco', 
+  collection: 'zoneRule',
+};
+
 export async function zonesCayco() {
 
-  const result = await checkExists(params);
+  const result1 = await checkExists(paramsZone);
+  
+  const result2 = await checkExists(paramsZoneRule);
+  
+  if (!result1 || !result2) return;
 
-  if (!result) return;
-
-  const { agency, model } = result;
-
-  await model.deleteMany({ agencyId: agency._id });
-
-  const grouped = {};
-
-  zonesRaw.forEach(({ province, zone }) => {
-    if (!grouped[zone]) {
-      grouped[zone] = [];
-    }
-    grouped[zone].push(province.trim());
-  });
-
-  const zonesToInsert = Object.entries(grouped)
-    .map(([zoneName, provinces]) => {
-
-      const type = ['ZONA 11', 'ZONA 12'].includes(zoneName)
+  await zonesBootstrap({
+    zoneModel: result1.model, 
+    agency: result1.agency, 
+    zones,
+    zoneRuleModel: result2.model,
+    rules: {},
+    zoneBuilder: (zone, agency) => {
+      const type = ['ZONA 11', 'ZONA 12'].includes(zone.name)
         ? 'weight_volume'
-        : 'weight'
+        : 'weight';
 
       return {
         agencyId: agency._id,
-        name: zoneName,
-        provinces,
+        name: zone.name,
+        provinces: zone.provinces,
         calculationMode: 'pallet',
         volumetric: {
           enabled: type === 'weight_volume'
@@ -51,15 +49,13 @@ export async function zonesCayco() {
             threshold: 1001
           }
         }
-      }
+      };
     }
-  );
-
-  await model.insertMany(zonesToInsert);
+  });
 
   loggerMsg({ 
     status: 'success',
-    collection: params.collection,
-    message: `${ params.code } ${ params.collection } importadas correctamente`,
+    collection: paramsZone.collection,
+    message: `${ paramsZone.code } ${ paramsZone.collection } importadas correctamente`,
   });
 }

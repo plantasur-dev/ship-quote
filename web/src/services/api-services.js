@@ -22,11 +22,11 @@ http.interceptors.response.use(
     (err) => {
         const { status, data } = err?.response || {};
 
-        const message = `API Error [${ status }]: ${ data?.message || err.message } `;
+        const message = `API Error [${ status ?? err?.name }]: ${ data?.message || err.message } `;
         
         console.error(message);
 
-        return Promise.reject(data || { message });
+        return Promise.reject( { message } || data );
     }
 );
 

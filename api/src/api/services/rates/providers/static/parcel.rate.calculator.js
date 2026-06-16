@@ -1,6 +1,5 @@
 
 import {
-    findRate,
     round
 } from '../../../../../lib/utils/rate.utils.js';;
 

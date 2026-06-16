@@ -4,7 +4,6 @@ export function calculateVolume(item) {
 }
 
 export function calculateVolumeM3(item, volQuantity) {
-
     const PALLET_VOL = 
         volQuantity || 
         Number(process.env.DEFAULT_PALLET_VOLUME || 1_000_000);
@@ -80,30 +79,6 @@ export function groupPallets(items, palletTypes) {
     };
 }
 
-export function resolveZone_old(zones, postalCode, province) {
-    for (const zone of zones) {
-        const match = zone.postalCodeExceptions?.find(exception =>
-            postalCode >= exception.from && postalCode <= exception.to
-        );
-
-        if (match) {
-            return zones.find(z => z.name === match.zoneName);
-        }
-    }
-
-    return zones.find(z => z.provinces.includes(province));
-}
-
-// Buscar tarifa
-export function findRate(rates, { zoneName, palletTypeId, type }) {
-    return rates.find(r =>
-        r.type === type &&
-        r.zoneName === zoneName &&
-        (!palletTypeId || r.palletTypeId?.equals(palletTypeId))
-    );
-}
-
-//-------------------------------------------------------------
 export function resolveZone(agencyData, postalCode, province) {
     
     const zone = agencyData.zoneRulesByPostal
@@ -129,39 +104,9 @@ export function resolveZone(agencyData, postalCode, province) {
     );
 }
 
-export function findRate2(rates, { zoneName, palletTypeId, type }) {}
-
-
-//-------------------------------------------------------------
-
-// Buscar precio en tramos
 export function matchPrice(breaks, value) {
     return breaks.find(b => value >= b.min && value <= b.max);
 }
-
-export function calculeRateByField(agencyRates, field = 'type') {
-    const ratesMap = new Map();
-
-    for (const r of agencyRates) {
-        const field_select = r[field];
-        const key = `${r.zoneName}_${field_select?.toString()}`;
-        ratesMap.set(key, r);
-    }
-
-    return ratesMap;
-};
-
-export function groupByAgency(collection) {
-    return collection.reduce((acc, item) => {
-        const key = item.agencyId.toString();
-        
-        if (!acc[key]) acc[key] = [];
-        
-        acc[key].push(item);
-
-        return acc;
-    }, {});
-};
 
 export function calculateFuelSurcharge(supplements, basePrice) {
     const fuel = supplements?.fuelSurcharge;

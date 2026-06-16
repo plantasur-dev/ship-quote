@@ -1,7 +1,6 @@
 
 import {
     getEffectiveWeight,
-    calculeRateByField,
     matchPrice,
     groupPallets,
     calculateFuelSurcharge,

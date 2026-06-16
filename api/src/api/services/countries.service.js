@@ -23,6 +23,11 @@ async function fetchCountries(offset) {
 export async function loadCountries() {
 
     try {
+        if (process.env?.COUNTRIES_API_ENABLED === 'false') {
+            throw new Error(`Countries enabled ${ process.env?.COUNTRIES_API_ENABLED }`); 
+            return;
+        }
+
         const [page1, page2, page3] = await Promise.all([
             fetchCountries(0),
             fetchCountries(100),
@@ -58,7 +63,6 @@ export async function loadCountries() {
         console.error("Error loading country ", err);
         
         return {
-            status: 502,
             message: 'Failed to fetch countries. ' + err
         };
     } 

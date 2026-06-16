@@ -3,6 +3,8 @@ import { calculateVolumeM3 } from '../../../../../../../lib/utils/rate.utils.js'
 
 import { dateFormat } from '../../../../../../../lib/utils/date.utils.js';
 
+import { transportProducts } from '../../../../../../../lib/data/dascher.js';
+
 import CarrierService from '../carriers.service.interface.js';
 
 import { 
@@ -13,12 +15,43 @@ import {
 
 export default class DascherService extends CarrierService {
 
-    buildRequestBody(input, items = []) {
+    async getRates(input) {
+        const { baseUrlApi, endpoints, apiKey, timeout } = this.apiConfig;
+
+        const items = input.items.filter(
+            item => this.agency.rules.supportsPallets &&
+            item.typeServices === "pallet"
+        );
+
+        const { quotations } = endpoints;
+
+        const responses = await Promise.allSettled(
+            transportProducts.map(async product => ({
+                'response': await this.fetchApi(
+                    `${ baseUrlApi }/${ quotations.trim() }`,
+                    this.buildRequestHeaders(apiKey),
+                    this.buildRequestBody(input, items, product.code),
+                    timeout
+                ),
+                product
+            }))
+        );
+
+        const validResponses = responses
+            .filter(r => r.status === 'fulfilled')
+            .map(r => r.value);
+
+        return validResponses.flatMap(response => 
+            this.mapResponse(response, items)
+        );
+    }
+
+    buildRequestBody(input, items = [], product) {
         return {
             "transportOrder": {
                 "transportDate": dateFormat(),
                 "division": "T",
-                "product": "Y",
+                "product": product,
                 "term": "031",
                 "consignor": {
                     "id": process.env.DACHSER_API_N_CUSTOMER
@@ -37,7 +70,6 @@ export default class DascherService extends CarrierService {
                             "weight": item.weight,
                             "unit": "KG"
                         },
-                        "loadingMetre": 0.4,
                         "measure": {
                             "length": item.large,
                             "width": item.width,
@@ -66,6 +98,8 @@ export default class DascherService extends CarrierService {
     }
 
     mapResponse(data, items = []) {
+
+        const { response, product } = data;
         
         const { name, rules } = this.agency;
 
@@ -74,7 +108,7 @@ export default class DascherService extends CarrierService {
                 ? 'pallet' 
                 : 'parcel';
         
-        if (data?.totalAmount.amount === 0) {
+        if (response?.totalAmount.amount === 0) {
             return [
                 buildRateResult({
                     service: 'NO_RATE',
@@ -92,11 +126,11 @@ export default class DascherService extends CarrierService {
         
         return [
             buildRateResult({
-                service: data?.id || name,
+                service: `${product?.name} (${ response?.id })` || name,
                 transportType: typePallet,
                 itemCount: items.length || 0,
                 concepts: [ 
-                    ...data?.quotationDetails?.map(r => (
+                    ...response?.quotationDetails?.map(r => (
                         buildConcept(
                                 r.serviceTypeDescription,
                                 r.serviceTypeAmount?.amount

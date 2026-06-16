@@ -4,7 +4,6 @@ export function calculateVolume(item) {
 }
 
 export function calculateVolumeM3(item, volQuantity) {
-
     const PALLET_VOL = 
         volQuantity || 
         Number(process.env.DEFAULT_PALLET_VOLUME || 1_000_000);
@@ -27,14 +26,7 @@ export function getEffectiveWeight(item, volumetricFactor) {
 export function classifyPallet(item, palletTypes) {
     const effectiveWeight = getEffectiveWeight(item);
 
-    const sortedPallets = [...palletTypes].sort((a, b) => {
-        return (
-            a.constraints.maxWeight - b.constraints.maxWeight ||
-            a.constraints.maxHeight - b.constraints.maxHeight
-        );
-    });
-
-    for (const type of sortedPallets) {
+    for (const type of palletTypes) {
         const c = type.constraints;
 
         const fitsWeight = !c.maxWeight || effectiveWeight <= c.maxWeight;
@@ -52,92 +44,69 @@ export function classifyPallet(item, palletTypes) {
 
 export function groupPallets(items, palletTypes) {
 
-    const result = items.reduce((acc, item) => {
+    const groups = new Map();
+    const rejected = [];
+
+    for (const item of items) {
+
         const type = classifyPallet(item, palletTypes);
 
         if (!type) {
-            acc.rejected.push({
+            rejected.push({
                 type: 'No pallet type matched',
                 ...item
             });
-
-            return acc;
+            continue;
         }
 
-        if (!acc.groups[type.id]) {
-            acc.groups[type.id] = {
+        const existing = groups.get(type.id);
+
+        if (existing) {
+            existing.quantity++;
+            existing.items.push(item);
+        } else {
+            groups.set(type.id, {
                 palletType: type,
-                quantity: 0,
-                items: []
-            };
+                quantity: 1,
+                items: [item]
+            });
         }
-
-        acc.groups[type.id].quantity += 1;
-        acc.groups[type.id].items.push(item);
-
-        return acc;
-    }, {
-        groups: {},
-        rejected: []
-    });
-
-    return { 
-        groups: Object.values(result.groups), 
-        rejected: result.rejected 
     }
+
+    return {
+        groups: [...groups.values()],
+        rejected
+    };
 }
 
-export function resolveZone(zones, postalCode, province) {
-    for (const zone of zones) {
-        const match = zone.postalCodeExceptions?.find(exception =>
-            postalCode >= exception.from && postalCode <= exception.to
+export function resolveZone(agencyData, postalCode, province) {
+    
+    const zone = agencyData.zoneRulesByPostal
+        ?.get(province)
+        ?.get(postalCode);
+    
+    if (zone) {
+        return agencyData.zonesById.get(
+            zone.zoneId.toString()
         );
-
-        if (match) {
-            return zones.find(z => z.name === match.zoneName);
-        }
     }
 
-    return zones.find(z => z.provinces.includes(province));
-}
-
-// Buscar tarifa
-export function findRate(rates, { zoneName, palletTypeId, type }) {
-    return rates.find(r =>
-        r.type === type &&
-        r.zoneName === zoneName &&
-        (!palletTypeId || r.palletTypeId?.equals(palletTypeId))
+    const zonesInProvince =
+        agencyData.zoneRulesByProvince.get(province);
+    
+    if (!zonesInProvince || !zonesInProvince.length) return null;
+    
+    const zoneDefault = 
+        zonesInProvince.find(z => z.isDefault) || zonesInProvince[0];
+    
+    return agencyData.zonesById.get(
+        zoneDefault.zoneId.toString()
     );
 }
 
-// Buscar precio en tramos
 export function matchPrice(breaks, value) {
     return breaks.find(b => value >= b.min && value <= b.max);
 }
-
-export function calculeRateByField(agencyRates, field = 'type') {
-    const ratesMap = new Map();
-
-    for (const r of agencyRates) {
-        const field_select = r[field];
-        const key = `${r.zoneName}_${field_select?.toString()}`;
-        ratesMap.set(key, r);
-    }
-
-    return ratesMap;
-};
-
-export function groupByAgency(collection) {
-    return collection.reduce((acc, item) => {
-        const key = item.agencyId.toString();
-        
-        if (!acc[key]) acc[key] = [];
-        
-        acc[key].push(item);
-
-        return acc;
-    }, {});
-};
 
 export function calculateFuelSurcharge(supplements, basePrice) {
     const fuel = supplements?.fuelSurcharge;

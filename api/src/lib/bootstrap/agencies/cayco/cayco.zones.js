@@ -1,48 +1,43 @@
 
-import Agency from '../../../models/agency.model.js';
+import { zones } from '../../../data/cayco.js';
 
-import Zone from '../../../models/zone.model.js';
+import { zonesBootstrap } from '../../../utils/bootstrap.utils.js';
 
-import { zonesRaw } from '../../../data/cayco.js';
+import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
+
+const paramsZone = { 
+  code: 'cayco', 
+  collection: 'zone'
+};
+
+const paramsZoneRule = { 
+  code: 'cayco', 
+  collection: 'zoneRule',
+};
 
 export async function zonesCayco() {
 
-  const agency = await Agency.findOne({ code: 'cayco' });
+  const result1 = await checkExists(paramsZone);
+  
+  const result2 = await checkExists(paramsZoneRule);
+  
+  if (!result1 || !result2) return;
 
-  if (!agency) {
-    console.log('Agency Cayco not found');
-    return;
-  }
-
-  const exists = await Zone.findOne({ agencyId: agency._id });
-    
-  if (exists) {
-    console.log('Zone ya existen para Cayco, se omite');
-    return;
-  }
-
-  await Zone.deleteMany({ agencyId: agency._id });
-
-  const grouped = {};
-
-  zonesRaw.forEach(({ province, zone }) => {
-    if (!grouped[zone]) {
-      grouped[zone] = [];
-    }
-    grouped[zone].push(province.trim());
-  });
-
-  const zonesToInsert = Object.entries(grouped)
-    .map(([zoneName, provinces]) => {
-
-      const type = ['ZONA 11', 'ZONA 12'].includes(zoneName)
+  await zonesBootstrap({
+    zoneModel: result1.model, 
+    agency: result1.agency, 
+    zones,
+    zoneRuleModel: result2.model,
+    rules: {},
+    zoneBuilder: (zone, agency) => {
+      const type = ['ZONA 11', 'ZONA 12'].includes(zone.name)
         ? 'weight_volume'
-        : 'weight'
+        : 'weight';
 
       return {
         agencyId: agency._id,
-        name: zoneName,
-        provinces,
+        name: zone.name,
+        provinces: zone.provinces,
         calculationMode: 'pallet',
         volumetric: {
           enabled: type === 'weight_volume'
@@ -54,11 +49,13 @@ export async function zonesCayco() {
             threshold: 1001
           }
         }
-      }
+      };
     }
-  );
+  });
 
-  await Zone.insertMany(zonesToInsert);
-
-  console.log('✅ Zonas de Cayco importadas correctamente');
+  loggerMsg({ 
+    status: 'success',
+    collection: paramsZone.collection,
+    message: `${ paramsZone.code } ${ paramsZone.collection } importadas correctamente`,
+  });
 }

@@ -1,6 +1,8 @@
 
 import createHttpError from "http-errors";
+
 export default class CarrierService {
+    
     constructor(agency) {
         if (new.target === CarrierService) {
             throw new Error("CarrierService is abstract and cannot be instantiated directly");
@@ -93,8 +95,9 @@ export default class CarrierService {
 
         const { supportsPallets } = this.agency?.rules;
 
-        const items = input?.items
-            .filter(item => supportsPallets && item.typeServices === "pallet") 
+        const items = input?.items.filter(
+            item => supportsPallets && 
+            item.typeServices === "pallet") 
             || [];
         
         const response = await this.fetchApi(

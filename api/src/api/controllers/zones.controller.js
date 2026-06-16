@@ -30,7 +30,7 @@ export const list = async (req, res) => {
         .find()
         .populate('agencyId', 'name code');
 
-    if (!zones) throw createHttpError(404, 'Zones not found');
+    if (!zones.length) throw createHttpError(404, 'Zones not found');
 
     res.json(zones);
 };

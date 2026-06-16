@@ -49,26 +49,6 @@ const zoneSchema = new mongoose.Schema({
                 default: "€/ton" 
             }
         }
-    },
-    postalCodeExceptions: {
-        type: [{
-            from: String,
-            to: String,
-            zoneName: String
-        }],
-        validate: {
-            validator: function (values) {
-                return Array.isArray(values) &&
-                    values.every(v =>
-                        v &&
-                        typeof v === 'object' &&
-                        v.from?.trim() &&
-                        v.to?.trim() &&
-                        v.zoneName?.trim()
-                );
-            },
-            message: 'postalCodeExceptions debe contener los elementos (from, to y zoneName) válidos'
-        }
     }
 }, { 
     timestamps: true,

@@ -3,13 +3,12 @@ services:
     build:
       context: .
       args:
-        VITE_API_URL: /api/v1
-    image: ship-quote:1.0.0
-
-    container_name: ship-quote-app-prod
+        VITE_API_URL_PROD: /api/v1
+    image: ship-quote-dev:1.0.0
+    container_name: ship-quote-app-dev
 
     ports:
-      - "8080:3000"
+      - "8082:3000"
 
     environment:
       NODE_ENV: production
@@ -18,17 +17,76 @@ services:
 
     depends_on:
       - mongo
+      - loki
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   mongo:
     image: mongo:8
-
-    container_name: ship-quote-mongo-prod
-
-    ports:
-      - "27018:27017"
+    container_name: ship-quote-mongo-dev
 
     volumes:
-      - mongo_data:/data/db
+      - mongo_data_dev:/data/db
+
+  # -------------------------
+  # LOKI (almacenamiento logs)
+  # -------------------------
+  loki:
+    image: grafana/loki:3.6.6
+    container_name: ship-quote-loki
+
+    ports:
+      - "3100:3100"
+
+    volumes:
+      - ./infra/monitoring/loki/config.yml:/etc/loki/config.yml
+      - loki_data:/loki
+
+    command: -config.file=/etc/loki/config.yml
+
+  # -------------------------
+  # PROMTAIL (lector logs docker)
+  # -------------------------
+  promtail:
+    image: grafana/promtail:3.6.10
+    container_name: ship-quote-promtail
+
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/log:/var/log
+      - ./infra/monitoring/promtail/config.yml:/etc/promtail/config.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    command: -config.file=/etc/promtail/config.yml
+
+    depends_on:
+      - loki
+
+  # -------------------------
+  # GRAFANA (visualización)
+  # -------------------------
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: ship-quote-grafana
+
+    ports:
+      - "3001:3000"
+
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+
+    depends_on:
+      - loki
+
+    volumes:
+      - grafana_data:/var/lib/grafana
 
 volumes:
-  mongo_data:
+  mongo_data_dev:
+  grafana_data:
+  loki_data:

@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon --env-file .env app.js",
     "start": "node --env-file .env app.js",
-    "seed": "nodemon --env-file .env src/bin/seed.js"
+    "seed": "nodemon --env-file .env src/lib/bootstrap/bootstrap.js"
   },
   "dependencies": {
     "cors": "^2.8.6",

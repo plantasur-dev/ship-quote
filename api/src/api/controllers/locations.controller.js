@@ -3,7 +3,9 @@ import createHttpError from "http-errors";
 
 import Location from "../../lib/models/location.model.js";
 
-import { listCountries } from '../services/locations.service.js';
+import { getProvinceByPostalCode } from "../services/provinces.service.js";
+
+import * as country from '../services/countries.service.js';
 
 export const create = async (req, res) => {
 
@@ -28,36 +30,48 @@ export const create = async (req, res) => {
     res.status(201).json(location);
 };
 
-export const list = async (req, res) => {
+export const provincesByPostalCode = (req, res) => {
+
+    const { postalCode } = req.params;
+    
+    if (!/^\d{5}$/.test(postalCode)) {
+        throw createHttpError(400, 'Incorrect Postal Code');
+    } 
+
+    const provinces = getProvinceByPostalCode(
+        postalCode
+    );
+
+    if (!provinces) {
+        throw createHttpError(404, 'Province not found');
+    }
+
+    res.json(provinces);
+};
+
+export const provincesByAddress = async (req, res) => {
 
     const criteria = {};
 
     if (req.query.address) {
-        criteria.normalizedName = { $regex: req.query.address, $options: "i" };
+        criteria.normalizedName = { 
+            $regex: req.query.address, 
+            $options: "i" 
+        };
     }
 
-    const locations = await Location
-        .find( criteria );
+    const locations = await Location.find( criteria );
 
-    if(!locations) throw createHttpError(404, 'Locations not found');
-
-    res.json(locations);
-};
-
-export const details = async (req, res) => {
-
-    const locations = await Location.findById(req.params.locationId);
-
-    if (!locations) throw createHttpError(404, 'Location not found');
+    if(!locations.length) throw createHttpError(404, 'Provinces not found');
 
     res.json(locations);
 };
 
-export const countries = async (req, res) => {
+export const listCountries = (req, res) => {
 
-    const countries = await listCountries();
+    const countries = country.listCountries();
     
-    if (countries?.error) throw createHttpError(countries?.error, countries?.message);
+    if (!countries.length) throw createHttpError(404, 'Countries not founds');
     
     res.json(countries);
 };

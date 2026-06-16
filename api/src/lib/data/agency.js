@@ -14,7 +14,7 @@ const agenciesData = [
             fuelSurcharge: {
                 enabled: true,
                 type: 'percentage',
-                value: 10.81
+                value: 9.2
             }
         }
     },
@@ -40,7 +40,7 @@ const agenciesData = [
         name: 'Dachser',
         code: 'dachser',
         type: 'api',
-        active: false,
+        active: true,
         rules: {
             hasAndaluciaRule: false,
             supportsPallets: true,

@@ -11,12 +11,14 @@ const MONGODB_URI =
 export const connectDB = async () => {
     await mongoose
         .connect(MONGODB_URI)
-        .then((db) => logger.info(`MongoDB connected: `, {
-            type: 'dataBase', 
+        .then((db) => logger.info({
+            event: 'db_connection_success',
+            service: 'ship-quote-api',
             message: db.connection.host 
         }))
-        .catch((error) => logger.error(`error MongoDB: `, { 
-            type: 'dataBase', 
-            message: error 
+        .catch((error) => logger.error({
+            event: 'db_connection_failed',
+            service: 'ship-quote-api', 
+            error 
         }));
 };

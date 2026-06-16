@@ -1,27 +1,24 @@
 
-import Agency from '../../../models/agency.model.js';
-
 import PalletType from '../../../models/palletType.model.js';
 
 import { palletTypesRaw } from '../../../data/tecum.js';
 
+import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
+
+const params = { 
+  code: 'tecum', 
+  collection: 'palletType'
+};
+
 export async function palletTypesTecum() {
 
-  const agency = await Agency.findOne({ code: 'tecum' });
-  
-  if (!agency) {
-    console.log('Tecum no existe');
-    return;
-  }
+  const result = await checkExists(params);
 
-  const exists = await PalletType.findOne({ agencyId: agency._id });
+  if (!result) return;
 
-  if (exists) {
-      console.log('PalletType ya existen para TECUM, se omite');
-      return;
-  }
+  const { agency, model } = result;
 
-  await PalletType.deleteMany({ agencyId: agency._id });
+  await model.deleteMany({ agencyId: agency._id });
 
   const docs = palletTypesRaw.map(p => ({
     agencyId: agency._id,
@@ -34,7 +31,11 @@ export async function palletTypesTecum() {
     }
   }));
 
-  await PalletType.insertMany(docs);
+  await model.insertMany(docs);
 
-  console.log('✅ Tecum PalletTypes importados');
+  loggerMsg({ 
+    status: 'success',
+    collection: params.collection,
+    message: `${ params.code } ${ params.collection } importadas correctamente`,
+  });
 }

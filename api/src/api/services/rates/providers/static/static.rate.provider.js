@@ -1,11 +1,10 @@
 
-import Zone from "../../../../../lib/models/zone.model.js";
-import Rate from "../../../../../lib/models/rate.model.js";
-import PalletType from "../../../../../lib/models/palletType.model.js";
+import { 
+    getAgencyTariffs 
+} from '../../../cache.service.js';
 
 import {
-    resolveZone, 
-    groupByAgency
+    resolveZone
 } from '../../../../../lib/utils/rate.utils.js';
 
 import {
@@ -23,31 +22,25 @@ import {
 import { presentRate } from "../../presenters/rate.presenter.js";
 
 export default async function getStaticRates(agencies, { destinationPostalCode, province, items }) {
-    const agencyIds = agencies.map(agency => agency.id);
-
-    const [zones, rates, palletTypes] = await Promise.all([
-        Zone.find({ agencyId: { $in: agencyIds } }),
-        Rate.find({ agencyId: { $in: agencyIds } }),
-        PalletType.find({ agencyId: { $in: agencyIds } })
-    ]);
-
-    const zonesByAgency = groupByAgency(zones);
-    const ratesByAgency = groupByAgency(rates);
-    const palletTypesByAgency = groupByAgency(palletTypes);
+    
+    const tariffStore = getAgencyTariffs();
 
     const palletItems = items.filter(item => item.typeServices === "pallet");
     const parcelItems = items.filter(item => item.typeServices === "parcel");
 
     return agencies.map(agency => {
         try {
-            const agencyId = agency.id.toString();
+            const agencyData =
+                tariffStore[agency.id.toString()];
             
             const agencySupplements = agency?.supplements;
-            const agencyZones = zonesByAgency[agencyId] || [];
-            const agencyRates = ratesByAgency[agencyId] || [];
-            const agencyPalletTypes = palletTypesByAgency[agencyId] || [];
+            const agencyZones = agencyData.zones || [];
+            const agencyZonesRules = agencyData.zoneRules || [];
+
+            const agencyRates = agencyData.ratesByKey || [];
+            const agencyPalletTypes = agencyData.sortedPalletTypes || [];
             
-            const zone = resolveZone(agencyZones, destinationPostalCode, province);
+            const zone = resolveZone(agencyData, destinationPostalCode, province);
             if (!zone) {
                 return buildStaticErrorResult({
                     presentRate,
@@ -57,20 +50,20 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
             }
             
             return (zone.calculationMode === 'pallet')
-            ? calculatePallet({
-                    nameAgency: agency.name,
-                    palletItems, 
-                    agencyRates, 
-                    agencyPalletTypes, 
-                    zone,
-                    agencySupplements 
-                })
-            : calculateParcel({
-                    nameAgency: agency.name, 
-                    parcelItems, 
-                    agencyRates, 
-                    zone,
-                    agencySupplements 
+                ? calculatePallet({
+                        nameAgency: agency.name,
+                        palletItems, 
+                        agencyRates, 
+                        agencyPalletTypes, 
+                        zone,
+                        agencySupplements 
+                    })
+                : calculateParcel({
+                        nameAgency: agency.name, 
+                        parcelItems, 
+                        agencyRates, 
+                        zone,
+                        agencySupplements 
                 });
                 
         } catch (error) {

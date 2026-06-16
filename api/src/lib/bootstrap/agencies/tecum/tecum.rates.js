@@ -7,27 +7,33 @@ import PalletType from '../../../models/palletType.model.js';
 
 import { 
   buildPriceBreaks, 
-  fixed, 
-  palletMap 
+  fixed 
 } from '../../../utils/tecum.utils.js';
 
 import { 
   palletSimple, 
   ExtraLight, 
   EuroPallet, 
-  Full 
+  Full,
+  palletMap 
 } from '../../../data/tecum.js';
 
-const ratesByQuantityTecum = async (agencyCode) => {
+import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
 
-  const tablesConfig =  [
-    { table: ExtraLight, palletName: 'EXTRA LIGHT PALLET' },
-    { table: EuroPallet, palletName: 'EURO PALLET' },
-    { table: Full, palletName: 'FULL PALLET' }
-  ];
+const tablesConfig = [
+  { table: ExtraLight, palletName: 'EXTRA LIGHT PALLET' },
+  { table: EuroPallet, palletName: 'EURO PALLET' },
+  { table: Full, palletName: 'FULL PALLET' }
+];
 
-  const agency = await Agency.findOne({ code: agencyCode });
-  if (!agency) throw new Error(`No existe ${agencyCode}`);
+const params = { 
+  code: 'tecum', 
+  collection: 'rate'
+}
+
+async function ratesByQuantityTecum() {
+
+  const agency = await Agency.findOne({ code: params.code });
 
   const palletTypes = await PalletType.find({ agencyId: agency._id });
 
@@ -40,7 +46,11 @@ const ratesByQuantityTecum = async (agencyCode) => {
     const pallet = palletTypes.find(p => p.name === palletName);
 
     if (!pallet) {
-      console.warn(`⚠️ Pallet no encontrado: ${ palletName }`);
+      loggerMsg({ 
+        status: 'warning',
+        collection: params.collection,
+        message: `Pallet no encontrado: ${ palletName }`,
+      });
       continue;
     }
 
@@ -77,28 +87,24 @@ const ratesByQuantityTecum = async (agencyCode) => {
 
   await Rate.insertMany(inserts);
 
-  console.log('✅ Rates Tecum por cantidad insertados');
+  loggerMsg({ 
+    status: 'success',
+    collection: params.collection,
+    message: `${ params.code } ${ params.collection } por cantidad importadas correctamente`,
+  });
 };
 
 export async function ratesTecum() {
 
-  const agency = await Agency.findOne({ code: 'tecum' });
-    
-  if (!agency) {
-    console.log('No existe TECUM');
-    return;
-  }
+  const result = await checkExists(params);
 
-  const exists = await Rate.findOne({ agencyId: agency._id });
+  if (!result) return;
 
-  if (exists) {
-      console.log('Rate ya existen para TECUM, se omite');
-      return;
-  }
+  const { agency, model } = result;
 
   const palletTypes = await PalletType.find({ agencyId: agency._id });
 
-  await Rate.deleteMany({ agencyId: agency._id });
+  await model.deleteMany({ agencyId: agency._id });
 
   const inserts = [];
 
@@ -110,7 +116,12 @@ export async function ratesTecum() {
       const pallet = palletTypes.find(p => p.name === palletName);
 
       if (!pallet) {
-        console.warn(`⚠️ Pallet no encontrado: ${palletName}`);
+        logger.warn({
+          event: 'rate:bootstrap:error',
+          service: 'ship-quote-api',
+          message: `Pallet no encontrado: ${ palletName }`,
+          component: 'database'
+        });
         continue;
       }
 
@@ -133,9 +144,13 @@ export async function ratesTecum() {
     }
   }
 
-  await Rate.insertMany(inserts);
+  await model.insertMany(inserts);
 
-  console.log('✅ Tarifas TECUM importadas');
+  loggerMsg({ 
+    status: 'success',
+    collection: params.collection,
+    message: `${ params.code } ${ params.collection } importadas correctamente`,
+  });
 
-  await ratesByQuantityTecum('tecum');
+  await ratesByQuantityTecum();
 }

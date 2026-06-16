@@ -61,6 +61,7 @@ function ItemDraftDetails({ items, onRemove }) {
                         key={ index }
                         item={ item }
                         index={ index }
+                        onRemove={ onRemove }
                     />
                 ))}
 

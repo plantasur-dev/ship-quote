@@ -1,38 +1,43 @@
 
-import Agency from '../../../models/agency.model.js';
-
-import Zone from '../../../models/zone.model.js';
-
 import { zones, exceptions } from '../../../data/tecum.js';
+
+import { zonesBootstrap } from '../../../utils/bootstrap.utils.js';
+
+import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
+
+const paramsZone = { 
+  code: 'tecum', 
+  collection: 'zone',
+};
+
+const paramsZoneRule = { 
+  code: 'tecum', 
+  collection: 'zoneRule',
+};
 
 export async function zonesTecum() {
 
-  const agency = await Agency.findOne({ code: 'tecum' });
+  const result1 = await checkExists(paramsZone);
+
+  const result2 = await checkExists(paramsZoneRule);
   
-  if (!agency) {
-    console.log('No existe TECUM');
-    return;
-  }
+  if (!result1 && !result2) return;
 
-  const exists = await Zone.findOne({ agencyId: agency._id });
-  
-  if (exists) {
-      console.log('Zone ya existen para TECUM, se omite');
-      return;
-  }
+  await zonesBootstrap({ 
+    zoneModel: result1.model, 
+    agency: result1.agency, 
+    zones,
+    zoneRuleModel: result2.model,
+    rules: {
+      calculationMode: 'pallet',
+      pricingMode: { type: 'weight' },
+      exceptions
+    } 
+  });
 
-  await Zone.deleteMany({ agencyId: agency._id });
-
-  const docs = zones.map(z => ({
-    agencyId: agency._id,
-    name: z.name,
-    provinces: z.provinces,
-    calculationMode: 'pallet',
-    pricingMode: { type: 'weight'},
-    postalCodeExceptions: exceptions.filter(e => e.zoneName === z.name)
-  }));
-
-  await Zone.insertMany(docs);
-
-  console.log('✅ TECUM zonas importadas correctamente');
+  loggerMsg({ 
+    status: 'success',
+    collection: paramsZone.collection,
+    message: `${ paramsZone.code } ${ paramsZone.collection } importadas correctamente`,
+  });
 }

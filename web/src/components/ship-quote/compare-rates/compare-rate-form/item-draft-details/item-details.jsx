@@ -1,7 +1,7 @@
 
 import { typeStyles } from './item-draft-details-styles';
 
-function ItemDetails({ item, index }) {
+function ItemDetails({ item, index, onRemove }) {
 
     const currentType = typeStyles[item.typeServices];
 
@@ -64,6 +64,8 @@ function ItemDetails({ item, index }) {
 
                         hover:bg-red-50
                         hover:text-red-500
+
+                        cursor-pointer
                     "
                 >
                     Eliminar

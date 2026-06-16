@@ -18,7 +18,10 @@ export function useProvinces(countryCode) {
                 const provinces = await locationsProvinces();
                 setProvinces(provinces);
             } catch (error) {
-                setError(error?.message || 'Error cargando provincias');
+                setError({
+                    type: 'error',
+                    message: error?.message || 'Error cargando provincias'
+                });
             } finally {
                 setIsLoading(false);
             }

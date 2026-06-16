@@ -1,8 +1,4 @@
 
-import Agency from '../../../models/agency.model.js';
-
-import Rate from '../../../models/rate.model.js';
-
 import PalletType from '../../../models/palletType.model.js';
 
 import { ratesAndaluciaCayco } from './cayco.ratesAndalucia.js';
@@ -20,27 +16,24 @@ import {
   superRates 
 } from '../../../data/cayco.js';
 
+import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
+
+const params = { 
+  code: 'cayco', 
+  collection: 'rate'
+};
+
 export async function ratesCayco() {
+
+  const result = await checkExists(params);
+
+  if (!result) return;
+
+  const { agency, model } = result;
   
-  const agency = await Agency.findOne({ code: 'cayco' });
-  
-  if (!agency) {
-    console.log('Agency Cayco not found');
-    return;
-  }
+  await model.deleteMany(agency.agencyId);
 
-  const agencyId = { agencyId: agency._id };
-
-  const exists = await Rate.findOne(agencyId);
-      
-  if (exists) {
-    console.log('Rate ya existen para Cayco, se omite');
-    return;
-  }
-
-  await Rate.deleteMany(agencyId);
-
-  const palletTypes = await PalletType.find(agencyId);
+  const palletTypes = await PalletType.find(agency.agencyId);
 
   const inserts = [];
 
@@ -94,9 +87,13 @@ export async function ratesCayco() {
     });
   }
 
-  await Rate.insertMany(inserts);
+  await model.insertMany(inserts);
 
-  console.log('✅ Completo rates Cayco');
+  loggerMsg({ 
+    status: 'success',
+    collection: params.collection,
+    message: `${ params.code } ${ params.collection } importadas correctamente`,
+  });
 
   await ratesAndaluciaCayco();
 }

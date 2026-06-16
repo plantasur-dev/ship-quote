@@ -12,12 +12,10 @@ const docRouter = Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Cargar openapi.yaml
 const swaggerDocument = YAML.load(
   path.join(__dirname, './openapi.yaml')
 );
 
-// Swagger UI
 docRouter.use(
   '/',
   swaggerUi.serve,

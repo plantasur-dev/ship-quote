@@ -4,7 +4,10 @@ import { Router } from "express";
 import * as Errors from './middlewares/errors.middleware.js';
 
 import { schemaValidation } from './middlewares/schema.validation.middleware.js';
-import { rateValidation } from './middlewares/rate.validation.middleware.js';
+import { 
+    rateItemsValidation,  
+    rateDestinationValidation
+} from './middlewares/rate.validation.middleware.js';
 
 import * as Agencies from './controllers/agencies.controller.js';
 import * as Locations from './controllers/locations.controller.js';
@@ -38,18 +41,13 @@ apiRouter.post(
 );
 
 apiRouter.get(
-    '/locations',
-    Locations.list
-);
-
-apiRouter.get(
     '/locations/countries',
-    Locations.countries
+    Locations.listCountries
 );
 
 apiRouter.get(
-    '/locations/:locationId',
-    Locations.details
+    '/locations/provincesByPostalCode/:postalCode',
+    Locations.provincesByPostalCode
 );
 
 
@@ -62,11 +60,6 @@ apiRouter.post(
 apiRouter.get(
     '/pallets',
     Pallets.list
-);
-
-apiRouter.post(
-    '/pallets/compare',
-    Pallets.compare
 );
 
 apiRouter.get(
@@ -100,8 +93,17 @@ apiRouter.get(
 apiRouter.post(
     '/rates/compare', 
     schemaValidation,
-    rateValidation,
+    rateDestinationValidation,
+    rateItemsValidation,
     Rates.compare
+);
+
+apiRouter.post(
+    '/rates/compareByPostalCode', 
+    schemaValidation,
+    rateDestinationValidation,
+    rateItemsValidation,
+    Rates.compareByCodePostal
 );
 
 apiRouter.use(Errors.routerNotFound);

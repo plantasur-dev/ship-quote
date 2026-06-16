@@ -14,8 +14,8 @@ function ErrorsForm({ serverErrors = {} }) {
         return (
             <Alert 
                 key={ key }
-                message={`${ key }: ${ message }`} 
-                type="warning" 
+                message={`${ message }`} 
+                type= { error?.type ?? 'warning' }
                 center={ true } 
             />
         );

@@ -1,31 +1,39 @@
 
-import Agency from '../../models/agency.model.js';
-
 import Rate from '../../models/rate.model.js';
-import Zone from '../../models/zone.model.js';
 
 import { 
     correosRates, 
     correosZones
 } from '../../data/cexp.js';
 
+import { zonesBootstrap } from '../../utils/bootstrap.utils.js';
+
+import { checkExists, loggerMsg } from '../../utils/logger.utils.js';
+
+const paramsRate = { 
+    code: 'correosexpress', 
+    collection: 'rate'
+};
+
+const paramsZone = { 
+    code: 'correosexpress', 
+    collection: 'zone'
+};
+
+const paramsZoneRule = { 
+    code: 'correosexpress', 
+    collection: 'zoneRule'
+};
+
 export async function ratesCorreos() {
 
-    const agency = await Agency.findOne({ code: 'correosexpress' });
-   
-    if (!agency) {
-        console.log('No existe Correos Express');
-        return;
-    }
+    const result = await checkExists(paramsRate);
 
-    const exists = await Rate.findOne({ agencyId: agency.id });
+    if (!result) return;
 
-    if (exists) {
-        console.log('Rate ya existen para CEXP, se omite');
-        return;
-    }
-
-    await Rate.deleteMany({ agencyId: agency.id, type: 'parcel' });
+    const { agency, model } = result;
+    
+    await model.deleteMany({ agencyId: agency.id, type: 'parcel' });
 
     const inserts = [];
 
@@ -46,39 +54,38 @@ export async function ratesCorreos() {
         });
     }
 
-    await Rate.insertMany(inserts);
+    await model.insertMany(inserts);
 
-    console.log('✅ Correos Express rates insertados');
+    loggerMsg({ 
+        status: 'success',
+        collection: paramsRate.collection,
+        message: `${ paramsRate.code } ${ paramsRate.collection } importadas correctamente`,
+    });
 };
 
 export async function zonesCorreos() {
 
-    const agency = await Agency.findOne({ code: 'correosexpress' });
-    
-    if (!agency) {
-        console.log('No existe Correos Express');
-        return;
-    }
+    const result1 = await checkExists(paramsZone);
 
-    const exists = await Zone.findOne({ agencyId: agency.id });
+    const result2 = await checkExists(paramsZoneRule);
 
-    if (exists) {
-        console.log('Zone ya existen para CEXP, se omite');
-        return;
-    }
+    if (!result1 || !result2) return;
 
-    await Zone.deleteMany({ agencyId: agency.id });
+    await zonesBootstrap({ 
+        zoneModel: result1.model, 
+        agency: result1.agency, 
+        zones: correosZones.zones,
+        zoneRuleModel: result2.model,
+        rules: {
+            calculationMode: correosZones.calculationMode,
+            pricingMode: correosZones.pricingMode,
+            exceptions: correosZones.postalCodeExceptions
+        } 
+    });
 
-    const inserts = [];
-
-    for (const [name, data] of Object.entries(correosZones)) {
-        inserts.push({
-            agencyId: agency.id,
-            ...data
-        });
-    }
-
-    await Zone.insertMany(inserts);
-
-    console.log('✅ Correos Express zones insertados');
+    loggerMsg({ 
+        status: 'success',
+        collection: paramsZone.collection,
+        message: `${ paramsZone.code } ${ paramsZone.collection } importadas correctamente`,
+    });
 };

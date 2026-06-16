@@ -1,32 +1,39 @@
 
-import Agency from '../../models/agency.model.js';
-
 import Rate from '../../models/rate.model.js';
-
-import Zone from '../../models/zone.model.js';
 
 import { 
     mrwRates, 
     mrwZones
 } from '../../data/mrw.js';
 
+import { zonesBootstrap } from '../../utils/bootstrap.utils.js';
+
+import { checkExists, loggerMsg } from '../../utils/logger.utils.js';
+
+const paramsRate = { 
+    code: 'mrw', 
+    collection: 'rate'
+};
+
+const paramsZone = { 
+    code: 'mrw', 
+    collection: 'zone'
+};
+
+const paramsZoneRule = { 
+    code: 'mrw', 
+    collection: 'zoneRule'
+};
+
 export async function rateMrw() {
 
-    const agency = await Agency.findOne({ code: 'mrw' });
-    
-    if (!agency) {
-        console.log('No existe Mrw');
-        return;
-    }
+    const result = await checkExists(paramsRate);
 
-    const exists = await Rate.findOne({ agencyId: agency.id });
+    if (!result) return;
 
-    if (exists) {
-        console.log('Rate ya existen para MRW, se omite');
-        return;
-    }
+    const { agency, model } = result;
     
-    await Rate.deleteMany({ agencyId: agency.id, type: 'parcel' });
+    await model.deleteMany({ agencyId: agency.id, type: 'parcel' });
 
     const inserts = [];
 
@@ -47,39 +54,38 @@ export async function rateMrw() {
         });
     }
 
-    await Rate.insertMany(inserts);
+    await model.insertMany(inserts);
 
-    console.log('✅ Mrw rates insertados');
+    loggerMsg({ 
+        status: 'success',
+        collection: paramsRate.collection,
+        message: `${ paramsRate.code } ${ paramsRate.collection } importadas correctamente`,
+    });
 };
 
 export async function zoneMrw() {
 
-    const agency = await Agency.findOne({ code: 'mrw' });
+    const result1 = await checkExists(paramsZone);
 
-    if (!agency) {
-        console.log('No existe Mrw');
-        return;
-    }
+    const result2 = await checkExists(paramsZoneRule);
 
-    const exists = await Zone.findOne({ agencyId: agency.id });
+    if (!result1 || !result2) return;
 
-    if (exists) {
-        console.log('Zone ya existen para MRW, se omite');
-        return;
-    }
+    await zonesBootstrap({ 
+        zoneModel: result1.model, 
+        agency: result1.agency, 
+        zones: mrwZones.zones,
+        zoneRuleModel: result2.model,
+        rules: {
+          calculationMode: mrwZones.calculationMode,
+          pricingMode: mrwZones.pricingMode,
+          exceptions: mrwZones.postalCodeExceptions
+        } 
+    });
 
-    await Zone.deleteMany({ agencyId: agency.id });
-
-    const inserts = [];
-
-    for (const [name, data] of Object.entries(mrwZones)) {
-        inserts.push({
-            agencyId: agency.id,
-            ...data
-        });
-    }
-
-    await Zone.insertMany(inserts);
-
-    console.log('✅ Mrw zones insertados');
+    loggerMsg({ 
+        status: 'success',
+        collection: paramsZone.collection,
+        message: `${ paramsZone.code } ${ paramsZone.collection } importadas correctamente`,
+    });
 };

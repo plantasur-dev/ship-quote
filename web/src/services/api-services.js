@@ -1,11 +1,19 @@
 
 import axios from 'axios';
 
-const isTest = import.meta.env.VITE_MODE === 'test';
+const config = {
+    isTest: import.meta.env.VITE_NODE_ENV === 'test',
+    api_url_dev: import.meta.env.VITE_API_URL_DEV,
+    api_url_pro: import.meta.env.VITE_API_URL_PROD
+};
 
-const baseURL = isTest
-  ? import.meta.env.VITE_API_URL_DEV
-  : (import.meta.env.VITE_API_URL_PROD || '/api/v1');
+const baseURL = config.isTest 
+    ? config.api_url_dev 
+    : config.api_url_pro;
+
+if (!baseURL) {
+    throw new Error('No se encontró la URL de la API. Revisa las variables de entorno.');
+}
 
 const http = axios.create({ baseURL });
 
@@ -14,16 +22,16 @@ http.interceptors.response.use(
     (err) => {
         const { status, data } = err?.response || {};
 
-        const message = `API Error [${ status }]: ${ data?.message || err.message } `;
+        const message = `API Error [${ status ?? err?.name }]: ${ data?.message || err.message } `;
         
         console.error(message);
 
-        return Promise.reject(data || { message });
+        return Promise.reject( { message } || data );
     }
 );
 
 export const locationsProvinces = () =>
-    http.get('/locations');
+    http.get('/locations/provinces');
 
 export const locationsCountries = () =>
     http.get('/locations/countries');

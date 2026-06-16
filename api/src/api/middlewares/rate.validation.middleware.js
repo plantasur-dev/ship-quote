@@ -34,13 +34,8 @@ const validateItem = (item, index) => {
     }
 };
 
-export const rateValidation = (req, res, next) => {
-    const { destinationPostalCode, province, items } = req.body;
-
-    if (typeof destinationPostalCode !== 'string' ||
-        typeof province !== 'string') {
-        throw createHttpError(400, 'destinationPostalCode and province must be strings');
-    }
+export const rateItemsValidation = (req, res, next) => {
+    const { items } = req.body;
 
     if (!Array.isArray(items)) {
         throw createHttpError(400, 'items must be an array');
@@ -51,6 +46,20 @@ export const rateValidation = (req, res, next) => {
     }
 
     items.forEach(validateItem);
+
+    next();
+};
+
+export const rateDestinationValidation = (req, res, next) => {
+    const { destinationPostalCode } = req.body;
+
+    if (typeof destinationPostalCode !== 'string') {
+        throw createHttpError(400, 'destinationPostalCode and province must be strings');
+    }
+
+    if (!/^\d{5}$/.test(destinationPostalCode)) {
+        throw createHttpError(400, 'Código postal inválido');
+    }
 
     next();
 };

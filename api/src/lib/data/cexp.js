@@ -1,35 +1,30 @@
 
 export const correosZones = {
-    PENINSULAR: {
-        name: "PENINSULAR",
-        provinces: [
-            "ES-J","ES-CO","ES-AB", "ES-AL", "ES-CR", "ES-SE", "ES-MA",
-            "ES-BA", "ES-CU", "ES-H", "ES-MU", "ES-A", "ES-CA", "ES-GR",
-            "ES-GU", "ES-M", "ES-SO", "ES-TO", "ES-AV", "ES-BU", "ES-LO", 
-            "ES-SG", "ES-VA", "ES-Z", "ES-VI", "ES-HU", "ES-LE", "ES-NA", 
-            "ES-P", "ES-SA", "ES-TE", "ES-V", "ES-ZA", "ES-CS", "ES-SS", 
-            "ES-L", "ES-O", "ES-S", "ES-T", "ES-BI", "ES-B", "ES-CC",
-            "ES-C", "ES-GI", "ES-LU", "ES-OR", "ES-PO"
-        ],
-        calculationMode: "parcel",
-        pricingMode: { type: "weight_volume" },
-        postalCodeExceptions: []
-    },
-    ANDALUCIA: {
-        name: "ANDALUCIA",
-        provinces: [],
-        calculationMode: "parcel",
-        pricingMode: { type: "weight_volume" },
-        postalCodeExceptions: []
-    },
-    PROVINCIAL: {
-        name: "PROVINCIAL",
-        provinces: [],
-        calculationMode: "parcel",
-        pricingMode: { type: "weight_volume" },
-        postalCodeExceptions: []
-    }
-
+    zones: [
+        {
+            name: "PENINSULAR",
+            provinces: [
+                "ES-J","ES-CO","ES-AB", "ES-AL", "ES-CR", "ES-SE", "ES-MA",
+                "ES-BA", "ES-CU", "ES-H", "ES-MU", "ES-A", "ES-CA", "ES-GR",
+                "ES-GU", "ES-M", "ES-SO", "ES-TO", "ES-AV", "ES-BU", "ES-LO", 
+                "ES-SG", "ES-VA", "ES-Z", "ES-VI", "ES-HU", "ES-LE", "ES-NA", 
+                "ES-P", "ES-SA", "ES-TE", "ES-V", "ES-ZA", "ES-CS", "ES-SS", 
+                "ES-L", "ES-O", "ES-S", "ES-T", "ES-BI", "ES-B", "ES-CC",
+                "ES-C", "ES-GI", "ES-LU", "ES-OR", "ES-PO"
+            ],
+        },
+        {
+            name: "ANDALUCIA",
+            provinces: [],
+        },
+        {
+            name: "PROVINCIAL",
+            provinces: [],
+        }
+    ],
+    calculationMode: "parcel",
+    pricingMode: { type: "weight_volume" },
+    postalCodeExceptions: []
 }
 
 export const correosRates = {

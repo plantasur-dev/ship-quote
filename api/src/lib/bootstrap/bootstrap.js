@@ -4,7 +4,7 @@ import { agencies } from './agencies/agencies.js';
 import { 
     zonesCayco, 
     palletTypesCayco, 
-    ratesCayco 
+    ratesCayco
 } from './agencies/cayco/index.js';
 
 import { 

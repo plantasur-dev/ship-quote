@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 
 import { validations } from '../../utils/validation-utils';
 
-function PostalCodeInput() {
+function PostalCodeInput({ isLoadingProvinces }) {
 
     const { 
         register, 
@@ -18,6 +18,14 @@ function PostalCodeInput() {
 
             <input
                 placeholder="00000"
+
+                placeholder={
+                    isLoadingProvinces
+                        ? "Cargando provincias..."
+                        : "Buscar provincia..."
+                }
+
+                disabled={ isLoadingProvinces }
 
                 { ...register(
                     'destinationPostalCode',

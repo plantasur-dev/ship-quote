@@ -1,11 +1,13 @@
 
-import { FormProvider, useWatch } from "react-hook-form";
+import { 
+    FormProvider, 
+    useWatch 
+} from "react-hook-form";
 
 import {
     useCompareRateForm,
+    useCountries,
     useProvinces, 
-    usePostalCode,
-    useCountries, 
 } from "../../../../hooks";
 
 import CompareRateItemsDetails from './item-draft-details/item-draft-details';
@@ -26,22 +28,24 @@ function CompareRateForm({ handlerCalculateRates }) {
 
     const form = useCompareRateForm();
 
-    const countryCode = useWatch({ control: form.control, name: 'countryCode' });
-        
+    const countryCode = useWatch({ 
+        control: form.control, 
+        name: 'countryCode' 
+    });
+
+    const postalCode = useWatch({ 
+        control: form.control, 
+        name: "destinationPostalCode" 
+    });
+      
     const { isLoadingCountries, countriesError, countries } = useCountries();
     const { isLoadingProvinces, provincesError, provinces } = useProvinces(countryCode);
     
-    usePostalCode({
-        watchPostal: useWatch({ control: form.control, name: 'destinationPostalCode' }),
-        provinces,
-        setValue: form.setValue
-    });
-   
-    if (isLoadingCountries || isLoadingProvinces) return <SkeletonForm />;
+    if (isLoadingCountries) return <SkeletonForm />;
     
     const externalErrors = {
         ...(countriesError ? { countries: countriesError } : {}),
-        ...(provincesError ? { provinces: provincesError } : {})
+        ...(provincesError ? { provinces: provincesError } : {}),
     };
 
     const allServerErrors = {
@@ -79,10 +83,14 @@ function CompareRateForm({ handlerCalculateRates }) {
                             isLoadingCountries={ isLoadingCountries }
                         />
 
-                        <PostalCodeInput />
+                        <PostalCodeInput 
+                            isLoadingProvinces={ isLoadingProvinces }
+                        />
 
                         <ProvinceDisplay 
                             provinces={ provinces }
+                            postalCode={ postalCode }
+                            countryCode={ countryCode }
                         />
                     </section>
 

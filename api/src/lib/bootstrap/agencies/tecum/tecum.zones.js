@@ -21,7 +21,7 @@ export async function zonesTecum() {
 
   const result2 = await checkExists(paramsZoneRule);
   
-  if (!result1 && !result2) return;
+  if (!result1 || !result2) return;
 
   await zonesBootstrap({ 
     zoneModel: result1.model, 

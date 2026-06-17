@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 
-import { locationsCountries } from '../services/api-services';
+import { listCountries } from '../services/api-services';
 
 export function useCountries() {
 
@@ -13,9 +13,12 @@ export function useCountries() {
         const fetchCountries = async () => {
             try {
                 setIsLoading(true);
-                const countries = await locationsCountries();
-                const langClient = navigator.language.split('-')[1] || 'ES';;
-                setCountries(countries?.[langClient] || countries?.['US'] || []);    
+                const langClient = 
+                    navigator.language.split('-')[1] || 
+                    'ES';
+                    
+                const countries = await listCountries(langClient);
+                setCountries(countries);
             } catch (error) {
                 setError({
                     type: 'warning',

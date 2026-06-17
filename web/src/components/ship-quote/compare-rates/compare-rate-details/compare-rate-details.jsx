@@ -11,9 +11,15 @@ function CompareRateDetails({ isLoading, error, resultRates = [] }) {
     const [open, setOpen] = useState(null);
 
     if (isLoading) return <CompareRateSkeletonDetails />;
-
+    
     if (error) {
-        return <Alert message={error} type="warning" center />;
+        const { type, message } = error;
+
+        return <Alert 
+            message={ message } 
+            type={ type } 
+            center={ true } 
+        />;
     }
 
     const toggle = (id) => {

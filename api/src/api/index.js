@@ -46,6 +46,11 @@ apiRouter.get(
 );
 
 apiRouter.get(
+    '/locations/provinces',
+    Locations.listProvinces
+);
+
+apiRouter.get(
     '/locations/provincesByPostalCode/:postalCode',
     Locations.provincesByPostalCode
 );

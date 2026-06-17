@@ -12,6 +12,8 @@ import {
 
 let provincesMap = new Map();
 
+let provincesAll = [];
+
 function normalizeName(name) {
     return name
         .toLowerCase()
@@ -82,10 +84,10 @@ export const initProvinces = async () => {
 }
 
 export async function loadProvinces() {
-    const provinces = await Location.find().lean();
-
+    provincesAll = await Location.find().lean();
+    
     provincesMap = new Map(
-        provinces.map(province => [
+        provincesAll.map(province => [
             province.postalCode,
             province
         ])
@@ -94,4 +96,8 @@ export async function loadProvinces() {
 
 export function getProvinceByPostalCode(postalCode) {
     return provincesMap.get(postalCode.slice(0, 2));
+}
+
+export function getProvinces() {
+    return provincesAll;
 }

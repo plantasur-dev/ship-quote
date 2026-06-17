@@ -1,5 +1,5 @@
 
-import { countryLang } from "../../lib/configs/country.lang.config.js";
+import { countryLang } from "../../lib/constants/country.lang.js";
 
 const countriesMap = new Map();
 

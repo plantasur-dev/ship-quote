@@ -3,7 +3,10 @@ import createHttpError from "http-errors";
 
 import Location from "../../lib/models/location.model.js";
 
-import { getProvinceByPostalCode } from "../services/provinces.service.js";
+import { 
+    getProvinceByPostalCode,
+    getProvinces
+} from "../services/provinces.service.js";
 
 import * as country from '../services/countries.service.js';
 
@@ -67,11 +70,24 @@ export const provincesByAddress = async (req, res) => {
     res.json(locations);
 };
 
+export const listProvinces = (req, res) => {
+
+    const provinces = getProvinces();
+
+    if (!provinces) {
+        throw createHttpError(404, 'Provinces not founds');
+    }
+
+    res.json(provinces);
+};
+
 export const listCountries = (req, res) => {
 
-    const countries = country.listCountries();
+    const langCode = (req.query.lang ?? 'ES').toUpperCase();
+
+    const countries = country.listCountries(langCode);
     
-    if (!countries.length) throw createHttpError(404, 'Countries not founds');
+    if (!countries.length) throw createHttpError(404, 'Countries not found');
     
     res.json(countries);
 };

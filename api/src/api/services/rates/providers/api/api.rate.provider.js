@@ -2,6 +2,7 @@
 import { carrierFactory } from './carriers/carriers.service.js';
 
 import { 
+  buildStaticErrorResult,
   buildApiErrorResult, 
   buildRateComplete 
 } from '../../domains/build.rate.result.js';
@@ -25,7 +26,15 @@ export default async function getApiRates(agencies, input = {}) {
         }
         
         const result = await carrier.getRates(input);
-        
+
+        if (!result.length) {
+            return buildStaticErrorResult({
+                presentRate,
+                agency: agency.name,
+                code: 'NO_RATE'
+            });
+        }
+
         return buildRateComplete({
           agency: agency.name,
           services: presentRate(result)

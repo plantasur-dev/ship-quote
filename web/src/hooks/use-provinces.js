@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 
-import { locationsProvinces } from '../services/api-services';
+import { listProvinces } from '../services/api-services';
 
 export function useProvinces(countryCode) {
 
@@ -15,7 +15,9 @@ export function useProvinces(countryCode) {
         const fetchProvinces = async () => {
             try {
                 setIsLoading(true);
-                const provinces = await locationsProvinces();
+
+                const provinces = await listProvinces();
+                
                 setProvinces(provinces);
             } catch (error) {
                 setError({

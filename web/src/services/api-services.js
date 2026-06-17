@@ -22,7 +22,11 @@ http.interceptors.response.use(
     (err) => {
         const { status, data } = err?.response || {};
 
-        const message = `API Error [${ status ?? err?.name }]: ${ data?.message || err.message } `;
+        let message = `API Error [${ status ?? err?.name }]: ${ data?.message || err.message } `;
+
+        if (status === 400 ){
+            message = `${ data?.message || err.message } `;
+        }
         
         console.error(message);
 
@@ -30,12 +34,12 @@ http.interceptors.response.use(
     }
 );
 
-export const locationsProvinces = () =>
+export const listProvinces = () =>
     http.get('/locations/provinces');
 
-export const locationsCountries = () =>
-    http.get('/locations/countries');
+export const listCountries = (lang = 'ES') =>
+    http.get(`/locations/countries`, { params: { lang } });
 
 
-export const compareRate = (data) => 
-    http.post('/rates/compare', data);
+export const compareRatesByPostalCode = (data) => 
+    http.post('/rates/compareByPostalCode', data);

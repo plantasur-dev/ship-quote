@@ -3,7 +3,7 @@ import { calculateVolumeM3 } from '../../../../../../../lib/utils/rate.utils.js'
 
 import { dateFormat } from '../../../../../../../lib/utils/date.utils.js';
 
-import { transportProducts } from '../../../../../../../lib/data/dascher.js';
+import { transportProducts } from '../../../../../../../lib/constants/dascher.products.js';
 
 import CarrierService from '../carriers.service.interface.js';
 

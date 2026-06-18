@@ -6,7 +6,10 @@ import { findCountriesByName } from "../../utils/compare-rate-utils";
 
 function CountrySelector({ countries, isLoadingCountries }) {
 
-    const { setValue } = useFormContext();
+    const { 
+        setValue,
+        resetField
+    } = useFormContext();
  
     const [searchLocation, setSearchLocation] = useState('');
 
@@ -94,6 +97,7 @@ function CountrySelector({ countries, isLoadingCountries }) {
                                     onClick={() => {
                                         setSearchLocation(item.countryName);
                                         setValue("countryCode", item.countryCode);
+                                        resetField('destinationPostalCode');
                                         setShowDropdown(false);
                                     }}
 
@@ -110,6 +114,8 @@ function CountrySelector({ countries, isLoadingCountries }) {
 
                                         hover:bg-indigo-50
                                         hover:text-indigo-700
+
+                                        cursor-pointer
                                     "
                                 >
                                     { item.countryName }

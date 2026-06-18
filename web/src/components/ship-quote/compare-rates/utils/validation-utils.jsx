@@ -1,14 +1,14 @@
 
-export const validations = {
+import { validate } from 'postal-codes-js';
+
+export const createValidations = (getValues) => ({
     destinationPostalCode: {
         required: "Postal Code is required",
-        minLength: {
-            value: 5,
-            message: "Postal Code must be at least 5 characters",
-        },
-        maxLength: {
-            value: 5,
-            message: "Postal Code must be at least 5 characters",
-        },
-    }  
-};
+    
+        validate: (postalCode) => {
+            const countryCode = getValues('countryCode');
+            
+            return validate(countryCode, postalCode);
+        }
+    }
+});

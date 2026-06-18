@@ -10,12 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mapbox/search-js-react": "^1.5.1",
-    "@react-google-maps/api": "^2.20.8",
     "@tailwindcss/vite": "^4.2.1",
     "axios": "^1.15.1",
-    "framer-motion": "^12.39.0",
     "lucide-react": "^1.16.0",
+    "postal-codes-js": "^2.5.2",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-hook-form": "^7.73.1",

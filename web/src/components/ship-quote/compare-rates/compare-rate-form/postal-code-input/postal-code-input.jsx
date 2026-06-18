@@ -1,14 +1,17 @@
 
 import { useFormContext } from "react-hook-form";
 
-import { validations } from '../../utils/validation-utils';
+import { createValidations } from '../../utils/validation-utils';
 
 function PostalCodeInput({ isLoadingProvinces }) {
 
     const { 
-        register, 
+        register,
+        getValues,
         formState: { errors } 
     } = useFormContext();
+    
+    const validations = createValidations(getValues);
 
     return (
         <div className="space-y-2">

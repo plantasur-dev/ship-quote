@@ -7,7 +7,7 @@ export function useCompareRateForm () {
     const [serverErrors, setErrorsServer] = useState({});
 
     const form = useForm({
-        mode: 'onBlur',
+        mode: 'onChange',
         defaultValues: {
             countryCode: "ES",
             destinationPostalCode: "",

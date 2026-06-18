@@ -2,6 +2,11 @@
 import { carrierFactory } from './carriers/carriers.service.js';
 
 import { 
+  getScope, 
+  SCOPE_LABELS 
+} from '../../../../../lib/constants/zone.scopes.js';
+
+import { 
   buildStaticErrorResult,
   buildApiErrorResult, 
   buildRateComplete 
@@ -10,6 +15,9 @@ import {
 import { presentRate } from '../../presenters/rate.presenter.js';
 
 export default async function getApiRates(agencies, input = {}) {
+  
+  const scope = getScope(input.countryCode);
+
   const results = await Promise.all(
     agencies.map(async (agency) => {
       try {
@@ -37,6 +45,7 @@ export default async function getApiRates(agencies, input = {}) {
 
         return buildRateComplete({
           agency: agency.name,
+          zone: SCOPE_LABELS[scope],
           services: presentRate(result)
         });
 

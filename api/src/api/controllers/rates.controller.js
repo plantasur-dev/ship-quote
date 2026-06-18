@@ -5,7 +5,7 @@ import { getProvinceByPostalCode } from '../services/provinces.service.js';
 
 import rates from '../services/rates.service.js';
 
-export async function compare(req, res) {
+export async function compareByProvinceCode(req, res) {
     const { destinationPostalCode, province, items } = req.body;
 
     const result = await rates({
@@ -19,20 +19,24 @@ export async function compare(req, res) {
     res.json(result);
 }
 
-export async function compareByCodePostal(req, res) {
-    const { destinationPostalCode, items } = req.body;
+export async function compareByPostalCode(req, res) {
+    const { destinationPostalCode, countryCode, items } = req.body;
 
     const province = getProvinceByPostalCode(
         destinationPostalCode
     );
 
-    if (!province) {
+    const isDefaultCountry = 
+        countryCode === process.env.DEFAULT_COUNTRY;
+
+    if (!province && isDefaultCountry) {
         throw createHttpError(404, 'Province not found');
     }
 
     const result = await rates({
         destinationPostalCode,
-        province: province.adminFullCode,
+        countryCode,
+        province: province?.adminFullCode ?? '',
         items
     });
 

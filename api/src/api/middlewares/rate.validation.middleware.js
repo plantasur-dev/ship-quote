@@ -51,14 +51,24 @@ export const rateItemsValidation = (req, res, next) => {
 };
 
 export const rateDestinationValidation = (req, res, next) => {
-    const { destinationPostalCode } = req.body;
+    const { destinationPostalCode, countryCode } = req.body;
 
-    if (typeof destinationPostalCode !== 'string') {
-        throw createHttpError(400, 'destinationPostalCode and province must be strings');
+    if (destinationPostalCode == null 
+        || countryCode == null
+    ) {
+        throw createHttpError(400, 'destinationPostalCode and countryCode is required');
     }
 
-    if (!/^\d{5}$/.test(destinationPostalCode)) {
-        throw createHttpError(400, 'Código postal inválido');
+    if (typeof destinationPostalCode !== 'string' 
+        || typeof countryCode !== 'string'
+    ) {
+        throw createHttpError(400, 'destinationPostalCode and countryCode must be strings');
+    }
+
+    if (!/^\d{5}$/.test(destinationPostalCode) 
+        && countryCode === process.env?.DEFAULT_COUNTRY
+    ) {
+        throw createHttpError(400, 'Postal Code invalid');
     }
 
     next();

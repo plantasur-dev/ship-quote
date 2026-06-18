@@ -55,6 +55,11 @@ const agencySchema = new mongoose.Schema({
         supportsParcels: { 
             type: Boolean, 
             default: false 
+        },
+        coverage: {
+            type: [String],
+            enum: ["national", "international"],
+            default: ["national"]
         }
     },
     supplements: {

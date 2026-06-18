@@ -11,6 +11,6 @@ export const transportProducts = [
     }, 
     {
         'code':"E",
-        'name': 'targofix 12'
+        'name': 'targospeed 12'
     }
 ];

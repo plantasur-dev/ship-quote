@@ -96,11 +96,11 @@ apiRouter.get(
 
 
 apiRouter.post(
-    '/rates/compare', 
+    '/rates/compareByProvinceCode', 
     schemaValidation,
     rateDestinationValidation,
     rateItemsValidation,
-    Rates.compare
+    Rates.compareByProvinceCode
 );
 
 apiRouter.post(
@@ -108,7 +108,7 @@ apiRouter.post(
     schemaValidation,
     rateDestinationValidation,
     rateItemsValidation,
-    Rates.compareByCodePostal
+    Rates.compareByPostalCode
 );
 
 apiRouter.use(Errors.routerNotFound);

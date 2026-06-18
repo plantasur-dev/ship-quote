@@ -1,6 +1,8 @@
 
 import Agency from "../../lib/models/agency.model.js";
 
+import { getScope } from "../../lib/constants/zone.scopes.js";
+
 import { 
     getStaticRates, 
     getApiRates 
@@ -8,7 +10,12 @@ import {
 
 async function rates(input) {
 
-    const agencies = await Agency.find({ active: { $ne: false } });
+    const scope = getScope(input.countryCode);
+
+    const agencies = await Agency.find({ 
+        active: { $ne: false }, 
+        'rules.coverage': scope
+    });
 
     const staticAgencies = 
         agencies.filter(agency => 

@@ -59,7 +59,7 @@ export default class DascherService extends CarrierService {
                 "consignee": {
                     "addressInformation": {
                         "postalCode": input.destinationPostalCode,
-                        "countryCode": "ES"
+                        "countryCode": input.countryCode
                     }
                 },
                 "transportOrderLines": items.map(item => {

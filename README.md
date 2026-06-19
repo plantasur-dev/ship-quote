@@ -75,6 +75,7 @@ ship-quote/
 │   │   │   ├── controllers/      # Lógica de negocio por endpoint
 │   │   │   ├── middlewares/      # Validaciones y manejo de errores
 │   │   │   ├── services/         # Motor de tarifas y servicios
+|   |   |   ├── docs/             # Documentación OpenAPI
 │   │   │   │   ├── rates.service.js         # Orquestador principal
 │   │   │   │   ├── rates/
 │   │   │   │   │   ├── domains/            # Lógica de construcción de resultados
@@ -94,8 +95,7 @@ ship-quote/
 │   │       ├── data/                # Datos de bootstrap
 │   │       └── logger/              # Logging (Winston + Morgan)
 │   ├── app.js                    # Punto de entrada
-│   ├── package.json
-│   └── docs/                     # Documentación OpenAPI
+│   └── package.json
 ├── web/                          # Frontend React + Vite
 │   ├── src/
 │   │   ├── components/           # Componentes reutilizables

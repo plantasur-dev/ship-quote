@@ -103,12 +103,6 @@ paths:
   /locations/provinces:
     get:
       summary: Listar provincias
-      parameters:
-        - in: query
-          name: countryCode
-          schema:
-            type: string
-          description: Filtrar por código de país (ISO-2)
       responses:
         '200':
           description: Lista de provincias
@@ -504,14 +498,14 @@ components:
     RateCompareItem:
       type: object
       properties:
-        type:
+        typeServices:
           type: string
           description: 'Tipo de artículo: "pallet" o "parcel"'
           enum: [pallet, parcel]
         weight:
           type: number
           description: Peso en kg
-        length:
+        large:
           type: number
           description: Largo en cm (para pallet)
         width:
@@ -520,10 +514,7 @@ components:
         height:
           type: number
           description: Alto en cm (para pallet)
-        quantity:
-          type: integer
-          description: Cantidad (default 1)
-      required: [type, weight]
+      required: [typeServices, weight, large, width, height ]
     RateCompareByPostalCodeRequest:
       type: object
       required: [destinationPostalCode, countryCode, items]
@@ -540,11 +531,14 @@ components:
             $ref: '#/components/schemas/RateCompareItem'
     RateCompareByProvinceCodeRequest:
       type: object
-      required: [destinationPostalCode, province, items]
+      required: [destinationPostalCode, countryCode, province, items]
       properties:
         destinationPostalCode:
           type: string
           description: Código postal destino
+        countryCode:
+          type: string
+          description: Código de país (ISO-2, ej ES)
         province:
           type: string
           description: Código de provincia (ej ES-M, ES-GR)

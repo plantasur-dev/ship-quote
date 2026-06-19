@@ -6,10 +6,11 @@ import { getProvinceByPostalCode } from '../services/provinces.service.js';
 import rates from '../services/rates.service.js';
 
 export async function compareByProvinceCode(req, res) {
-    const { destinationPostalCode, province, items } = req.body;
+    const { destinationPostalCode, countryCode, province, items } = req.body;
 
     const result = await rates({
         destinationPostalCode,
+        countryCode,
         province,
         items
     });

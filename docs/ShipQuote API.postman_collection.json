@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "b86dd0a7-47a0-4870-a0f5-d92b49b61e0e",
-    "name": "ShipQuote",
+    "name": "ShipQuote API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "45993380"
   },
@@ -33,7 +33,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Mrw\",\r\n    \"type\": \"api\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://api-mrw/rest/v2\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"name\": \"Correos2\",\r\n    \"type\": \"api\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -85,13 +85,13 @@
       "name": "Rates",
       "item": [
         {
-          "name": "Compare Ratev3",
+          "name": "Compare Rate By Posta Code",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"destinationPostalCode\": \"23400\",\r\n  \"province\": \"ES-J\",\r\n  \"items\": [\r\n    { \"type\": \"pallet\", \"weight\": 230, \"length\": 100, \"width\": 80, \"height\": 100 },\r\n    { \"type\": \"pallet\", \"weight\": 100, \"length\": 100, \"width\": 80, \"height\": 100 }\r\n  ]\r\n}",
+              "raw": "{\r\n    \"destinationPostalCode\": \"19025\",\r\n    \"countryCode\": \"ES\",\r\n    \"items\": [\r\n        {\r\n            \"typeServices\": \"pallet\",\r\n            \"weight\": 215,\r\n            \"large\": 80,\r\n            \"width\": 90,\r\n            \"height\": 80\r\n        }\r\n    ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -99,13 +99,40 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/rates/compare",
+              "raw": "{{baseUrl}}/rates/compareByPostalCode",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "rates",
-                "compare"
+                "compareByPostalCode"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Compare Rate By Provincia",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"destinationPostalCode\": \"23400\",\r\n  \"countryCode\": \"ES\",\r\n  \"province\": \"ES-J\",\r\n  \"items\": [\r\n    { \"typeServices\": \"pallet\", \"weight\": 200, \"large\": 100, \"width\": 80, \"height\": 100 },\r\n    { \"typeServices\": \"pallet\", \"weight\": 100,  \"large\": 100, \"width\": 80, \"height\": 100 }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rates/compareByProvinceCode",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rates",
+                "compareByProvinceCode"
               ]
             }
           },
@@ -143,35 +170,62 @@
           "response": []
         },
         {
-          "name": "LIst Location",
+          "name": "Province By PostalCode",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/locations",
+              "raw": "{{baseUrl}}/locations/provincesByPostalCode/{{postalCode}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "locations"
+                "locations",
+                "provincesByPostalCode",
+                "{{postalCode}}"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Details Location",
+          "name": "List Countries",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/locations/{{locationId}}",
+              "raw": "{{baseUrl}}/locations/countries",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "locations",
-                "{{locationId}}"
+                "countries"
+              ],
+              "query": [
+                {
+                  "key": "lang",
+                  "value": "IT",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Provinces",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/locations/provinces",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "locations",
+                "provinces"
               ]
             }
           },
@@ -260,6 +314,33 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Compare Pallets",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"item\": {\r\n        \"large\": 100, \r\n        \"width\": 115, \r\n        \"height\": 120\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pallets/compare",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pallets",
+                "compare"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -290,7 +371,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"agencyId\": \"69df43d18ffcede5f63b2dac\",\r\n    \"name\": \"ZONA PRUEBAS 2\",\r\n    \"provinces\": [\"ES-J\", \"ES-J\"],\r\n    \"calculationMode\": \"weight_volume\",\r\n    \"postalCodeExceptions\": [{\r\n        \"from\": \"23400\", \r\n        \"to\": \"23400\", \r\n        \"zoneName\": \"ZONA PRUEBAS 2\"\r\n    }]\r\n}",
+              "raw": "{\r\n    \"agencyId\": \"69f9be5ee37548d0bb3bd3f8\",\r\n    \"name\": \"PROVINCIAL\",\r\n    \"provinces\": [\"ES-GR\"],\r\n    \"calculationMode\": \"parcel\",\r\n    \"postalCodeExceptions\": []\r\n}",
               "options": {
                 "raw": {
                   "language": "json"

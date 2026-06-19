@@ -540,14 +540,14 @@ Obtiene todos los tipos de pallets definidos.
   "countryCode": "ES",
   "items": [
     {
-      "type": "pallet",
+      "typeServices": "pallet",
       "weight": 250,
       "length": 120,
       "width": 80,
       "height": 150
     },
     {
-      "type": "parcel",
+      "typeServices": "parcel",
       "weight": 25,
       "length": 12,
       "width": 20,
@@ -564,7 +564,7 @@ Obtiene todos los tipos de pallets definidos.
 | `destinationPostalCode` | string | ✅ | Código postal destino |
 | `countryCode` | string | ✅ | Código de país (ISO-2, ej: ES, FR) |
 | `items` | array | ✅ | Lista de artículos a enviar |
-| `items[].type` | string | ✅ | Tipo: "pallet" o "parcel" |
+| `items[].typeServices` | string | ✅ | Tipo: "pallet" o "parcel" |
 | `items[].weight` | number | ✅ | Peso en kg |
 | `items[].length` | number | ✅ | Largo en cm (si es pallet) |
 | `items[].width` | number | ✅ | Ancho en cm (si es pallet) |
@@ -784,17 +784,18 @@ Obtiene todos los tipos de pallets definidos.
 ```json
 {
   "destinationPostalCode": "28001",
+  "countryCode": "ES",
   "province": "ES-GR",
   "items": [
     {
-      "type": "pallet",
+      "typeServices": "pallet",
       "weight": 250,
       "length": 120,
       "width": 80,
       "height": 150
     },
     {
-      "type": "parcel",
+      "typeServices": "parcel",
       "weight": 25,
       "length": 12,
       "width": 20,
@@ -809,9 +810,10 @@ Obtiene todos los tipos de pallets definidos.
 | Campo | Tipo | Requerido | Descripción |
 |-------|------|-----------|------------|
 | `destinationPostalCode` | string | ✅ | Código postal destino |
+| `countryCode` | string | ✅ | Código de país (ISO-2, ej: ES) |
 | `province` | string | ✅ | Código de provincia (ej: ES-GR, ES-M) |
 | `items` | array | ✅ | Lista de artículos a enviar |
-| `items[].type` | string | ✅ | Tipo: "pallet" o "parcel" |
+| `items[].typeServices` | string | ✅ | Tipo: "pallet" o "parcel" |
 | `items[].weight` | number | ✅ | Peso en kg |
 | `items[].length` | number | ✅ | Largo en cm (si es pallet) |
 | `items[].width` | number | ✅ | Ancho en cm (si es pallet) |
@@ -831,14 +833,14 @@ Obtiene todos los tipos de pallets definidos.
   "province": "ES-GR",
   "items": [
     {
-      "type": "pallet",
+      "typeServices": "pallet",
       "weight": 250,
       "length": 120,
       "width": 80,
       "height": 150
     },
     {
-      "type": "parcel",
+      "typeServices": "parcel",
       "weight": 5,
       "quantity": 2
     }

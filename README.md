@@ -74,8 +74,8 @@ ship-quote/
 │   │   ├── api/
 │   │   │   ├── controllers/      # Lógica de negocio por endpoint
 │   │   │   ├── middlewares/      # Validaciones y manejo de errores
-│   │   │   ├── services/         # Motor de tarifas y servicios
-|   |   |   ├── docs/             # Documentación OpenAPI
+│   │   │   ├── docs/             # Documentación OpenAPI
+|   |   |   ├── services/         # Motor de tarifas y servicios
 │   │   │   │   ├── rates.service.js         # Orquestador principal
 │   │   │   │   ├── rates/
 │   │   │   │   │   ├── domains/            # Lógica de construcción de resultados

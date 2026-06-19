@@ -1,103 +1,1139 @@
-# Ship Quote — Documentación del proyecto
+# 📦 Ship Quote — Plataforma de Comparación de Tarifas de Envíos
 
-Este documento ofrece una visión completa del proyecto y la documentación técnica dividida en dos partes: **API** (backend) y **Web** (frontend). Está redactado en español y contiene instrucciones de arranque, variables de entorno, endpoints, esquemas de recursos y ejemplos de uso.
-
-## 📚 Centro de Documentación
-
-Para una documentación completa y organizada, consulta:
-- **[📖 Centro de Documentación](docs/DOCUMENTATION.md)** — Índice de toda la documentación disponible
-- **[🔌 Referencia de Endpoints](docs/API-ENDPOINTS.md)** — Todos los endpoints con ejemplos curl
-- **[📋 OpenAPI YAML](api/openapi.yaml)** — Especificación en formato YAML
-- **[📋 OpenAPI JSON](api/openapi.json)** — Especificación en formato JSON
+> Sistema integral para cotizar y comparar tarifas de envío con múltiples proveedores (agencias). Combina datos estáticos almacenados con consultas a APIs externas en tiempo real.
 
 ---
 
-Índice
-- **API** — Cómo ejecutar, endpoints, modelos y ejemplos
-- **Web** — Cómo ejecutar, variables y notas de integración
-- **Docker** — Arranque con Docker Compose
+## 🚀 Quick Start
 
----
-
-**PARTE 1 — API (backend)**
-
-Resumen
-Ship Quote ofrece un motor de comparación de tarifas que puede consumir datos estáticos (almacenados en MongoDB) o consultar APIs externas configuradas por agencia. Está implementado con Node.js (ES Modules), Express 5 y MongoDB (mongoose).
-
-Estructura relevante (resumida)
-```
-api/
-├─ app.js                 # Entrada del servidor
-├─ package.json
-└─ src/
-   ├─ api/
-   │  ├─ index.js         # Ruteo principal (/api/v1)
-   │  ├─ controllers/     # Lógica por recurso
-   │  ├─ middlewares/     # Validaciones y errores
-   │  └─ services/        # Motor de tarifas y providers
-   └─ lib/
-      ├─ configs/         # Conexión DB + bootstrap
-      └─ models/          # Esquemas mongoose
-```
-
-Requisitos previos
-- Node.js 18+ / npm
-- MongoDB (local o remoto)
-
-Variables de entorno clave (API)
-- `PORT` — puerto del servidor (por defecto 3000)
-- `MONGODB_URI` — cadena de conexión a MongoDB
-- `MONGODB_URI_TEST` — cadena para entorno de test (opcional)
-
-Arranque local (API)
 ```bash
+# API (Backend)
 cd api
 npm install
-# crear .env con al menos:
-# PORT=3000
-# MONGODB_URI=mongodb://127.0.0.1:27017/shipQuote-db
-npm run dev    # desarrollo (nodemon)
-npm start      # producción
+cp .env.example .env  # Configura tus variables
+npm run dev           # http://localhost:3000
+
+# Web (Frontend)
+cd web
+npm install
+npm run dev           # http://localhost:5173
 ```
 
-Bootstrap de datos
+---
+
+## 📋 Tabla de Contenidos
+
+- [Características Principales](#-características-principales)
+- [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
+- [Guía de Instalación](#-guía-de-instalación)
+- [Variables de Entorno](#-variables-de-entorno)
+- [API - Endpoints y Ejemplos](#-api---endpoints-y-ejemplos)
+- [Motor de Tarifas](#-motor-de-tarifas)
+- [Modelos de Datos](#-modelos-de-datos)
+- [Docker](#-docker)
+- [Centro de Documentación](#-centro-de-documentación)
+
+---
+
+## ✨ Características Principales
+
+### 🎯 Motor de Comparación Inteligente
+
+- **Dual Provider**: Consume tarifas tanto de bases de datos estáticas como de APIs externas
+- **Scope Dinámico**: Distingue automáticamente entre tarifas nacionales e internacionales
+- **Validación Rigurosa**: Valida peso, dimensiones y características del envío
+- **Manejo de Errores**: Captura y reporta errores de APIs externas sin afectar otros proveedores
+
+### 🏢 Gestión de Agencias
+
+- **Tipos Flexibles**: Static (BD), API (externas) o Hybrid (ambas)
+- **Configuración por Agencia**: Reglas de cobertura, suplementos y restricciones personalizadas
+- **Control de Actividad**: Activar/desactivar agencias sin eliminarlas
+
+### 📍 Gestión de Ubicaciones
+
+- **Base de Datos Geográfica**: Países y provincias almacenadas
+- **Búsqueda por Código Postal**: Asociación automática de códigos postales a provincias
+- **Cobertura Nacional e Internacional**: Soporte para envíos domésticos y al extranjero
+
+### 📦 Tipos de Envío
+
+- **Pallets**: Envíos de carga con restricciones de peso y dimensiones
+- **Parcelas**: Paquetes estándar con validaciones básicas
+- **Recargos Dinámicos**: Suplementos por exceso de peso, dimensiones especiales, etc.
+- **Observabilidad Integrada**: Logging adaptado para enviar peticiones a Loki/Promtail y visualizar tráfico en Grafana
+
+---
+
+## 🏗️ Arquitectura del Proyecto
+
+```
+ship-quote/
+├── api/                          # Backend Node.js + Express
+│   ├── src/
+│   │   ├── api/
+│   │   │   ├── controllers/      # Lógica de negocio por endpoint
+│   │   │   ├── middlewares/      # Validaciones y manejo de errores
+│   │   │   ├── services/         # Motor de tarifas y servicios
+│   │   │   │   ├── rates.service.js         # Orquestador principal
+│   │   │   │   ├── rates/
+│   │   │   │   │   ├── domains/            # Lógica de construcción de resultados
+│   │   │   │   │   ├── presenters/         # Formateo de respuestas
+│   │   │   │   │   └── providers/          # Static y API providers
+│   │   │   │   ├── agencies.service.js
+│   │   │   │   ├── countries.service.js
+│   │   │   │   ├── provinces.service.js
+│   │   │   │   └── cache.service.js        # Caché de datos
+│   │   │   └── index.js              # Definición de rutas
+│   │   └── lib/
+│   │       ├── models/             # Esquemas Mongoose
+│   │       ├── constants/           # Constantes globales
+│   │       │   └── scope.const.js          # Tipos y etiquetas de scope
+│   │       ├── utils/               # Utilidades reutilizables
+│   │       ├── configs/             # Configuración de BD y servidor
+│   │       ├── data/                # Datos de bootstrap
+│   │       └── logger/              # Logging (Winston + Morgan)
+│   ├── app.js                    # Punto de entrada
+│   ├── package.json
+│   └── docs/                     # Documentación OpenAPI
+├── web/                          # Frontend React + Vite
+│   ├── src/
+│   │   ├── components/           # Componentes reutilizables
+│   │   ├── pages/                # Páginas principales
+│   │   ├── hooks/                # Custom hooks
+│   │   ├── services/             # Llamadas a API
+│   │   └── assets/               # Recursos estáticos
+│   └── package.json
+├── docs/                         # Documentación técnica
+│   ├── API-ENDPOINTS.md
+│   ├── DOCUMENTATION.md
+│   ├── SPEC.md
+│   └── rate/                     # Especificaciones de cálculo de tarifas
+├── infra/                        # Configuración de infraestructura
+│   └── monitoring/               # Loki + Promtail + Grafana
+├── docker-compose.yml            # Configuración de entorno completo para API, web, DB y observabilidad
+└── README.md                     # Este archivo
+```
+
+---
+
+## 📦 Guía de Instalación
+
+### Requisitos Previos
+
+- **Node.js**: v18+ con npm/yarn
+- **MongoDB**: Versión 4.4+ (local o remoto)
+- **Docker** (opcional): Para ejecutar con containers
+
+### Instalación Paso a Paso
+
+#### 1️⃣ Clonar repositorio
+
+```bash
+git clone <repo-url>
+cd ship-quote
+```
+
+#### 2️⃣ Configurar variables de entorno
+
+**API (.env)**
+
+```bash
+cd api
+cp .env.example .env
+```
+
+Edita `.env` con tus valores:
+
+```env
+# Servidor
+PORT=3000
+NODE_ENV=development
+
+# Base de datos
+MONGODB_URI=mongodb://127.0.0.1:27017/shipQuote-db
+MONGODB_URI_TEST=mongodb://127.0.0.1:27017/shipQuote-test
+
+# Configuración
+DEFAULT_COUNTRY=ES
+LOG_LEVEL=info
+
+# APIs Externas (si aplica)
+DACHSER_API_KEY=your_key_here
+DHL_API_KEY=your_key_here
+FEDEX_API_KEY=your_key_here
+```
+
+**Web (.env)**
+
+```bash
+cd web
+cp .env.example .env
+```
+
+```env
+VITE_API_URL=http://localhost:3000/api/v1
+VITE_APP_TITLE=Ship Quote
+```
+
+#### 3️⃣ Instalar dependencias
+
+```bash
+# API
+cd api
+npm install
+
+# Web
+cd web
+npm install
+```
+
+#### 4️⃣ Ejecutar aplicación
+
+**Desarrollo**
+
+```bash
+# Terminal 1 - API
+cd api && npm run dev
+
+# Terminal 2 - Web
+cd web && npm run dev
+```
+
+**Producción**
+
+```bash
+# API
+npm start
+
+# Web
+npm run build && npm run preview
+```
+
+#### 5️⃣ Cargar datos iniciales (Bootstrap)
+
 ```bash
 cd api
 npm run seed
 ```
 
-Base URL
-Todos los endpoints están montados bajo: `/api/v1` (ej. `http://localhost:3000/api/v1`).
+---
 
-Endpoints principales
-Nota: las rutas siguientes se extraen de `api/src/api/index.js` y de los controladores.
+## 🔐 Variables de Entorno
 
-- POST /api/v1/agencies — Crear agencia
-  - Body (ejemplo):
-    ```json
-    {
-      "name": "Dachser",
-      "type": "api", // "static" | "api" | "hybrid"
-      "rules": { "hasAndaluciaRule": false, "supportsPallets": true },
-      "apiConfig": { "baseUrlApi": "https://...", "apiKey": "..." }
+### API
+
+| Variable | Tipo | Default | Descripción |
+|----------|------|---------|-------------|
+| `PORT` | number | 3000 | Puerto del servidor Express |
+| `NODE_ENV` | string | development | Entorno (development/production) |
+| `MONGODB_URI` | string | *(requerido)* | Cadena conexión MongoDB |
+| `DEFAULT_COUNTRY` | string | ES | Código de país por defecto (ISO-2) |
+| `LOG_LEVEL` | string | info | Nivel de logging (info/debug/error) |
+
+### Web
+
+| Variable | Tipo | Default | Descripción |
+|----------|------|---------|-------------|
+| `VITE_API_URL` | string | http://localhost:3000/api/v1 | URL base de la API |
+| `VITE_APP_TITLE` | string | Ship Quote | Nombre de la aplicación |
+
+---
+
+## 🔌 API - Endpoints y Ejemplos
+
+Base URL: `http://localhost:3000/api/v1`
+
+### 📌 Agencias
+
+#### **POST** `/agencies` — Crear agencia
+
+Crea una nueva agencia configurada para consumir tarifas.
+
+**Request Body**
+
+```json
+{
+  "name": "Dachser",
+  "code": "dachser",
+  "type": "api",
+  "rules": {
+    "hasAndaluciaRule": false,
+    "supportsPallets": true,
+    "supportsParcels": false,
+    "coverage": ["national", "international"]
+  },
+  "apiConfig": {
+    "baseUrlApi": "https://api.dachser.com",
+    "timeout": 5000,
+    "apiKey": "sk_live_xxxxx",
+    "endpoints": {
+      "quotations": "/v2/quotations",
+      "transportOrders": "/v2/orders"
     }
-    ```
-  - Respuestas: `201` con el recurso creado; `400` validación; `409` duplicado.
+  },
+  "supplements": {
+    "fuelSurcharge": {
+      "enabled": true,
+      "type": "percentage",
+      "value": 5.5
+    }
+  }
+}
+```
 
-- GET /api/v1/agencies — Listar agencias
+**Response** `201 Created`
 
-- PATCH /api/v1/agencies/:agencyId — Alternar `active` (activa/desactiva)
+```json
+{
+  "_id": "507f1f77bcf86cd799439011",
+  "name": "Dachser",
+  "code": "dachser",
+  "type": "api",
+  "active": true,
+  "rules": { ... },
+  "createdAt": "2026-06-18T10:30:00Z",
+  "updatedAt": "2026-06-18T10:30:00Z"
+}
+```
 
-- POST /api/v1/locations — Crear ubicación/provincia
-  - Body (campos principales): `countryCode` (2), `countryName`, `adminCode`, `name`, `type`
-  - Respuesta: `201` con el recurso.
+---
 
-- GET /api/v1/locations — Listar ubicaciones (opcional query `?address=` para búsqueda)
-- GET /api/v1/locations/:locationId — Detalle por id
-- GET /api/v1/locations/countries — Lista de países (servicio)
+#### **GET** `/agencies` — Listar agencias
 
-- POST /api/v1/pallets — Crear tipo de pallet
-  - Body: `agencyId`, `name`, `constraints` ({ maxWeight, maxHeight, maxLength, maxWidth })
+Obtiene todas las agencias configuradas (activas e inactivas).
+
+**Query Parameters**
+
+| Parámetro | Tipo | Descripción |
+|-----------|------|------------|
+| `active` | boolean | Filtrar por estado (true/false) |
+
+**Ejemplo**
+
+```bash
+curl -X GET "http://localhost:3000/api/v1/agencies?active=true"
+```
+
+**Response** `200 OK`
+
+```json
+[
+  {
+    "_id": "507f1f77bcf86cd799439011",
+    "name": "Dachser",
+    "code": "dachser",
+    "type": "api",
+    "active": true,
+    "rules": { ... }
+  },
+  { ... }
+]
+```
+
+---
+
+#### **PATCH** `/agencies/:agencyId` — Actualizar estado
+
+Activa o desactiva una agencia (toggle).
+
+**Request Body**
+
+```json
+{
+  "active": false
+}
+```
+
+**Response** `200 OK`
+
+---
+
+### 📍 Ubicaciones
+
+#### **POST** `/locations` — Crear ubicación
+
+Registra un país o provincia en la base de datos geográfica.
+
+**Request Body**
+
+```json
+{
+  "countryCode": "ES",
+  "countryName": "España",
+  "adminCode": "28",
+  "adminFullCode": "ES-28",
+  "name": "Madrid",
+  "type": "province"
+}
+```
+
+**Response** `201 Created`
+
+---
+
+#### **GET** `/locations/countries` — Listar países
+
+Obtiene todos los países registrados sin duplicados. Sin query params obtienes los paises en idioma Español por defecto. 
+
+**Query Parameters**
+
+| Parámetro | Tipo | Descripción |
+|-----------|------|------------|
+| `countryCode` | string | Filtrar por país (ISO-2) |
+
+**Ejemplo**
+
+`/locations/countries?lang=IT`
+
+Idiomas permitidos: (US | ES | IT | FR)
+
+```json
+[
+  {
+    "countryCode": "ES",
+    "countryName": "España"
+  },
+  {
+    "countryCode": "FR",
+    "countryName": "Francia"
+  }
+]
+```
+
+**Response** `200 OK`
+
+---
+
+#### **GET** `/locations/provinces` — Listar provincias
+
+Obtiene todas las provincias con sus códigos asociados.
+
+```json
+[
+  {
+      "_id": "6a33f09ea7b22b51721309a5",
+      "countryCode": "ES",
+      "countryName": "Spain",
+      "adminCode": "VI",
+      "adminFullCode": "ES-VI",
+      "name": "Álava",
+      "normalizedName": "alava",
+      "postalCode": "01",
+      "type": "province",
+      "createdAt": "2026-06-18T13:20:30.436Z",
+      "updatedAt": "2026-06-18T13:20:30.436Z"
+  },
+  {
+      "_id": "6a33f09ea7b22b51721309a6",
+      "countryCode": "ES",
+      "countryName": "Spain",
+      "adminCode": "AB",
+      "adminFullCode": "ES-AB",
+      "name": "Albacete",
+      "normalizedName": "albacete",
+      "postalCode": "02",
+      "type": "province",
+      "createdAt": "2026-06-18T13:20:30.440Z",
+      "updatedAt": "2026-06-18T13:20:30.440Z"
+  },
+  ...
+]
+```
+
+**Response** `200 OK`
+
+**Ejemplo**
+
+```bash
+curl -X GET "http://localhost:3000/api/v1/locations/provinces?countryCode=ES"
+```
+
+
+---
+
+#### **GET** `/locations/provincesByPostalCode/:postalCode` — Obtener provincia
+
+Obtiene todas las provincias con sus códigos asociados.
+
+**Ejemplo**
+
+```json
+{
+  "_id": "6a33f09ea7b22b51721309bc",
+  "countryCode": "ES",
+  "countryName": "Spain",
+  "adminCode": "J",
+  "adminFullCode": "ES-J",
+  "name": "Jaén",
+  "normalizedName": "jaen",
+  "postalCode": "23",
+  "type": "province",
+  "createdAt": "2026-06-18T13:20:30.442Z",
+  "updatedAt": "2026-06-18T13:20:30.442Z"
+}
+```
+
+**Response** `200 OK`
+
+```bash
+curl -X GET "http://localhost:3000/api/v1/locations/provinces?countryCode=ES"
+```
+
+---
+
+### 📦 Pallets
+
+#### **POST** `/pallets` — Crear tipo de pallet
+
+Define un nuevo tipo de pallet con sus restricciones.
+
+**Request Body**
+
+```json
+{
+  "agencyId": "507f1f77bcf86cd799439011",
+  "name": "Euro Pallet",
+  "constraints": {
+    "maxWeight": 1000,
+    "maxLength": 1200,
+    "maxWidth": 800,
+    "maxHeight": 1600
+  }
+}
+```
+
+**Response** `201 Created`
+
+---
+
+#### **GET** `/pallets` — Listar tipos de pallets
+
+Obtiene todos los tipos de pallets definidos.
+
+**Response** `200 OK`
+
+```json
+[
+  {
+    "_id": "507f1f77bcf86cd799439011",
+    "agencyId": "507f1f77bcf86cd799439012",
+    "name": "Euro Pallet",
+    "constraints": { ... }
+  }
+]
+```
+
+---
+
+### 💰 Tarifas (Endpoint Principal)
+
+#### **POST** `/rates/compareByPostalCode` — Comparar tarifas
+
+**Este es el endpoint más importante**. Compara tarifas de todas las agencias configuradas para un envío específico.
+
+**Request Body**
+
+```json
+{
+  "destinationPostalCode": "28001",
+  "countryCode": "ES",
+  "items": [
+    {
+      "type": "pallet",
+      "weight": 250,
+      "length": 120,
+      "width": 80,
+      "height": 150
+    },
+    {
+      "type": "parcel",
+      "weight": 25,
+      "length": 12,
+      "width": 20,
+      "height": 15
+    }
+  ]
+}
+```
+
+**Parámetros Explicados**
+
+| Campo | Tipo | Requerido | Descripción |
+|-------|------|-----------|------------|
+| `destinationPostalCode` | string | ✅ | Código postal destino |
+| `countryCode` | string | ✅ | Código de país (ISO-2, ej: ES, FR) |
+| `items` | array | ✅ | Lista de artículos a enviar |
+| `items[].type` | string | ✅ | Tipo: "pallet" o "parcel" |
+| `items[].weight` | number | ✅ | Peso en kg |
+| `items[].length` | number | ✅ | Largo en cm (si es pallet) |
+| `items[].width` | number | ✅ | Ancho en cm (si es pallet) |
+| `items[].height` | number | ✅ | Alto en cm (si es pallet) |
+
+**Response** `200 OK`
+
+```json
+[
+    {
+        "agency": "Cayco",
+        "available": true,
+        "zone": "ZONA 3",
+        "services": [
+            {
+                "service": "economy",
+                "total": 41.43,
+                "itemCount": 1,
+                "breakdown": [
+                    {
+                        "type": "Tarifa base",
+                        "price": 41.43,
+                        "palletType": "CUARTO",
+                        "quantity": 1,
+                        "unitPrice": 41.43,
+                        "items": [
+                            {
+                                "typeServices": "pallet",
+                                "weight": 215,
+                                "large": 80,
+                                "width": 90,
+                                "height": 80
+                            }
+                        ]
+                    }
+                ],
+                "incidents": []
+            }
+        ]
+    },
+    {
+        "agency": "Tecum",
+        "available": true,
+        "zone": "ZONA 1",
+        "services": [
+            {
+                "service": "premium",
+                "total": 43.48,
+                "itemCount": 1,
+                "breakdown": [
+                    {
+                        "type": "Tarifa base",
+                        "price": 43.48,
+                        "palletType": "QUARTER PALLET",
+                        "quantity": 1,
+                        "unitPrice": 43.48,
+                        "items": [
+                            {
+                                "typeServices": "pallet",
+                                "weight": 215,
+                                "large": 80,
+                                "width": 90,
+                                "height": 80
+                            }
+                        ]
+                    }
+                ],
+                "incidents": []
+            },
+            {
+                "service": "economy",
+                "total": 43.5,
+                "itemCount": 1,
+                "breakdown": [
+                    {
+                        "type": "Tarifa base",
+                        "price": 43.5,
+                        "palletType": "QUARTER PALLET",
+                        "quantity": 1,
+                        "unitPrice": 43.5,
+                        "items": [
+                            {
+                                "typeServices": "pallet",
+                                "weight": 215,
+                                "large": 80,
+                                "width": 90,
+                                "height": 80
+                            }
+                        ]
+                    }
+                ],
+                "incidents": []
+            }
+        ]
+    },
+    {
+        "agency": "Correosexpress",
+        "available": false,
+        "zone": "NACIONAL",
+        "services": [
+            {
+                "service": "Sin tarifa disponible",
+                "total": 0,
+                "itemCount": 0,
+                "breakdown": [],
+                "incidents": [
+                    {
+                        "type": "Sin tarifa disponible",
+                        "message": ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "agency": "Mrw",
+        "available": false,
+        "zone": "NACIONAL",
+        "services": [
+            {
+                "service": "Sin tarifa disponible",
+                "total": 0,
+                "itemCount": 0,
+                "breakdown": [],
+                "incidents": [
+                    {
+                        "type": "Sin tarifa disponible",
+                        "message": ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "agency": "Dachser",
+        "available": true,
+        "zone": "NACIONAL",
+        "services": [
+            {
+                "service": "targoflex (500380)",
+                "total": 51.27,
+                "itemCount": 1,
+                "breakdown": [
+                    {
+                        "type": "freight ex works to place of destination",
+                        "price": 45.1
+                    },
+                    {
+                        "type": "fuel surcharge",
+                        "price": 6.17
+                    }
+                ],
+                "incidents": []
+            },
+            {
+                "service": "targospeed (500379)",
+                "total": 56.27,
+                "itemCount": 1,
+                "breakdown": [
+                    {
+                        "type": "freight ex works to place of destination",
+                        "price": 45.1
+                    },
+                    {
+                        "type": "fuel surcharge",
+                        "price": 6.17
+                    },
+                    {
+                        "type": "Product surcharge",
+                        "price": 5
+                    }
+                ],
+                "incidents": []
+            },
+            {
+                "service": "targospeed 12 (500381)",
+                "total": 66.27,
+                "itemCount": 1,
+                "breakdown": [
+                    {
+                        "type": "freight ex works to place of destination",
+                        "price": 45.1
+                    },
+                    {
+                        "type": "fuel surcharge",
+                        "price": 6.17
+                    },
+                    {
+                        "type": "Product surcharge",
+                        "price": 15
+                    }
+                ],
+                "incidents": []
+            }
+        ]
+    }
+]
+```
+
+**Códigos HTTP**
+
+| Código | Descripción |
+|--------|-------------|
+| `200` | Comparación exitosa (al menos un proveedor respondió) |
+| `400` | Error de validación en los parámetros |
+| `404` | Provincia/ubicación no encontrada |
+| `500` | Error interno del servidor |
+
+---
+
+#### **POST** `/rates/compareByProvinceCode` — Comparar tarifas
+
+**Endpoint de comparación de rate**. Compara tarifas de todas las agencias configuradas para un envío específico, recibiendo como parámetro el código postal y código de provincia obtenidos del endpoint /locations/provinces (Solo provincia españolas).
+
+**Request Body**
+
+```json
+{
+  "destinationPostalCode": "28001",
+  "province": "ES-GR",
+  "items": [
+    {
+      "type": "pallet",
+      "weight": 250,
+      "length": 120,
+      "width": 80,
+      "height": 150
+    },
+    {
+      "type": "parcel",
+      "weight": 25,
+      "length": 12,
+      "width": 20,
+      "height": 15
+    }
+  ]
+}
+```
+
+**Parámetros Explicados**
+
+| Campo | Tipo | Requerido | Descripción |
+|-------|------|-----------|------------|
+| `destinationPostalCode` | string | ✅ | Código postal destino |
+| `province` | string | ✅ | Código de provincia (ej: ES-GR, ES-M) |
+| `items` | array | ✅ | Lista de artículos a enviar |
+| `items[].type` | string | ✅ | Tipo: "pallet" o "parcel" |
+| `items[].weight` | number | ✅ | Peso en kg |
+| `items[].length` | number | ✅ | Largo en cm (si es pallet) |
+| `items[].width` | number | ✅ | Ancho en cm (si es pallet) |
+| `items[].height` | number | ✅ | Alto en cm (si es pallet) |
+
+---
+
+#### **POST** `/rates/compare` — Comparar tarifas (Eliminado)
+
+**Endpoint de comparación de rate**. Compara tarifas de todas las agencias configuradas para un envío específico, recibiendo como parámetro el código postal y código de provincia obtenidos del endpoint /locations/provinces.
+
+**Request Body**
+
+```json
+{
+  "destinationPostalCode": "28001",
+  "province": "ES-GR",
+  "items": [
+    {
+      "type": "pallet",
+      "weight": 250,
+      "length": 120,
+      "width": 80,
+      "height": 150
+    },
+    {
+      "type": "parcel",
+      "weight": 5,
+      "quantity": 2
+    }
+  ]
+}
+```
+---
+
+## ⚙️ Motor de Tarifas
+
+### Flujo de Procesamiento
+
+```
+1. ENTRADA: Usuario envía datos del envío
+          ↓
+2. VALIDACIÓN: Verifica parámetros y ubicación
+          ↓
+3. SCOPE DETECTION: Determina si es nacional o internacional
+          ↓
+4. FILTRADO DE AGENCIAS: Selecciona agencias que cumplen scope
+          ↓
+5. PARALLELIZACIÓN: Consulta estáticas (BD) y APIs en paralelo
+          ↓
+6. PROCESAMIENTO:
+   - Estáticas: Busca en zona configurada, calcula recargos
+   - APIs: Envía solicitud, parsea respuesta
+          ↓
+7. NORMALIZACIÓN: Convierte resultados a formato estándar
+          ↓
+8. RESPUESTA: Retorna precios de todos los proveedores
+```
+
+### Sistema de Scope (Alcance)
+
+El sistema determina automáticamente si es un envío nacional o internacional:
+
+```javascript
+// Archivo: api/src/lib/constants/zone.scope.js
+
+export const SCOPE_TYPES = {
+    NATIONAL: 'national',
+    INTERNATIONAL: 'international'
+};
+
+export const SCOPE_LABELS = {
+    [SCOPE_TYPES.NATIONAL]: 'NACIONAL',
+    [SCOPE_TYPES.INTERNATIONAL]: 'INTERNACIONAL'
+};
+
+export function getScope(countryCode) {
+    return countryCode === process.env.DEFAULT_COUNTRY 
+        ? SCOPE_TYPES.NATIONAL 
+        : SCOPE_TYPES.INTERNATIONAL;
+}
+```
+
+**Cómo funciona:**
+- Si `countryCode === DEFAULT_COUNTRY` (ej: ES) → **NATIONAL**
+- Si `countryCode !== DEFAULT_COUNTRY` → **INTERNATIONAL**
+
+Las agencias se filtran según su cobertura configurada (`rules.coverage`).
+
+### Validación de Envíos
+
+Cada artículo se valida antes de ser procesado:
+
+```javascript
+// Validaciones ejecutadas:
+✓ Peso positivo
+✓ Dimensiones positivas (si es pallet)
+✓ Tipo de artículo válido ("pallet" o "parcel")
+✓ Ubicación/provincia existe
+✓ Al menos una agencia coincide con el scope
+```
+
+### Optimización de Búsqueda
+
+La API se ha refactorizado para cargar datos críticos en `Map` durante el arranque del servidor. Esto incluye:
+- zonas
+- tarifas
+- países
+- provincias
+
+Estos datos se cargan en memoria cuando el servidor inicia, usando claves de búsqueda directas para acceder a las estructuras en tiempo aproximado **O(1)**.
+
+El resultado es una reducción significativa de la complejidad de consulta y una respuesta más rápida frente a búsquedas secuenciales en listas o arrays.
+
+### Recargos (Surcharges)
+
+El sistema calcula automáticamente recargos adicionales:
+
+| Recargo | Condición |
+|---------|-----------|
+| **Exceso de peso** | Peso > umbral configurado |
+| **Dimensiones especiales** | Largo o alto > límites |
+| **Bloques adicionales** | Peso en múltiplos de bloques |
+| **Combustible** | Porcentaje o cantidad fija |
+
+---
+
+## 🗄️ Modelos de Datos
+
+### Agency (Agencia)
+
+```javascript
+{
+  _id: ObjectId,
+  name: String,              // "Dachser", "MRW", etc.
+  code: String,              // "dachser" (normalizado)
+  type: "static" | "api" | "hybrid",
+  active: Boolean,           // true (activa)
+  
+  rules: {
+    hasAndaluciaRule: Boolean,
+    supportsPallets: Boolean,
+    supportsParcels: Boolean,
+    coverage: ["national", "international"]
+  },
+  
+  supplements: {
+    fuelSurcharge: {
+      enabled: Boolean,
+      type: "percentage" | "fixed",
+      value: Number              // 5.5 o 2.50
+    }
+  },
+  
+  apiConfig: {               // Solo si type = "api" o "hybrid"
+    baseUrlApi: String,
+    timeout: Number,         // ms
+    apiKey: String,
+    endpoints: {
+      quotations: String,
+      transportOrders: String
+    }
+  },
+  
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Location (Ubicación)
+
+```javascript
+{
+  _id: ObjectId,
+  countryCode: String,       // "ES", "FR"
+  countryName: String,       // "España", "Francia"
+  adminCode: String,         // "28", "75"
+  adminFullCode: String,     // "ES-28", "FR-75"
+  name: String,              // "Madrid", "París"
+  type: "country" | "province",
+  postalCodes: [String],     // ["28001", "28002", ...]
+  
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### PalletType (Tipo de Pallet)
+
+```javascript
+{
+  _id: ObjectId,
+  agencyId: ObjectId,        // Referencia a agencia
+  name: String,              // "Euro Pallet"
+  constraints: {
+    maxWeight: Number,       // kg
+    maxLength: Number,       // cm
+    maxWidth: Number,        // cm
+    maxHeight: Number        // cm
+  },
+  
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Rate (Tarifa)
+
+Estructura interna de respuesta:
+
+```javascript
+{
+  agency: String,            // Nombre de la agencia
+  zone: String,              // "NACIONAL" o "INTERNACIONAL"
+  services: [
+    {
+      serviceName: String,   // "24H Express"
+      basePrice: Number,
+      surcharges: [
+        {
+          label: String,
+          amount: Number
+        }
+      ],
+      totalPrice: Number,
+      currency: String,      // "EUR"
+      deliveryDays: Number
+    }
+  ]
+}
+```
+
+---
+
+## 🐳 Docker
+
+### Requisitos
+
+- Docker Desktop instalado
+- Docker Compose v2+
+
+### Ejecutar con Docker Compose
+
+```bash
+docker-compose up -d
+```
+
+Esto levanta el entorno completo del proyecto:
+- **API**: http://localhost:3000
+- **Web**: http://localhost:5173
+- **MongoDB**: mongodb://localhost:27017
+- **Loki**: http://localhost:3100
+- **Grafana**: http://localhost:3001
+- **Promtail**: captura logs de Docker y los envía a Loki
+
+La configuración en `docker-compose.yml` monta las máquinas necesarias para el proyecto completo y permite capturar, almacenar y analizar tráfico, métricas y logs en tiempo real.
+
+El backend fue adaptado para que su logger principal funcione con esta infraestructura y pueda alimentar el stack de monitoreo.
+
+**Ver logs**
+
+```bash
+docker-compose logs -f api    # Logs de API
+docker-compose logs -f web    # Logs de Web
+docker-compose logs -f mongo  # Logs de MongoDB
+```
+
+**Detener servicios**
+
+```bash
+docker-compose down
+```
+
+---
+
+## 📚 Centro de Documentación
+
+Para profundizar en temas específicos:
+
+| Documento | Descripción |
+|-----------|------------|
+| [📖 DOCUMENTATION.md](docs/DOCUMENTATION.md) | Índice completo y guía de navegación |
+| [🔌 API-ENDPOINTS.md](docs/API-ENDPOINTS.md) | Todos los endpoints con ejemplos curl |
+| [📋 OpenAPI YAML](api/docs/openapi.yaml) | Especificación interactiva (Swagger) |
+| [📋 OpenAPI JSON](api/docs/openapi.json) | Formato JSON de OpenAPI |
+
+---
+
+## 🤝 Contribuir
+
+```bash
+# 1. Crear rama feature
+git checkout -b feature/nueva-funcionalidad
+
+# 2. Hacer cambios y commit
+git add .
+git commit -m "feat: descripción clara"
+
+# 3. Push y crear PR
+git push origin feature/nueva-funcionalidad
+```
+
+---
+
+## 📝 Licencia
+
+ISC
+
+---
+
+## 👨‍💻 Equipo
+
+**Ship Quote v2.0** — Plataforma moderna de comparación de tarifas construida con:
+
+- **Backend**: Node.js 18+, Express 5, MongoDB, Mongoose
+- **Frontend**: React 18+, Vite, CSS3
+- **Infra**: Docker, Docker Compose, Loki, Promtail
+- **Documentación**: OpenAPI 3.0
+
+---
+
+**Última actualización**: 18 de Junio de 2026
 - GET /api/v1/pallets — Listar pallets
 - GET /api/v1/pallets/:palletTypeId — Detalle
 - POST /api/v1/pallets/compare — Comparación/validación de dimensiones (body: { item })
@@ -108,13 +1144,13 @@ Nota: las rutas siguientes se extraen de `api/src/api/index.js` y de los control
 - GET /api/v1/zones — Listar
 - GET /api/v1/zones/:zoneId — Detalle
 
-- POST /api/v1/rates/compare — Comparar tarifas (motor principal)
+- POST /api/v1/rates/compareByPostalCode — Comparar tarifas (motor principal)
   - Validaciones aplicadas: `schemaValidation` (req.body presente) y `rateValidation` (estructura de `items`)
   - Body mínimo:
     ```json
     {
       "destinationPostalCode": "08001",
-      "province": "BCN",
+      "countryCode": "ES",
       "items": [
         {
           "typeServices": "pallet", // "pallet" o "parcel"
@@ -252,6 +1288,7 @@ Calcula y compara tarifas de todas las agencias.
 ```json
 {
   "destinationPostalCode": "08001",
+  "countryCode": "ES",
   "items": [
     {
       "type": "pallet",
@@ -322,20 +1359,6 @@ const rates = await Rate.find({
 
 ---
 
-## 🔌 Preparado para APIs Externas
-
-### Agencias Tipo "API"
-
-```json
-{
-  "name": "MiAgencia",
-  "type": "api",
-  "apiEndpoint": "https://api.miagencia.com/rates"
-}
-```
-
----
-
 ## 📊 Bootstrap de Datos
 
 Inicializar base de datos:
@@ -366,7 +1389,3 @@ Scripts disponibles:
 - **Frontend:** Web (en `/web`)
 
 ---
-
-## 📄 Documentación Técnica
-
-Ver [SPEC.md](SPEC.md) para detalles de arquitectura, modelos de datos y algoritmos

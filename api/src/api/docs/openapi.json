@@ -2,8 +2,8 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Ship Quote API",
-    "version": "1.0.0",
-    "description": "API para gestión de agencias, ubicaciones, pallets, zonas y comparación de tarifas."
+    "version": "2.0.0",
+    "description": "API para gestión de agencias, ubicaciones, pallets, zonas y comparación de tarifas de envío."
   },
   "servers": [
     {
@@ -124,22 +124,63 @@
             "$ref": "#/components/responses/BadRequest"
           }
         }
-      },
+      }
+    },
+    "/locations/countries": {
       "get": {
-        "summary": "Listar ubicaciones (opcional `?address=` para búsqueda)",
+        "summary": "Listar países disponibles",
         "parameters": [
           {
             "in": "query",
-            "name": "address",
+            "name": "lang",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": ["US", "ES", "IT", "FR"]
             },
-            "description": "Texto para búsqueda por nombre normalizado"
+            "description": "Idioma para nombres de países (default ES)"
           }
         ],
         "responses": {
           "200": {
-            "description": "Lista de ubicaciones",
+            "description": "Array de países",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "countryCode": {
+                        "type": "string"
+                      },
+                      "countryName": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations/provinces": {
+      "get": {
+        "summary": "Listar provincias",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "countryCode",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filtrar por código de país (ISO-2)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de provincias",
             "content": {
               "application/json": {
                 "schema": {
@@ -154,22 +195,23 @@
         }
       }
     },
-    "/locations/{locationId}": {
+    "/locations/provincesByPostalCode/{postalCode}": {
       "get": {
-        "summary": "Detalle de una ubicación por id",
+        "summary": "Obtener provincia por código postal",
         "parameters": [
           {
             "in": "path",
-            "name": "locationId",
+            "name": "postalCode",
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Código postal (ej. 28001)"
           }
         ],
         "responses": {
           "200": {
-            "description": "Detalle de ubicación",
+            "description": "Provincia asociada al código postal",
             "content": {
               "application/json": {
                 "schema": {
@@ -180,26 +222,6 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    },
-    "/locations/countries": {
-      "get": {
-        "summary": "Listar países disponibles",
-        "responses": {
-          "200": {
-            "description": "Array de países",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -245,38 +267,6 @@
                   "items": {
                     "$ref": "#/components/schemas/PalletType"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/pallets/compare": {
-      "post": {
-        "summary": "Comparar/validar dimensiones contra pallets existentes",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "item": {
-                    "type": "object"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Resultado de comparación",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
                 }
               }
             }
@@ -413,15 +403,15 @@
         }
       }
     },
-    "/rates/compare": {
+    "/rates/compareByPostalCode": {
       "post": {
-        "summary": "Comparar tarifas entre agencias activas",
+        "summary": "Comparar tarifas por código postal y país",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RateCompareRequest"
+                "$ref": "#/components/schemas/RateCompareByPostalCodeRequest"
               }
             }
           }
@@ -432,10 +422,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RateCompareResponse"
-                  }
+                  "$ref": "#/components/schemas/RateCompareResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/rates/compareByProvinceCode": {
+      "post": {
+        "summary": "Comparar tarifas por código de provincia",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RateCompareByProvinceCodeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultados de comparación por agencia",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateCompareResponse"
                 }
               }
             }
@@ -505,7 +525,7 @@
       "Agency": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string"
           },
           "name": {
@@ -532,11 +552,35 @@
               },
               "supportsParcels": {
                 "type": "boolean"
+              },
+              "coverage": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["national", "international"]
+                }
               }
             }
           },
           "supplements": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "fuelSurcharge": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": ["percentage", "fixed"]
+                  },
+                  "value": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
           },
           "apiConfig": {
             "type": "object",
@@ -554,6 +598,14 @@
                 "type": "string"
               }
             }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -562,6 +614,9 @@
         "required": ["name"],
         "properties": {
           "name": {
+            "type": "string"
+          },
+          "code": {
             "type": "string"
           },
           "type": {
@@ -579,7 +634,7 @@
       "Location": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string"
           },
           "countryCode": {
@@ -605,7 +660,15 @@
           },
           "type": {
             "type": "string",
-            "enum": ["province", "state", "region"]
+            "enum": ["province", "country"]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -623,19 +686,22 @@
           "adminCode": {
             "type": "string"
           },
+          "adminFullCode": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
           "type": {
             "type": "string",
-            "enum": ["province", "state", "region"]
+            "enum": ["province", "country"]
           }
         }
       },
       "PalletType": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string"
           },
           "agencyId": {
@@ -660,6 +726,14 @@
                 "type": "number"
               }
             }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -695,7 +769,7 @@
       "Zone": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string"
           },
           "agencyId": {
@@ -730,6 +804,14 @@
                 }
               }
             }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -775,33 +857,45 @@
       "RateCompareItem": {
         "type": "object",
         "properties": {
-          "typeServices": {
+          "type": {
             "type": "string",
-            "description": "\"pallet\" o \"parcel\""
+            "description": "Tipo de artículo: 'pallet' o 'parcel'",
+            "enum": ["pallet", "parcel"]
           },
           "weight": {
-            "type": "number"
+            "type": "number",
+            "description": "Peso en kg"
           },
-          "large": {
-            "type": "number"
+          "length": {
+            "type": "number",
+            "description": "Largo en cm (para pallet)"
           },
           "width": {
-            "type": "number"
+            "type": "number",
+            "description": "Ancho en cm (para pallet)"
           },
           "height": {
-            "type": "number"
+            "type": "number",
+            "description": "Alto en cm (para pallet)"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Cantidad (default 1)"
           }
-        }
+        },
+        "required": ["type", "weight"]
       },
-      "RateCompareRequest": {
+      "RateCompareByPostalCodeRequest": {
         "type": "object",
-        "required": ["destinationPostalCode", "province", "items"],
+        "required": ["destinationPostalCode", "countryCode", "items"],
         "properties": {
           "destinationPostalCode": {
-            "type": "string"
+            "type": "string",
+            "description": "Código postal destino"
           },
-          "province": {
-            "type": "string"
+          "countryCode": {
+            "type": "string",
+            "description": "Código de país (ISO-2, ej ES, FR)"
           },
           "items": {
             "type": "array",
@@ -811,34 +905,106 @@
           }
         }
       },
-      "RateCompareResponse": {
+      "RateCompareByProvinceCodeRequest": {
+        "type": "object",
+        "required": ["destinationPostalCode", "province", "items"],
+        "properties": {
+          "destinationPostalCode": {
+            "type": "string",
+            "description": "Código postal destino"
+          },
+          "province": {
+            "type": "string",
+            "description": "Código de provincia (ej ES-M, ES-GR)"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RateCompareItem"
+            }
+          }
+        }
+      },
+      "RateService": {
         "type": "object",
         "properties": {
-          "agency": {
+          "serviceName": {
             "type": "string"
           },
-          "available": {
-            "type": "boolean"
+          "basePrice": {
+            "type": "number"
           },
-          "zone": {
-            "type": "string"
-          },
-          "services": {
+          "surcharges": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "service": {
+                "label": {
                   "type": "string"
                 },
-                "total": {
+                "amount": {
                   "type": "number"
+                }
+              }
+            }
+          },
+          "totalPrice": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "deliveryDays": {
+            "type": "integer"
+          }
+        }
+      },
+      "RateCompareResponse": {
+        "type": "object",
+        "properties": {
+          "scope": {
+            "type": "string",
+            "enum": ["national", "international"]
+          },
+          "destinationPostalCode": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "agency": {
+                  "type": "string"
                 },
-                "breakdown": {
+                "zone": {
+                  "type": "string"
+                },
+                "services": {
                   "type": "array",
                   "items": {
-                    "type": "object"
+                    "$ref": "#/components/schemas/RateService"
                   }
+                }
+              }
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "agency": {
+                  "type": "string"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
                 }
               }
             }

@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Ship Quote API
-  version: 1.0.0
+  version: 2.0.0
   description: API para gestión de agencias, ubicaciones, pallets, zonas y comparación de tarifas.
 servers:
   - url: http://localhost:3000/api/v1
@@ -76,44 +76,16 @@ paths:
                 $ref: '#/components/schemas/Location'
         '400':
           $ref: '#/components/responses/BadRequest'
-    get:
-      summary: Listar ubicaciones (opcional `?address=` para búsqueda)
-      parameters:
-        - in: query
-          name: address
-          schema:
-            type: string
-          description: Texto para búsqueda por nombre normalizado
-      responses:
-        '200':
-          description: Lista de ubicaciones
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Location'
-  /locations/{locationId}:
-    get:
-      summary: Detalle de una ubicación por id
-      parameters:
-        - in: path
-          name: locationId
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Detalle de ubicación
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Location'
-        '404':
-          $ref: '#/components/responses/NotFound'
   /locations/countries:
     get:
       summary: Listar países disponibles
+      parameters:
+        - in: query
+          name: lang
+          schema:
+            type: string
+            enum: [US, ES, IT, FR]
+          description: Idioma para nombres de países (default ES)
       responses:
         '200':
           description: Array de países
@@ -123,6 +95,48 @@ paths:
                 type: array
                 items:
                   type: object
+                  properties:
+                    countryCode:
+                      type: string
+                    countryName:
+                      type: string
+  /locations/provinces:
+    get:
+      summary: Listar provincias
+      parameters:
+        - in: query
+          name: countryCode
+          schema:
+            type: string
+          description: Filtrar por código de país (ISO-2)
+      responses:
+        '200':
+          description: Lista de provincias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+  /locations/provincesByPostalCode/{postalCode}:
+    get:
+      summary: Obtener provincia por código postal
+      parameters:
+        - in: path
+          name: postalCode
+          required: true
+          schema:
+            type: string
+          description: Código postal (ej. 28001)
+      responses:
+        '200':
+          description: Provincia asociada al código postal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /pallets:
     post:
       summary: Crear tipo de pallet
@@ -152,25 +166,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PalletType'
-  /pallets/compare:
-    post:
-      summary: Comparar/validar dimensiones contra pallets existentes
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                item:
-                  type: object
-      responses:
-        '200':
-          description: Resultado de comparación
-          content:
-            application/json:
-              schema:
-                type: object
   /pallets/{palletTypeId}:
     get:
       summary: Detalle de tipo de pallet
@@ -249,24 +244,42 @@ paths:
                 $ref: '#/components/schemas/Zone'
         '404':
           $ref: '#/components/responses/NotFound'
-  /rates/compare:
+  /rates/compareByPostalCode:
     post:
-      summary: Comparar tarifas entre agencias activas
+      summary: Comparar tarifas por código postal y país
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RateCompareRequest'
+              $ref: '#/components/schemas/RateCompareByPostalCodeRequest'
       responses:
         '200':
           description: Resultados de comparación por agencia
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RateCompareResponse'
+                $ref: '#/components/schemas/RateCompareResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /rates/compareByProvinceCode:
+    post:
+      summary: Comparar tarifas por código de provincia
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RateCompareByProvinceCodeRequest'
+      responses:
+        '200':
+          description: Resultados de comparación por agencia
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateCompareResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '404':
@@ -355,7 +368,7 @@ components:
     Location:
       type: object
       properties:
-        id:
+        _id:
           type: string
         countryCode:
           type: string
@@ -373,7 +386,13 @@ components:
           type: string
         type:
           type: string
-          enum: [province, state, region]
+          enum: [province, country]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     LocationCreate:
       type: object
       required: [countryCode, countryName, adminCode, name]
@@ -485,49 +504,108 @@ components:
     RateCompareItem:
       type: object
       properties:
-        typeServices:
+        type:
           type: string
-          description: '"pallet" o "parcel"'
+          description: 'Tipo de artículo: "pallet" o "parcel"'
+          enum: [pallet, parcel]
         weight:
           type: number
-        large:
+          description: Peso en kg
+        length:
           type: number
+          description: Largo en cm (para pallet)
         width:
           type: number
+          description: Ancho en cm (para pallet)
         height:
           type: number
-    RateCompareRequest:
+          description: Alto en cm (para pallet)
+        quantity:
+          type: integer
+          description: Cantidad (default 1)
+      required: [type, weight]
+    RateCompareByPostalCodeRequest:
+      type: object
+      required: [destinationPostalCode, countryCode, items]
+      properties:
+        destinationPostalCode:
+          type: string
+          description: Código postal destino
+        countryCode:
+          type: string
+          description: Código de país (ISO-2, ej ES, FR)
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RateCompareItem'
+    RateCompareByProvinceCodeRequest:
       type: object
       required: [destinationPostalCode, province, items]
       properties:
         destinationPostalCode:
           type: string
+          description: Código postal destino
         province:
           type: string
+          description: Código de provincia (ej ES-M, ES-GR)
         items:
           type: array
           items:
             $ref: '#/components/schemas/RateCompareItem'
-    RateCompareResponse:
+    RateService:
       type: object
       properties:
-        agency:
+        serviceName:
           type: string
-        available:
-          type: boolean
-        zone:
-          type: string
-        services:
+        basePrice:
+          type: number
+        surcharges:
           type: array
           items:
             type: object
             properties:
-              service:
+              label:
                 type: string
-              total:
+              amount:
                 type: number
-              breakdown:
+        totalPrice:
+          type: number
+        currency:
+          type: string
+        deliveryDays:
+          type: integer
+    RateCompareResponse:
+      type: object
+      properties:
+        scope:
+          type: string
+          enum: [national, international]
+        destinationPostalCode:
+          type: string
+        countryCode:
+          type: string
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              agency:
+                type: string
+              zone:
+                type: string
+              services:
                 type: array
                 items:
-                  type: object
+                  $ref: '#/components/schemas/RateService'
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              agency:
+                type: string
+              error:
+                type: string
+              code:
+                type: string
   securitySchemes: {}

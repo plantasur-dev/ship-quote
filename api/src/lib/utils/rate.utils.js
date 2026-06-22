@@ -59,13 +59,13 @@ export function groupPallets(items, palletTypes) {
             continue;
         }
 
-        const existing = groups.get(type.id);
+        const existing = groups.get(type._id);
 
         if (existing) {
             existing.quantity++;
             existing.items.push(item);
         } else {
-            groups.set(type.id, {
+            groups.set(type._id, {
                 palletType: type,
                 quantity: 1,
                 items: [item]

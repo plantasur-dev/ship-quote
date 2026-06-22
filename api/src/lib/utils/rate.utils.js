@@ -65,7 +65,7 @@ export function groupPallets(items, palletTypes) {
             existing.quantity++;
             existing.items.push(item);
         } else {
-            groups.set(type.id, {
+            groups.set(type._id, {
                 palletType: type,
                 quantity: 1,
                 items: [item]

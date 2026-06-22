@@ -30,6 +30,8 @@ function calculateParcelRate({
     const rate = agencyRates.get(`${zone.calculationMode}|${zone.name}|none`);
     if (!rate) return [];
 
+    const pricingMode = zone.pricingMode.type;
+
     return rate.services.flatMap(service => {
 
         const { service: serviceName, surcharges, limits = {} } = service;
@@ -68,7 +70,7 @@ function calculateParcelRate({
         const volumetricWeight = Math.max(round(volumetric), realWeight);
 
         const totalWeight = Math.ceil(
-            zone.pricingMode === 'weight_volume'
+            pricingMode === 'weight_volume'
                 ? volumetricWeight
                 : realWeight
         );

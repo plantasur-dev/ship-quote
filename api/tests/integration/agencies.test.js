@@ -7,10 +7,6 @@ import Agency from "../../src/lib/models/agency.model.js";
 
 describe("POST /api/agencies", () => {
 
-    beforeEach(async () => {
-        await Agency.deleteMany({});
-    });
-
     it("debería crear una agencia", async () => {
         const payload = {
             name: "mr express",
@@ -59,14 +55,14 @@ describe("POST /api/agencies", () => {
 
     it("debería fallar si el code es duplicado", async () => {
         await Agency.create({
-            name: "Test Agencia",
-            code: "test_agencia"
+            name: "mr express",
+            code: "mr_express"
         });
 
         const res = await request(app)
             .post("/api/v1/agencies")
             .send({
-                name: "Test Agencia"
+                name: "mr express"
             })
             .expect(409);
 
@@ -84,5 +80,53 @@ describe("POST /api/agencies", () => {
             .expect(400);
 
         expect(res.body).toHaveProperty('type.name', 'ValidatorError');
+    });
+
+    it("debería listar todas las agencias", async () => {
+        await Agency.create([
+            { name: "Agency One" },
+            { name: "Agency Two" }
+        ]);
+
+        const res = await request(app)
+            .get("/api/v1/agencies")
+            .expect(200);
+
+        expect(Array.isArray(res.body)).toBe(true);
+        expect(res.body).toHaveLength(2);
+
+        expect(res.body[0]).toHaveProperty("name");
+        expect(res.body[1]).toHaveProperty("name");
+    });
+
+    it("debería devolver 404 si no hay agencias", async () => {
+        const res = await request(app)
+            .get("/api/v1/agencies")
+            .expect(404);
+
+        expect(res.body).toHaveProperty("message", "Agencies not found");
+    });
+
+    it("debería cambiar el estado activo de una agencia", async () => {
+        const agency = await Agency.create({
+            name: "Toggle Agency",
+            active: true
+        });
+
+        const res = await request(app)
+            .patch(`/api/v1/agencies/${agency._id}`)
+            .expect(200);
+
+        expect(res.body).toHaveProperty("active", false);
+    });
+
+    it("debería devolver 404 si la agencia no existe", async () => {
+        const fakeId = new mongoose.Types.ObjectId();
+
+        const res = await request(app)
+            .patch(`/api/v1/agencies/${fakeId}`)
+            .expect(404);
+
+        expect(res.body).toHaveProperty("message", "Agency not found");
     });
 });

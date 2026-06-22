@@ -4,15 +4,20 @@ import mongoose from "mongoose";
 import { connectDB } from '../src/lib/configs/db.config.js';
 
 beforeAll(async () => {
-    console.log("Conectando...");
     await connectDB();
+});
 
-    console.log('DB:', mongoose.connection.name);
+beforeEach(async () => {
+  const collections = mongoose.connection.collections;
 
-    console.log("Borrando...");
-    await mongoose.connection.dropDatabase();
+  for (const key of Object.keys(collections)) {
+    await collections[key].deleteMany({});
+  }
 });
 
 afterAll(async () => {
-    await mongoose.connection.close();
+    if (mongoose.connection.readyState !== 0) {
+        console.log('Global teardown: closing DB connection...');
+        await mongoose.connection.close();
+    }
 });

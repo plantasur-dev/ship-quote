@@ -10,8 +10,7 @@ export async function create(req, res) {
     if (!name) throw createHttpError(400, 'Name is required');
 
     const agency = await Agency.create({ 
-        name, 
-        code: name.toLowerCase(), 
+        name,
         type, 
         rules,
         apiConfig 

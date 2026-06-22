@@ -1,18 +1,12 @@
 
 import express from "express";
 
-import logger from "./src/lib/logger/logger.js";
-
 import httpLogger from "./src/lib/logger/morgan.js";
 
 import cors from 'cors';
 
-import './src/lib/configs/server.config.js';
-
 import docRouter from "./src/api/docs/index.js";
-
 import apiRouter from "./src/api/index.js";
-
 import webRoute from './web/index.js';
 
 const app = express()
@@ -31,11 +25,4 @@ app.use('/api/v1', apiRouter);
 
 app.use(webRoute);
 
-app.listen(PORT, '0.0.0.0',() => {
-    logger.info({
-        event: 'server',
-        service: 'ship-quote-api',
-        message: `App listening on port ${ PORT }`,
-        port: PORT
-    });
-});
+export default app;

@@ -2,7 +2,6 @@
 import mongoose from "mongoose";
 import logger from "../logger/logger.js";
 
-
 const MONGODB_URI =
     process.env.NODE_ENV === 'test'
         ? process.env.MONGODB_URI_TEST

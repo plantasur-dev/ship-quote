@@ -36,7 +36,10 @@ const agencySchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["static", "api", "hybrid"],
+        enum: {
+            values: ["static", "api", "hybrid"],
+            message: "El tipo de agencia debe ser static, api o hybrid"
+        },
         default: "static"
     },
     active: {

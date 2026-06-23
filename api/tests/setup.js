@@ -13,6 +13,8 @@ beforeEach(async () => {
   for (const key of Object.keys(collections)) {
     await collections[key].deleteMany({});
   }
+
+  vi.clearAllMocks();
 });
 
 afterAll(async () => {

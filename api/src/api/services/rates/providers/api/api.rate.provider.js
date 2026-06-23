@@ -4,7 +4,7 @@ import { carrierFactory } from './carriers/carriers.service.js';
 import { 
   getScope, 
   SCOPE_LABELS 
-} from '../../../../../lib/constants/zone.scopes.js';
+} from '../../../../../lib/constants/scopes.zone.js';
 
 import { 
   buildStaticErrorResult,

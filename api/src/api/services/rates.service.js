@@ -1,7 +1,7 @@
 
 import Agency from "../../lib/models/agency.model.js";
 
-import { getScope } from "../../lib/constants/zone.scopes.js";
+import { getScope } from "../../lib/constants/scopes.zone.js";
 
 import { 
     getStaticRates, 

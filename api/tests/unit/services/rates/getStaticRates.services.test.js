@@ -4,7 +4,7 @@ import {
 } from '../../../../src/api/services/rates/index.js';
 
 import { getAgencyTariffs } from '../../../../src/api/services/cache.service.js';
-import { resolveZone } from '../../../../src/lib/utils/rate.utils.js';
+import { resolveZone, loadDataStaticRate } from '../../../../src/lib/utils/rate.utils.js';
 
 import { calculatePallet } from '../../../../src/api/services/rates/providers/static/pallet.rate.calculator.js';
 import { calculateParcel } from '../../../../src/api/services/rates/providers/static/parcel.rate.calculator.js';
@@ -16,7 +16,8 @@ vi.mock('../../../../src/api/services/cache.service.js', () => ({
 }));
 
 vi.mock('../../../../src/lib/utils/rate.utils.js', () => ({
-    resolveZone: vi.fn()
+    resolveZone: vi.fn(),
+    loadDataStaticRate: vi.fn()
 }));
 
 vi.mock('../../../../src/api/services/rates/providers/static/pallet.rate.calculator.js', () => ({
@@ -84,102 +85,181 @@ const parcelResult = [
     }
 ];
 
+describe('getStaticRates Services', () => {
 
-it('should calculate pallet rates when zone mode is pallet', async () => {
-    const agencies = [
-        { id: { toString: () => '1' }, name: 'DHL' }
-    ];
+    it('should handle loading tariff error', async () => {
+        const agencies = [
+            { id: { toString: () => '1' }, name: 'DHL' }
+        ];
 
-    getAgencyTariffs.mockReturnValue({
-        1: {
-            zones: [],
-            zoneRules: [],
-            ratesByKey: [],
-            sortedPalletTypes: []
-        }
+        getAgencyTariffs.mockImplementation(() => {
+            throw new Error('fail');
+        });
+
+        resolveZone.mockReturnValue({
+            calculationMode: 'pallet'
+        });
+
+        await expect(getStaticRates(agencies, input)).rejects.toThrow('Data store not initialized');
     });
 
-    resolveZone.mockReturnValue({
-        calculationMode: 'pallet'
+    it('should calculate pallet rates when zone mode is pallet', async () => {
+        const agencies = [
+            { id: { toString: () => '1' }, name: 'DHL', type: 'hybrid' }
+        ];
+
+        getAgencyTariffs.mockReturnValue({
+            1: {
+                zones: [],
+                zoneRules: [],
+                ratesByKey: [],
+                sortedPalletTypes: []
+            }
+        });
+
+        loadDataStaticRate.mockReturnValue({
+            agencyData: {},
+            agencySupplements: {},
+            agencyRates: {},
+            agencyPalletTypes: {}
+        });
+
+        resolveZone.mockReturnValue({
+            calculationMode: 'pallet'
+        });
+
+        calculatePallet.mockReturnValue(palletResult);
+
+        const result = await getStaticRates(agencies, input);
+
+        expect(calculatePallet).toHaveBeenCalled();
+        expect(result).toEqual([palletResult]);
     });
 
-    calculatePallet.mockReturnValue(palletResult);
+    it('should calculate parcel rates when zone mode is not pallet', async () => {
+        const agencies = [
+            { id: { toString: () => '1' }, name: 'UPS' }
+        ];
 
-    const result = await getStaticRates(agencies, input);
+        getAgencyTariffs.mockReturnValue({
+            1: {
+                ratesByKey: []
+            }
+        });
 
-    expect(calculatePallet).toHaveBeenCalled();
-    expect(result).toEqual([palletResult]);
-});
+        loadDataStaticRate.mockReturnValue({
+            agencyData: {},
+            agencySupplements: {},
+            agencyRates: {},
+            agencyPalletTypes: {}
+        });
 
-it('should calculate parcel rates when zone mode is not pallet', async () => {
-    const agencies = [
-        { id: { toString: () => '1' }, name: 'UPS' }
-    ];
+        resolveZone.mockReturnValue({
+            calculationMode: 'parcel'
+        });
 
-    getAgencyTariffs.mockReturnValue({
-        1: {
-            ratesByKey: []
-        }
+        calculateParcel.mockReturnValue(parcelResult);
+
+        const result = await getStaticRates(agencies, input);
+
+        expect(calculateParcel).toHaveBeenCalled();
+        expect(result).toEqual([parcelResult]);
     });
 
-    resolveZone.mockReturnValue({
-        calculationMode: 'parcel'
+    it('should return zone error when zone is not found', async () => {
+        const agencies = [
+            { id: { toString: () => '1' }, name: 'DHL' }
+        ];
+
+        getAgencyTariffs.mockReturnValue({
+            1: {}
+        });
+
+        loadDataStaticRate.mockReturnValue({
+            agencyData: {},
+            agencySupplements: {},
+            agencyRates: {},
+            agencyPalletTypes: {}
+        });
+
+        resolveZone.mockReturnValue(null);
+
+        buildStaticErrorResult.mockReturnValue('ZONE_NOT_FOUND');
+
+        const result = await getStaticRates(agencies, input);
+
+        expect(buildStaticErrorResult).toHaveBeenCalledWith(
+            expect.objectContaining({
+                code: 'ZONE_NOT_FOUND'
+            })
+        );
+
+        expect(result).toEqual(['ZONE_NOT_FOUND']);
     });
 
-    calculateParcel.mockReturnValue(parcelResult);
+    it('should handle type calculation error', async () => {
+        const agencies = [
+            { id: { toString: () => '1' }, name: 'DHL' }
+        ];
 
-    const result = await getStaticRates(agencies, input);
+        getAgencyTariffs.mockReturnValue({
+            1: {}
+        });
 
-    expect(calculateParcel).toHaveBeenCalled();
-    expect(result).toEqual([parcelResult]);
-});
+        loadDataStaticRate.mockReturnValue({
+            agencyData: {},
+            agencySupplements: {},
+            agencyRates: {},
+            agencyPalletTypes: {}
+        });
 
-it('should return zone error when zone is not found', async () => {
-    const agencies = [
-        { id: { toString: () => '1' }, name: 'DHL' }
-    ];
+        resolveZone.mockReturnValue({
+            calculationMode: 'fail'
+        });
 
-    getAgencyTariffs.mockReturnValue({
-        1: {}
+        buildStaticErrorResult.mockReturnValue('ERROR');
+
+        const result = await getStaticRates(agencies, input);
+
+        expect(buildStaticErrorResult).toHaveBeenCalledWith(
+            expect.objectContaining({
+                code: 'UNSUPPORTED_CALCULATION_MODE'
+            })
+        );
+
+        expect(result).toEqual(['ERROR']);
     });
 
-    resolveZone.mockReturnValue(null);
+    it('should handle calculation error', async () => {
+        const agencies = [
+            { id: { toString: () => '1' }, name: 'DHL' }
+        ];
 
-    buildStaticErrorResult.mockReturnValue('ZONE_ERROR');
+        getAgencyTariffs.mockReturnValue({
+            1: {}
+        });
 
-    const result = await getStaticRates(agencies, input);
+        loadDataStaticRate.mockReturnValue({
+            agencyData: {},
+            agencySupplements: {},
+            agencyRates: {},
+            agencyPalletTypes: {}
+        });
 
-    expect(buildStaticErrorResult).toHaveBeenCalledWith(
-        expect.objectContaining({
-            code: 'ZONE_NOT_FOUND'
-        })
-    );
+        resolveZone.mockImplementation(() => {
+            throw new Error('fail');
+        });
 
-    expect(result).toEqual(['ZONE_ERROR']);
-});
+        buildStaticErrorResult.mockReturnValue('ERROR');
 
-it('should handle calculation error', async () => {
-    const agencies = [
-        { id: { toString: () => '1' }, name: 'DHL' }
-    ];
+        const result = await getStaticRates(agencies, input);
 
-    getAgencyTariffs.mockReturnValue({
-        1: {}
+        expect(buildStaticErrorResult).toHaveBeenCalledWith(
+            expect.objectContaining({
+                code: 'CALCULATION_ERROR'
+            })
+        );
+
+        expect(result).toEqual(['ERROR']);
     });
-
-    resolveZone.mockImplementation(() => {
-        throw new Error('fail');
-    });
-
-    buildStaticErrorResult.mockReturnValue('ERROR');
-
-    const result = await getStaticRates(agencies, input);
-
-    expect(buildStaticErrorResult).toHaveBeenCalledWith(
-        expect.objectContaining({
-            code: 'CALCULATION_ERROR'
-        })
-    );
-
-    expect(result).toEqual(['ERROR']);
 });

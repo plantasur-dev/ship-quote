@@ -154,3 +154,24 @@ export function matchDimensions(breaks, value) {
 }
 
 export const round = (num) => Number(num.toFixed(2));
+
+export function loadDataStaticRate(agency, tariffStore) {
+    const agencyData =
+        tariffStore[agency.id.toString()];
+    
+    const agencySupplements = agency?.supplements;
+    const agencyZones = agencyData.zones || [];
+    const agencyZonesRules = agencyData.zoneRules || [];
+
+    const agencyRates = agencyData.ratesByKey || [];
+    const agencyPalletTypes = agencyData.sortedPalletTypes || [];
+
+    return { 
+        agencyData, 
+        agencySupplements, 
+        agencyZones, 
+        agencyZonesRules, 
+        agencyRates, 
+        agencyPalletTypes
+    }
+}

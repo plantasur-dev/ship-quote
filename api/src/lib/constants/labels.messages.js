@@ -13,7 +13,8 @@ const LABELS = {
     API_RATE: 'Tarifa base Api',
     API_ERROR: 'Error Api',
     ZONE_NOT_FOUND: 'Zona no encontrada',
-    CALCULATION_ERROR: 'Error en cálculo'
+    CALCULATION_ERROR: 'Error en cálculo',
+    UNSUPPORTED_CALCULATION_MODE: 'Modo de cálculo no soportado'
 };
 
 export default LABELS;

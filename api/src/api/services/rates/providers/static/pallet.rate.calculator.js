@@ -17,13 +17,18 @@ import {
 
 import { presentRate } from '../../presenters/rate.presenter.js';
 
+import {
+    SHIPMENT_UNITS,
+    CALCULATE_MODES
+} from '../../../../../lib/constants/index.js';
+
 export function buildRejectedServices(rejected) {
     if (!rejected.length) return [];
 
     return [
         buildRateResult({
             service: 'REJECTED_PALLET',
-            transportType: 'pallet',
+            transportType: SHIPMENT_UNITS.PALLET,
             incidents: rejected.map(item => (
                 buildIncident('PALLET_DIMENSION_REJECTED', item)
             ))
@@ -48,9 +53,9 @@ function calculeTonnagePricing(tonnagePricingRule, priceBase, totalWeight) {
 }
 
 function calculePricing(agencySupplements, tonnagePricingRule, priceBase, totalWeight) {
-
+    
     const fuelExtraCost = 
-            calculateFuelSurcharge(agencySupplements, priceBase);
+        calculateFuelSurcharge(agencySupplements, priceBase);
 
     return calculeTonnagePricing(
         tonnagePricingRule, 
@@ -84,7 +89,7 @@ function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplemen
         acc.push(
             buildRateResult({
                 service: service.service,
-                transportType: 'pallet',
+                transportType: SHIPMENT_UNITS.PALLET,
                 itemCount: palletItems.length,
                 totalWeight,
                 concepts: [
@@ -116,21 +121,40 @@ function calculateGroupServices({
         
         return rate.services.reduce((acc, service) => {
             const match = matchPrice(service.priceBreaks, group.quantity);
-            if (!match?.price) return acc;
+            
+            if (!match) {
+                acc.push(
+                    buildRateResult({
+                        service: service.service,
+                        transportType: SHIPMENT_UNITS.PALLET,
+                        itemCount: group.quantity,
+                        incidents: [
+                            buildIncident(
+                                'NO_RATE', 
+                                { 
+                                    items: group.items 
+                                }
+                            )
+                        ]
+                    })
+                );
+
+                return acc;
+            }
 
             const fuelExtraCost = 
                 calculateFuelSurcharge(agencySupplements, match.price);
 
-            const unitPrice = round(match.price + fuelExtraCost);
+            const unitPrice = 
+                round(match.price + fuelExtraCost);
             
-            const total = rate.calculationType === "quantity"
-                ? round((match.price + fuelExtraCost) * group.quantity)
-                : round((match.price + fuelExtraCost) * group.quantity);
+            const total = 
+                round((match.price + fuelExtraCost) * group.quantity);
 
             acc.push(
                 buildRateResult({
                     service: service.service,
-                    transportType: 'pallet',
+                    transportType: SHIPMENT_UNITS.PALLET,
                     itemCount: group.quantity,
                     concepts: [
                         buildConcept(
@@ -152,7 +176,7 @@ function calculateGroupServices({
 }
 
 function calculateSinglePallet({  palletItems, agencyRates, agencyPalletTypes, zone, agencySupplements }) {
-    const { groups, rejected } = groupPallets(palletItems, agencyPalletTypes);
+    const {  groups = [], rejected = [] } = groupPallets(palletItems, agencyPalletTypes) || {};
     
     return [
         ...calculateGroupServices({
@@ -167,12 +191,23 @@ function calculateSinglePallet({  palletItems, agencyRates, agencyPalletTypes, z
 
 export function calculatePallet(params) {
     const { nameAgency, zone } = params;
-    
-    const services = (zone.pricingMode.type === 'weight_volume')
-        ? presentRate(calculateWeightVolume({ ...params }))
-        : presentRate(calculateSinglePallet({ ...params }));
 
-    if (services.length === 0) {
+    const calculators = {
+        [CALCULATE_MODES.WEIGHT]: () => calculateSinglePallet(params),
+        [CALCULATE_MODES.WEIGHT_VOLUME]: () => calculateWeightVolume(params)
+    };
+
+    const pricingMode = zone.pricingMode.type;
+
+    const calculator = calculators[pricingMode];
+
+    if (!calculator) {
+        throw new Error(`Unsupported calculation pricing mode ${ pricingMode }`);
+    }
+
+    const services = presentRate(calculator());
+
+    if (!services.length) {
         return buildStaticErrorResult({
             presentRate,
             agency: nameAgency,

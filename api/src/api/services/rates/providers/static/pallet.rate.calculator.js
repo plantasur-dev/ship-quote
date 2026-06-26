@@ -19,7 +19,7 @@ import { presentRate } from '../../presenters/rate.presenter.js';
 
 import {
     SHIPMENT_UNITS,
-    CALCULATE_MODES
+    PRICING_MODES
 } from '../../../../../lib/constants/index.js';
 
 export function buildRejectedServices(rejected) {
@@ -193,8 +193,8 @@ export function calculatePallet(params) {
     const { nameAgency, zone } = params;
 
     const calculators = {
-        [CALCULATE_MODES.WEIGHT]: () => calculateSinglePallet(params),
-        [CALCULATE_MODES.WEIGHT_VOLUME]: () => calculateWeightVolume(params)
+        [PRICING_MODES.WEIGHT]: () => calculateSinglePallet(params),
+        [PRICING_MODES.WEIGHT_VOLUME]: () => calculateWeightVolume(params)
     };
 
     const pricingMode = zone.pricingMode.type;

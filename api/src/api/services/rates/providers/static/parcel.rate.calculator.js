@@ -5,7 +5,7 @@ import {
 
 import {
     PRICING_MODES
-} from '../../../../../lib/constants/pricingMode.rate.js';
+} from '../../../../../lib/constants/index.js';
 
 import { 
     validateParcelItem,
@@ -79,7 +79,7 @@ export function calculateParcelRate({
         };
         
         const selectedWeight = weightByPricingMode[pricingMode];
-        
+          
         if (selectedWeight === undefined) {
             return [
                 buildParcelRate({
@@ -134,7 +134,7 @@ export function calculateParcelRate({
 }
 
 export function calculateParcel(params = {}) {
-    const services = presentRate(calculateParcelRate({ ...params }));
+    const services = presentRate(calculateParcelRate(params));
 
     const { nameAgency, zone } = params;
 

@@ -489,6 +489,12 @@ describe('calculatePallet', () => {
                 }]
             ]);
 
+            const fuelSurcharge = {
+                enabled: true,
+                type: 'percentage',
+                value: 15
+            }
+
             getEffectiveWeight.mockReturnValue(1000);
             matchPrice.mockReturnValue({ price: 100 });
             calculateFuelSurcharge.mockReturnValue(20);
@@ -513,14 +519,17 @@ describe('calculatePallet', () => {
                     name: 'Madrid',
                     pricingMode: { type: 'weight_volume' }
                 },
-                agencySupplements: { fuelPercentage: 0.15 },
+                agencySupplements: {
+                    fuelSurcharge
+                },
                 agencyPalletTypes: [],
                 nameAgency: 'DHL'
             });
 
             expect(getEffectiveWeight).toHaveBeenCalled();
-            expect(calculateFuelSurcharge).toHaveBeenCalledWith(
-                { fuelPercentage: 0.15 },
+            expect(calculateFuelSurcharge).toHaveBeenCalledWith({
+                    fuelSurcharge
+                },
                 100
             );
         });

@@ -226,7 +226,7 @@ describe('calculateParcelRate', () => {
         ]);
     });
 
-    it('adds excess weight and additional block concepts when applicable', () => {
+    it('adds excess weight and additional block (MultiParcel) concepts when applicable ', () => {
         const result = calculateParcelRate({
             parcelItems: [
                 { weight: 10, large: 10, width: 10, height: 10 },

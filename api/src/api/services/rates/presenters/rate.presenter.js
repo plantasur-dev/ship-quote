@@ -1,5 +1,5 @@
 
-import LABELS from '../../../../lib/data/labels.js';
+import LABELS from '../../../../lib/constants/labels.messages.js';
 
 function getConceptLabel(code) {
     return LABELS[code] ?? code;

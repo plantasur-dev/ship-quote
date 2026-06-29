@@ -1,12 +1,15 @@
 
 import Agency from "../../lib/models/agency.model.js";
 
-import { getScope } from "../../lib/constants/zone.scopes.js";
-
 import { 
     getStaticRates, 
     getApiRates 
 } from "./rates/index.js";
+
+import { 
+    getScope, 
+    AGENCY_TYPE 
+} from "../../lib/constants/index.js";
 
 async function rates(input) {
 
@@ -19,10 +22,14 @@ async function rates(input) {
 
     const staticAgencies = 
         agencies.filter(agency => 
-            agency.type === "static" || agency.type === "hybrid"
+            agency.type === AGENCY_TYPE.STATIC || 
+            agency.type === AGENCY_TYPE.HYBRID
         );
         
-    const apiAgencies = agencies.filter(agency => agency.type === "api");
+    const apiAgencies = 
+        agencies.filter(agency => 
+            agency.type === AGENCY_TYPE.API
+        );
 
     const [staticResults, apiResults] = await Promise.all([
         getStaticRates(staticAgencies, input),

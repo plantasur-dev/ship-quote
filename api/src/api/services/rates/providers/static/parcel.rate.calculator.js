@@ -1,7 +1,11 @@
 
 import {
     round
-} from '../../../../../lib/utils/rate.utils.js';;
+} from '../../../../../lib/utils/rate.utils.js';
+
+import {
+    PRICING_MODES
+} from '../../../../../lib/constants/index.js';
 
 import { 
     validateParcelItem,
@@ -19,7 +23,7 @@ import {
 
 import { presentRate } from '../../presenters/rate.presenter.js';
 
-function calculateParcelRate({ 
+export function calculateParcelRate({ 
     parcelItems,
     agencyRates,
     zone,
@@ -69,11 +73,30 @@ function calculateParcelRate({
 
         const volumetricWeight = Math.max(round(volumetric), realWeight);
 
-        const totalWeight = Math.ceil(
-            pricingMode === 'weight_volume'
-                ? volumetricWeight
-                : realWeight
-        );
+        const weightByPricingMode = {
+            [PRICING_MODES.WEIGHT]: realWeight,
+            [PRICING_MODES.WEIGHT_VOLUME]: volumetricWeight
+        };
+        
+        const selectedWeight = weightByPricingMode[pricingMode];
+          
+        if (selectedWeight === undefined) {
+            return [
+                buildParcelRate({
+                    serviceName,
+                    itemCount: 0,
+                    totalWeight: 0,
+                    incidents: [
+                        buildIncident(
+                            'CALCULATION_ERROR'
+                        )
+                    ]
+                }),
+                ...incidents
+            ];
+        }
+
+        const totalWeight = Math.ceil(selectedWeight);
 
         const pricing = resolveParcelPrice({
             totalWeight,
@@ -111,7 +134,7 @@ function calculateParcelRate({
 }
 
 export function calculateParcel(params = {}) {
-    const services = presentRate(calculateParcelRate({ ...params }));
+    const services = presentRate(calculateParcelRate(params));
 
     const { nameAgency, zone } = params;
 

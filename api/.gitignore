@@ -3,6 +3,8 @@ node_modules/
 
 logs/
 
+coverage/
+
 src/web/build/*
 
 # File

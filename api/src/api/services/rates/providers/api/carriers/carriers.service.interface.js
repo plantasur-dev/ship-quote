@@ -1,6 +1,8 @@
 
 import createHttpError from "http-errors";
 
+import { SHIPMENT_UNITS } from '../../../../../../lib/constants/index.js';
+
 export default class CarrierService {
     
     constructor(agency) {
@@ -93,12 +95,19 @@ export default class CarrierService {
         if (!quotations) 
             throw createHttpError(400, "Empty endpoint quotations");
 
-        const { supportsPallets } = this.agency?.rules;
+        const { supportsPallets, supportsParcels } = this.agency?.rules;
 
-        const items = input?.items.filter(
-            item => supportsPallets && 
-            item.typeServices === "pallet") 
-            || [];
+        if (supportsPallets) {
+            const items = input?.items.filter(item => 
+                item.typeServices === SHIPMENT_UNITS.PALLET
+            ) || [];
+        }
+
+        if (supportsParcels) {
+            const items = input?.items.filter(item => 
+                item.typeServices === SHIPMENT_UNITS.PARCEL
+            ) || [];
+        }
         
         const response = await this.fetchApi(
             `${ baseUrlApi }/${ quotations.trim() }`, 

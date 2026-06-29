@@ -23,20 +23,14 @@ const agencySchema = new mongoose.Schema({
         type: String,
         trim: true,
         lowercase: true,
-        required: [true, 'Código de agencia obligatorio.'],
-        set: values => {
-            return values
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .trim()
-            .toLowerCase()
-            .split(/\s+/)
-            .join('_')
-        }
+        required: [true, 'Código de agencia obligatorio.']
     },
     type: {
         type: String,
-        enum: ["static", "api", "hybrid"],
+        enum: {
+            values: ["static", "api", "hybrid"],
+            message: "El tipo de agencia debe ser static, api o hybrid"
+        },
         default: "static"
     },
     active: {
@@ -113,6 +107,18 @@ const agencySchema = new mongoose.Schema({
 });
 
 agencySchema.index({ code: 1 }, { unique: true });
+
+agencySchema.pre("validate", function () {
+    if (this.name) {
+        this.code = this.name
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .trim()
+            .toLowerCase()
+            .split(/\s+/)
+            .join("_");
+    }
+});
 
 const Agency = mongoose.model("Agency", agencySchema);
 

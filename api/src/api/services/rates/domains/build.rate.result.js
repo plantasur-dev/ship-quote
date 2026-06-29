@@ -132,3 +132,23 @@ export function buildStaticErrorResult({
         ])
     });
 }
+
+export function buildRejectedServices(
+    rejected, 
+    transportType = 'pallet'
+) {
+    if (!rejected.length) return [];
+
+    return [
+        buildRateResult({
+            service: 'REJECTED_PALLET',
+            transportType,
+            incidents: rejected.map(item => (
+                buildIncident(
+                    'PALLET_DIMENSION_REJECTED', 
+                    item
+                )
+            ))
+        })
+    ];
+}

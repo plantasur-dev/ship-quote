@@ -96,6 +96,15 @@ function Incident({ incidents = [] }) {
                         <p className="mt-1 text-sm">{ incident.message }</p>
                     )}
 
+                    { incident?.items && (
+                        incident.items.map(item => 
+                            <DimensionsItem 
+                                item={ item } 
+                                warning={ true }
+                            /> 
+                        )
+                    )}
+
                     { incident.typeServices && (
                         <DimensionsItem item={ incident } />
                     )}

@@ -1,23 +1,25 @@
 
 import { Ruler, Weight } from "lucide-react";
 
-function DimensionsItem({ item }) {
+function DimensionsItem({ item, warning = false }) {
 
     return (
         <div
-            className="
+            className={`
                 group
                 border-b
                 border-slate-200/80
-                bg-gradient-to-r
-                from-white
+                ${ warning 
+                    ? ""
+                    : `bg-gradient-to-r from-white`
+                }
                 to-slate-50/70
                 p-2
                 transition-all
                 duration-200
                 hover:border-indigo-200
                 hover:shadow-sm
-            "
+            `}
         >
             <div className="flex flex-wrap items-center gap-2">
                 <div

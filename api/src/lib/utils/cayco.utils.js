@@ -1,8 +1,4 @@
 
-export function fixedPrice(price) {
-    return [{ min: 1, max: 999, price }];
-}
-
 export function buildBreaks(prices) {
     return prices
         .map((price, i) => ({

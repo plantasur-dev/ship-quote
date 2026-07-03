@@ -18,6 +18,21 @@ function buildRateKey({
     ].join('|');
 }
 
+function createAgencyStore() {
+    return {
+        zonesById: new Map(),
+        zonesByName: new Map(),
+
+        palletTypesById: new Map(),
+        sortedPalletTypes: [],
+
+        ratesByKey: new Map(),
+
+        zoneRulesByProvince: new Map(),
+        zoneRulesByPostal: new Map()
+    };
+}
+
 function buildTariffStore({
     zones,
     zoneRules,
@@ -134,21 +149,6 @@ function buildTariffStore({
     }
 
     return agencies;
-}
-
-function createAgencyStore() {
-    return {
-        zonesById: new Map(),
-        zonesByName: new Map(),
-
-        palletTypesById: new Map(),
-        sortedPalletTypes: [],
-
-        ratesByKey: new Map(),
-
-        zoneRulesByProvince: new Map(),
-        zoneRulesByPostal: new Map()
-    };
 }
 
 export async function loadAgencyTariffs() {

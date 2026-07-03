@@ -1,6 +1,4 @@
 
-export const fixed = (price) => [{ min: 1, max: 999, price }];
-
 export const buildPriceBreaks = (prices = []) => {
     return prices
         .map((price, i) => ({

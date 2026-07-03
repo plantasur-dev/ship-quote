@@ -3,8 +3,11 @@ import PalletType from '../../../models/palletType.model.js';
 
 import { ratesAndaluciaCayco } from './cayco.ratesAndalucia.js';
 
+import {
+  fixed
+} from '../../../utils/bootstrap.utils.js';
+
 import { 
-  fixedPrice, 
   buildBreaks, 
   buildWeightBreaks 
 } from '../../../utils/cayco.utils.js';
@@ -16,7 +19,10 @@ import {
   superRates 
 } from '../../../data/cayco.js';
 
-import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
+import { 
+  checkExists, 
+  loggerMsg 
+} from '../../../utils/logger.utils.js';
 
 const params = { 
   code: 'cayco', 
@@ -49,7 +55,8 @@ export async function ratesCayco() {
         palletTypeId: pallet._id,
         services: {
           service: 'economy',
-          priceBreaks: fixedPrice(prices[i])
+          priceBreaks: fixed(prices[i]),
+          fallbackToLastPrice: true
         }
       });
     }
@@ -66,7 +73,8 @@ export async function ratesCayco() {
       calculationType: 'quantity',
       services: {
         service: 'economy',
-        priceBreaks: buildBreaks(prices)
+        priceBreaks: buildBreaks(prices),
+        fallbackToLastPrice: true
       }
     });
   }
@@ -82,7 +90,8 @@ export async function ratesCayco() {
       calculationType: 'quantity',
       services: {
         service: 'economy',
-        priceBreaks: buildBreaks(prices)
+        priceBreaks: buildBreaks(prices),
+        fallbackToLastPrice: true
       }
     });
   }

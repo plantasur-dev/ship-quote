@@ -7,12 +7,12 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
+    "start": "node --env-file .env server.js",
     "dev": "nodemon --env-file .env server.js",
+    "seed": "nodemon --env-file .env src/lib/bootstrap/bootstrap.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "start": "node --env-file .env app.js",
-    "seed": "nodemon --env-file .env src/lib/bootstrap/bootstrap.js"
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "cors": "^2.8.6",

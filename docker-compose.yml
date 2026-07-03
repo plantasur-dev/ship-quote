@@ -4,11 +4,11 @@ services:
       context: .
       args:
         VITE_API_URL_PROD: /api/v1
-    image: ship-quote-dev:1.0.0
-    container_name: ship-quote-app-dev
+    image: ship-app:2.1.4
+    container_name: ship-quote-app
 
     ports:
-      - "8082:3000"
+      - "8080:3000"
 
     environment:
       NODE_ENV: production
@@ -27,17 +27,17 @@ services:
 
   mongo:
     image: mongo:8
-    container_name: ship-quote-mongo-dev
+    container_name: ship-mongo
 
     volumes:
-      - mongo_data_dev:/data/db
+      - mongo_data:/data/db
 
   # -------------------------
   # LOKI (almacenamiento logs)
   # -------------------------
   loki:
     image: grafana/loki:3.6.6
-    container_name: ship-quote-loki
+    container_name: ship-loki
 
     ports:
       - "3100:3100"
@@ -52,8 +52,8 @@ services:
   # PROMTAIL (lector logs docker)
   # -------------------------
   promtail:
-    image: grafana/promtail:3.6.10
-    container_name: ship-quote-promtail
+    image: grafana/promtail:3.6.6
+    container_name: ship-promtail
 
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
@@ -71,7 +71,7 @@ services:
   # -------------------------
   grafana:
     image: grafana/grafana:10.4.0
-    container_name: ship-quote-grafana
+    container_name: ship-grafana
 
     ports:
       - "3001:3000"
@@ -87,6 +87,6 @@ services:
       - grafana_data:/var/lib/grafana
 
 volumes:
-  mongo_data_dev:
+  mongo_data:
   grafana_data:
   loki_data:

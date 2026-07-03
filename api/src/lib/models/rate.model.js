@@ -72,6 +72,11 @@ const servicePriceSchema = new mongoose.Schema({
     },
 
     priceBreaks: [rangeAmountSchema],
+        
+    fallbackToLastPrice: {
+        type: Boolean,
+        default: false
+    },
 
     surcharges: surchargeSchema,
 

@@ -6,9 +6,12 @@ import Rate from '../../../models/rate.model.js';
 import PalletType from '../../../models/palletType.model.js';
 
 import { 
-  buildPriceBreaks, 
-  fixed 
+  buildPriceBreaks
 } from '../../../utils/tecum.utils.js';
+
+import {
+  fixed
+} from '../../../utils/bootstrap.utils.js';
 
 import { 
   palletSimple, 
@@ -62,7 +65,8 @@ async function ratesByQuantityTecum() {
       if (servicesData.premium) {
         services.push({
           service: 'premium',
-          priceBreaks: buildPriceBreaks(servicesData.premium)
+          priceBreaks: buildPriceBreaks(servicesData.premium),
+          fallbackToLastPrice: true
         });
       }
 
@@ -70,7 +74,8 @@ async function ratesByQuantityTecum() {
       if (servicesData.economy) {
         services.push({
           service: 'economy',
-          priceBreaks: buildPriceBreaks(servicesData.economy)
+          priceBreaks: buildPriceBreaks(servicesData.economy),
+          fallbackToLastPrice: true
         });
       }
 
@@ -134,10 +139,12 @@ export async function ratesTecum() {
           {
             service: 'premium',
             priceBreaks: fixed(prices[i]),
+            fallbackToLastPrice: true
           }, 
           {
             service: 'economy',
             priceBreaks: fixed(prices[i + 4]),
+            fallbackToLastPrice: true
           }
         ]
       });

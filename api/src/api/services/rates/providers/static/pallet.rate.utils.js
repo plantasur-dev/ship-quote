@@ -102,14 +102,22 @@ export function calculateGroupServices({
         if (!rate) return [];
         
         return rate.services.reduce((acc, service) => {
-            const match = matchPrice(service.priceBreaks, group.quantity);
+            const pricesRate = service.priceBreaks;
+            const quantityPallet = group.quantity;
+            const fallbackToLastPrice = service?.fallbackToLastPrice;
+
+            const match = matchPrice(
+                pricesRate, 
+                quantityPallet, 
+                fallbackToLastPrice
+            );
             
             if (!match) {
                 acc.push(
                     buildRateResult({
                         service: service.service,
                         transportType: SHIPMENT_UNITS.PALLET,
-                        itemCount: group.quantity,
+                        itemCount: quantityPallet,
                         incidents: [
                             buildIncident(
                                 'NO_RATE', 
@@ -131,20 +139,20 @@ export function calculateGroupServices({
                 round(match.price + fuelExtraCost);
             
             const total = 
-                round((match.price + fuelExtraCost) * group.quantity);
+                round((match.price + fuelExtraCost) * quantityPallet);
 
             acc.push(
                 buildRateResult({
                     service: service.service,
                     transportType: SHIPMENT_UNITS.PALLET,
-                    itemCount: group.quantity,
+                    itemCount: quantityPallet,
                     concepts: [
                         buildConcept(
                             'BASE', 
                             total, 
                             {
                                 palletType: group.palletType.name,
-                                quantity: group.quantity,
+                                quantity: quantityPallet,
                                 unitPrice,
                                 items: group.items
                             })

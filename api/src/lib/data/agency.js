@@ -14,7 +14,7 @@ const agenciesData = [
             fuelSurcharge: {
                 enabled: true,
                 type: 'percentage',
-                value: 9.2
+                value: 7.2
             }
         }
     },

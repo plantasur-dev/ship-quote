@@ -104,8 +104,21 @@ export function resolveZone(agencyData, postalCode, province) {
     );
 }
 
-export function matchPrice(breaks, value) {
-    return breaks.find(b => value >= b.min && value <= b.max);
+export function matchPrice(breaks, value, fallbackToLastPrice = false) {
+    
+    const match = breaks.find(b => value >= b.min && value <= b.max);
+
+    if (match) {
+        return match;
+    }
+
+    const breakPrices = breaks[breaks.length - 1];
+
+    if (fallbackToLastPrice && value > breakPrices.max) {
+        return breakPrices;
+    }
+
+    return undefined;
 }
 
 export function calculateFuelSurcharge(supplements, basePrice) {

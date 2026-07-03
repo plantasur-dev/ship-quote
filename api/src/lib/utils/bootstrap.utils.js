@@ -1,4 +1,6 @@
 
+export const fixed = (price) => [{ min: 1, max: 1, price }];
+
 export const ex = (from, to, province, zoneName) => ({
   from,
   to,

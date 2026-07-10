@@ -13,16 +13,15 @@ const validateItem = (item, index) => {
 
     if (item.typeServices == null) {
         errors.push('typeServices is required');
-    }
+    } else {
+        const normalizedTypeServices = item.typeServices.trim().toLowerCase();
 
-    if (!SHIPMENT_UNIT_VALUES.includes(
-        item.typeServices.toLowerCase()
-    )) {
-        errors.push('typeServices unknown');
+        if (!SHIPMENT_UNIT_VALUES.includes(normalizedTypeServices.toLowerCase())) {
+            errors.push('typeServices unknown');
+        } else {
+            item.typeServices = normalizedTypeServices;
+        }
     }
-
-    item.typeServices = 
-        item.typeServices.trim().toLowerCase();
 
     if (isInvalidNumber(item.weight)) {
         errors.push('weight must be a number > 0');
@@ -41,7 +40,7 @@ const validateItem = (item, index) => {
     }
 
     if (errors.length) {
-        throw createHttpError(400, `Item ${index + 1}: ${errors.join(', ')}`);
+        throw createHttpError(400, `Item ${ index + 1 }: ${ errors.join(', ') }`);
     }
 };
 

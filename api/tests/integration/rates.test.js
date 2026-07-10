@@ -118,7 +118,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
 
         expect(res.status).toBe(400);
         expect(res.body.message)
-        .toBe('destinationPostalCode and countryCode is required');
+        .toBe('destinationPostalCode and countryCode are required fields');
     });
 
     it('should return 400 when destination fields are not strings', async () => {

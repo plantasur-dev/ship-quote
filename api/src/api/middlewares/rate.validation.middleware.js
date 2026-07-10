@@ -1,6 +1,8 @@
 
 import createHttpError from 'http-errors';
 
+import { SHIPMENT_UNIT_VALUES } from '../../lib/constants/shipment.units.js';
+
 const isInvalidNumber = (value) => {
     const n = Number(value);
     return isNaN(n) || n <= 0;
@@ -11,6 +13,14 @@ const validateItem = (item, index) => {
 
     if (item.typeServices == null) {
         errors.push('typeServices is required');
+    } else {
+        const normalizedTypeServices = item.typeServices.trim().toLowerCase();
+
+        if (!SHIPMENT_UNIT_VALUES.includes(normalizedTypeServices)) {
+            errors.push('typeServices unknown');
+        } else {
+            item.typeServices = normalizedTypeServices;
+        }
     }
 
     if (isInvalidNumber(item.weight)) {
@@ -30,7 +40,7 @@ const validateItem = (item, index) => {
     }
 
     if (errors.length) {
-        throw createHttpError(400, `Item ${index + 1}: ${errors.join(', ')}`);
+        throw createHttpError(400, `Item ${ index + 1 }: ${ errors.join(', ') }`);
     }
 };
 
@@ -51,12 +61,13 @@ export const rateItemsValidation = (req, res, next) => {
 };
 
 export const rateDestinationValidation = (req, res, next) => {
+
     const { destinationPostalCode, countryCode } = req.body;
 
     if (destinationPostalCode == null 
         || countryCode == null
     ) {
-        throw createHttpError(400, 'destinationPostalCode and countryCode is required');
+        throw createHttpError(400, 'destinationPostalCode and countryCode are required fields');
     }
 
     if (typeof destinationPostalCode !== 'string' 
@@ -65,11 +76,25 @@ export const rateDestinationValidation = (req, res, next) => {
         throw createHttpError(400, 'destinationPostalCode and countryCode must be strings');
     }
 
-    if (!/^\d{5}$/.test(destinationPostalCode) 
-        && countryCode === process.env?.DEFAULT_COUNTRY
+    const normalizedCountry = countryCode.trim().toUpperCase();
+    const normalizedPostalCode = destinationPostalCode.trim();
+     
+    if (!/^[A-Z]{2}$/.test(normalizedCountry)) {
+        throw createHttpError(400, `countryCode invalid: received "${ normalizedCountry }"`);
+    }
+
+    if (!normalizedPostalCode.length) {
+        throw createHttpError(400, 'destinationPostalCode cannot be empty');
+    }
+
+    if (normalizedCountry === process.env.DEFAULT_COUNTRY
+        && !/^\d{5}$/.test(normalizedPostalCode)
     ) {
         throw createHttpError(400, 'Postal Code invalid');
     }
+
+    req.body.countryCode = normalizedCountry;
+    req.body.destinationPostalCode = normalizedPostalCode;
 
     next();
 };

@@ -16,7 +16,7 @@ const validateItem = (item, index) => {
     } else {
         const normalizedTypeServices = item.typeServices.trim().toLowerCase();
 
-        if (!SHIPMENT_UNIT_VALUES.includes(normalizedTypeServices.toLowerCase())) {
+        if (!SHIPMENT_UNIT_VALUES.includes(normalizedTypeServices)) {
             errors.push('typeServices unknown');
         } else {
             item.typeServices = normalizedTypeServices;

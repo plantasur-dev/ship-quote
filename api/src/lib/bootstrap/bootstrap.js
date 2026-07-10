@@ -24,6 +24,12 @@ import {
 } from './agencies/mrw.js';
 
 async function bootstrap() {
+
+    const DEFAULT_COUNTRY = process.env.DEFAULT_COUNTRY;
+    if (!DEFAULT_COUNTRY) {
+        throw new Error('DEFAULT_COUNTRY env var is not set');
+    }
+
     await agencies();
 
     await zonesCayco();

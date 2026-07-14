@@ -10,7 +10,7 @@ import {
     specialIslands 
 } from '../../lib/data/location.js';
 
-let provincesMap = new Map();
+let provincesMap = {};
 
 let provincesAll = [];
 
@@ -27,10 +27,10 @@ function createLocations(locationsArray) {
 
     locationsArray.forEach(p => {
         provinces.push({
-            countryCode: "ES",
-            countryName: "Spain",
+            countryCode: p.countryCode,
+            countryName: p.countryName,
             adminCode: p.adminCode,
-            adminFullCode: `ES-${p.adminCode}`,
+            adminFullCode: `${p.countryCode}-${p.adminCode}`,
             name: p.name,
             normalizedName: normalizeName(p.name),
             postalCode: p.postalCode,
@@ -86,16 +86,34 @@ export const initProvinces = async () => {
 export async function loadProvinces() {
     provincesAll = await Location.find().lean();
     
-    provincesMap = new Map(
+    provincesMap = {
+        provinceByPostalCode: new Map(
+            provincesAll.map(province => [
+                province.postalCode,
+                province
+            ])
+        ),
+        provinceByCountryCodeAndPostalCode: new Map(
         provincesAll.map(province => [
-            province.postalCode,
+            `${province.countryCode}-${province.postalCode}`,
             province
         ])
-    );
+    )};
 }
 
 export function getProvinceByPostalCode(postalCode) {
-    return provincesMap.get(postalCode.slice(0, 2));
+    return provincesMap
+        .provinceByPostalCode
+        .get(postalCode.slice(0, 2));
+}
+
+export function getProvinceByCountryCodeAndPostalCode(
+    countryCode, 
+    postalCode
+) {
+    return provincesMap
+        .provinceByCountryCodeAndPostalCode
+        .get(`${countryCode}-${postalCode.slice(0, 2)}`);
 }
 
 export function getProvinces() {

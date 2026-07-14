@@ -81,14 +81,13 @@ export function groupPallets(items, palletTypes) {
 
 export function resolveZone(agencyData, postalCode, province) {
     
-    const zone = agencyData.zoneRulesByPostal
+    const zoneId = agencyData.zoneRulesByPostal
         ?.get(province)
-        ?.get(postalCode);
+        ?.get(postalCode)
+        ?.zoneId;
     
-    if (zone) {
-        return agencyData.zonesById.get(
-            zone.zoneId.toString()
-        );
+    if (zoneId) {
+        return agencyData.zonesById.get(zoneId.toString());
     }
 
     const zonesInProvince =
@@ -97,11 +96,10 @@ export function resolveZone(agencyData, postalCode, province) {
     if (!zonesInProvince || !zonesInProvince.length) return null;
     
     const zoneDefault = 
-        zonesInProvince.find(z => z.isDefault) || zonesInProvince[0];
+            zonesInProvince.find(z => z.isDefault).zoneId ?? 
+            zonesInProvince[0].zoneId;
     
-    return agencyData.zonesById.get(
-        zoneDefault.zoneId.toString()
-    );
+    return agencyData.zonesById.get(zoneDefault.toString()) ?? null;
 }
 
 export function matchPrice(breaks, value, fallbackToLastPrice = false) {

@@ -11,7 +11,7 @@ import {
     calculateFuelSurcharge,
     calculateAdditionalWeightBlockCost,
     matchDimensions,
-    round
+    fixedTo2
 } from '../../../src/lib/utils/rate.utils.js';
 
 describe('calculateVolume', () => {
@@ -437,12 +437,12 @@ describe('matchDimensions', () => {
     });
 });
 
-describe('round', () => {
-    it('should round to two decimals', () => {
-        expect(round(10.126)).toBe(10.13);
+describe('fixedTo2', () => {
+    it('should fixedTo2 to two decimals', () => {
+        expect(fixedTo2(10.126)).toBe(10.13);
     });
 
     it('should keep two decimal precision', () => {
-        expect(round(10.121)).toBe(10.12);
+        expect(fixedTo2(10.121)).toBe(10.12);
     });
 });

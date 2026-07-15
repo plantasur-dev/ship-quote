@@ -4,7 +4,7 @@ import createHttpError from "http-errors";
 import Location from "../../lib/models/location.model.js";
 
 import { 
-    getProvinceByPostalCode,
+    getProvinceByCountryCodeAndPostalCode,
     getProvinces
 } from "../services/provinces.service.js";
 
@@ -33,15 +33,12 @@ export const create = async (req, res) => {
     res.status(201).json(location);
 };
 
-export const provincesByPostalCode = (req, res) => {
+export const provincesByCountryCodeAndPostalCode = (req, res) => {
 
-    const { postalCode } = req.params;
+    const { countryCode, postalCode } = req.params;
     
-    if (!/^\d{5}$/.test(postalCode)) {
-        throw createHttpError(400, 'Incorrect Postal Code');
-    } 
-
-    const provinces = getProvinceByPostalCode(
+    const provinces = getProvinceByCountryCodeAndPostalCode(
+        countryCode,
         postalCode
     );
 

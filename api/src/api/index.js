@@ -51,8 +51,8 @@ apiRouter.get(
 );
 
 apiRouter.get(
-    '/locations/provincesByPostalCode/:postalCode',
-    Locations.provincesByPostalCode
+    '/locations/provincesByCountryCodeAndPostalCode/:countryCode/:postalCode',
+    Locations.provincesByCountryCodeAndPostalCode
 );
 
 

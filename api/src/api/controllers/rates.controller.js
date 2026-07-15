@@ -28,7 +28,7 @@ export async function compareByPostalCode(req, res) {
 
     const province = getProvinceByCountryCodeAndPostalCode(
         countryCode, 
-        isDefaultCountry ? destinationPostalCode : countryCode
+        destinationPostalCode
     );
 
     if (isDefaultCountry && !province) {

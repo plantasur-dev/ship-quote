@@ -87,24 +87,12 @@ export async function loadProvinces() {
     provincesAll = await Location.find().lean();
     
     provincesMap = {
-        provinceByPostalCode: new Map(
-            provincesAll.map(province => [
-                province.postalCode,
-                province
-            ])
-        ),
         provinceByCountryCodeAndPostalCode: new Map(
         provincesAll.map(province => [
             `${province.countryCode}-${province.postalCode}`,
             province
         ])
     )};
-}
-
-export function getProvinceByPostalCode(postalCode) {
-    return provincesMap
-        .provinceByPostalCode
-        .get(postalCode.slice(0, 2));
 }
 
 export function getProvinceByCountryCodeAndPostalCode(

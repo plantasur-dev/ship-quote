@@ -8,7 +8,7 @@ export function calculateVolumeM3(item, volQuantity) {
         volQuantity || 
         Number(process.env.DEFAULT_PALLET_VOLUME || 1_000_000);
 
-    return calculateVolume(item) / PALLET_VOL;
+    return fixedTo2(calculateVolume(item) / PALLET_VOL);
 }
 
 export function getEffectiveWeight(item, volumetricFactor) {
@@ -164,7 +164,7 @@ export function matchDimensions(breaks, value) {
     return breaks.find(b => value >= b.min && value <= b.max);
 }
 
-export const round = (num) => Number(num.toFixed(2));
+export const fixedTo2 = (num) => Number(num.toFixed(2));
 
 export function loadDataStaticRate(agency, tariffStore) {
     const agencyData =

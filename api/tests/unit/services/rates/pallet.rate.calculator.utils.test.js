@@ -11,7 +11,7 @@ import {
     getEffectiveWeight,
     matchPrice,
     calculateFuelSurcharge,
-    round,
+    fixedTo2,
     groupPallets
 } from '../../../../src/lib/utils/rate.utils.js';
 
@@ -28,7 +28,7 @@ vi.mock(
         getEffectiveWeight: vi.fn(),
         matchPrice: vi.fn(),
         calculateFuelSurcharge: vi.fn(),
-        round: vi.fn(value => Math.round(value)),
+        fixedTo2: vi.fn(value => Number(value.toFixed(2))),
         groupPallets: vi.fn()
     })
 );
@@ -51,7 +51,7 @@ describe('calculateTonnagePricing', () => {
 
     it('should return €/kg when rule is undefined', () => {
 
-        round.mockReturnValue(12);
+        fixedTo2.mockReturnValue(12);
 
         expect(
             calculateTonnagePricing(
@@ -68,7 +68,7 @@ describe('calculateTonnagePricing', () => {
 
     it('should return €/kg when rule is disabled', () => {
 
-        round.mockReturnValue(20);
+        fixedTo2.mockReturnValue(20);
 
         expect(
             calculateTonnagePricing(
@@ -89,7 +89,7 @@ describe('calculateTonnagePricing', () => {
 
     it('should return €/kg when threshold is not reached', () => {
 
-        round.mockReturnValue(15);
+        fixedTo2.mockReturnValue(15);
 
         expect(
             calculateTonnagePricing(
@@ -110,7 +110,7 @@ describe('calculateTonnagePricing', () => {
 
     it('should calculate tonnage price when threshold is reached', () => {
 
-        round
+        fixedTo2
             .mockReturnValueOnce(20)
             .mockReturnValueOnce(50);
 
@@ -143,7 +143,7 @@ describe('calculatePricing', () => {
 
         calculateFuelSurcharge.mockReturnValue(5);
 
-        round
+        fixedTo2
             .mockReturnValueOnce(105)
             .mockReturnValueOnce(105);
 
@@ -256,7 +256,7 @@ describe('calculateWeightVolume', () => {
 
         calculateFuelSurcharge.mockReturnValue(10);
 
-        round.mockReturnValue(110);
+        fixedTo2.mockReturnValue(110);
 
         buildConcept.mockReturnValue({
             concept: 'BASE'
@@ -317,7 +317,7 @@ describe('calculateWeightVolume', () => {
 
         calculateFuelSurcharge.mockReturnValue(10);
 
-        round.mockReturnValue(110);
+        fixedTo2.mockReturnValue(110);
 
         buildConcept.mockReturnValue({
             concept: 'BASE'
@@ -478,7 +478,7 @@ describe('calculateGroupServices', () => {
 
         calculateFuelSurcharge.mockReturnValue(10);
 
-        round
+        fixedTo2
             .mockReturnValueOnce(110)
             .mockReturnValueOnce(220);
 
@@ -544,7 +544,7 @@ describe('calculateGroupServices', () => {
 
         calculateFuelSurcharge.mockReturnValue(5);
 
-        round.mockReturnValue(55);
+        fixedTo2.mockReturnValue(55);
 
         buildConcept.mockReturnValue({});
 

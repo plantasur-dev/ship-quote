@@ -18,6 +18,8 @@ export default async function getApiRates(agencies, input = {}) {
   
   const scope = getScope(input.countryCode);
 
+  const zone = SCOPE_LABELS[scope];
+
   const results = await Promise.all(
     agencies.map(async (agency) => {
       try {
@@ -39,13 +41,14 @@ export default async function getApiRates(agencies, input = {}) {
             return buildStaticErrorResult({
                 presentRate,
                 agency: agency.name,
+                zone,
                 code: 'NO_RATE'
             });
         }
 
         return buildRateComplete({
           agency: agency.name,
-          zone: SCOPE_LABELS[scope],
+          zone,
           services: presentRate(result)
         });
 

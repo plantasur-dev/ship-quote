@@ -14,7 +14,10 @@ export const mrwZones = {
     }, {
         name: "PORTUGAL",
         provinces: [
-            "PT-PT"
+            "PT-LIS", "PT-STR", "PT-LEI", "PT-SET", "PT-COI", "PT-VIS", 
+            "PT-AVE", "PT-POR", "PT-BRA", "PT-VCT", "PT-VRL", "PT-BRG", 
+            "PT-CTB", "PT-GUA","PT-EVO", "PT-PTG", "PT-BEJ", "PT-FAR", 
+            "PT-MAD", "PT-ACO",
         ]
     }],
     calculationMode: "parcel",

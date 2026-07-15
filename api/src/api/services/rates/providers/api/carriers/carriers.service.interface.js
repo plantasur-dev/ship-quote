@@ -32,21 +32,27 @@ export default class CarrierService {
                     ? undefined
                     : JSON.stringify(data)
             });
+
+            const text = await response.text();
             
-            let responseData = null;
+            let responseData;
 
             try {
-                responseData = await response.json();    
+                responseData = JSON.parse(text);    
             } catch (error) {
-                responseData = await response.text();
+                responseData = text;
             }
             
             if (!response.ok) {
-                const message =
-                responseData?.message ||
-                responseData?.details ||
-                response.statusText ||
-                "Request failed";
+                let message = responseData?.message ||
+                    response.statusText ||
+                    "Request failed";
+                            
+                if (responseData?.details.length) {
+                    for (const msg of responseData?.details) {
+                        message += ` ${ msg }`;
+                    }    
+                }
 
                 throw createHttpError(
                     response.status || 400,
@@ -63,10 +69,7 @@ export default class CarrierService {
                 );
             }
 
-            throw createHttpError(
-                error?.status || 502, 
-                error?.message
-            );
+            throw createHttpError(500, error);
         } finally {
             clearTimeout(timeoutId);
         }
@@ -89,6 +92,8 @@ export default class CarrierService {
         
         const { quotations } = endpoints;
 
+        let items;
+
         if (!baseUrlApi)
             throw createHttpError(400, "Empty baseUrlAPI");
 
@@ -98,13 +103,13 @@ export default class CarrierService {
         const { supportsPallets, supportsParcels } = this.agency?.rules;
 
         if (supportsPallets) {
-            const items = input?.items.filter(item => 
+            items = input?.items.filter(item => 
                 item.typeServices === SHIPMENT_UNITS.PALLET
             ) || [];
         }
 
         if (supportsParcels) {
-            const items = input?.items.filter(item => 
+            items = input?.items.filter(item => 
                 item.typeServices === SHIPMENT_UNITS.PARCEL
             ) || [];
         }

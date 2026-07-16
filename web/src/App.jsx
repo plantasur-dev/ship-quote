@@ -1,11 +1,11 @@
 
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom';
 
 import { 
   Dashboard 
 } from './pages';
 
-import './App.css'
+import './App.css';
 
 function App() {
 

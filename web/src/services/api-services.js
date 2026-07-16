@@ -34,6 +34,10 @@ http.interceptors.response.use(
     }
 );
 
+export const releaseLatest = () =>
+    http.get('/releases/latest');
+
+
 export const listProvinces = () =>
     http.get('/locations/provinces');
 

@@ -1,5 +1,5 @@
 
-import { Navbar, Footer } from "../../ui";
+import { Navbar, Footer, AlertRelease } from "../../ui";
 
 function LayoutPage ({ children }) {
     
@@ -14,6 +14,8 @@ function LayoutPage ({ children }) {
                     to-indigo-50/30
                 "
             >
+                <AlertRelease />
+                
                 <Navbar />
                     { children }
                 <Footer />

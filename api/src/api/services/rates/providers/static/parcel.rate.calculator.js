@@ -1,6 +1,6 @@
 
 import {
-    round
+    fixedTo2
 } from '../../../../../lib/utils/rate.utils.js';
 
 import {
@@ -69,9 +69,9 @@ export function calculateParcelRate({
             volumetric
         } = calculateParcelTotals(validItems);
 
-        const realWeight = round(totalItemsWeight);
+        const realWeight = fixedTo2(totalItemsWeight);
 
-        const volumetricWeight = Math.max(round(volumetric), realWeight);
+        const volumetricWeight = Math.max(fixedTo2(volumetric), realWeight);
 
         const weightByPricingMode = {
             [PRICING_MODES.WEIGHT]: realWeight,

@@ -1,7 +1,7 @@
 
 import createHttpError from 'http-errors';
 
-import { getProvinceByPostalCode } from '../services/provinces.service.js';
+import { getProvinceByCountryCodeAndPostalCode } from '../services/provinces.service.js';
 
 import rates from '../services/rates.service.js';
 
@@ -23,14 +23,15 @@ export async function compareByProvinceCode(req, res) {
 export async function compareByPostalCode(req, res) {
     const { destinationPostalCode, countryCode, items } = req.body;
 
-    const province = getProvinceByPostalCode(
-        destinationPostalCode
-    );
-
     const isDefaultCountry = 
         countryCode === process.env.DEFAULT_COUNTRY;
 
-    if (!province && isDefaultCountry) {
+    const province = getProvinceByCountryCodeAndPostalCode(
+        countryCode, 
+        destinationPostalCode
+    );
+
+    if (isDefaultCountry && !province) {
         throw createHttpError(404, 'Province not found');
     }
 

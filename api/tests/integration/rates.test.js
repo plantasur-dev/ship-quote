@@ -4,14 +4,14 @@ import request from 'supertest';
 import app from '../../app.js';
 
 import rates from '../../src/api/services/rates.service.js';
-import { getProvinceByPostalCode } from '../../src/api/services/provinces.service.js';
+import { getProvinceByCountryCodeAndPostalCode } from '../../src/api/services/provinces.service.js';
 
 vi.mock('../../src/api/services/rates.service.js', () => ({
     default: vi.fn()
 }));
 
 vi.mock('../../src/api/services/provinces.service.js', () => ({
-    getProvinceByPostalCode: vi.fn()
+    getProvinceByCountryCodeAndPostalCode: vi.fn()
 }));
 
 const validItem = {
@@ -294,7 +294,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
     });
 
     it('should return 404 when province is not found for default country', async () => {
-        getProvinceByPostalCode.mockReturnValue(undefined);
+        getProvinceByCountryCodeAndPostalCode.mockReturnValue(undefined);
 
         const res = await request(app)
             .post('/api/v1/rates/compareByPostalCode')
@@ -308,7 +308,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
     });
 
     it('should continue when province is not found but country is not default', async () => {
-        getProvinceByPostalCode.mockReturnValue(undefined);
+        getProvinceByCountryCodeAndPostalCode.mockReturnValue(undefined);
 
         rates.mockResolvedValue({
             agency: 'UPS'
@@ -331,7 +331,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
     });
 
     it('should return 404 when compare is not found', async () => {
-        getProvinceByPostalCode.mockReturnValue({
+        getProvinceByCountryCodeAndPostalCode.mockReturnValue({
             adminFullCode: 'ES-B'
         });
 
@@ -347,7 +347,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
     });
 
     it('should return 200 and comparison result', async () => {
-        getProvinceByPostalCode.mockReturnValue({
+        getProvinceByCountryCodeAndPostalCode.mockReturnValue({
             adminFullCode: 'ES-M'
         });
 

@@ -14,8 +14,14 @@ import * as Locations from './controllers/locations.controller.js';
 import * as Pallets from './controllers/palletTypes.controller.js';
 import * as Rates from './controllers/rates.controller.js';
 import * as Zones from './controllers/zones.controller.js';
+import * as Releases from './controllers/releases.controller.js';
 
 const apiRouter = Router();
+
+apiRouter.get(
+    '/releases/latest',
+    Releases.latest
+);
 
 apiRouter.post(
     '/agencies', 
@@ -51,8 +57,8 @@ apiRouter.get(
 );
 
 apiRouter.get(
-    '/locations/provincesByPostalCode/:postalCode',
-    Locations.provincesByPostalCode
+    '/locations/provincesByCountryCodeAndPostalCode/:countryCode/:postalCode',
+    Locations.provincesByCountryCodeAndPostalCode
 );
 
 

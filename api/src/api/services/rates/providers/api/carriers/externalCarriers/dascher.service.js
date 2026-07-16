@@ -8,6 +8,10 @@ import { transportProducts } from '../../../../../../../lib/constants/dascher.pr
 import CarrierService from '../carriers.service.interface.js';
 
 import { 
+    SHIPMENT_UNITS 
+} from '../../../../../../../lib/constants/shipment.units.js';
+
+import { 
     buildRateResult, 
     buildConcept,
     buildIncident
@@ -20,7 +24,7 @@ export default class DascherService extends CarrierService {
 
         const items = input.items.filter(
             item => this.agency.rules.supportsPallets &&
-            item.typeServices === "pallet"
+            item.typeServices === SHIPMENT_UNITS.PALLET
         );
 
         const { quotations } = endpoints;
@@ -37,13 +41,13 @@ export default class DascherService extends CarrierService {
             }))
         );
 
-        const validResponses = responses
-            .filter(r => r.status === 'fulfilled')
-            .map(r => r.value);
-
-        return validResponses.flatMap(response => 
-            this.mapResponse(response, items)
-        );
+        return responses.flatMap(response => {
+            if (response.status === 'fulfilled') {
+                return this.mapResponse(response.value, items)
+            }
+            
+            return this.mapResponse({ error: response.reason }, items);
+        });
     }
 
     buildRequestBody(input, items = [], product) {
@@ -99,14 +103,31 @@ export default class DascherService extends CarrierService {
 
     mapResponse(data, items = []) {
 
-        const { response, product } = data;
-        
+        const { response, product, error } = data;
+
         const { name, rules } = this.agency;
 
         const typePallet = 
             rules.supportsPallets 
-                ? 'pallet' 
-                : 'parcel';
+                ? SHIPMENT_UNITS.PALLET 
+                : SHIPMENT_UNITS.PARCEL;
+        
+        if (error) {    
+            return [
+                buildRateResult({
+                    service: 'API_ERROR',
+                    transportType: typePallet,
+                    itemCount: items.length || 0,
+                    concepts: [],
+                    incidents: [
+                        buildIncident(
+                            'API_ERROR',
+                            error
+                        )
+                    ]
+                })
+            ]
+        }
         
         if (response?.totalAmount.amount === 0) {
             return [
@@ -126,7 +147,7 @@ export default class DascherService extends CarrierService {
         
         return [
             buildRateResult({
-                service: `${product?.name} (${ response?.id })` || name,
+                service: `${ product?.name } (${ response?.id })` || name,
                 transportType: typePallet,
                 itemCount: items.length || 0,
                 concepts: [ 

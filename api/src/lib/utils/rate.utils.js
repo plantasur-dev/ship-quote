@@ -8,7 +8,7 @@ export function calculateVolumeM3(item, volQuantity) {
         volQuantity || 
         Number(process.env.DEFAULT_PALLET_VOLUME || 1_000_000);
 
-    return calculateVolume(item) / PALLET_VOL;
+    return fixedTo2(calculateVolume(item) / PALLET_VOL);
 }
 
 export function getEffectiveWeight(item, volumetricFactor) {
@@ -81,14 +81,13 @@ export function groupPallets(items, palletTypes) {
 
 export function resolveZone(agencyData, postalCode, province) {
     
-    const zone = agencyData.zoneRulesByPostal
+    const zoneId = agencyData.zoneRulesByPostal
         ?.get(province)
-        ?.get(postalCode);
+        ?.get(postalCode)
+        ?.zoneId;
     
-    if (zone) {
-        return agencyData.zonesById.get(
-            zone.zoneId.toString()
-        );
+    if (zoneId) {
+        return agencyData.zonesById.get(zoneId.toString());
     }
 
     const zonesInProvince =
@@ -97,11 +96,10 @@ export function resolveZone(agencyData, postalCode, province) {
     if (!zonesInProvince || !zonesInProvince.length) return null;
     
     const zoneDefault = 
-        zonesInProvince.find(z => z.isDefault) || zonesInProvince[0];
+            zonesInProvince.find(z => z.isDefault).zoneId ?? 
+            zonesInProvince[0].zoneId;
     
-    return agencyData.zonesById.get(
-        zoneDefault.zoneId.toString()
-    );
+    return agencyData.zonesById.get(zoneDefault.toString()) ?? null;
 }
 
 export function matchPrice(breaks, value, fallbackToLastPrice = false) {
@@ -166,7 +164,7 @@ export function matchDimensions(breaks, value) {
     return breaks.find(b => value >= b.min && value <= b.max);
 }
 
-export const round = (num) => Number(num.toFixed(2));
+export const fixedTo2 = (num) => Number(num.toFixed(2));
 
 export function loadDataStaticRate(agency, tariffStore) {
     const agencyData =

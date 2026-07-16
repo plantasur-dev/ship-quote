@@ -1,9 +1,16 @@
 
-import { round } from '../../../../lib/utils/rate.utils.js';
+import { fixedTo2 } from '../../../../lib/utils/rate.utils.js';
+
+import { 
+    getScope, 
+    SCOPE_LABELS 
+} from '../../../../lib/constants/scopes.zone.js';
+
+const scope = getScope(process.env.DEFAULT_COUNTRY);
 
 export function buildRateComplete({
     agency,
-    zone = 'NACIONAL',
+    zone = SCOPE_LABELS[scope],
     services = []
 }) {
     
@@ -35,7 +42,7 @@ export function buildRateResult({
         totalWeight,
         concepts,
         incidents,
-        total: round(
+        total: fixedTo2(
             concepts.reduce(
                 (sum, item) => sum + item.amount,
                 0
@@ -54,7 +61,7 @@ export function buildIncident(code, meta = {}) {
 export function buildConcept(code, amount, meta = {}) {
     return {
         code,
-        amount: round(amount),
+        amount: fixedTo2(amount),
         meta
     };
 }
@@ -108,12 +115,14 @@ export function buildApiErrorResult({
 export function buildStaticErrorResult({
     presentRate,
     agency,
+    zone = SCOPE_LABELS[scope],
     transportType = 'unknown',
     code,
     message = ''
 }) {
     return buildRateComplete({
         agency,
+        zone,
 
         services: presentRate([
             buildRateResult({

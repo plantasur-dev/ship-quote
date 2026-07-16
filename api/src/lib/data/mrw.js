@@ -11,6 +11,14 @@ export const mrwZones = {
             "ES-L", "ES-O", "ES-S", "ES-T", "ES-BI", "ES-B", "ES-CC",
             "ES-C", "ES-GI", "ES-LU", "ES-OR", "ES-PO"
         ]
+    }, {
+        name: "PORTUGAL",
+        provinces: [
+            "PT-LIS", "PT-STR", "PT-LEI", "PT-SET", "PT-COI", "PT-VIS", 
+            "PT-AVE", "PT-POR", "PT-BRA", "PT-VCT", "PT-VRL", "PT-BRG", 
+            "PT-CTB", "PT-GUA","PT-EVO", "PT-PTG", "PT-BEJ", "PT-FAR", 
+            "PT-MAD", "PT-ACO",
+        ]
     }],
     calculationMode: "parcel",
     pricingMode: { type: "weight" },
@@ -19,6 +27,43 @@ export const mrwZones = {
 
 export const mrwRates = {
     NACIONAL: {
+        service: "basic",
+        priceBreaks: [
+            { min: 0, max: 2, price: 3.78 },
+            { min: 3, max: 5, price: 3.98 },
+            { min: 6, max: 10, price: 5.19 },
+            { min: 11, max: 15, price: 7.54 },
+            { min: 16, max: 20, price: 8.25 },
+            { min: 21, max: 25, price: 9.09 },
+            { min: 26, max: 30, price: 11.55 },
+            { min: 31, max: 35, price: 13.09 },
+            { min: 36, max: 40, price: 14.41 }
+        ],
+        surcharges: {
+            extraKg: {
+                enabled: false,
+                pricePerKg: 0
+            },
+            dimensionRanges: [
+                { min: 150, max: 200, price: 2.55 }, 
+                { min: 200, max: 250, price: 3.84 }, 
+                { min: 250, max: 300, price: 26.56 }
+            ],
+            multiParcelExcess: {
+                enabled: true,
+                thresholdKg: 40,
+                divisor: 5,
+                pricePerBlock: 4.15
+            }
+        },
+        limits: {
+            maxWeight: 40,
+            maxLength: 300,
+            maxSumDimensions: 300
+        }
+    },
+
+    PORTUGAL: {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 2, price: 3.78 },

@@ -4,7 +4,7 @@ import {
     groupPallets,
     matchPrice,
     calculateFuelSurcharge,
-    round
+    fixedTo2
 } from '../../../../../lib/utils/rate.utils.js';
 
 import {
@@ -20,7 +20,7 @@ import {
 
 export function calculateTonnagePricing(tonnagePricingRule, priceBase, totalWeight) {
 
-    const price = round(priceBase);
+    const price = fixedTo2(priceBase);
 
     if (!tonnagePricingRule?.enabled) return { price, unit: '€/kg' };
 
@@ -29,7 +29,7 @@ export function calculateTonnagePricing(tonnagePricingRule, priceBase, totalWeig
     if (totalWeight < threshold) return { price, unit: '€/kg' };
     
     return { 
-        price: round(( totalWeight / 1000 ) * price),
+        price: fixedTo2(( totalWeight / 1000 ) * price),
         unit 
     };
 }
@@ -136,10 +136,10 @@ export function calculateGroupServices({
                 calculateFuelSurcharge(agencySupplements, match.price);
 
             const unitPrice = 
-                round(match.price + fuelExtraCost);
+                fixedTo2(match.price + fuelExtraCost);
             
             const total = 
-                round((match.price + fuelExtraCost) * quantityPallet);
+                fixedTo2((match.price + fuelExtraCost) * quantityPallet);
 
             acc.push(
                 buildRateResult({

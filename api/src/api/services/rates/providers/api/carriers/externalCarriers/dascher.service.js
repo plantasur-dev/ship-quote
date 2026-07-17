@@ -22,10 +22,15 @@ export default class DascherService extends CarrierService {
     async getRates(input) {
         const { baseUrlApi, endpoints, apiKey, timeout } = this.apiConfig;
 
+        if (!this.agency.rules.supportsPallets) {
+            return [];
+        }
+
         const items = input.items.filter(
-            item => this.agency.rules.supportsPallets &&
-            item.typeServices === SHIPMENT_UNITS.PALLET
+            item => item.typeServices === SHIPMENT_UNITS.PALLET
         );
+        
+        if (items.length === 0) return [];
 
         const { quotations } = endpoints;
 
@@ -145,9 +150,13 @@ export default class DascherService extends CarrierService {
             ]
         }
         
+        const service = (product?.name && response?.id) 
+            ? `${ product?.name } (${ response?.id })` 
+            : name;
+
         return [
             buildRateResult({
-                service: `${ product?.name } (${ response?.id })` || name,
+                service,
                 transportType: typePallet,
                 itemCount: items.length || 0,
                 concepts: [ 

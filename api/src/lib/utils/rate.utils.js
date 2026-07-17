@@ -103,20 +103,28 @@ export function resolveZone(agencyData, postalCode, province) {
 }
 
 export function matchPrice(breaks, value, fallbackToLastPrice = false) {
+
+    if (!Array.isArray(breaks) || !breaks.length) {
+        return undefined;
+    }
     
     const match = breaks.find(b => value >= b.min && value <= b.max);
-
-    if (match) {
-        return match;
+    
+    if (match && !match.price) {
+        return undefined;
     }
 
-    const breakPrices = breaks[breaks.length - 1];
+    if (!match || !match.price) {
+        const breakPrices = breaks[breaks.length - 1];
 
-    if (fallbackToLastPrice && value > breakPrices.max) {
-        return breakPrices;
+        if (fallbackToLastPrice && value > breakPrices.max) {
+            return breakPrices;
+        }
+
+        return undefined;
     }
 
-    return undefined;
+    return match;
 }
 
 export function calculateFuelSurcharge(supplements, basePrice) {

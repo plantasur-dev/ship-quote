@@ -103,16 +103,18 @@ export default class CarrierService {
         const { supportsPallets, supportsParcels } = this.agency?.rules;
 
         if (supportsPallets) {
-            items = input?.items.filter(item => 
+            items = input.items.filter(item => 
                 item.typeServices === SHIPMENT_UNITS.PALLET
-            ) || [];
+            );
         }
 
         if (supportsParcels) {
-            items = input?.items.filter(item => 
+            items = input.items.filter(item => 
                 item.typeServices === SHIPMENT_UNITS.PARCEL
-            ) || [];
+            );
         }
+
+        if (!items.length) return [];
         
         const response = await this.fetchApi(
             `${ baseUrlApi }/${ quotations.trim() }`, 

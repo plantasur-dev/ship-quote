@@ -42,13 +42,17 @@ export const zones = [
     name: "ZONA 7",
     provinces: ["ES-C", "ES-GI", "ES-LU", "ES-OR", "ES-PO"]
   },
-  { name: "ZONA 8", provinces: [] },
+  { name: "ZONA 8", provinces: [ 
+    "PT-LIS", "PT-STR", "PT-LEI", "PT-SET", "PT-COI", "PT-VIS", 
+    "PT-AVE", "PT-POR", "PT-BRA", "PT-VCT", "PT-VRL", "PT-BRG", 
+    "PT-CTB", "PT-GUA","PT-EVO", "PT-PTG", "PT-BEJ", "PT-FAR"] 
+  },
   { name: "ZONA 9", provinces: ["ES-IB-ML"] },
   { name: "ZONA 10", provinces: ["ES-IB-IB", "ES-IB-MN"] },
   { name: "ZONA 11", provinces: ["ES-GC-GC", "ES-TF-TE"] },
   { name: "ZONA 12", provinces: ["ES-GC-FU", "ES-GC-LA", "ES-TF-LP", "ES-TF-LG", "ES-TF-EH"] },
-  { name: "ZONA 13", provinces: ["PT-Madeira"] },
-  { name: "ZONA 14", provinces: ["PT-São Miguel"] }
+  { name: "ZONA 13", provinces: ["PT-MAD"] },
+  { name: "ZONA 14", provinces: ["PT-ACO"] }
 ];
 
 // ---------------- EXCEPCIONES ----------------
@@ -213,10 +217,10 @@ export const Full = {
   "ZONA 9": { premium: [210.67,207.37,204.62,201.32,198.03], economy: [190.52,187.25,185.07,179.09,174.73] },
   "ZONA 10": { premium: [222.20,218.91,215.61,212.31,209.02], economy: [202.47,199.75,197.03,186.70,181.81] },
 
-  "ZONA 11": { premium: [226.84,223.55,220.25,216.96,214.22], economy: ['', '', '', '', ''] },
-  "ZONA 12": { premium: [280.12,279.02,277.37,277.37,275.17], economy: ['', '', '', '', ''] },
-  "ZONA 13": { premium: [340.73,340.73,340.73,340.73,340.73], economy: ['', '', '', '', ''] },
-  "ZONA 14": { premium: [372.81,372.81,372.81,372.81,372.81], economy: ['', '', '', '', ''] },
+  "ZONA 11": { premium: [226.84,223.55,220.25,216.96,214.22], economy: [] },
+  "ZONA 12": { premium: [280.12,279.02,277.37,277.37,275.17], economy: [] },
+  "ZONA 13": { premium: [340.73,340.73,340.73,340.73,340.73], economy: [] },
+  "ZONA 14": { premium: [372.81,372.81,372.81,372.81,372.81], economy: [] },
 
   "ZONA 16": { premium: [27,27,27,27,27], economy: [27,27,27,27,27] },
   "ZONA 17": { premium: [37,37,37,37,37], economy: [27,27,27,27,27] }

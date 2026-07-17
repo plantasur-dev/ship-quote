@@ -26,7 +26,8 @@ const agenciesData = [
         rules: {
             hasAndaluciaRule: false,
             supportsPallets: true,
-            supportsParcels: false
+            supportsParcels: false,
+            coverage: ["national", "international"]
         },
         supplements: {
             fuelSurcharge: {

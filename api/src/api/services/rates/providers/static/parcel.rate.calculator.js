@@ -1,6 +1,6 @@
 
 import {
-    fixedTo2
+    fixedToN
 } from '../../../../../lib/utils/rate.utils.js';
 
 import {
@@ -69,9 +69,9 @@ export function calculateParcelRate({
             volumetric
         } = calculateParcelTotals(validItems);
 
-        const realWeight = fixedTo2(totalItemsWeight);
+        const realWeight = fixedToN(totalItemsWeight);
 
-        const volumetricWeight = Math.max(fixedTo2(volumetric), realWeight);
+        const volumetricWeight = Math.max(fixedToN(volumetric), realWeight);
 
         const weightByPricingMode = {
             [PRICING_MODES.WEIGHT]: realWeight,

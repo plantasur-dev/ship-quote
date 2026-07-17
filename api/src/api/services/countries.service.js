@@ -59,11 +59,11 @@ export async function loadCountries() {
                 });
             });
         });
-    } catch (err) {
-        console.error("Error loading country ", err);
+    } catch (error) {
+        console.error(`Error loading country: ${ error.message }`);
         
         return {
-            message: 'Failed to fetch countries. ' + err
+            message: `Failed to fetch countries. ${ error.message }` 
         };
     } 
 };

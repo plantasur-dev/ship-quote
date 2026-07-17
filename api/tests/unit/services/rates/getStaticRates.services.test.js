@@ -105,7 +105,18 @@ describe('getStaticRates Services', () => {
 
     it('should calculate pallet rates when zone mode is pallet', async () => {
         const agencies = [
-            { id: { toString: () => '1' }, name: 'DHL', type: 'hybrid' }
+            { 
+                id: { 
+                    toString: () => '1' 
+                }, 
+                name: 'DHL', 
+                type: 'hybrid', 
+                rules: {
+                    hasAndaluciaRule: true,
+                    supportsPallets: true,
+                    supportsParcels: false
+                }, 
+            }
         ];
 
         getAgencyTariffs.mockReturnValue({
@@ -138,7 +149,18 @@ describe('getStaticRates Services', () => {
 
     it('should calculate parcel rates when zone mode is not pallet', async () => {
         const agencies = [
-            { id: { toString: () => '1' }, name: 'UPS' }
+           { 
+                id: { 
+                    toString: () => '1' 
+                }, 
+                name: 'UPS', 
+                type: 'hybrid', 
+                rules: {
+                    hasAndaluciaRule: false,
+                    supportsPallets: false,
+                    supportsParcels: true
+                }, 
+            }
         ];
 
         getAgencyTariffs.mockReturnValue({
@@ -168,7 +190,18 @@ describe('getStaticRates Services', () => {
 
     it('should return zone error when zone is not found', async () => {
         const agencies = [
-            { id: { toString: () => '1' }, name: 'DHL' }
+            { 
+                id: { 
+                    toString: () => '1' 
+                }, 
+                name: 'DHL', 
+                type: 'hybrid', 
+                rules: {
+                    hasAndaluciaRule: true,
+                    supportsPallets: true,
+                    supportsParcels: false
+                }, 
+            }
         ];
 
         getAgencyTariffs.mockReturnValue({
@@ -199,7 +232,18 @@ describe('getStaticRates Services', () => {
 
     it('should handle type calculation error', async () => {
         const agencies = [
-            { id: { toString: () => '1' }, name: 'DHL' }
+            { 
+                id: { 
+                    toString: () => '1' 
+                }, 
+                name: 'DHL', 
+                type: 'hybrid', 
+                rules: {
+                    hasAndaluciaRule: true,
+                    supportsPallets: true,
+                    supportsParcels: false
+                }, 
+            }
         ];
 
         getAgencyTariffs.mockReturnValue({
@@ -232,7 +276,18 @@ describe('getStaticRates Services', () => {
 
     it('should handle calculation error', async () => {
         const agencies = [
-            { id: { toString: () => '1' }, name: 'DHL' }
+            { 
+                id: { 
+                    toString: () => '1' 
+                }, 
+                name: 'DHL', 
+                type: 'hybrid', 
+                rules: {
+                    hasAndaluciaRule: true,
+                    supportsPallets: true,
+                    supportsParcels: false
+                }, 
+            }
         ];
 
         getAgencyTariffs.mockReturnValue({

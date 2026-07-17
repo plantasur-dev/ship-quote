@@ -67,6 +67,10 @@ export const provincesData = [
     { countryCode: "PT", countryName: "Portugal", name: "Santarém",         adminCode: "STR", postalCode: "23" },
 
     { countryCode: "PT", countryName: "Portugal", name: "Leiria",           adminCode: "LEI", postalCode: "24" },
+    { countryCode: "PT", countryName: "Portugal", name: "Leiria",           adminCode: "LEI", postalCode: "25" },
+
+    { countryCode: "PT", countryName: "Portugal", name: "Lisboa",           adminCode: "LIS", postalCode: "26" },
+    { countryCode: "PT", countryName: "Portugal", name: "Lisboa",           adminCode: "LIS", postalCode: "27" },
 
     { countryCode: "PT", countryName: "Portugal", name: "Setúbal",          adminCode: "SET", postalCode: "28" },
     { countryCode: "PT", countryName: "Portugal", name: "Setúbal",          adminCode: "SET", postalCode: "29" },
@@ -82,6 +86,7 @@ export const provincesData = [
 
     { countryCode: "PT", countryName: "Portugal", name: "Aveiro",           adminCode: "AVE", postalCode: "37" },
     { countryCode: "PT", countryName: "Portugal", name: "Aveiro",           adminCode: "AVE", postalCode: "38" },
+    { countryCode: "PT", countryName: "Portugal", name: "Aveiro",           adminCode: "AVE", postalCode: "39" },
 
     { countryCode: "PT", countryName: "Portugal", name: "Porto",            adminCode: "POR", postalCode: "40" },
     { countryCode: "PT", countryName: "Portugal", name: "Porto",            adminCode: "POR", postalCode: "41" },
@@ -89,6 +94,7 @@ export const provincesData = [
     { countryCode: "PT", countryName: "Portugal", name: "Porto",            adminCode: "POR", postalCode: "43" },
     { countryCode: "PT", countryName: "Portugal", name: "Porto",            adminCode: "POR", postalCode: "44" },
     { countryCode: "PT", countryName: "Portugal", name: "Porto",            adminCode: "POR", postalCode: "45" },
+    { countryCode: "PT", countryName: "Portugal", name: "Porto",            adminCode: "POR", postalCode: "46" },
 
     { countryCode: "PT", countryName: "Portugal", name: "Braga",            adminCode: "BRA", postalCode: "47" },
     { countryCode: "PT", countryName: "Portugal", name: "Braga",            adminCode: "BRA", postalCode: "48" },
@@ -106,8 +112,16 @@ export const provincesData = [
     { countryCode: "PT", countryName: "Portugal", name: "Castelo Branco",   adminCode: "CTB", postalCode: "61" },
     { countryCode: "PT", countryName: "Portugal", name: "Castelo Branco",   adminCode: "CTB", postalCode: "62" },
 
+    { countryCode: "PT", countryName: "Portugal", name: "Guarda",           adminCode: "GUA", postalCode: "59" },
+    { countryCode: "PT", countryName: "Portugal", name: "Guarda",           adminCode: "GUA", postalCode: "65" },
     { countryCode: "PT", countryName: "Portugal", name: "Guarda",           adminCode: "GUA", postalCode: "63" },
     { countryCode: "PT", countryName: "Portugal", name: "Guarda",           adminCode: "GUA", postalCode: "64" },
+
+    { countryCode: "PT", countryName: "Portugal", name: "Castelo Branco",   adminCode: "CTB", postalCode: "66" },
+    { countryCode: "PT", countryName: "Portugal", name: "Castelo Branco",   adminCode: "CTB", postalCode: "67" },
+    { countryCode: "PT", countryName: "Portugal", name: "Castelo Branco",   adminCode: "CTB", postalCode: "68" },
+
+    { countryCode: "PT", countryName: "Portugal", name: "Évora",            adminCode: "EVO", postalCode: "69" },
 
     { countryCode: "PT", countryName: "Portugal", name: "Évora",            adminCode: "EVO", postalCode: "70" },
     { countryCode: "PT", countryName: "Portugal", name: "Évora",            adminCode: "EVO", postalCode: "71" },

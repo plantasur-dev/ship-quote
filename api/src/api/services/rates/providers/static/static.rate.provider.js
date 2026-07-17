@@ -36,7 +36,16 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
         const palletItems = items.filter(item => item.typeServices === SHIPMENT_UNITS.PALLET);
         const parcelItems = items.filter(item => item.typeServices === SHIPMENT_UNITS.PARCEL);
 
-        return agencies.map(agency => {
+        const hasPallets = palletItems?.length > 0;
+        const hasParcels = parcelItems?.length > 0;
+
+        const availableAgencies = agencies.filter(
+            agency =>
+                (hasPallets && agency.rules.supportsPallets) || 
+                (hasParcels && agency.rules.supportsParcels)
+        );
+
+        return availableAgencies.map(agency => {
             try {
                 const { 
                     agencyData, 
@@ -87,18 +96,20 @@ export default async function getStaticRates(agencies, { destinationPostalCode, 
                 return calculator();
 
             } catch (error) {
+                console.error(error.message);
+
                 return buildStaticErrorResult({
                     presentRate,
                     agency: agency.name,
                     code: 'CALCULATION_ERROR',
-                    message: error
+                    message: error.message
                 });
             }
         });
         
     } catch (error) {
-        console.log(error);
+        console.error(error.message);
 
-        throw new Error('Data store not initialized');
+        throw new Error(`Data store not initialized ${ error.message }`);
     }
 }

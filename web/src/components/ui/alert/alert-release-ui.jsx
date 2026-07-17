@@ -1,5 +1,5 @@
 
-import { Rocket, X } from "lucide-react";
+import { Rocket, CalendarDays, X } from "lucide-react";
 import { useReleases } from "../../../hooks";
 
 const AlertRelease = () => {
@@ -7,6 +7,12 @@ const AlertRelease = () => {
     const { release, showNotification, handleCloseDismissNotification } = useReleases();
 
     if (!release || !showNotification) return null;
+
+    const publishedDate = new Date(release.date).toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+    });
 
     return (
         <div
@@ -112,30 +118,37 @@ const AlertRelease = () => {
                             <p className="mt-1 text-sm leading-6 text-slate-500">
                                 { release.message }
                             </p>
-
-                            <div className="mt-5 flex justify-end gap-2">
-                                <button
-                                    onClick={ handleCloseDismissNotification }
-                                    className="
-                                        rounded-lg
-                                        bg-indigo-600
-                                        px-4
-                                        py-2
-                                        text-sm
-                                        font-medium
-                                        text-white
-                                        transition
-                                        hover:bg-indigo-700
-                                        active:scale-95
-
-                                        cursor-pointer
-                                    "
-                                >
-                                    Entendido
-                                </button>
-                            </div>
                         </div>
                     </div>
+
+                    <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
+
+                        <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
+                            <CalendarDays size={ 13 } strokeWidth={ 1.75 } />
+                            <span>{ publishedDate }</span>
+                        </div>
+
+                        <button
+                            onClick={ handleCloseDismissNotification }
+                            className="
+                                rounded-lg
+                                bg-indigo-600
+                                px-4
+                                py-2
+                                text-sm
+                                font-medium
+                                text-white
+                                transition
+                                hover:bg-indigo-700
+                                active:scale-95
+
+                                cursor-pointer
+                            "
+                        >
+                            Entendido
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -11,7 +11,7 @@ import {
     calculateFuelSurcharge,
     calculateAdditionalWeightBlockCost,
     matchDimensions,
-    fixedTo2
+    fixedToN
 } from '../../../src/lib/utils/rate.utils.js';
 
 describe('calculateVolume', () => {
@@ -52,6 +52,31 @@ describe('calculateVolumeM3', () => {
         );
 
         expect(result).toBe(2);
+    });
+
+    it('should use default pallet volume when volume quantity is 0', () => {
+        const result = calculateVolumeM3(
+            {
+                large: 100,
+                width: 100,
+                height: 100
+            },
+            0
+        );
+
+        expect(result).toBe(1);
+    });
+
+    it('should use fallback default volume when environment variable is not defined', () => {
+        delete process.env.DEFAULT_PALLET_VOLUME;
+
+        const result = calculateVolumeM3({
+            large: 100,
+            width: 100,
+            height: 100
+        });
+        
+        expect(result).toBe(1);
     });
 });
 
@@ -320,6 +345,31 @@ describe('matchPrice', () => {
         expect(matchPrice(breaks, 50))
             .toBeUndefined();
     });
+
+    it('should return last break when fallback is enabled', () => {
+        expect(matchPrice(breaks, 50, true))
+            .toEqual(breaks[1]);
+    });
+
+    it('should return undefined when breaks is empty', () => {
+        expect(matchPrice([], 10))
+            .toBeUndefined();
+    });
+
+    it('should return undefined when breaks is not an array', () => {
+        expect(matchPrice(undefined, 10))
+            .toBeUndefined();
+    });
+
+    it('should return undefined when matched break has no price', () => {
+        const breaksWithoutPrice = [
+            { min: 0, max: 10 },
+            { min: 11, max: 20, price: 10 }
+        ];
+
+        expect(matchPrice(breaksWithoutPrice, 5))
+            .toBeUndefined();
+    });
 });
 
 describe('calculateFuelSurcharge', () => {
@@ -437,12 +487,16 @@ describe('matchDimensions', () => {
     });
 });
 
-describe('fixedTo2', () => {
-    it('should fixedTo2 to two decimals', () => {
-        expect(fixedTo2(10.126)).toBe(10.13);
+describe('fixedToN', () => {
+    it('should fixedToN to two default decimals', () => {
+        expect(fixedToN(10.126)).toBe(10.13);
     });
 
     it('should keep two decimal precision', () => {
-        expect(fixedTo2(10.121)).toBe(10.12);
+        expect(fixedToN(10.121)).toBe(10.12);
+    });
+
+    it('should fixedToN to three decimals', () => {
+        expect(fixedToN(10.121655, 3)).toBe(10.122);
     });
 });

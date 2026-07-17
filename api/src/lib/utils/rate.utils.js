@@ -8,7 +8,10 @@ export function calculateVolumeM3(item, volQuantity) {
         volQuantity || 
         Number(process.env.DEFAULT_PALLET_VOLUME || 1_000_000);
 
-    return fixedTo2(calculateVolume(item) / PALLET_VOL);
+    return fixedToN(
+        (calculateVolume(item) / PALLET_VOL), 
+        process.env.DEFAULT_VOLUME_DECIMALS
+    );
 }
 
 export function getEffectiveWeight(item, volumetricFactor) {
@@ -114,7 +117,7 @@ export function matchPrice(breaks, value, fallbackToLastPrice = false) {
         return undefined;
     }
 
-    if (!match || !match.price) {
+    if (!match) {
         const breakPrices = breaks[breaks.length - 1];
 
         if (fallbackToLastPrice && value > breakPrices.max) {
@@ -172,7 +175,7 @@ export function matchDimensions(breaks, value) {
     return breaks.find(b => value >= b.min && value <= b.max);
 }
 
-export const fixedTo2 = (num) => Number(num.toFixed(2));
+export const fixedToN = (num, n = 2) => Number(num.toFixed(n));
 
 export function loadDataStaticRate(agency, tariffStore) {
     const agencyData =

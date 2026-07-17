@@ -1,5 +1,5 @@
 
-import { fixedTo2 } from '../../../../lib/utils/rate.utils.js';
+import { fixedToN } from '../../../../lib/utils/rate.utils.js';
 
 import { 
     getScope, 
@@ -42,7 +42,7 @@ export function buildRateResult({
         totalWeight,
         concepts,
         incidents,
-        total: fixedTo2(
+        total: fixedToN(
             concepts.reduce(
                 (sum, item) => sum + item.amount,
                 0
@@ -61,7 +61,7 @@ export function buildIncident(code, meta = {}) {
 export function buildConcept(code, amount, meta = {}) {
     return {
         code,
-        amount: fixedTo2(amount),
+        amount: fixedToN(amount),
         meta
     };
 }

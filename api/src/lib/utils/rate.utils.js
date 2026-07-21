@@ -83,12 +83,20 @@ export function groupPallets(items, palletTypes) {
 }
 
 export function resolveZone(agencyData, postalCode, province) {
-    
-    const zoneId = agencyData.zoneRulesByPostal
+    let zoneId = agencyData.zoneExceptionsByPostalCode
         ?.get(province)
         ?.get(postalCode)
         ?.zoneId;
     
+    if (zoneId) {
+        return agencyData.zonesById.get(zoneId.toString());
+    }
+
+    zoneId = agencyData.zoneRangePostalByPostalCode
+        ?.get(province)
+        ?.get(postalCode.slice(0, 2))
+        ?.zoneId;
+
     if (zoneId) {
         return agencyData.zonesById.get(zoneId.toString());
     }

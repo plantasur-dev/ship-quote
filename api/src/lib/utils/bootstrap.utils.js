@@ -1,12 +1,13 @@
 
 export const fixed = (price) => [{ min: 1, max: 1, price }];
 
-export const ex = (from, to, province, zoneName) => ({
-  from,
-  to,
-  province,
-  zoneName
-});
+export function ex(from, to, province, zoneName) {
+  return { from, to, province, zoneName, kind: 'exception' };
+};
+
+export function prefixZone(representativeCp, province, zoneName) {
+    return { from: representativeCp, to: representativeCp, province, zoneName, kind: 'prefix' };
+}
 
 function buildZoneRules(insertedZones, exceptions, provincesWithExceptions) {
 

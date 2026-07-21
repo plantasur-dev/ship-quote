@@ -1,4 +1,8 @@
 
+import mongoose from 'mongoose';
+
+import { initProvinces } from '../../api/services/provinces.service.js';
+
 import { agencies } from './agencies/agencies.js';
 
 import { 
@@ -23,12 +27,28 @@ import {
     rateMrw
 } from './agencies/mrw.js';
 
+import {
+    ratesRhenus,
+    zonesRhenus
+} from './agencies/rhenus.js';
+
 async function bootstrap() {
 
-    const DEFAULT_COUNTRY = process.env.DEFAULT_COUNTRY;
-    if (!DEFAULT_COUNTRY) {
+    if (process.env.NODE_ENV === 'test') {
+        await mongoose.connect(process.env.MONGODB_URI_TEST);
+  
+        console.log(`Modo: ${ process.env.NODE_ENV } - Eliminando datos `);
+
+        await mongoose.connection.db.dropDatabase();
+
+        console.log(`Modo: ${ process.env.NODE_ENV } - Iniciando datos `);
+    }
+
+    if (!process.env.DEFAULT_COUNTRY) {
         throw new Error('DEFAULT_COUNTRY env var is not set');
     }
+
+    await initProvinces();
 
     await agencies();
 
@@ -47,6 +67,9 @@ async function bootstrap() {
 
     await rateMrw();
     await zoneMrw();
+
+    await ratesRhenus();
+    await zonesRhenus();
 }
 
 export default bootstrap;

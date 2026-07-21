@@ -29,7 +29,8 @@ function createAgencyStore() {
         ratesByKey: new Map(),
 
         zoneRulesByProvince: new Map(),
-        zoneRulesByPostal: new Map()
+        zoneRangePostalByPostalCode: new Map(),
+        zoneExceptionsByPostalCode: new Map()
     };
 }
 
@@ -127,23 +128,45 @@ function buildTariffStore({
             .get(province)
             .push(rule);
      
-        if (!agency.zoneRulesByPostal.has(province)) {
-            agency.zoneRulesByPostal.set(
+        if (rule.postalCodeRanges.length === 0)  continue;
+
+        if (!agency.zoneExceptionsByPostalCode.has(province)) {
+            agency.zoneExceptionsByPostalCode.set(
                 province, 
                 new Map()
             );
+
+            agency.zoneRangePostalByPostalCode.set(
+                province,
+                new Map()
+            )
         }
 
-        const provinceIndex = agency
-            .zoneRulesByPostal
+        const exceptionsMap = agency
+            .zoneExceptionsByPostalCode
             .get(province);
         
-        for (const range of rule.postalCodeRanges) {
-            const from = parseInt(range.from, 10);
-            const to = parseInt(range.to, 10);
+        const prefixMap = agency
+            .zoneRangePostalByPostalCode
+            .get(province);
 
-            for (let cp = from; cp <= to; cp++) {
-                provinceIndex.set(String(cp), rule);
+        for (const range of rule.postalCodeRanges) {
+            if (range.from.length === 2) {
+                prefixMap.set(range.from, rule);
+            } else if (range.from === range.to) {
+                exceptionsMap.set(range.from, rule);
+            } else {
+                const from = parseInt(range.from, 10);
+                const to = parseInt(range.to, 10);
+
+                const len = range.from.length;
+    
+                for (let cp = from; cp <= to; cp++) {
+                    exceptionsMap.set(
+                        String(cp).padStart(len, '0'), 
+                        rule
+                    );
+                }
             }
         }
     }

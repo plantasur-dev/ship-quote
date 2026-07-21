@@ -42,8 +42,9 @@ function createLocations(locationsArray) {
 }
 
 export const initProvinces = async () => {
-    const collections = await mongoose.connection.db.listCollections({ name: "locations" }).toArray();
-    if (collections.length > 0) {
+    
+    const checkData = await Location.exists({});
+    if (checkData) {
         logger.info({
             event: 'locations:bootstrap:skip',
             message: `La colección 'location' ya existe. No se realiza ninguna acción.`,

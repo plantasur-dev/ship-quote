@@ -1,7 +1,7 @@
 
 import { prefixZone } from '../../../utils/bootstrap.utils.js';
 
-export const italyRangePostal = [
+const italyRangePostal = [
     prefixZone("00000", "IT-RM", "Italia-ZONA-00"),
     prefixZone("01000", "IT-RM", "Italia-ZONA-01"),
     prefixZone("02000", "IT-RM", "Italia-ZONA-02"),
@@ -217,5 +217,5 @@ export const italyZones = {
         enabled: true, 
         factor: 250 
     },
-    postalCodeExceptions: rangePostal
+    postalCodeExceptions: italyRangePostal
 }

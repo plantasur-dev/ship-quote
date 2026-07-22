@@ -24,12 +24,14 @@ const zoneRuleSchema = new mongoose.Schema({
         required: true
     },
 
-    postalCodeRanges: [
-        {
-            from: String,
-            to: String
+    postalCodeRanges: [{
+        from: String,
+        to: String,
+        kind: {
+            type: String,
+            enum: ["exception", "prefix"]
         }
-    ],
+    }]
 }, { 
     timestamps: true,
     versionKey: false,

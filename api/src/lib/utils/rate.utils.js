@@ -107,19 +107,22 @@ export function resolveZone(agencyData, postalCode, province) {
     if (!zonesInProvince || !zonesInProvince.length) return null;
     
     const zoneDefault = 
-            zonesInProvince.find(z => z.isDefault).zoneId ?? 
+            zonesInProvince.find(z => z.isDefault)?.zoneId ?? 
             zonesInProvince[0].zoneId;
     
     return agencyData.zonesById.get(zoneDefault.toString()) ?? null;
 }
 
-export function matchPrice(breaks, value, fallbackToLastPrice = false) {
+export function matchPrice(breaks, packageWeight, fallbackToLastPrice = false) {
 
     if (!Array.isArray(breaks) || !breaks.length) {
         return undefined;
     }
     
-    const match = breaks.find(b => value >= b.min && value <= b.max);
+    const match = breaks.find(weight => 
+        packageWeight >= weight.min && 
+        packageWeight <= weight.max
+    );
     
     if (match && !match.price) {
         return undefined;
@@ -128,7 +131,7 @@ export function matchPrice(breaks, value, fallbackToLastPrice = false) {
     if (!match) {
         const breakPrices = breaks[breaks.length - 1];
 
-        if (fallbackToLastPrice && value > breakPrices.max) {
+        if (fallbackToLastPrice && packageWeight > breakPrices.max) {
             return breakPrices;
         }
 

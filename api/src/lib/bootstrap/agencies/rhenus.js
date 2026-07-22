@@ -1,5 +1,4 @@
 
-
 import Rate from '../../models/rate.model.js';
 
 import { 
@@ -80,7 +79,8 @@ export async function zonesRhenus() {
         rules: {
             calculationMode: rhenusZones.calculationMode,
             pricingMode: rhenusZones.pricingMode,
-            exceptions: rhenusZones.postalCodeExceptions
+            exceptions: rhenusZones.postalCodeExceptions,
+            volumetric: rhenusZones.volumetric
         } 
     });
 

@@ -49,7 +49,8 @@ function buildZoneRules(insertedZones, exceptions, provincesWithExceptions) {
 
         groupedExceptions.get(key).push({
             from: exception.from,
-            to: exception.to
+            to: exception.to,
+            kind: exception.kind
         });
     }
 
@@ -108,7 +109,7 @@ export async function zonesBootstrap({
     rules,
     zoneBuilder 
 }) {
-    const { calculationMode = '', pricingMode = {}, exceptions = [] } = rules;
+    const { calculationMode = '', pricingMode = {}, exceptions = [], volumetric = [] } = rules;
 
     await zoneModel.deleteMany({ agencyId: agency._id });
     
@@ -120,7 +121,8 @@ export async function zonesBootstrap({
             name: zone.name,
             provinces: zone.provinces,
             calculationMode,
-            pricingMode
+            pricingMode,
+            volumetric
         }
     );
 

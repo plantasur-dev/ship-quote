@@ -1,9 +1,18 @@
 
 import mongoose from 'mongoose';
 
-import { initProvinces } from '../../api/services/provinces.service.js';
+import { 
+    initProvinces, 
+    loadProvinces
+} from '../../api/services/provinces.service.js';
 
-import { agencies } from './agencies/agencies.js';
+import { 
+    loadCountries 
+} from "../../api/services/countries.service.js";
+
+import { 
+    agencies 
+} from './agencies/agencies.js';
 
 import { 
     zonesCayco, 
@@ -50,16 +59,19 @@ async function bootstrap() {
 
     await initProvinces();
 
+    await Promise.all([
+        loadCountries(),
+        loadProvinces()
+    ]);
+
     await agencies();
 
     await zonesCayco();
-    await zonesTecum();
-
     await palletTypesCayco();
-    await palletTypesTecum();
-
     await ratesCayco();
 
+    await zonesTecum();
+    await palletTypesTecum();
     await ratesTecum();
 
     await ratesCorreos();
@@ -68,8 +80,8 @@ async function bootstrap() {
     await rateMrw();
     await zoneMrw();
 
-    await ratesRhenus();
     await zonesRhenus();
+    await ratesRhenus();
 }
 
 export default bootstrap;

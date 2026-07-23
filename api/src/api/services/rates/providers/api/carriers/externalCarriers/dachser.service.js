@@ -17,7 +17,7 @@ import {
     buildIncident
 } from '../../../../domains/build.rate.result.js';
 
-export default class DascherService extends CarrierService {
+export default class DachserService extends CarrierService {
 
     async getRates(input) {
         const { baseUrlApi, endpoints, apiKey, timeout } = this.apiConfig;
@@ -134,7 +134,7 @@ export default class DascherService extends CarrierService {
             ]
         }
         
-        if (response?.totalAmount.amount === 0) {
+        if (response?.totalAmount?.amount === 0) {
             return [
                 buildRateResult({
                     service: 'NO_RATE',
@@ -165,8 +165,8 @@ export default class DascherService extends CarrierService {
                                 r.serviceTypeDescription,
                                 r.serviceTypeAmount?.amount
                             )    
-                        ) || []
-                    )
+                        )
+                    ) || []
                 ],
                 incidents: []
             })

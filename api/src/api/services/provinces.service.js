@@ -10,6 +10,8 @@ import {
     specialIslands 
 } from '../../lib/data/location.js';
 
+let provincesByCountryCode = new Map();
+
 let provincesMap = {};
 
 let provincesAll = [];
@@ -86,6 +88,8 @@ export const initProvinces = async () => {
 
 export async function loadProvinces() {
     provincesAll = await Location.find().lean();
+
+    provincesByCountryCode.clear();
     
     provincesMap = {
         provinceByCountryCodeAndPostalCode: new Map(
@@ -94,6 +98,14 @@ export async function loadProvinces() {
             province
         ])
     )};
+
+    for (const province of provincesAll) {
+        if (!provincesByCountryCode.has(province.countryCode)) {
+            provincesByCountryCode.set(province.countryCode, []);
+        }
+
+        provincesByCountryCode.get(province.countryCode).push(province);
+    }
 }
 
 export function getProvinceByCountryCodeAndPostalCode(
@@ -106,5 +118,21 @@ export function getProvinceByCountryCodeAndPostalCode(
 }
 
 export function getProvinces() {
+    if (provincesAll.length === 0) {
+        throw new Error(
+            "Las provincias no están cargadas."
+        );
+    }
+
     return provincesAll;
+}
+
+export function getProvinceByCountryCode(country) {
+    if (provincesAll.length === 0) {
+        throw new Error(
+            "Las provincias por país no están cargadas."
+        );
+    }
+
+    return provincesByCountryCode.get(country) ?? [];
 }

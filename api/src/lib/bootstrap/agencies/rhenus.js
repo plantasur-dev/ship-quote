@@ -3,7 +3,7 @@ import Rate from '../../models/rate.model.js';
 
 import { 
     rhenusRates,
-    rhenusZones
+    createRhenusZones
 } from '../../data/rhenus.data.js';
 
 import { zonesBootstrap } from '../../utils/bootstrap.utils.js';
@@ -63,13 +63,14 @@ export async function ratesRhenus() {
     });
 };
 
-export async function zonesRhenus() {
-
+export async function zonesRhenus() {   
     const result1 = await checkExists(paramsZone);
 
     const result2 = await checkExists(paramsZoneRule);
 
     if (!result1 || !result2) return;
+
+    const rhenusZones = await createRhenusZones();
 
     await zonesBootstrap({ 
         zoneModel: result1.model, 

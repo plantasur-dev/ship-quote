@@ -6,12 +6,14 @@ import { germanyLocations } from './locations-data/germany.js';
 import { italyLocations } from './locations-data/italy.js';
 import { portugalLocations } from './locations-data/portugal.js';
 import { spainLocations } from './locations-data/spain.js';
+import { franceLocations } from './locations-data/france.js';
 
 export const provincesData = [
     ...austriaLocations,
     ...belgiumLocations,
     ...czech,
     ...germanyLocations,
+    ...franceLocations,
     ...italyLocations,
     ...portugalLocations,
     ...spainLocations

@@ -48,7 +48,7 @@ export default class CarrierService {
                     response.statusText ||
                     "Request failed";
                             
-                if (responseData?.details.length) {
+                if (responseData?.details?.length) {
                     for (const msg of responseData?.details) {
                         message += ` ${ msg }`;
                     }    
@@ -92,7 +92,9 @@ export default class CarrierService {
         
         const { quotations } = endpoints;
 
-        let items;
+        let items = [];
+        let itemsParcel = [];
+        let itemsPallet = [];
 
         if (!baseUrlApi)
             throw createHttpError(400, "Empty baseUrlAPI");
@@ -103,16 +105,18 @@ export default class CarrierService {
         const { supportsPallets, supportsParcels } = this.agency?.rules;
 
         if (supportsPallets) {
-            items = input.items.filter(item => 
+            itemsPallet = input.items.filter(item => 
                 item.typeServices === SHIPMENT_UNITS.PALLET
             );
         }
 
         if (supportsParcels) {
-            items = input.items.filter(item => 
+            itemsParcel = input.items.filter(item => 
                 item.typeServices === SHIPMENT_UNITS.PARCEL
             );
         }
+
+        items = [...itemsPallet, ...itemsParcel];
 
         if (!items.length) return [];
         

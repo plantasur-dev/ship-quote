@@ -15,8 +15,14 @@ import * as Pallets from './controllers/palletTypes.controller.js';
 import * as Rates from './controllers/rates.controller.js';
 import * as Zones from './controllers/zones.controller.js';
 import * as Releases from './controllers/releases.controller.js';
+import * as Cache from './controllers/cache.controller.js';
 
 const apiRouter = Router();
+
+apiRouter.get(
+    '/debug/maps', 
+    Cache.debugMap
+);
 
 apiRouter.get(
     '/releases/latest',

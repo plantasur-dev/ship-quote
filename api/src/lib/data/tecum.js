@@ -168,8 +168,8 @@ export const ExtraLight = {
   "ZONA 9": { premium: [153.61,151.95,151.40], economy: [141.06,140.52,139.97] },
   "ZONA 10": { premium: [160.19,157.99,157.45], economy: [146.49,145.95,145.41] },
 
-  "ZONA 16": { premium: [27,27,27], economy: [27,27,27] },
-  "ZONA 17": { premium: [27,27,27], economy: [27,27,27] }
+  "ZONA 16": { premium: [], economy: [27,27,27] },
+  "ZONA 17": { premium: [], economy: [27,27,27] }
 };
 
 export const EuroPallet = {
@@ -190,13 +190,13 @@ export const EuroPallet = {
   "ZONA 9": { premium: [180.96,178.15,175.92,173.12,170.89], economy: [165.76,162.98,160.21,155.78,153.55] },
   "ZONA 10": { premium: [193.27,190.48,188.24,184.89,180.96], economy: [177.39,174.62,171.29,163.53,159.65] },
 
-  "ZONA 11": { premium: [196.84,195.15,191.80,189.56,184.52], economy: ['', '', '', '', ''] },
-  "ZONA 12": { premium: [251.13,249.46,244.42,242.18,236.57], economy: ['', '', '', '', ''] },
-  "ZONA 13": { premium: [337.01,337.01,337.01,337.01,337.01], economy: ['', '', '', '', ''] },
-  "ZONA 14": { premium: [368.66,368.66,368.66,368.66,368.66], economy: ['', '', '', '', ''] },
+  "ZONA 11": { premium: [196.84,195.15,191.80,189.56,184.52], economy: [] },
+  "ZONA 12": { premium: [251.13,249.46,244.42,242.18,236.57], economy: [] },
+  "ZONA 13": { premium: [337.01,337.01,337.01,337.01,337.01], economy: [] },
+  "ZONA 14": { premium: [368.66,368.66,368.66,368.66,368.66], economy: [] },
 
-  "ZONA 16": { premium: [27,27,27,27,27], economy: [27,27,27,27,27] },
-  "ZONA 17": { premium: [31,31,31,31,31], economy: [27,27,27,27,27] }
+  "ZONA 16": { premium: [], economy: [27,27,27,27,27] },
+  "ZONA 17": { premium: [], economy: [31,31,31,31,31] }
 };
 
 export const Full = {
@@ -222,6 +222,6 @@ export const Full = {
   "ZONA 13": { premium: [340.73,340.73,340.73,340.73,340.73], economy: [] },
   "ZONA 14": { premium: [372.81,372.81,372.81,372.81,372.81], economy: [] },
 
-  "ZONA 16": { premium: [27,27,27,27,27], economy: [27,27,27,27,27] },
-  "ZONA 17": { premium: [37,37,37,37,37], economy: [27,27,27,27,27] }
+  "ZONA 16": { premium: [], economy: [27,27,27,27,27] },
+  "ZONA 17": { premium: [], economy: [37,37,37,37,37] }
 };

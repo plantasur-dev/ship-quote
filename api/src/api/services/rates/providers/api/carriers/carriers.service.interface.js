@@ -69,6 +69,10 @@ export default class CarrierService {
                 );
             }
 
+            if (error.status) {
+                throw createHttpError(error.status, error?.message ?? '');
+            }
+
             throw createHttpError(500, error);
         } finally {
             clearTimeout(timeoutId);

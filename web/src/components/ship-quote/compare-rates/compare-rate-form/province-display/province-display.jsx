@@ -1,13 +1,22 @@
 
-import { findProvinceByPostalCode } from "../../utils/compare-rate-utils";
+import ProvinceLoading from "./province-loading";
 
-function ProvinceDisplay({ provinces, postalCode, countryCode }) {
+import { 
+    countryExists, 
+    findProvinceByPostalCode 
+} from "../../utils/compare-rate-utils";
+
+function ProvinceDisplay({ provinces = [], postalCode, countryCode }) {
+   
+    if (!provinces.length) return <ProvinceLoading />;
+
+    const isCountryExists = countryExists(provinces, countryCode);
     
-    const province = findProvinceByPostalCode(provinces, postalCode);
-        
+    const province = findProvinceByPostalCode(provinces, countryCode, postalCode);
+
     return (
         <>
-            { countryCode === 'ES' && (
+            { isCountryExists && (
                 <div className="space-y-2">
 
                     <label className="text-sm font-medium text-slate-700">

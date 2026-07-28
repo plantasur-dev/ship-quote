@@ -111,6 +111,25 @@ const agenciesData = [
             },
             apiKey: 'pruebas'
         }
+    },
+    {
+        name: 'Rhenus',
+        code: 'rhenus',
+        type: 'static',
+        active: true,
+        rules: {
+            hasAndaluciaRule: false,
+            supportsPallets: true,
+            supportsParcels: false,
+            coverage: ["international"]
+        },
+        supplements: {
+            fuelSurcharge: {
+                enabled: true,
+                type: 'percentage',
+                value: 8
+            }
+        }
     }
 ];
 

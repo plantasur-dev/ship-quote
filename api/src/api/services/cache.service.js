@@ -6,11 +6,7 @@ import PalletType from "../../lib/models/palletType.model.js";
 
 let agencyTariffs = null;
 
-function buildRateKey({
-    type,
-    zoneName,
-    palletTypeId
-}) {
+function buildRateKey({ type, zoneName, palletTypeId }) {
     return [
         type,
         zoneName,
@@ -29,7 +25,8 @@ function createAgencyStore() {
         ratesByKey: new Map(),
 
         zoneRulesByProvince: new Map(),
-        zoneRulesByPostal: new Map()
+        zoneRangePostalByPostalCode: new Map(),
+        zoneExceptionsByPostalCode: new Map()
     };
 }
 
@@ -127,23 +124,65 @@ function buildTariffStore({
             .get(province)
             .push(rule);
      
-        if (!agency.zoneRulesByPostal.has(province)) {
-            agency.zoneRulesByPostal.set(
-                province, 
-                new Map()
-            );
-        }
+        if (rule.postalCodeRanges.length === 0)  continue;
 
-        const provinceIndex = agency
-            .zoneRulesByPostal
-            .get(province);
-        
         for (const range of rule.postalCodeRanges) {
-            const from = parseInt(range.from, 10);
-            const to = parseInt(range.to, 10);
+            switch (range.kind) {
+                case 'prefix': {
+                    if (!agency.zoneRangePostalByPostalCode.has(province)) {
+                        agency.zoneRangePostalByPostalCode.set(
+                            province, 
+                            new Map()
+                        );
+                    }
 
-            for (let cp = from; cp <= to; cp++) {
-                provinceIndex.set(String(cp), rule);
+                    const prefixMap = agency
+                        .zoneRangePostalByPostalCode
+                        .get(province);
+
+                    prefixMap.set(range.from.slice(0, 2), rule);
+                    break;
+                }
+                    
+                case 'exception': {
+                    if (!agency.zoneExceptionsByPostalCode.has(province)) {
+                        agency.zoneExceptionsByPostalCode.set(
+                            province, 
+                            new Map()
+                        );
+                    }
+
+                    const exceptionsMap = agency
+                        .zoneExceptionsByPostalCode
+                        .get(province);
+
+                    if (range.from === range.to) {
+                        exceptionsMap.set(range.from, rule);
+                    } else {
+                        const size = parseInt(range.to, 10) - parseInt(range.from, 10);
+                        if (size > 2500) {
+                            throw new Error(
+                                `Rango ${ range.from }-${ range.to } de ${ rule.agencyId } / ${ province } demasiado grande para expandir (${ size } códigos)`
+                            );
+                        }
+                        
+                        const from = parseInt(range.from, 10);
+                        const to = parseInt(range.to, 10);
+
+                        const len = range.from.length;
+            
+                        for (let cp = from; cp <= to; cp++) {
+                            exceptionsMap.set(
+                                String(cp).padStart(len, '0'), 
+                                rule
+                            );
+                        }
+                    }
+                    break;
+                }
+                default:
+                    throw new Error(`kind desconocido: ${ range.kind }`); 
+                    break;
             }
         }
     }

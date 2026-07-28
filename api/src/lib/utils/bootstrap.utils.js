@@ -1,12 +1,13 @@
 
 export const fixed = (price) => [{ min: 1, max: 1, price }];
 
-export const ex = (from, to, province, zoneName) => ({
-  from,
-  to,
-  province,
-  zoneName
-});
+export function ex(from, to, province, zoneName) {
+  return { from, to, province, zoneName, kind: 'exception' };
+};
+
+export function prefixZone(representativeCp, province, zoneName) {
+    return { from: representativeCp, to: representativeCp, province, zoneName, kind: 'prefix' };
+}
 
 function buildZoneRules(insertedZones, exceptions, provincesWithExceptions) {
 
@@ -48,7 +49,8 @@ function buildZoneRules(insertedZones, exceptions, provincesWithExceptions) {
 
         groupedExceptions.get(key).push({
             from: exception.from,
-            to: exception.to
+            to: exception.to,
+            kind: exception.kind
         });
     }
 
@@ -107,7 +109,7 @@ export async function zonesBootstrap({
     rules,
     zoneBuilder 
 }) {
-    const { calculationMode = '', pricingMode = {}, exceptions = [] } = rules;
+    const { calculationMode = '', pricingMode = {}, exceptions = [], volumetric = [] } = rules;
 
     await zoneModel.deleteMany({ agencyId: agency._id });
     
@@ -119,7 +121,8 @@ export async function zonesBootstrap({
             name: zone.name,
             provinces: zone.provinces,
             calculationMode,
-            pricingMode
+            pricingMode,
+            volumetric
         }
     );
 

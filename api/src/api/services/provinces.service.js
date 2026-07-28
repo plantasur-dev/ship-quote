@@ -10,6 +10,8 @@ import {
     specialIslands 
 } from '../../lib/data/location.js';
 
+let provincesByCountryCode = new Map();
+
 let provincesMap = {};
 
 let provincesAll = [];
@@ -42,8 +44,9 @@ function createLocations(locationsArray) {
 }
 
 export const initProvinces = async () => {
-    const collections = await mongoose.connection.db.listCollections({ name: "locations" }).toArray();
-    if (collections.length > 0) {
+    
+    const checkData = await Location.exists({});
+    if (checkData) {
         logger.info({
             event: 'locations:bootstrap:skip',
             message: `La colección 'location' ya existe. No se realiza ninguna acción.`,
@@ -85,6 +88,8 @@ export const initProvinces = async () => {
 
 export async function loadProvinces() {
     provincesAll = await Location.find().lean();
+
+    provincesByCountryCode.clear();
     
     provincesMap = {
         provinceByCountryCodeAndPostalCode: new Map(
@@ -93,6 +98,14 @@ export async function loadProvinces() {
             province
         ])
     )};
+
+    for (const province of provincesAll) {
+        if (!provincesByCountryCode.has(province.countryCode)) {
+            provincesByCountryCode.set(province.countryCode, []);
+        }
+
+        provincesByCountryCode.get(province.countryCode).push(province);
+    }
 }
 
 export function getProvinceByCountryCodeAndPostalCode(
@@ -105,5 +118,21 @@ export function getProvinceByCountryCodeAndPostalCode(
 }
 
 export function getProvinces() {
+    if (provincesAll.length === 0) {
+        throw new Error(
+            "Las provincias no están cargadas."
+        );
+    }
+
     return provincesAll;
+}
+
+export function getProvinceByCountryCode(country) {
+    if (provincesAll.length === 0) {
+        throw new Error(
+            "Las provincias por país no están cargadas."
+        );
+    }
+
+    return provincesByCountryCode.get(country) ?? [];
 }

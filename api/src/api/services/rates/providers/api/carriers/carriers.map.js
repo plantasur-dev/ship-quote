@@ -1,6 +1,6 @@
 
-import DascherService from "./externalCarriers/dascher.service.js";
+import DachserService from "./externalCarriers/dachser.service.js";
 
 export const carrierMap = {
-  dachser: DascherService
+  dachser: DachserService
 };

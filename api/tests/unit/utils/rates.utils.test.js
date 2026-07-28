@@ -278,10 +278,13 @@ describe('resolveZone', () => {
         const zone = { _id: 'zone1' };
 
         const agencyData = {
-            zoneRulesByPostal: new Map([
-                ['ES-M', new Map([
-                    ['28001', { zoneId: 'zone1' }]
-                ])]
+            zoneRangePostalByPostalCode: new Map([
+                [
+                    'ES-M',
+                    new Map([
+                        ['28', { zoneId: 'zone1' }]
+                    ])
+                ]
             ]),
             zoneRulesByProvince: new Map(),
             zonesById: new Map([
@@ -290,7 +293,7 @@ describe('resolveZone', () => {
         };
 
         expect(
-            resolveZone(agencyData, '28001', 'ES-M')
+            resolveZone(agencyData, '28000', 'ES-M')
         ).toEqual(zone);
     });
 
@@ -298,7 +301,7 @@ describe('resolveZone', () => {
         const zone = { _id: 'zone1' };
 
         const agencyData = {
-            zoneRulesByPostal: new Map(),
+            zoneRangePostalByPostalCode: new Map(),
             zoneRulesByProvince: new Map([
                 ['ES-M', [
                     {
@@ -319,7 +322,7 @@ describe('resolveZone', () => {
 
     it('should return null when province has no zones', () => {
         const agencyData = {
-            zoneRulesByPostal: new Map(),
+            zoneRangePostalByPostalCode: new Map(),
             zoneRulesByProvince: new Map(),
             zonesById: new Map()
         };

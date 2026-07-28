@@ -80,6 +80,11 @@ apiRouter.get(
 );
 
 apiRouter.get(
+    '/palletsByAgency/:agencyId',
+    Pallets.palletsByAgency
+);
+
+apiRouter.get(
     '/pallets/:palletTypeId',
     Pallets.details
 );

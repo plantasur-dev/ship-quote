@@ -21,6 +21,15 @@ export const list = async (req, res) => {
     res.json(pallets);
 };
 
+export const palletsByAgency = async (req, res) => {
+
+    const pallets = await PalletType.find({ agencyId: req.params.agencyId });
+
+    if (!pallets.length) throw createHttpError(404, `Pallets not found by agency ${ req.params.agencyId } `);
+
+    res.json(pallets);
+};
+
 export const details = async (req, res) => {
     
     const pallet = await PalletType.findById(req.params.palletTypeId);

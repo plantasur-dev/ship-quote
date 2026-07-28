@@ -13,7 +13,8 @@ import * as country from '../services/countries.service.js';
 export const create = async (req, res) => {
 
     const { 
-        countryCode, 
+        countryCode,
+        postalCode, 
         countryName, 
         adminCode,
         name,
@@ -21,7 +22,8 @@ export const create = async (req, res) => {
     } = req.body;
 
     const location = await Location.create({
-        countryCode, 
+        countryCode,
+        postalCode, 
         countryName, 
         adminCode, 
         adminFullCode: countryCode + '-' + adminCode, 

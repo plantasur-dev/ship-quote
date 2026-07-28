@@ -97,8 +97,9 @@ function Incident({ incidents = [] }) {
                     )}
 
                     { incident?.items && (
-                        incident.items.map(item => 
-                            <DimensionsItem 
+                        incident.items.map((item, index) => 
+                            <DimensionsItem
+                                key={ index } 
                                 item={ item } 
                                 warning={ true }
                             /> 

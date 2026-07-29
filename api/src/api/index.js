@@ -4,7 +4,12 @@ import { Router } from "express";
 import * as Errors from './middlewares/errors.middleware.js';
 
 import { schemaValidation } from './middlewares/schema.validation.middleware.js';
-import { zoneValidation } from "./middlewares/zone.validation.middleware.js";
+
+import { 
+    zoneValidation, 
+    zoneFullValidation 
+} from "./middlewares/zone.validation.middleware.js";
+
 import { 
     rateItemsValidation,  
     rateDestinationValidation
@@ -15,6 +20,7 @@ import * as Locations from './controllers/locations.controller.js';
 import * as Pallets from './controllers/palletTypes.controller.js';
 import * as Rates from './controllers/rates.controller.js';
 import * as Zones from './controllers/zones.controller.js';
+import * as ZoneRules from './controllers/zoneRules.controller.js';
 import * as Releases from './controllers/releases.controller.js';
 import * as Cache from './controllers/cache.controller.js';
 
@@ -103,9 +109,27 @@ apiRouter.post(
     Zones.create
 );
 
+apiRouter.post(
+    '/zones/:zoneId/rules',
+    schemaValidation,
+    ZoneRules.create
+);
+
+apiRouter.post(
+    '/zones/full',
+    schemaValidation,
+    zoneFullValidation,
+    Zones.full
+);
+
 apiRouter.get(
     '/zones',
     Zones.list
+);
+
+apiRouter.get(
+    '/zones/:zoneId/rules',
+    ZoneRules.details
 );
 
 apiRouter.get(

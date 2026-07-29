@@ -70,6 +70,12 @@ zoneSchema.index({
     provinces: 1 
 });
 
+zoneSchema.virtual('rules', {
+    ref: 'ZoneRules',
+    localField: '_id',
+    foreignField: 'zoneId'
+});
+
 const Zone = mongoose.model("Zone", zoneSchema);
 
 export default Zone;

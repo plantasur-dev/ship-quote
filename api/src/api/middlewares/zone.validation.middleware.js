@@ -191,6 +191,102 @@ const validateProvincesNotAlreadyAssigned = async (agencyId, provinces) => {
         `Provinces already assigned to another zone: ${ conflicts.join(', ') }`
     );
 };
+
+const validateProvinceZoneCoverage = (zones, exceptions) => {
+ 
+    const ownRangePairs = new Set(
+        exceptions.map(exception => `${ exception.province }::${ exception.zoneName }`)
+    );
+ 
+    const provinceOwners = new Map();
+ 
+    for (const zone of zones) {
+        for (const province of zone.provinces) {
+ 
+            if (ownRangePairs.has(`${ province }::${ zone.name }`)) continue;
+ 
+            if (!provinceOwners.has(province)) provinceOwners.set(province, []);
+            provinceOwners.get(province).push(zone.name);
+        }
+    }
+ 
+    const conflicts = [...provinceOwners.entries()]
+        .filter(([, zoneNames]) => zoneNames.length > 1);
+ 
+    if (conflicts.length) {
+        const detail = conflicts
+            .map(([province, zoneNames]) => `${ province } (${ zoneNames.join(', ') })`)
+            .join('; ');
+        throw createHttpError(
+            409,
+            `Provinces assigned to more than one zone without postalCodeRanges to disambiguate: ${ detail }`
+        );
+    }
+};
+
+const validateExceptions = (exceptions, zoneNames) => {
+ 
+    if (!Array.isArray(exceptions)) {
+        throw createHttpError(400, 'exceptions must be an array');
+    }
+ 
+    exceptions.forEach((exception, index) => {
+ 
+        const { province, zoneName, from, to, kind } = exception;
+ 
+        if (!validProvinceNames.has(province)) {
+            throw createHttpError(400, `exceptions[${ index }]: unknown province "${ province }"`);
+        }
+ 
+        if (!zoneNames.has(zoneName)) {
+            throw createHttpError(
+                400,
+                `exceptions[${ index }]: zoneName "${ zoneName }" does not match any zone in this payload`
+            );
+        }
+ 
+        if (!from || !to) {
+            throw createHttpError(400, `exceptions[${ index }]: from and to are required`);
+        }
+ 
+        if (!POSTAL_CODE_RANGE_KINDS.includes(kind)) {
+            throw createHttpError(
+                400,
+                `exceptions[${ index }].kind must be one of: ${ POSTAL_CODE_RANGE_KINDS.join(', ') }`
+            );
+        }
+ 
+        if (from > to) {
+            throw createHttpError(400, `exceptions[${ index }]: from cannot be greater than to`);
+        }
+    });
+};
+
+const validateZonesArray = (zones) => {
+ 
+    if (!Array.isArray(zones) || zones.length === 0) {
+        throw createHttpError(400, 'zones must be a non-empty array');
+    }
+ 
+    zones.forEach((zone, index) => {
+        try {
+            validateName(zone.name);
+            validateProvinces(zone.provinces);
+        } catch (error) {
+            throw createHttpError(400, `zones[${ index }]: ${ error.message }`);
+        }
+    });
+ 
+    const names = zones.map(zone => zone.name.trim());
+    const duplicated = names.filter((name, index) => names.indexOf(name) !== index);
+ 
+    if (duplicated.length) {
+        throw createHttpError(
+            400,
+            `Duplicated zone names in payload: ${ [...new Set(duplicated)].join(', ') }`
+        );
+    }
+};
  
 export const zoneValidation = async (req, res, next) => {
  
@@ -214,9 +310,36 @@ export const zoneValidation = async (req, res, next) => {
     validatePostalCodeRanges(postalCodeRanges);
 
     await validateUniqueZoneName(agencyId, name);
-    await validateProvincesNotAlreadyAssigned(agencyId, provinces); // REVISAR
+    await validateProvincesNotAlreadyAssigned(agencyId, provinces);
     
     req.locals = { agency };
 
+    next();
+};
+
+export const zoneFullValidation = async (req, res, next) => {
+ 
+    const {
+        agencyId,
+        zones,
+        calculationMode,
+        volumetric,
+        pricingMode,
+        exceptions = []
+    } = req.body;
+ 
+    const agency = await validateAgency(agencyId);
+ 
+    validateZonesArray(zones);
+    validateCalculationMode(calculationMode, agency);
+    validatePricingMode(pricingMode, calculationMode);
+    validateVolumetric(volumetric);
+ 
+    const zoneNames = new Set(zones.map(zone => zone.name.trim()));
+    validateExceptions(exceptions, zoneNames);
+    validateProvinceZoneCoverage(zones, exceptions);
+ 
+    req.locals = { agency };
+ 
     next();
 };

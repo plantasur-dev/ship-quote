@@ -68,6 +68,6 @@ zoneRuleSchema.index({
     }
 });
 
-const ZoneRules = mongoose.model('zoneRules', zoneRuleSchema);
+const ZoneRules = mongoose.model('ZoneRules', zoneRuleSchema);
 
 export default ZoneRules;

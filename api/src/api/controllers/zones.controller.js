@@ -2,7 +2,7 @@
 import createHttpError from "http-errors";
 
 import Zone from "../../lib/models/zone.model.js";
-import ZoneRules from "../../lib/models/zone.rules.model.js";
+import zonesFull from "../services/zones.services.js";
 
 export const create = async (req, res) => {
 
@@ -12,9 +12,8 @@ export const create = async (req, res) => {
         calculationMode,
         volumetric,
         pricingMode,
-        postalCodeRanges 
     } = req.body;
-    console.log(req.locals)
+
     const agency = req.locals.agency;
 
     const zone = await Zone.create({
@@ -25,16 +24,7 @@ export const create = async (req, res) => {
         volumetric,
         pricingMode,
     });
-    
-    const zoneRulesProvinces = provinces.map(province => ({
-        zoneId: zone.id,
-        agencyId: agency._id,
-        province,
-        postalCodeRanges
-    }));
-    
-    const zoneRule = await ZoneRules.insertMany(zoneRulesProvinces);
-    
+
     res.status(201).json(zone);
 };
 
@@ -53,9 +43,34 @@ export const details = async (req, res) => {
 
     const zone = await Zone
         .findById(req.params.zoneId)
-        .populate('agencyId', 'name code');
+        .populate('agencyId', 'name code')
+        .populate('rules');
 
     if (!zone) throw createHttpError(404, 'Zone not found');
 
     res.json(zone);
+};
+
+export const full = async (req, res) => {
+ 
+    const {
+        zones,
+        calculationMode,
+        pricingMode,
+        volumetric,
+        exceptions
+    } = req.body;
+ 
+    const agency = req.locals.agency;
+ 
+    const insertedZones = await zonesFull({
+        agency,
+        zones,
+        calculationMode,
+        pricingMode,
+        volumetric,
+        exceptions
+    });
+ 
+    res.status(201).json(insertedZones);
 };

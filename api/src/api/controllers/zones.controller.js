@@ -2,25 +2,39 @@
 import createHttpError from "http-errors";
 
 import Zone from "../../lib/models/zone.model.js";
+import ZoneRules from "../../lib/models/zone.rules.model.js";
 
 export const create = async (req, res) => {
 
-    const { 
-        agencyId, 
+    const {  
         name, 
         provinces, 
-        calculationMode, 
-        postalCodeExceptions 
+        calculationMode,
+        volumetric,
+        pricingMode,
+        postalCodeRanges 
     } = req.body;
+    console.log(req.locals)
+    const agency = req.locals.agency;
 
     const zone = await Zone.create({
-        agencyId, 
+        agencyId: agency._id, 
         name, 
         provinces, 
-        calculationMode, 
-        postalCodeExceptions
+        calculationMode,
+        volumetric,
+        pricingMode,
     });
-
+    
+    const zoneRulesProvinces = provinces.map(province => ({
+        zoneId: zone.id,
+        agencyId: agency._id,
+        province,
+        postalCodeRanges
+    }));
+    
+    const zoneRule = await ZoneRules.insertMany(zoneRulesProvinces);
+    
     res.status(201).json(zone);
 };
 

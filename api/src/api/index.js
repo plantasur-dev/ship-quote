@@ -4,6 +4,7 @@ import { Router } from "express";
 import * as Errors from './middlewares/errors.middleware.js';
 
 import { schemaValidation } from './middlewares/schema.validation.middleware.js';
+import { zoneValidation } from "./middlewares/zone.validation.middleware.js";
 import { 
     rateItemsValidation,  
     rateDestinationValidation
@@ -98,6 +99,7 @@ apiRouter.delete(
 apiRouter.post(
     '/zones',
     schemaValidation,
+    zoneValidation,
     Zones.create
 );
 

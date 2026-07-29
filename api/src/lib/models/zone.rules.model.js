@@ -21,7 +21,10 @@ const zoneRuleSchema = new mongoose.Schema({
 
     isDefault: {
         type: Boolean,
-        required: true
+        required: true,
+        default: function () {
+            return !this.postalCodeRanges.length
+        }
     },
 
     postalCodeRanges: [{

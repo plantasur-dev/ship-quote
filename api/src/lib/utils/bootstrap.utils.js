@@ -21,7 +21,7 @@ function buildZoneRules(insertedZones, exceptions, agencyId) {
         const zone = zoneMap.get(exception.zoneName);
 
         if (!zone) {
-            throw new Error(`Zona no encontrada: ${exception.zoneName}`);
+            throw new Error(`Zona no encontrada: ${ exception.zoneName }`);
         }
 
         return {
@@ -93,15 +93,14 @@ async function zonesRulesBootstrap({
     zoneRuleModel,
     agency,
     exceptions,
-    insertedZones,
-    session
+    insertedZones
 }) {
 
-    await zoneRuleModel.deleteMany({ agencyId: agency._id }, { session });
+    await zoneRuleModel.deleteMany({ agencyId: agency._id });
 
     const rules = buildZoneRules(insertedZones, exceptions, agency._id);
 
-    await zoneRuleModel.insertMany(rules, { session });
+    await zoneRuleModel.insertMany(rules);
 }
 
 export async function zonesBootstrap({ 
@@ -110,12 +109,11 @@ export async function zonesBootstrap({
     zones, 
     zoneRuleModel, 
     rules,
-    zoneBuilder,
-    session
+    zoneBuilder 
 }) {
-    const { calculationMode = '', pricingMode = {}, exceptions = [], volumetric = {} } = rules;
+    const { calculationMode = '', pricingMode = {}, exceptions = [], volumetric = [] } = rules;
 
-    await zoneModel.deleteMany({ agencyId: agency._id }, { session });
+    await zoneModel.deleteMany({ agencyId: agency._id });
     
     const docs = zones.map(zone => 
      zoneBuilder
@@ -130,13 +128,12 @@ export async function zonesBootstrap({
         }
     );
 
-    const insertedZones = await zoneModel.insertMany(docs, { session });
+    const insertedZones = await zoneModel.insertMany(docs);
 
     await zonesRulesBootstrap({ 
         zoneRuleModel,
         agency,
         exceptions,
-        insertedZones,
-        session
+        insertedZones
     });
 }

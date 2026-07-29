@@ -5,12 +5,37 @@ import mongoose from "mongoose";
 
 import PalletType from "../../src/lib/models/palletType.model.js";
 
+import Agency from "../../src/lib/models/agency.model.js";
+
+let agency;
+
+beforeEach(async () => {
+    agency = await Agency.create({
+        "name": "Correos2",
+        "type": "static",
+        "rules": {
+            "hasAndaluciaRule": false,
+            "supportsPallets": false,
+            "supportsParcels": true
+        },
+        "apiConfig": {
+            "timeout": 3000,
+            "baseUrlApi": "https://www.desa.cexpr.es/wspsc",
+            "endpoints": {
+                "quotations": "",
+                "transportOrders": ""
+            },
+            "apiKey": "Pruebas"
+        }
+    });
+});
+
 describe("Pallets API", () => {
 
     it("debería crear un pallet", async () => {
 
         const payload = {
-            agencyId: new mongoose.Types.ObjectId(),
+            agencyId: agency._id,
             name: "Pallet estándar",
             constraints: {
                 maxWeight: 1000,
@@ -32,7 +57,7 @@ describe("Pallets API", () => {
     it("debería fallar si falta el nombre", async () => {
 
         const payload = {
-            agencyId: new mongoose.Types.ObjectId(),
+            agencyId: agency._id,
             constraints: {
                 maxWeight: 1000
             }
@@ -49,6 +74,7 @@ describe("Pallets API", () => {
     it("debería fallar si faltan campos obligatorios", async () => {
 
         const payload = {
+            agencyId: agency._id,
             name: "Pallet inválido"
         };
 
@@ -56,6 +82,26 @@ describe("Pallets API", () => {
             .post("/api/v1/pallets")
             .send(payload)
             .expect(400);
+    });
+
+    it("debería devolver 404 si la agencia no existe", async () => {
+        const payload = {
+            agencyId: new mongoose.Types.ObjectId(),
+            name: "Pallet estándar",
+            constraints: {
+                maxWeight: 1000,
+                maxHeight: 200,
+                maxLength: 120,
+                maxWidth: 80
+            }
+        };
+
+        const res = await request(app)
+            .post("/api/v1/pallets")
+            .send(payload)
+            .expect(404);
+
+        expect(res.body.message).toMatch(/agency/i);
     });
 
     it("debería listar pallets", async () => {

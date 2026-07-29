@@ -75,7 +75,7 @@ export function calculateParcelRate({
         const volumetricWeight = Math.max(fixedToN(volumetric), realWeight);
 
         const weightByPricingMode = {
-            [PRICING_MODES.WEIGHT]: realWeight,
+            [PRICING_MODES.REAL_WEIGHT]: realWeight,
             [PRICING_MODES.WEIGHT_VOLUME]: volumetricWeight
         };
         

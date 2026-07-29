@@ -4,7 +4,7 @@ import {
     calculateParcel
 } from '../../../../../../src/api/services/rates/providers/static/parcel.rate.calculator.js';
 
-function buildZone(pricingModeType = 'weight') {
+function buildZone(pricingModeType = 'real_weight') {
     return {
         name: 'Madrid',
         calculationMode: 'parcel',
@@ -86,7 +86,7 @@ describe('calculateParcelRate', () => {
         ]);
     });
 
-    it('uses the real weight when the pricing mode is WEIGHT', () => {
+    it('uses the real weight when the pricing mode is REAL_WEIGHT', () => {
         const result = calculateParcelRate({
             parcelItems: [{ weight: 1.4, large: 10, width: 10, height: 10 }],
             agencyRates: buildAgencyRates([
@@ -95,7 +95,7 @@ describe('calculateParcelRate', () => {
                     priceBreaks: [{ min: 0, max: 200, price: 10 }]
                 }
             ]),
-            zone: buildZone('weight'),
+            zone: buildZone('real_weight'),
             agencySupplements: {}
         });
 
@@ -143,7 +143,7 @@ describe('calculateParcelRate', () => {
                     limits: { maxPieceWeight: 10 }
                 }
             ]),
-            zone: buildZone('weight'),
+            zone: buildZone('real_weight'),
             agencySupplements: {},
             calculationType: 'unit'
         });
@@ -192,7 +192,7 @@ describe('calculateParcelRate', () => {
                     limits: { maxPieceWeight: 1.5 }
                 }
             ]),
-            zone: buildZone('weight'),
+            zone: buildZone('real_weight'),
             agencySupplements: {}
         });
 
@@ -242,7 +242,7 @@ describe('calculateParcelRate', () => {
                     }
                 }
             ]),
-            zone: buildZone('weight'),
+            zone: buildZone('real_weight'),
             agencySupplements: {}
         });
 
@@ -393,7 +393,7 @@ describe('calculateParcel', () => {
                     priceBreaks: [{ min: 0, max: 200, price: 10 }]
                 }
             ]),
-            zone: buildZone('weight'),
+            zone: buildZone('real_weight'),
             agencySupplements: {},
             nameAgency: 'DHL'
         });

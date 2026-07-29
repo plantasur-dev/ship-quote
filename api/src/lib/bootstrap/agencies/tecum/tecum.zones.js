@@ -30,7 +30,7 @@ export async function zonesTecum() {
     zoneRuleModel: result2.model,
     rules: {
       calculationMode: 'pallet',
-      pricingMode: { type: 'weight' },
+      pricingMode: { type: 'pallet_classification' },
       exceptions
     } 
   });

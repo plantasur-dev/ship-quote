@@ -32,8 +32,8 @@ const zoneSchema = new mongoose.Schema({
     pricingMode: {
         type: {
             type: String,
-            enum: ["weight", "weight_volume"],
-            default: "weight"
+            enum: ["pallet_classification", "real_weight", "weight_volume"],
+            default: "pallet_classification"
         },
         tonnagePricingRule: {
             enabled: { 

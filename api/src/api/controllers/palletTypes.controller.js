@@ -11,7 +11,7 @@ export const create = async (req, res) => {
 
     const agencyExists = await Agency.exists({ _id: agencyId });
 
-    if (!agencyExists) throw createHttpError(404, 'Agency not found');
+    if (!agencyExists) throw createHttpError(404, `Agency ${ agencyId } not found`); 
 
     const palletType = await PalletType.create({ agencyId, name, constraints });
 

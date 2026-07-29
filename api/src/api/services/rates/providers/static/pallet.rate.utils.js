@@ -77,12 +77,12 @@ export function calculateGroupServices({
         
         return rate.services.reduce((acc, service) => {
             const pricesRate = service.priceBreaks;
-            const quantityPallet = group.quantity;
+            const groupItemCount = group.quantity;
             const fallbackToLastPrice = service?.fallbackToLastPrice;
 
             const match = matchPrice(
                 pricesRate, 
-                quantityPallet, 
+                groupItemCount, 
                 fallbackToLastPrice
             );
             
@@ -91,7 +91,7 @@ export function calculateGroupServices({
                     buildRateResult({
                         service: service.service,
                         transportType: SHIPMENT_UNITS.PALLET,
-                        itemCount: quantityPallet,
+                        itemCount: groupItemCount,
                         incidents: [
                             buildIncident(
                                 'NO_RATE', 
@@ -113,14 +113,14 @@ export function calculateGroupServices({
                 buildRateResult({
                     service: service.service,
                     transportType: SHIPMENT_UNITS.PALLET,
-                    itemCount: quantityPallet,
+                    itemCount: groupItemCount,
                     concepts: [
                         buildConcept(
                             'BASE', 
                             total, 
                             {
                                 palletType: group.palletType.name,
-                                quantity: quantityPallet,
+                                quantity: groupItemCount,
                                 unitPrice,
                                 items: group.items
                             })
@@ -134,7 +134,7 @@ export function calculateGroupServices({
     });
 }
 
-export function calculateSinglePallet({  palletItems, agencyRates, agencyPalletTypes, zone, agencySupplements }) {
+export function calculatePalletBasedPricing({  palletItems, agencyRates, agencyPalletTypes, zone, agencySupplements }) {
     const {  groups = [], rejected = [] } = groupPallets(palletItems, agencyPalletTypes) || {};
     
     return [

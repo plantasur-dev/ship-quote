@@ -21,7 +21,7 @@ export const mrwZones = {
         ]
     }],
     calculationMode: "parcel",
-    pricingMode: { type: "weight" },
+    pricingMode: { type: "real_weight" },
     postalCodeExceptions: []
 }
 

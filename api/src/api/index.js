@@ -3,17 +3,13 @@ import { Router } from "express";
 
 import * as Errors from './middlewares/errors.middleware.js';
 
-import { schemaValidation } from './middlewares/schema.validation.middleware.js';
-
-import { 
-    zoneValidation, 
-    zoneFullValidation 
-} from "./middlewares/zone.validation.middleware.js";
-
-import { 
+import {
+    schemaValidation,
     rateItemsValidation,  
-    rateDestinationValidation
-} from './middlewares/rate.validation.middleware.js';
+    rateDestinationValidation,
+    zoneValidation, 
+    zoneFullValidation
+} from './middlewares/index.js';
 
 import * as Agencies from './controllers/agencies.controller.js';
 import * as Locations from './controllers/locations.controller.js';

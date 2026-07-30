@@ -1,6 +1,7 @@
 
-import * as ZoneValidation from '../../lib/utils/zone.middleware.utils.js';
- 
+import * as ZoneValidation from '../../lib/utils/middleware/zone.middleware.utils.js';
+import * as UtilValidation from '../../lib/utils/middleware/middleware.utils.js';
+
 export const zoneValidation = async (req, res, next) => {
  
     const {
@@ -13,9 +14,9 @@ export const zoneValidation = async (req, res, next) => {
         postalCodeRanges
     } = req.body;
 
-    const agency = await ZoneValidation.validateAgency(agencyId);
+    const agency = await UtilValidation.validateAgency(agencyId);
 
-    ZoneValidation.validateName(name);
+    UtilValidation.validateName(name);
     ZoneValidation.validateProvinces(provinces);
     ZoneValidation.validateCalculationMode(calculationMode, agency);
     ZoneValidation.validatePricingMode(pricingMode, calculationMode);
@@ -41,7 +42,7 @@ export const zoneFullValidation = async (req, res, next) => {
         exceptions = []
     } = req.body;
  
-    const agency = await ZoneValidation.validateAgency(agencyId);
+    const agency = await UtilValidation.validateAgency(agencyId);
  
     ZoneValidation.validateZonesArray(zones);
     ZoneValidation.validateCalculationMode(calculationMode, agency);

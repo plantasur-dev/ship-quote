@@ -3,6 +3,8 @@ import createHttpError from 'http-errors';
 
 import Rate from '../../lib/models/rate.model.js';
 
+import rates from '../services/rates.service.js';
+
 import { getProvinceByCountryCodeAndPostalCode } from '../services/provinces.service.js';
 
 export async function create(req, res) {

@@ -2,61 +2,23 @@
 import createHttpError from "http-errors";
 
 import mongoose from "mongoose";
- 
-import Agency from "../../lib/models/agency.model.js";
-import Zone from "../../lib/models/zone.model.js";
- 
-import { provincesData } from "../../lib/data/location.js";
-import ZoneRules from "../../lib/models/zone.rules.model.js";
- 
-const CALCULATION_MODES = ["pallet", "parcel"];
- 
-const POSTAL_CODE_RANGE_KINDS = ["exception", "prefix"];
- 
-const PRICING_MODES_BY_CALCULATION_MODE = {
-    pallet: ["pallet_classification", "weight_volume"],
-    parcel: ["real_weight", "weight_volume"]
-};
- 
+
+import {
+    SHIPMENT_UNIT_VALUES as CALCULATION_MODES, 
+    POSTAL_CODE_RANGE_KINDS, 
+    PRICING_MODES_BY_CALCULATION_MODE 
+} from "../../constants/index.js";
+
+import Zone from "../../models/zone.model.js";
+import ZoneRules from "../../models/zone.rules.model.js";
+
+import { validateName } from "./middleware.utils.js";
+
+import { provincesData } from "../../data/location.js";
+  
 const validProvinceNames = new Set(
     provincesData.map(province => (`${ province.countryCode }-${ province.adminCode }`))
 );
-
-export const FULL_ENDPOINT_MODES = ["replace", "add"];;
-
-export const validateAgency = async (agencyId) => {
- 
-    if (!agencyId) {
-        throw createHttpError(400, 'agencyId is required');
-    }
- 
-    if (!mongoose.Types.ObjectId.isValid(agencyId)) {
-        throw createHttpError(400, 'agencyId is not a valid id');
-    }
- 
-    const agency = await Agency.findById(agencyId);
- 
-    if (!agency) {
-        throw createHttpError(404, `Agency ${ agencyId } not found`);
-    }
- 
-    if (!agency.active) {
-        throw createHttpError(409, `Agency ${ agency.name } is not active`);
-    }
-
-    if (agency.type === 'api') {
-        throw createHttpError(400, `Agency ${ agencyId } is type API`);
-    }
- 
-    return agency;
-};
- 
-export const validateName = (name) => {
- 
-    if (typeof name !== 'string' || !name.trim()) {
-        throw createHttpError(400, 'name is required');
-    }
-};
  
 export const validateProvinces = (provinces) => {
  

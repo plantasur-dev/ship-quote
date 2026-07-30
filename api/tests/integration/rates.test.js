@@ -1,10 +1,11 @@
 
 import request from 'supertest';
 
-import app from '../../app.js';
-
+import Rate from '../../src/lib/models/rate.model.js';
 import rates from '../../src/api/services/rates.service.js';
 import { getProvinceByCountryCodeAndPostalCode } from '../../src/api/services/provinces.service.js';
+import Agency from '../../src/lib/models/agency.model.js';
+import PalletType from '../../src/lib/models/palletType.model.js';
 
 vi.mock('../../src/api/services/rates.service.js', () => ({
     default: vi.fn()
@@ -13,6 +14,18 @@ vi.mock('../../src/api/services/rates.service.js', () => ({
 vi.mock('../../src/api/services/provinces.service.js', () => ({
     getProvinceByCountryCodeAndPostalCode: vi.fn()
 }));
+
+vi.mock('../../src/lib/models/rate.model.js', () => ({
+    default: {
+        create: vi.fn()
+    }
+}));
+
+let app;
+
+beforeAll(async () => {
+    app = (await import('../../app.js')).default;
+});
 
 const validItem = {
     typeServices: 'pallet',
@@ -96,6 +109,115 @@ const compareResult = [{
         }
     ]
 }];
+
+let agency;
+let palletType;
+
+describe('POST /api/v1/rates', () => {
+
+    beforeEach(async () => {
+        vi.clearAllMocks();
+
+        agency = await Agency.create({
+            "name": "Correos4",
+            "type": "static",
+            "rules": {
+                "hasAndaluciaRule": false,
+                "supportsPallets": true,
+                "supportsParcels": false
+            },
+            "apiConfig": {
+                "timeout": 3000,
+                "baseUrlApi": "https://www.desa.cexpr.es/wspsc",
+                "endpoints": {
+                    "quotations": "",
+                    "transportOrders": ""
+                },
+                "apiKey": "Pruebas"
+            }
+        });
+
+        palletType = await PalletType.create({
+            "agencyId": agency._id,
+            "name": "Pallet prueba",
+            "constraints": {
+                "maxWeight": "300",
+                "maxHeight": "",
+                "maxLength": "",
+                "maxWidth": ""
+            }
+        });
+    });
+
+    it('should return 400 when agencyId is missing', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .send({
+                type: 'pallet',
+                zoneName: 'ZONA 1',
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('agencyId is required');
+    });
+
+    it('should return 400 when palleTypeId is null or empty', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .send({
+                agencyId: agency._id,
+                type: 'pallet',
+                zoneName: 'ZONA 1',
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('palletTypeId is required');
+    });
+
+    it('should return 400 when palletTypeId is invalid', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .send({
+                agencyId: agency._id,
+                palletTypeId: 'invalid',
+                type: 'pallet',
+                zoneName: 'ZONA 1',
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toContain('palletTypeId is not a valid id');
+    });
+    
+    it('should return 400 when type is invalid', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .send({
+                agencyId: agency._id,
+                palletTypeId: palletType._id,
+                type: 'invalid',
+                zoneName: 'ZONA 1',
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toContain('type must be one of');
+    });
+});
 
 describe('POST /api/v1/rates/compareByProvinceCode', () => {
 

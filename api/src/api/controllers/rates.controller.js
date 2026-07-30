@@ -1,9 +1,32 @@
 
 import createHttpError from 'http-errors';
 
+import Rate from '../../lib/models/rate.model.js';
+
 import { getProvinceByCountryCodeAndPostalCode } from '../services/provinces.service.js';
 
-import rates from '../services/rates.service.js';
+export async function create(req, res) {
+
+    const {
+        agencyId,
+        type,
+        zoneName,
+        palletTypeId,
+        calculationType,
+        services
+    } = req.body;
+
+    const rate = await Rate.create({
+        agencyId,
+        type,
+        zoneName,
+        palletTypeId,
+        calculationType,
+        services
+    });
+
+    res.status(201).json(rate);
+};
 
 export async function compareByProvinceCode(req, res) {
     const { destinationPostalCode, countryCode, province, items } = req.body;

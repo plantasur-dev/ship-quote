@@ -5,6 +5,7 @@ import * as Errors from './middlewares/errors.middleware.js';
 
 import {
     schemaValidation,
+    rateValidation,
     rateItemsValidation,  
     rateDestinationValidation,
     zoneValidation, 
@@ -133,6 +134,11 @@ apiRouter.get(
     Zones.details
 );
 
+apiRouter.post('/rates',
+    schemaValidation,
+    rateValidation,
+    Rates.create
+);
 
 apiRouter.post(
     '/rates/compareByProvinceCode', 

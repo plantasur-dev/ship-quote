@@ -98,3 +98,7 @@ export const rateDestinationValidation = (req, res, next) => {
 
     next();
 };
+
+export const rateValidation = (req, res, next) => {
+
+};

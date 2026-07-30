@@ -17,8 +17,11 @@ describe("Zones API", () => {
         const payload = {
             agencyId: agency._id,
             name: "Zona Norte",
-            provinces: ["Madrid", "Toledo"],
-            calculationMode: "pallet"
+            provinces: ["ES-M", "ES-TO"],
+            calculationMode: "pallet",
+            volumetric: { "enabled": true, "factor": 6000 },
+            pricingMode: { "type": "weight_volume" },
+            postalCodeRanges: []
         };
 
         const res = await request(app)
@@ -39,7 +42,7 @@ describe("Zones API", () => {
             })
             .expect(400);
 
-        expect(res.body).toHaveProperty('agencyId.name', 'ValidatorError');
+        expect(res.body).toHaveProperty("message", "agencyId is required");
     });
 
     it("debería fallar si falta name", async () => {
@@ -55,7 +58,7 @@ describe("Zones API", () => {
             })
             .expect(400);
 
-        expect(res.body).toHaveProperty('name.name', 'ValidatorError');
+        expect(res.body).toHaveProperty("message", "name is required");
     });
 
     it("debería listar zonas con populate", async () => {

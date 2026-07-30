@@ -21,7 +21,7 @@ function buildZoneRules(insertedZones, exceptions, agencyId) {
         const zone = zoneMap.get(exception.zoneName);
 
         if (!zone) {
-            throw new Error(`Zona no encontrada: ${ exception.zoneName }`);
+            throw new Error(`Zone not found: ${ exception.zoneName }`);
         }
 
         return {
@@ -34,13 +34,13 @@ function buildZoneRules(insertedZones, exceptions, agencyId) {
     });
 
     const pairsWithOwnRanges = new Set(
-        normalizedExceptions.map(exception => `${exception.province}::${exception.zoneId}`)
+        normalizedExceptions.map(exception => `${ exception.province }::${ exception.zoneId }`)
     );
 
     for (const zone of insertedZones) {
         for (const province of zone.provinces) {
 
-            const key = `${province}::${zone._id}`;
+            const key = `${ province }::${ zone._id }`;
 
             if (pairsWithOwnRanges.has(key)) {
                 continue;
@@ -60,7 +60,7 @@ function buildZoneRules(insertedZones, exceptions, agencyId) {
 
     for (const exception of normalizedExceptions) {
 
-        const key = `${exception.province}::${exception.zoneId}`;
+        const key = `${ exception.province }::${ exception.zoneId }`;
 
         if (!groupedExceptions.has(key)) {
             groupedExceptions.set(key, []);
@@ -95,9 +95,6 @@ async function zonesRulesBootstrap({
     exceptions,
     insertedZones
 }) {
-
-    await zoneRuleModel.deleteMany({ agencyId: agency._id });
-
     const rules = buildZoneRules(insertedZones, exceptions, agency._id);
 
     await zoneRuleModel.insertMany(rules);
@@ -111,9 +108,12 @@ export async function zonesBootstrap({
     rules,
     zoneBuilder 
 }) {
-    const { calculationMode = '', pricingMode = {}, exceptions = [], volumetric = [] } = rules;
-
-    await zoneModel.deleteMany({ agencyId: agency._id });
+    const { 
+        calculationMode = '', 
+        pricingMode = {}, 
+        exceptions = [], 
+        volumetric = [] 
+    } = rules;
     
     const docs = zones.map(zone => 
      zoneBuilder

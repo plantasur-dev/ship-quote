@@ -7,7 +7,7 @@ import { buildVolumenBreaks } from '../../../utils/cayco.utils.js';
 
 import { zona11, zona12 } from '../../../data/cayco.js';
 
-import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
+import { loggerMsg } from '../../../utils/logger.utils.js';
 
 const params = { 
   code: 'cayco', 

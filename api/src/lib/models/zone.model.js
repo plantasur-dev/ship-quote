@@ -70,6 +70,14 @@ zoneSchema.index({
     provinces: 1 
 });
 
+zoneSchema.index({ 
+    agencyId: 1, 
+    name: 1 
+},
+{
+    unique: true
+});
+
 zoneSchema.virtual('rules', {
     ref: 'ZoneRules',
     localField: '_id',

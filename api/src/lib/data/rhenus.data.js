@@ -26,13 +26,13 @@ export async function createRhenusZones() {
     const postalRanges = countries.map((country) => {
         const countryData = getProvinceByCountryCode(country);
         
-        return countryData.map(({ postalCode, adminFullCode, countryName }) => {
+        return countryData.map(({ postalCode, adminFullCode, countryName, adminCode }) => {
             const countryNameNormalize = countryName.replace(/\s+/g, "");
 
             return prefixZone(
                 postalCode,
                 adminFullCode,
-                `${countryNameNormalize}-ZONA-${postalCode}`
+                `${ countryNameNormalize }-${ adminCode }-${ postalCode }`
             );
         });
     });

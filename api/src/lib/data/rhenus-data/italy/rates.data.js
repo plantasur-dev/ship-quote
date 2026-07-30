@@ -1,6 +1,6 @@
 
 export const italyRates = {
-    'Italy-ZONA-00': {
+    'Italy-RM-00': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -40,7 +40,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-01': {
+    'Italy-RM-01': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -80,7 +80,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-02': {
+    'Italy-RM-02': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -120,7 +120,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-03': {
+    'Italy-RM-03': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.8 },
@@ -160,7 +160,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-04': {
+    'Italy-RM-04': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.8 },
@@ -200,7 +200,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-05': {
+    'Italy-RM-05': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -240,7 +240,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-06': {
+    'Italy-RM-06': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.3 },
@@ -280,7 +280,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-07': {
+    'Italy-RM-07': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 124.9 },
@@ -320,7 +320,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-08': {
+    'Italy-RM-08': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 124.9 },
@@ -360,7 +360,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-09': {
+    'Italy-RM-09': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 124.9 },
@@ -400,7 +400,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-10': {
+    'Italy-TO-10': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.3 },
@@ -440,7 +440,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-11': {
+    'Italy-TO-11': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.4 },
@@ -480,7 +480,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-12': {
+    'Italy-SV-12': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.4 },
@@ -520,7 +520,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-13': {
+    'Italy-IM-13': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.2 },
@@ -560,7 +560,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-14': {
+    'Italy-AL-14': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.3 },
@@ -600,7 +600,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-15': {
+    'Italy-NO-15': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.2 },
@@ -640,7 +640,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-16': {
+    'Italy-GE-16': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.3 },
@@ -680,7 +680,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-17': {
+    'Italy-SV-17': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.4 },
@@ -720,7 +720,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-18': {
+    'Italy-IM-18': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.6 },
@@ -760,7 +760,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-19': {
+    'Italy-SP-19': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.5 },
@@ -800,7 +800,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-20': {
+    'Italy-MI-20': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 55.9 },
@@ -840,7 +840,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-21': {
+    'Italy-MI-21': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 60.6 },
@@ -880,7 +880,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-22': {
+    'Italy-CO-22': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 60.2 },
@@ -920,7 +920,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-23': {
+    'Italy-SO-23': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 60.8 },
@@ -960,7 +960,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-24': {
+    'Italy-BG-24': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61 },
@@ -1000,7 +1000,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-25': {
+    'Italy-BS-25': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.3 },
@@ -1040,7 +1040,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-26': {
+    'Italy-CR-26': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 59.9 },
@@ -1080,7 +1080,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-27': {
+    'Italy-PV-27': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 59.5 },
@@ -1120,7 +1120,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-28': {
+    'Italy-VA-28': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.1 },
@@ -1160,7 +1160,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-29': {
+    'Italy-PC-29': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.2 },
@@ -1200,7 +1200,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-30': {
+    'Italy-VR-30': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.7 },
@@ -1240,7 +1240,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-31': {
+    'Italy-TV-31': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.8 },
@@ -1280,7 +1280,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-32': {
+    'Italy-BL-32': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62 },
@@ -1320,7 +1320,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-33': {
+    'Italy-VI-33': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62 },
@@ -1360,7 +1360,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-34': {
+    'Italy-VE-34': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.2 },
@@ -1400,7 +1400,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-35': {
+    'Italy-PD-35': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.7 },
@@ -1440,7 +1440,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-36': {
+    'Italy-VI-36': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.6 },
@@ -1480,7 +1480,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-37': {
+    'Italy-VR-37': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.4 },
@@ -1520,7 +1520,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-38': {
+    'Italy-RO-38': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.6 },
@@ -1560,7 +1560,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-39': {
+    'Italy-VR-39': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.9 },
@@ -1600,7 +1600,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-40': {
+    'Italy-MO-40': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.5 },
@@ -1640,7 +1640,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-41': {
+    'Italy-BO-41': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.4 },
@@ -1680,7 +1680,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-42': {
+    'Italy-PC-42': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.3 },
@@ -1720,7 +1720,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-43': {
+    'Italy-PR-43': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.3 },
@@ -1760,7 +1760,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-44': {
+    'Italy-FE-44': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.7 },
@@ -1800,7 +1800,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-45': {
+    'Italy-RE-45': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.7 },
@@ -1840,7 +1840,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-46': {
+    'Italy-RA-46': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.4 },
@@ -1880,7 +1880,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-47': {
+    'Italy-FC-47': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62 },
@@ -1920,7 +1920,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-48': {
+    'Italy-RA-48': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.7 },
@@ -1960,7 +1960,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-50': {
+    'Italy-PO-50': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.8 },
@@ -2000,7 +2000,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-51': {
+    'Italy-FI-51': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.8 },
@@ -2040,7 +2040,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-52': {
+    'Italy-FI-52': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62 },
@@ -2080,7 +2080,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-53': {
+    'Italy-SI-53': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62 },
@@ -2120,7 +2120,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-54': {
+    'Italy-MS-54': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.5 },
@@ -2160,7 +2160,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-55': {
+    'Italy-LU-55': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.7 },
@@ -2200,7 +2200,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-56': {
+    'Italy-PI-56': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.7 },
@@ -2240,7 +2240,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-57': {
+    'Italy-LI-57': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.9 },
@@ -2280,7 +2280,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-58': {
+    'Italy-AR-58': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.2 },
@@ -2320,7 +2320,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-59': {
+    'Italy-GR-59': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.7 },
@@ -2360,7 +2360,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-60': {
+    'Italy-AN-60': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.2 },
@@ -2400,7 +2400,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-61': {
+    'Italy-PU-61': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62 },
@@ -2440,7 +2440,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-62': {
+    'Italy-MC-62': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.2 },
@@ -2480,7 +2480,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-63': {
+    'Italy-AP-63': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.3 },
@@ -2520,7 +2520,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-64': {
+    'Italy-PG-64': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2560,7 +2560,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-65': {
+    'Italy-PE-65': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.6 },
@@ -2600,7 +2600,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-66': {
+    'Italy-CH-66': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -2640,7 +2640,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-67': {
+    'Italy-AQ-67': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.8 },
@@ -2680,7 +2680,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-70': {
+    'Italy-BA-70': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -2720,7 +2720,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-71': {
+    'Italy-FG-71': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -2760,7 +2760,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-72': {
+    'Italy-BR-72': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -2800,7 +2800,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-73': {
+    'Italy-LE-73': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -2840,7 +2840,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-74': {
+    'Italy-TA-74': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -2880,7 +2880,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-75': {
+    'Italy-BA-75': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -2920,7 +2920,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-76': {
+    'Italy-BT-76': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -2960,7 +2960,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-80': {
+    'Italy-NA-80': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 56.3 },
@@ -3000,7 +3000,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-81': {
+    'Italy-NA-81': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 56.3 },
@@ -3040,7 +3040,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-82': {
+    'Italy-BN-82': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 56.3 },
@@ -3080,7 +3080,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-83': {
+    'Italy-AV-83': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 56.3 },
@@ -3120,7 +3120,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-84': {
+    'Italy-SA-84': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.2 },
@@ -3160,7 +3160,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-85': {
+    'Italy-CE-85': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -3200,7 +3200,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-86': {
+    'Italy-BN-86': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -3240,7 +3240,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-87': {
+    'Italy-AV-87': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -3280,7 +3280,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-88': {
+    'Italy-SA-88': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -3320,7 +3320,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-89': {
+    'Italy-CS-89': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -3360,7 +3360,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-90': {
+    'Italy-PA-90': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76 },
@@ -3400,7 +3400,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-91': {
+    'Italy-PA-91': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76 },
@@ -3440,7 +3440,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-92': {
+    'Italy-AG-92': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76 },
@@ -3480,7 +3480,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-93': {
+    'Italy-CL-93': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76 },
@@ -3520,7 +3520,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-94': {
+    'Italy-EN-94': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76 },
@@ -3560,7 +3560,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-95': {
+    'Italy-CT-95': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76 },
@@ -3600,7 +3600,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-96': {
+    'Italy-SR-96': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76 },
@@ -3640,7 +3640,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-97': {
+    'Italy-RG-97': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76 },
@@ -3680,7 +3680,7 @@ export const italyRates = {
             maxWeight: 3000
         }
     },
-    'Italy-ZONA-98': {
+    'Italy-ME-98': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76 },

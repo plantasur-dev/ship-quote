@@ -1,6 +1,6 @@
 
 export const czechRates = {
-    'CzechRepublic-ZONA-10': {
+    'CzechRepublic-PR-10': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -40,7 +40,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-11': {
+    'CzechRepublic-PR-11': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -80,7 +80,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-12': {
+    'CzechRepublic-PR-12': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -120,7 +120,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-13': {
+    'CzechRepublic-PR-13': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -160,7 +160,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-14': {
+    'CzechRepublic-PR-14': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -200,7 +200,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-15': {
+    'CzechRepublic-PR-15': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -240,7 +240,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-16': {
+    'CzechRepublic-PR-16': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -280,7 +280,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-17': {
+    'CzechRepublic-PR-17': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -320,7 +320,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-18': {
+    'CzechRepublic-PR-18': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -360,7 +360,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-19': {
+    'CzechRepublic-PR-19': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -400,7 +400,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-25': {
+    'CzechRepublic-ST-25': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.1 },
@@ -440,7 +440,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-26': {
+    'CzechRepublic-ST-26': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.2 },
@@ -480,7 +480,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-27': {
+    'CzechRepublic-ST-27': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.2 },
@@ -520,7 +520,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-28': {
+    'CzechRepublic-ST-28': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -560,7 +560,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-29': {
+    'CzechRepublic-ST-29': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.2 },
@@ -600,7 +600,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-30': {
+    'CzechRepublic-PL-30': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.3 },
@@ -640,7 +640,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-31': {
+    'CzechRepublic-PL-31': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.3 },
@@ -680,7 +680,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-32': {
+    'CzechRepublic-PL-32': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.3 },
@@ -720,7 +720,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-33': {
+    'CzechRepublic-PL-33': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.4 },
@@ -760,7 +760,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-34': {
+    'CzechRepublic-PL-34': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.5 },
@@ -800,7 +800,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-35': {
+    'CzechRepublic-KA-35': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.6 },
@@ -840,7 +840,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-36': {
+    'CzechRepublic-KA-36': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.6 },
@@ -880,7 +880,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-37': {
+    'CzechRepublic-JC-37': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -920,7 +920,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-38': {
+    'CzechRepublic-JC-38': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.2 },
@@ -960,7 +960,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-39': {
+    'CzechRepublic-JC-39': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -1000,7 +1000,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-40': {
+    'CzechRepublic-US-40': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.4 },
@@ -1040,7 +1040,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-41': {
+    'CzechRepublic-US-41': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.3 },
@@ -1080,7 +1080,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-43': {
+    'CzechRepublic-US-43': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.4 },
@@ -1120,7 +1120,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-44': {
+    'CzechRepublic-LI-44': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.3 },
@@ -1160,7 +1160,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-46': {
+    'CzechRepublic-LI-46': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.5 },
@@ -1200,7 +1200,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-47': {
+    'CzechRepublic-LI-47': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.3 },
@@ -1240,7 +1240,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-50': {
+    'CzechRepublic-KR-50': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -1280,7 +1280,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-51': {
+    'CzechRepublic-KR-51': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -1320,7 +1320,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-53': {
+    'CzechRepublic-PA-53': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.9 },
@@ -1360,7 +1360,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-54': {
+    'CzechRepublic-KR-54': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -1400,7 +1400,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-55': {
+    'CzechRepublic-PA-55': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -1440,7 +1440,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-56': {
+    'CzechRepublic-PA-56': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.8 },
@@ -1480,7 +1480,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-57': {
+    'CzechRepublic-PA-57': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.7 },
@@ -1520,7 +1520,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-58': {
+    'CzechRepublic-VY-58': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.8 },
@@ -1560,7 +1560,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-59': {
+    'CzechRepublic-VY-59': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.3 },
@@ -1600,7 +1600,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-60': {
+    'CzechRepublic-JM-60': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 59.3 },
@@ -1640,7 +1640,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-61': {
+    'CzechRepublic-JM-61': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 59.4 },
@@ -1680,7 +1680,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-62': {
+    'CzechRepublic-JM-62': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 59.8 },
@@ -1720,7 +1720,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-63': {
+    'CzechRepublic-JM-63': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 59.5 },
@@ -1760,7 +1760,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-64': {
+    'CzechRepublic-JM-64': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 59.6 },
@@ -1800,7 +1800,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-66': {
+    'CzechRepublic-JM-66': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61 },
@@ -1840,7 +1840,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-67': {
+    'CzechRepublic-JM-67': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.8 },
@@ -1880,7 +1880,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-68': {
+    'CzechRepublic-ZL-68': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.9 },
@@ -1920,7 +1920,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-69': {
+    'CzechRepublic-ZL-69': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.3 },
@@ -1960,7 +1960,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-70': {
+    'CzechRepublic-MO-70': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -2000,7 +2000,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-71': {
+    'CzechRepublic-MO-71': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -2040,7 +2040,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-72': {
+    'CzechRepublic-MO-72': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -2080,7 +2080,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-73': {
+    'CzechRepublic-MO-73': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -2120,7 +2120,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-74': {
+    'CzechRepublic-MO-74': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -2160,7 +2160,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-75': {
+    'CzechRepublic-OL-75': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.8 },
@@ -2200,7 +2200,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-76': {
+    'CzechRepublic-OL-76': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.7 },
@@ -2240,7 +2240,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-77': {
+    'CzechRepublic-OL-77': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.7 },
@@ -2280,7 +2280,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-78': {
+    'CzechRepublic-OL-78': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.8 },
@@ -2320,7 +2320,7 @@ export const czechRates = {
             maxWeight: 3000
         }
     },
-    'CzechRepublic-ZONA-79': {
+    'CzechRepublic-OL-79': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.8 },

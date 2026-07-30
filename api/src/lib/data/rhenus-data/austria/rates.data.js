@@ -1,6 +1,6 @@
 
 export const austriaRates = {
-    'Austria-ZONA-10': {
+    'Austria-WI-10': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.4 },
@@ -40,7 +40,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-11': {
+    'Austria-WI-11': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.4 },
@@ -80,7 +80,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-12': {
+    'Austria-WI-12': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.4 },
@@ -120,7 +120,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-13': {
+    'Austria-WI-13': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -160,7 +160,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-14': {
+    'Austria-WI-14': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -200,7 +200,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-15': {
+    'Austria-WI-15': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -240,7 +240,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-16': {
+    'Austria-WI-16': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -280,7 +280,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-17': {
+    'Austria-WI-17': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -320,7 +320,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-18': {
+    'Austria-WI-18': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -360,7 +360,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-19': {
+    'Austria-WI-19': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -400,7 +400,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-20': {
+    'Austria-NI-20': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.3 },
@@ -440,7 +440,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-21': {
+    'Austria-NI-21': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -480,7 +480,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-22': {
+    'Austria-NI-22': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -520,7 +520,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-23': {
+    'Austria-NI-23': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -560,7 +560,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-24': {
+    'Austria-NI-24': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.4 },
@@ -600,7 +600,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-25': {
+    'Austria-NI-25': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.1 },
@@ -640,7 +640,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-26': {
+    'Austria-NI-26': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.4 },
@@ -680,7 +680,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-27': {
+    'Austria-NI-27': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -720,7 +720,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-28': {
+    'Austria-NI-28': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -760,7 +760,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-30': {
+    'Austria-OB-30': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 60.8 },
@@ -800,7 +800,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-31': {
+    'Austria-OB-31': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 60.4 },
@@ -840,7 +840,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-32': {
+    'Austria-NI-32': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 59.1 },
@@ -880,7 +880,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-33': {
+    'Austria-NI-33': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 58.3 },
@@ -920,247 +920,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-34': {
-        service: "basic",
-        priceBreaks: [
-            { min: 0, max: 50, price: 62.6 },
-            { min: 51, max: 100, price: 64.2 },
-            { min: 101, max: 200, price: 114.8 },
-            { min: 201, max: 300, price: 165 },
-            { min: 301, max: 400, price: 213 },
-            { min: 401, max: 500, price: 258.9 },
-            { min: 501, max: 600, price: 296.6 },
-            { min: 601, max: 700, price: 341.8 },
-            { min: 701, max: 800, price: 379 },
-            { min: 801, max: 900, price: 420.6 },
-            { min: 901, max: 1000, price: 464.1 },
-            { min: 1001, max: 1100, price: 507 },
-            { min: 1101, max: 1200, price: 547.8 },
-            { min: 1201, max: 1300, price: 590.7 },
-            { min: 1301, max: 1400, price: 635.5 },
-            { min: 1401, max: 1500, price: 678.2 },
-            { min: 1501, max: 1600, price: 715.8 },
-            { min: 1601, max: 1700, price: 755.3 },
-            { min: 1701, max: 1800, price: 796.5 },
-            { min: 1801, max: 1900, price: 838.7 },
-            { min: 1901, max: 2000, price: 880.1 },
-            { min: 2001, max: 2100, price: 936.1 },
-            { min: 2101, max: 2200, price: 963.7 },
-            { min: 2201, max: 2300, price: 993.3 },
-            { min: 2301, max: 2400, price: 1024.5 },
-            { min: 2401, max: 2500, price: 1055.7 },
-            { min: 2501, max: 2600, price: 1109.9 },
-            { min: 2601, max: 2700, price: 1141.2 },
-            { min: 2701, max: 2800, price: 1172.4 },
-            { min: 2801, max: 2900, price: 1203.6 },
-            { min: 2901, max: 3000, price: 1234.8 }
-        ],
-        fallbackToLastPrice: true,
-        limits: {
-            maxWeight: 3000
-        }
-    },
-    'Austria-ZONA-35': {
-        service: "basic",
-        priceBreaks: [
-            { min: 0, max: 50, price: 61.3 },
-            { min: 51, max: 100, price: 62.6 },
-            { min: 101, max: 200, price: 109.8 },
-            { min: 201, max: 300, price: 156.4 },
-            { min: 301, max: 400, price: 201.2 },
-            { min: 401, max: 500, price: 243.7 },
-            { min: 501, max: 600, price: 278.8 },
-            { min: 601, max: 700, price: 320.9 },
-            { min: 701, max: 800, price: 355.3 },
-            { min: 801, max: 900, price: 393.7 },
-            { min: 901, max: 1000, price: 434.2 },
-            { min: 1001, max: 1100, price: 473.3 },
-            { min: 1101, max: 1200, price: 512 },
-            { min: 1201, max: 1300, price: 551.4 },
-            { min: 1301, max: 1400, price: 593 },
-            { min: 1401, max: 1500, price: 633.5 },
-            { min: 1501, max: 1600, price: 668.5 },
-            { min: 1601, max: 1700, price: 705.7 },
-            { min: 1701, max: 1800, price: 744.8 },
-            { min: 1801, max: 1900, price: 784.9 },
-            { min: 1901, max: 2000, price: 824.2 },
-            { min: 2001, max: 2100, price: 888.9 },
-            { min: 2101, max: 2200, price: 916.5 },
-            { min: 2201, max: 2300, price: 946.1 },
-            { min: 2301, max: 2400, price: 977.3 },
-            { min: 2401, max: 2500, price: 1008.5 },
-            { min: 2501, max: 2600, price: 1059.4 },
-            { min: 2601, max: 2700, price: 1090.7 },
-            { min: 2701, max: 2800, price: 1121.9 },
-            { min: 2801, max: 2900, price: 1153.1 },
-            { min: 2901, max: 3000, price: 1184.3 }
-        ],
-        fallbackToLastPrice: true,
-        limits: {
-            maxWeight: 3000
-        }
-    },
-    'Austria-ZONA-36': {
-        service: "basic",
-        priceBreaks: [
-            { min: 0, max: 50, price: 59.6 },
-            { min: 51, max: 100, price: 60.6 },
-            { min: 101, max: 200, price: 103.8 },
-            { min: 201, max: 300, price: 145.9 },
-            { min: 301, max: 400, price: 186.8 },
-            { min: 401, max: 500, price: 225.2 },
-            { min: 501, max: 600, price: 257.2 },
-            { min: 601, max: 700, price: 295.7 },
-            { min: 701, max: 800, price: 327 },
-            { min: 801, max: 900, price: 361.4 },
-            { min: 901, max: 1000, price: 398.4 },
-            { min: 1001, max: 1100, price: 434 },
-            { min: 1101, max: 1200, price: 469 },
-            { min: 1201, max: 1300, price: 504.5 },
-            { min: 1301, max: 1400, price: 542.5 },
-            { min: 1401, max: 1500, price: 579.4 },
-            { min: 1501, max: 1600, price: 611.2 },
-            { min: 1601, max: 1700, price: 644.7 },
-            { min: 1701, max: 1800, price: 680.2 },
-            { min: 1801, max: 1900, price: 716.9 },
-            { min: 1901, max: 2000, price: 752.5 },
-            { min: 2001, max: 2100, price: 797.5 },
-            { min: 2101, max: 2200, price: 825.1 },
-            { min: 2201, max: 2300, price: 854.7 },
-            { min: 2301, max: 2400, price: 885.9 },
-            { min: 2401, max: 2500, price: 917.1 },
-            { min: 2501, max: 2600, price: 964.8 },
-            { min: 2601, max: 2700, price: 996.1 },
-            { min: 2701, max: 2800, price: 1027.3 },
-            { min: 2801, max: 2900, price: 1058.5 },
-            { min: 2901, max: 3000, price: 1089.7 }
-        ],
-        fallbackToLastPrice: true,
-        limits: {
-            maxWeight: 3000
-        }
-    },
-    'Austria-ZONA-37': {
-        service: "basic",
-        priceBreaks: [
-            { min: 0, max: 50, price: 62.6 },
-            { min: 51, max: 100, price: 64.2 },
-            { min: 101, max: 200, price: 114.7 },
-            { min: 201, max: 300, price: 164.9 },
-            { min: 301, max: 400, price: 212.8 },
-            { min: 401, max: 500, price: 258.8 },
-            { min: 501, max: 600, price: 296.4 },
-            { min: 601, max: 700, price: 341.5 },
-            { min: 701, max: 800, price: 378.7 },
-            { min: 801, max: 900, price: 420.2 },
-            { min: 901, max: 1000, price: 463.8 },
-            { min: 1001, max: 1100, price: 506.6 },
-            { min: 1101, max: 1200, price: 547.4 },
-            { min: 1201, max: 1300, price: 590.2 },
-            { min: 1301, max: 1400, price: 635 },
-            { min: 1401, max: 1500, price: 677.6 },
-            { min: 1501, max: 1600, price: 715.2 },
-            { min: 1601, max: 1700, price: 754.7 },
-            { min: 1701, max: 1800, price: 795.8 },
-            { min: 1801, max: 1900, price: 838 },
-            { min: 1901, max: 2000, price: 879.4 },
-            { min: 2001, max: 2100, price: 935.4 },
-            { min: 2101, max: 2200, price: 963 },
-            { min: 2201, max: 2300, price: 992.6 },
-            { min: 2301, max: 2400, price: 1023.8 },
-            { min: 2401, max: 2500, price: 1055 },
-            { min: 2501, max: 2600, price: 1109.4 },
-            { min: 2601, max: 2700, price: 1140.6 },
-            { min: 2701, max: 2800, price: 1171.8 },
-            { min: 2801, max: 2900, price: 1203 },
-            { min: 2901, max: 3000, price: 1234.3 }
-        ],
-        fallbackToLastPrice: true,
-        limits: {
-            maxWeight: 3000
-        }
-    },
-    'Austria-ZONA-38': {
-        service: "basic",
-        priceBreaks: [
-            { min: 0, max: 50, price: 59.8 },
-            { min: 51, max: 100, price: 60.7 },
-            { min: 101, max: 200, price: 104 },
-            { min: 201, max: 300, price: 145.9 },
-            { min: 301, max: 400, price: 186.8 },
-            { min: 401, max: 500, price: 225 },
-            { min: 501, max: 600, price: 257 },
-            { min: 601, max: 700, price: 295.3 },
-            { min: 701, max: 800, price: 326.5 },
-            { min: 801, max: 900, price: 360.8 },
-            { min: 901, max: 1000, price: 397.7 },
-            { min: 1001, max: 1100, price: 433.2 },
-            { min: 1101, max: 1200, price: 468.1 },
-            { min: 1201, max: 1300, price: 503.4 },
-            { min: 1301, max: 1400, price: 541.3 },
-            { min: 1401, max: 1500, price: 578.2 },
-            { min: 1501, max: 1600, price: 609.9 },
-            { min: 1601, max: 1700, price: 643.2 },
-            { min: 1701, max: 1800, price: 678.6 },
-            { min: 1801, max: 1900, price: 715.2 },
-            { min: 1901, max: 2000, price: 750.7 },
-            { min: 2001, max: 2100, price: 795.9 },
-            { min: 2101, max: 2200, price: 823.6 },
-            { min: 2201, max: 2300, price: 853.1 },
-            { min: 2301, max: 2400, price: 884.4 },
-            { min: 2401, max: 2500, price: 915.6 },
-            { min: 2501, max: 2600, price: 963.7 },
-            { min: 2601, max: 2700, price: 994.9 },
-            { min: 2701, max: 2800, price: 1026.1 },
-            { min: 2801, max: 2900, price: 1057.3 },
-            { min: 2901, max: 3000, price: 1088.5 }
-        ],
-        fallbackToLastPrice: true,
-        limits: {
-            maxWeight: 3000
-        }
-    },
-    'Austria-ZONA-39': {
-        service: "basic",
-        priceBreaks: [
-            { min: 0, max: 50, price: 58.9 },
-            { min: 51, max: 100, price: 59.8 },
-            { min: 101, max: 200, price: 102.1 },
-            { min: 201, max: 300, price: 143.3 },
-            { min: 301, max: 400, price: 183.6 },
-            { min: 401, max: 500, price: 221.3 },
-            { min: 501, max: 600, price: 252.8 },
-            { min: 601, max: 700, price: 290.5 },
-            { min: 701, max: 800, price: 321.2 },
-            { min: 801, max: 900, price: 355 },
-            { min: 901, max: 1000, price: 391.4 },
-            { min: 1001, max: 1100, price: 426.2 },
-            { min: 1101, max: 1200, price: 460.6 },
-            { min: 1201, max: 1300, price: 495.5 },
-            { min: 1301, max: 1400, price: 532.8 },
-            { min: 1401, max: 1500, price: 569.1 },
-            { min: 1501, max: 1600, price: 600.3 },
-            { min: 1601, max: 1700, price: 633.1 },
-            { min: 1701, max: 1800, price: 668 },
-            { min: 1801, max: 1900, price: 704 },
-            { min: 1901, max: 2000, price: 738.9 },
-            { min: 2001, max: 2100, price: 782.6 },
-            { min: 2101, max: 2200, price: 810.3 },
-            { min: 2201, max: 2300, price: 839.8 },
-            { min: 2301, max: 2400, price: 871 },
-            { min: 2401, max: 2500, price: 902.3 },
-            { min: 2501, max: 2600, price: 949 },
-            { min: 2601, max: 2700, price: 980.2 },
-            { min: 2701, max: 2800, price: 1011.5 },
-            { min: 2801, max: 2900, price: 1042.7 },
-            { min: 2901, max: 3000, price: 1073.9 }
-        ],
-        fallbackToLastPrice: true,
-        limits: {
-            maxWeight: 3000
-        }
-    },
-    'Austria-ZONA-40': {
+    'Austria-OB-40': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 56.5 },
@@ -1200,7 +960,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-41': {
+    'Austria-OB-41': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 56.9 },
@@ -1240,7 +1000,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-42': {
+    'Austria-OB-42': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 56.7 },
@@ -1280,7 +1040,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-43': {
+    'Austria-OB-43': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 57.2 },
@@ -1320,7 +1080,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-44': {
+    'Austria-OB-44': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 56.8 },
@@ -1360,7 +1120,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-45': {
+    'Austria-OB-45': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 57.1 },
@@ -1400,7 +1160,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-46': {
+    'Austria-OB-46': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 57.2 },
@@ -1440,7 +1200,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-47': {
+    'Austria-OB-47': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 58.1 },
@@ -1480,7 +1240,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-48': {
+    'Austria-OB-48': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 58.3 },
@@ -1520,7 +1280,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-49': {
+    'Austria-SA-49': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 58.5 },
@@ -1560,7 +1320,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-50': {
+    'Austria-SA-50': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61 },
@@ -1600,7 +1360,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-51': {
+    'Austria-SA-51': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 60.3 },
@@ -1640,7 +1400,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-52': {
+    'Austria-SA-52': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 59.1 },
@@ -1680,7 +1440,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-53': {
+    'Austria-SA-53': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 60.5 },
@@ -1720,7 +1480,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-54': {
+    'Austria-SA-54': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61.9 },
@@ -1760,7 +1520,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-55': {
+    'Austria-SA-55': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.8 },
@@ -1800,7 +1560,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-56': {
+    'Austria-TI-56': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.1 },
@@ -1840,7 +1600,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-57': {
+    'Austria-TI-57': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.8 },
@@ -1880,7 +1640,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-60': {
+    'Austria-TI-60': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.1 },
@@ -1920,7 +1680,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-61': {
+    'Austria-TI-61': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.8 },
@@ -1960,7 +1720,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-62': {
+    'Austria-TI-62': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.2 },
@@ -2000,7 +1760,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-63': {
+    'Austria-TI-63': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.4 },
@@ -2040,7 +1800,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-64': {
+    'Austria-VO-64': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.2 },
@@ -2080,7 +1840,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-65': {
+    'Austria-VO-65': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.7 },
@@ -2120,7 +1880,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-66': {
+    'Austria-VO-66': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.8 },
@@ -2160,7 +1920,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-67': {
+    'Austria-VO-67': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.2 },
@@ -2200,7 +1960,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-68': {
+    'Austria-VO-68': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 67.3 },
@@ -2240,47 +2000,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-69': {
-        service: "basic",
-        priceBreaks: [
-            { min: 0, max: 50, price: 67.3 },
-            { min: 51, max: 100, price: 70.3 },
-            { min: 101, max: 200, price: 130 },
-            { min: 201, max: 300, price: 190.5 },
-            { min: 301, max: 400, price: 247.6 },
-            { min: 401, max: 500, price: 302.7 },
-            { min: 501, max: 600, price: 348.1 },
-            { min: 601, max: 700, price: 402.2 },
-            { min: 701, max: 800, price: 447 },
-            { min: 801, max: 900, price: 497.3 },
-            { min: 901, max: 1000, price: 549.6 },
-            { min: 1001, max: 1100, price: 603.7 },
-            { min: 1101, max: 1200, price: 649.8 },
-            { min: 1201, max: 1300, price: 702.3 },
-            { min: 1301, max: 1400, price: 756.7 },
-            { min: 1401, max: 1500, price: 804.6 },
-            { min: 1501, max: 1600, price: 849.6 },
-            { min: 1601, max: 1700, price: 894.4 },
-            { min: 1701, max: 1800, price: 940.8 },
-            { min: 1801, max: 1900, price: 988.2 },
-            { min: 1901, max: 2000, price: 1034.9 },
-            { min: 2001, max: 2100, price: 1109.5 },
-            { min: 2101, max: 2200, price: 1137.2 },
-            { min: 2201, max: 2300, price: 1166.7 },
-            { min: 2301, max: 2400, price: 1197.9 },
-            { min: 2401, max: 2500, price: 1229.2 },
-            { min: 2501, max: 2600, price: 1320.8 },
-            { min: 2601, max: 2700, price: 1352 },
-            { min: 2701, max: 2800, price: 1383.2 },
-            { min: 2801, max: 2900, price: 1414.4 },
-            { min: 2901, max: 3000, price: 1445.7 }
-        ],
-        fallbackToLastPrice: true,
-        limits: {
-            maxWeight: 3000
-        }
-    },
-    'Austria-ZONA-70': {
+    'Austria-BU-70': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -2320,7 +2040,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-71': {
+    'Austria-BU-71': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -2360,7 +2080,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-72': {
+    'Austria-BU-72': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -2400,7 +2120,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-73': {
+    'Austria-BU-73': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64 },
@@ -2440,7 +2160,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-74': {
+    'Austria-BU-74': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.5 },
@@ -2480,7 +2200,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-75': {
+    'Austria-BU-75': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.6 },
@@ -2520,7 +2240,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-80': {
+    'Austria-ST-80': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.5 },
@@ -2560,7 +2280,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-81': {
+    'Austria-ST-81': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.4 },
@@ -2600,7 +2320,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-82': {
+    'Austria-ST-82': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64 },
@@ -2640,7 +2360,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-83': {
+    'Austria-ST-83': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.2 },
@@ -2680,7 +2400,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-84': {
+    'Austria-ST-84': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64 },
@@ -2720,7 +2440,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-85': {
+    'Austria-ST-85': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64 },
@@ -2760,7 +2480,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-86': {
+    'Austria-ST-86': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.2 },
@@ -2800,7 +2520,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-87': {
+    'Austria-ST-87': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.2 },
@@ -2840,7 +2560,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-88': {
+    'Austria-ST-88': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.9 },
@@ -2880,7 +2600,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-89': {
+    'Austria-ST-89': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61 },
@@ -2920,7 +2640,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-90': {
+    'Austria-KA-90': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -2960,7 +2680,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-91': {
+    'Austria-KA-91': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -3000,7 +2720,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-92': {
+    'Austria-KA-92': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -3040,7 +2760,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-93': {
+    'Austria-KA-93': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 63.7 },
@@ -3080,7 +2800,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-94': {
+    'Austria-KA-94': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.6 },
@@ -3120,7 +2840,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-95': {
+    'Austria-BU-95': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65 },
@@ -3160,7 +2880,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-96': {
+    'Austria-BU-96': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66 },
@@ -3200,7 +2920,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-97': {
+    'Austria-BU-97': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.9 },
@@ -3240,7 +2960,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-98': {
+    'Austria-BU-98': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.5 },
@@ -3280,7 +3000,7 @@ export const austriaRates = {
             maxWeight: 3000
         }
     },
-    'Austria-ZONA-99': {
+    'Austria-BU-99': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.2 },

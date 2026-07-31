@@ -14,7 +14,8 @@ import {
 import { 
     normalizeString, 
     validateAgency,
-    validatePalletType 
+    validatePalletType, 
+    validateZone
 } from '../../lib/utils/middleware/middleware.utils.js';
 
 export const rateItemsValidation = (req, res, next) => {
@@ -96,8 +97,14 @@ export const rateValidation = async (req, res, next) => {
 
     const normalizedZoneName = normalizeString(zoneName);
 
-    if (normalizedZoneName == null) {
-        throw createHttpError(400, 'zoneName is required');
+    const zone = await validateZone(agencyId, normalizedZoneName);
+
+    const normalizedCalculationMode = normalizeString(zone.calculationMode);
+
+    const loweredCalculationMode = normalizedCalculationMode.toLocaleLowerCase();
+
+    if (loweredType !== loweredCalculationMode) {
+        throw createHttpError(400, `Only zone type "${ loweredCalculationMode }" is accepted.`);
     }
     
     if (calculationType != null) {
@@ -122,7 +129,7 @@ export const rateValidation = async (req, res, next) => {
 
     services.forEach(validateService);
 
-    req.locals = { agency };
+    req.locals = { agency, zone };
     req.body.type = loweredType;
     req.body.zoneName = normalizedZoneName;
 

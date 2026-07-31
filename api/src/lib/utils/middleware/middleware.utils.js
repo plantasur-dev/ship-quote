@@ -4,6 +4,7 @@ import createHttpError from "http-errors";
 import mongoose from "mongoose";
 
 import Agency from "../../models/agency.model.js";
+import Zone from '../../models/zone.model.js';
 import PalletType from "../../models/palletType.model.js";
 
 export const isInvalidNumber = (value, { allowZero = false } = {}) => {
@@ -16,6 +17,13 @@ export const normalizeString = (value) => {
 
     const normalized = value.trim();
     return normalized.length ? normalized : null;
+};
+
+export const validateName = (name) => {
+ 
+    if (typeof name !== 'string' || !name.trim()) {
+        throw createHttpError(400, 'name is required');
+    }
 };
 
 export const validatePalletType = async (palletTypeId) => {
@@ -64,9 +72,19 @@ export const validateAgency = async (agencyId) => {
     return agency;
 };
 
-export const validateName = (name) => {
- 
-    if (typeof name !== 'string' || !name.trim()) {
-        throw createHttpError(400, 'name is required');
+export const validateZone = async (agencyId, zoneName) => {
+
+    if (!agencyId) {
+        throw createHttpError(400, 'agencyId is required');
     }
+
+    if (!zoneName) {
+        throw createHttpError(400, 'zoneName is required');
+    }
+
+    const zone = await Zone.findOne({ agencyId, name: zoneName });
+
+    if (!zone) throw createHttpError(404, `Zone ${ zoneName } not found`);
+
+    return zone;
 };

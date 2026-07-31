@@ -159,12 +159,12 @@ describe("Zones API", () => {
                 },
                 zones: [
                     {
-                    name: "ZONA 14",
-                    provinces: ["ES-GU", "ES-M"]
+                        name: "ZONA 14",
+                        provinces: ["ES-GU", "ES-M"]
                     },
                     {
-                    name: "ZONA 23",
-                    provinces: ["ES-SO", "ES-TO"]
+                        name: "ZONA 23",
+                        provinces: ["ES-SO", "ES-TO"]
                     }
                 ],
                 exceptions: [

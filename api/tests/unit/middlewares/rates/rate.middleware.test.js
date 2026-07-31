@@ -5,11 +5,22 @@ import Agency from "../../../../src/lib/models/agency.model";
 import PalletType from "../../../../src/lib/models/palletType.model";
 
 import { rateValidation } from "../../../../src/api/middlewares/rate.validation.middleware";
+import Zone from "../../../../src/lib/models/zone.model";
 
 let agency;
+let zone;
 let palletType;
 
-const dataSend = {
+ const zoneData = {
+    name: "ZONA PRUEBAS",
+    provinces: ["ES-M", "ES-TO"],
+    calculationMode: "pallet",
+    volumetric: { "enabled": true, "factor": 6000 },
+    pricingMode: { "type": "weight_volume" },
+    postalCodeRanges: []
+};
+
+const rateSend = {
     zoneName: 'ZONA PRUEBAS',
     type: 'pallet',
     services: [{
@@ -32,6 +43,11 @@ describe("rateValidation middleware", () => {
             }
         });
 
+        zone = await Zone.create({
+            "agencyId": agency._id,
+            ...zoneData
+        });
+
         palletType = await PalletType.create({
             "agencyId": agency._id,
             "name": "Pallet prueba",
@@ -49,7 +65,8 @@ describe("rateValidation middleware", () => {
             body: {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
-                ...dataSend,
+                zoneName: zone.name,
+                ...rateSend,
                 calculationType: "UNIT"
             }
         };
@@ -69,7 +86,8 @@ describe("rateValidation middleware", () => {
             body: {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
-                ...dataSend,
+                zoneName: zone.name,
+                ...rateSend,
                 calculationType: "   "
             }
         };
@@ -88,7 +106,8 @@ describe("rateValidation middleware", () => {
             body: {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
-                ...dataSend,
+                zoneName: zone.name,
+                ...rateSend,
                 calculationType: "weight"
             }
         };
@@ -109,7 +128,8 @@ describe("rateValidation middleware", () => {
             body: {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
-                ...dataSend
+                zoneName: zone.name,
+                ...rateSend
             }
         };
 

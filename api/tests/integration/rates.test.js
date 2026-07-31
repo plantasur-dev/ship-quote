@@ -6,6 +6,7 @@ import rates from '../../src/api/services/rates.service.js';
 import { getProvinceByCountryCodeAndPostalCode } from '../../src/api/services/provinces.service.js';
 import Agency from '../../src/lib/models/agency.model.js';
 import PalletType from '../../src/lib/models/palletType.model.js';
+import Zone from '../../src/lib/models/zone.model.js';
 
 vi.mock('../../src/api/services/rates.service.js', () => ({
     default: vi.fn()
@@ -52,6 +53,15 @@ const validInternationalPostalCodePayload = {
     destinationPostalCode: '84140',
     countryCode: 'FR',
     items: [validItem]
+};
+
+const zoneData = {
+    name: "ZONA 1",
+    provinces: ["ES-M", "ES-TO"],
+    calculationMode: "pallet",
+    volumetric: { "enabled": true, "factor": 6000 },
+    pricingMode: { "type": "weight_volume" },
+    postalCodeRanges: []
 };
 
 const compareResult = [{
@@ -111,6 +121,7 @@ const compareResult = [{
 }];
 
 let agency;
+let zone;
 let palletType;
 
 describe('POST /api/v1/rates', () => {
@@ -137,6 +148,11 @@ describe('POST /api/v1/rates', () => {
             }
         });
 
+        zone = await Zone.create({
+            "agencyId": agency._id,
+            ...zoneData
+        });
+
         palletType = await PalletType.create({
             "agencyId": agency._id,
             "name": "Pallet prueba",
@@ -154,7 +170,7 @@ describe('POST /api/v1/rates', () => {
             .post('/api/v1/rates')
             .send({
                 type: 'pallet',
-                zoneName: 'ZONA 1',
+                zoneName: zone.name,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]
@@ -171,7 +187,7 @@ describe('POST /api/v1/rates', () => {
             .send({
                 agencyId: agency._id,
                 type: 'pallet',
-                zoneName: 'ZONA 1',
+                zoneName: zone.name,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]
@@ -189,7 +205,7 @@ describe('POST /api/v1/rates', () => {
                 agencyId: agency._id,
                 palletTypeId: 'invalid',
                 type: 'pallet',
-                zoneName: 'ZONA 1',
+                zoneName: zone.name,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]
@@ -206,7 +222,7 @@ describe('POST /api/v1/rates', () => {
             .send({
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
-                zoneName: 'ZONA 1',
+                zoneName: zone.name,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]
@@ -224,7 +240,7 @@ describe('POST /api/v1/rates', () => {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
                 type: 'invalid',
-                zoneName: 'ZONA 1',
+                zoneName: zone.name,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]
@@ -260,7 +276,7 @@ describe('POST /api/v1/rates', () => {
                 palletTypeId: palletType._id,
                 type: 'pallet',
                 calculationType: 'unit',
-                zoneName: 'ZONA 1',
+                zoneName: zone.name,
                 services: []
             });
 
@@ -275,7 +291,7 @@ describe('POST /api/v1/rates', () => {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
                 type: 'pallet',
-                zoneName: 'ZONA 1',
+                zoneName: zone.name,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]

@@ -16,7 +16,9 @@ export const zoneValidation = async (req, res, next) => {
 
     const agency = await UtilValidation.validateAgency(agencyId);
 
-    UtilValidation.validateName(name);
+    const normalizedName = UtilValidation.normalizeString(name);
+
+    UtilValidation.validateName(normalizedName);
     ZoneValidation.validateProvinces(provinces);
     ZoneValidation.validateCalculationMode(calculationMode, agency);
     ZoneValidation.validatePricingMode(pricingMode, calculationMode);
@@ -27,6 +29,7 @@ export const zoneValidation = async (req, res, next) => {
     await ZoneValidation.validateProvincesNotAlreadyAssigned(agencyId, provinces);
     
     req.locals = { agency };
+    req.body.name = normalizedName;
 
     next();
 };
@@ -48,14 +51,21 @@ export const zoneFullValidation = async (req, res, next) => {
     ZoneValidation.validateCalculationMode(calculationMode, agency);
     ZoneValidation.validatePricingMode(pricingMode, calculationMode);
     ZoneValidation.validateVolumetric(volumetric);
+
+    const normalizedZones = zones.map(zone => ({
+        ...zone,
+        name: UtilValidation.normalizeString(zone.name)        
+    }));
  
-    const zoneNames = new Set(zones.map(zone => zone.name.trim()));
+    const zoneNames = new Set(normalizedZones.map(zone => zone.name));
     ZoneValidation.validateExceptions(exceptions, zoneNames);
 
     await ZoneValidation.validateUniqueZoneNames(agencyId, [...zoneNames]);
-    await ZoneValidation.validateProvinceZoneCoverage(agencyId, zones, exceptions);
+    await ZoneValidation.validateProvinceZoneCoverage(agencyId, normalizedZones, exceptions);
 
     req.locals = { agency };
+
+    req.body.zones = normalizedZones;
  
     next();    
 };

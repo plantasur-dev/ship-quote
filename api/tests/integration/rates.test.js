@@ -199,6 +199,23 @@ describe('POST /api/v1/rates', () => {
         expect(res.status).toBe(400);
         expect(res.body.message).toContain('palletTypeId is not a valid id');
     });
+
+    it('should return 400 when type is missing', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .send({
+                agencyId: agency._id,
+                palletTypeId: palletType._id,
+                zoneName: 'ZONA 1',
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('type is required');
+    });
     
     it('should return 400 when type is invalid', async () => {
         const res = await request(app)
@@ -216,6 +233,56 @@ describe('POST /api/v1/rates', () => {
 
         expect(res.status).toBe(400);
         expect(res.body.message).toContain('type must be one of');
+    });
+
+    it('should return 400 when zoneName is missing', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .send({
+                agencyId: agency._id,
+                palletTypeId: palletType._id,
+                type: 'pallet',
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('zoneName is required');
+    });
+
+    it('should return 400 when services is not Array o empty', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .send({
+                agencyId: agency._id,
+                palletTypeId: palletType._id,
+                type: 'pallet',
+                calculationType: 'unit',
+                zoneName: 'ZONA 1',
+                services: []
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('services must be a non-empty array');
+    });
+
+    it('should return 201 when create rate', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .send({
+                agencyId: agency._id,
+                palletTypeId: palletType._id,
+                type: 'pallet',
+                zoneName: 'ZONA 1',
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(201);
     });
 });
 
@@ -399,6 +466,34 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
         expect(res.status).toBe(404);
         expect(res.body.message)
         .toBe('Province not found');
+    });
+
+    it('should return 400 when countryCode is invalid', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates/compareByPostalCode')
+            .send({
+                destinationPostalCode: "28001",
+                countryCode: "34",
+                items: [validItem]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message)
+        .toContain('countryCode invalid: received');
+    });
+
+    it('should return 400 when destinationPostalCode is empty', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates/compareByPostalCode')
+            .send({
+                destinationPostalCode: "",
+                countryCode: "ES",
+                items: [validItem]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message)
+        .toBe('destinationPostalCode cannot be empty');
     });
 
     it('should return 400 when items array is empty', async () => {

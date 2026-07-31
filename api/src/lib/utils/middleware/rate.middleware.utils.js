@@ -63,8 +63,8 @@ const validatePriceBreaks = (priceBreaks, index) => {
             throw createHttpError(400, `services[${ index }].priceBreaks[${ rangeIndex }] must be an object`);
         }
 
-        if (isInvalidNumber(range.min)) {
-            throw createHttpError(400, `services[${ index }].priceBreaks[${ rangeIndex }].min must be a number > 0`);
+        if (isInvalidNumber(range.min, { allowZero: true })) {
+            throw createHttpError(400, `services[${ index }].priceBreaks[${ rangeIndex }].min must be a number >= 0`);
         }
 
         if (isInvalidNumber(range.max)) {

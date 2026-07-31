@@ -35,7 +35,7 @@ export const details = async (req, res) => {
         .find({ zoneId })
         .populate('zoneId');
 
-    if (!zoneRules) throw createHttpError(404, 'Zone Rules not founds');
+    if (!zoneRules.length) throw createHttpError(404, 'Zone Rules not founds');
 
     res.json(zoneRules);
 };

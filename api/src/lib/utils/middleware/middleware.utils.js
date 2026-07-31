@@ -6,9 +6,9 @@ import mongoose from "mongoose";
 import Agency from "../../models/agency.model.js";
 import PalletType from "../../models/palletType.model.js";
 
-export const isInvalidNumber = (value) => {
+export const isInvalidNumber = (value, { allowZero = false } = {}) => {
     const n = Number(value);
-    return Number.isNaN(n) || n <= 0;
+    return Number.isNaN(n) || (allowZero ? n < 0 : n <= 0);
 };
 
 export const normalizeString = (value) => {

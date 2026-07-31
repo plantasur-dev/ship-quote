@@ -140,4 +140,51 @@ describe("Zones API", () => {
 
         expect(res.body).toHaveProperty('message', 'Resource not found');
     });
+
+    it('Post /zones/full debería insertar las zones. zoneRules responder con 201', async () => {
+        const agency = await Agency.create({
+            name: "Test Agency"
+        });
+
+        const res = await request(app)
+            .post('/api/v1/zones/full')
+            .send({
+                agencyId: agency._id,
+                calculationMode: "pallet",
+                pricingMode: {
+                    type: "pallet_classification"
+                },
+                volumetric: {
+                    enabled: false
+                },
+                zones: [
+                    {
+                    name: "ZONA 14",
+                    provinces: ["ES-GU", "ES-M"]
+                    },
+                    {
+                    name: "ZONA 23",
+                    provinces: ["ES-SO", "ES-TO"]
+                    }
+                ],
+                exceptions: [
+                    {
+                        province: "ES-GU",
+                        zoneName: "ZONA 23",
+                        from: "19261",
+                        to: "19261",
+                        kind: "exception"
+                    },
+                    {
+                        province: "ES-GU",
+                        zoneName: "ZONA 23",
+                        from: "19280",
+                        to: "19287",
+                        kind: "exception"
+                    }
+                ]
+            });
+
+        expect(res.status).toBe(201);
+    });
 });

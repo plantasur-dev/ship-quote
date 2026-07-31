@@ -30,13 +30,34 @@ export const create = async (req, res) => {
 
 export const list = async (req, res) => {
 
-    const zones = await Zone
-        .find()
-        .populate('agencyId', 'name code');
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 14;
 
+    const startIndex = (page - 1) * limit;
+
+    const [zones, total] = await Promise.all([ 
+        Zone.find()
+            .populate('agencyId', 'name code')
+            .limit(limit)
+            .skip(startIndex),
+        Zone.countDocuments()
+    ]);
+        
     if (!zones.length) throw createHttpError(404, 'Zones not found');
 
-    res.json(zones);
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+        zones, 
+        pagination: {
+            total,
+            page,
+            limit,
+            totalPages,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1
+        }
+    });
 };
 
 export const details = async (req, res) => {

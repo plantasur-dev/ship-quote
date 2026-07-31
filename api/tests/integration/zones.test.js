@@ -84,11 +84,11 @@ describe("Zones API", () => {
             .get("/api/v1/zones")
             .expect(200);
 
-        expect(res.body).toHaveLength(2);
+        expect(res.body.zones).toHaveLength(2);
 
-        expect(res.body[0]).toHaveProperty("agencyId");
-        expect(res.body[0].agencyId).toHaveProperty("name");
-        expect(res.body[0].agencyId).toHaveProperty("code");
+        expect(res.body.zones[0]).toHaveProperty("agencyId");
+        expect(res.body.zones[0].agencyId).toHaveProperty("name");
+        expect(res.body.zones[0].agencyId).toHaveProperty("code");
     });
 
     it("debería devolver 404 si no hay zonas", async () => {

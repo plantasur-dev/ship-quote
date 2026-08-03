@@ -14,6 +14,12 @@ export const correosZones = {
             ],
         },
         {
+            name: "BALEARES",
+            provinces: [
+                "ES-BI-ML", "ES-BI-MN", "ES-BI-IB", "ES-BI-FE"
+            ],
+        },
+        {
             name: "ANDALUCIA",
             provinces: [],
         },
@@ -96,6 +102,33 @@ export const correosRates = {
             extraKg: {
                 enabled: true,
                 pricePerKg: 0.39
+            },
+            dimensionRanges: [],
+            multiParcelExcess: {
+                enabled: false,
+                thresholdKg: 40,
+                divisor: 1,
+                pricePerBlock: 0
+            }
+        },
+        limits: {
+            maxWeight: 40,
+            maxLength: 150,
+            maxSumDimensions: 240
+        }
+    },
+
+    BALEARES: {
+        service: "basic",
+        priceBreaks: [
+            { min: 0, max: 1, price: 7.71 },
+            { min: 2, max: 5, price: 10.60 },
+            { min: 5, max: 10, price: 14.44 }
+        ],
+        surcharges: {
+            extraKg: {
+                enabled: true,
+                pricePerKg: 0.71
             },
             dimensionRanges: [],
             multiParcelExcess: {

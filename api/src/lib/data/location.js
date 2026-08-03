@@ -27,8 +27,8 @@ export const specialIslands = [
     { countryCode: 'ES', countryName:'Spain' ,name: "La Palma", adminCode: "TF-LP", postalCode: "38" },
     { countryCode: 'ES', countryName:'Spain' ,name: "La Gomera", adminCode: "TF-LG", postalCode: "38" },
     { countryCode: 'ES', countryName:'Spain' ,name: "El Hierro", adminCode: "TF-EH", postalCode: "38" },
-    { countryCode: 'ES', countryName:'Spain' ,name: "Mallorca", adminCode: "IB-ML", postalCode: "07" },
-    { countryCode: 'ES', countryName:'Spain' ,name: "Menorca", adminCode: "IB-MN", postalCode: "07" },
-    { countryCode: 'ES', countryName:'Spain' ,name: "Ibiza", adminCode: "IB-IB", postalCode: "07" },
-    { countryCode: 'ES', countryName:'Spain' ,name: "Formentera", adminCode: "IB-FE", postalCode: "07" }
+    { countryCode: 'ES', countryName:'Spain' ,name: "Mallorca", adminCode: "BI-ML", postalCode: "07" },
+    { countryCode: 'ES', countryName:'Spain' ,name: "Menorca", adminCode: "BI-MN", postalCode: "07" },
+    { countryCode: 'ES', countryName:'Spain' ,name: "Ibiza", adminCode: "BI-IB", postalCode: "07" },
+    { countryCode: 'ES', countryName:'Spain' ,name: "Formentera", adminCode: "BI-FE", postalCode: "07" }
 ];

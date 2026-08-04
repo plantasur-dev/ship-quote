@@ -57,7 +57,19 @@ export const czech = [
     { countryCode: "CZ", countryName: "Czech Republic", name: "Olomoucký", adminCode: "OL", postalCode: "75" },
     { countryCode: "CZ", countryName: "Czech Republic", name: "Olomoucký", adminCode: "OL", postalCode: "76" },
 
-    { countryCode: "CZ", countryName: "Czech Republic", name: "Jihočeský", adminCode: "JC", postalCode: "33" },
-    { countryCode: "CZ", countryName: "Czech Republic", name: "Jihočeský", adminCode: "JC", postalCode: "34" },
-    { countryCode: "CZ", countryName: "Czech Republic", name: "Vysočina", adminCode: "VY", postalCode: "39" }
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Plzeňský", adminCode: "PL", postalCode: "33" },
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Plzeňský", adminCode: "PL", postalCode: "34" },
+
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Ústecký", adminCode: "US", postalCode: "43" },
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Liberecký", adminCode: "LI", postalCode: "44" },
+
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Královéhradecký", adminCode: "KR", postalCode: "54" },
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Pardubický", adminCode: "PA", postalCode: "55" },
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Pardubický", adminCode: "PA", postalCode: "57" },
+
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Jihomoravský", adminCode: "JM", postalCode: "63" },
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Jihomoravský", adminCode: "JM", postalCode: "64" },
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Jihomoravský", adminCode: "JM", postalCode: "67" },
+
+    { countryCode: "CZ", countryName: "Czech Republic", name: "Olomoucký", adminCode: "OL", postalCode: "79" },
 ];

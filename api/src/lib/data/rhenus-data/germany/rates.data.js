@@ -1,6 +1,6 @@
 
 export const germanyRates = {
-    'Germany-ZONA-01': {
+    'Germany-SN-01': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.6 },
@@ -39,7 +39,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-02': {
+    'Germany-SN-02': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.8 },
@@ -78,7 +78,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-03': {
+    'Germany-SN-03': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.8 },
@@ -117,7 +117,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-04': {
+    'Germany-SN-04': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.3 },
@@ -156,7 +156,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-06': {
+    'Germany-ST-06': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.1 },
@@ -195,7 +195,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-07': {
+    'Germany-ST-07': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.2 },
@@ -234,7 +234,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-08': {
+    'Germany-TH-08': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.4 },
@@ -273,7 +273,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-09': {
+    'Germany-SN-09': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.5 },
@@ -312,7 +312,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-10': {
+    'Germany-BE-10': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.5 },
@@ -351,7 +351,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-12': {
+    'Germany-BB-12': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.5 },
@@ -390,7 +390,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-13': {
+    'Germany-BB-13': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.5 },
@@ -429,7 +429,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-14': {
+    'Germany-BB-14': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.4 },
@@ -468,7 +468,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-15': {
+    'Germany-BB-15': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.6 },
@@ -507,7 +507,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-16': {
+    'Germany-BB-16': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.6 },
@@ -546,7 +546,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-17': {
+    'Germany-MV-17': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.9 },
@@ -585,7 +585,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-18': {
+    'Germany-MV-18': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 75 },
@@ -624,7 +624,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-19': {
+    'Germany-MV-19': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.4 },
@@ -663,7 +663,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-20': {
+    'Germany-HH-20': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69 },
@@ -702,7 +702,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-21': {
+    'Germany-HH-21': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.9 },
@@ -741,7 +741,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-22': {
+    'Germany-HH-22': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.1 },
@@ -780,7 +780,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-23': {
+    'Germany-HH-23': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.6 },
@@ -819,7 +819,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-24': {
+    'Germany-SH-24': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.3 },
@@ -858,7 +858,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-25': {
+    'Germany-SH-25': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72 },
@@ -897,7 +897,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-26': {
+    'Germany-NI-26': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 71 },
@@ -936,7 +936,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-27': {
+    'Germany-NI-27': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.6 },
@@ -975,7 +975,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-28': {
+    'Germany-HB-28': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.6 },
@@ -1014,7 +1014,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-29': {
+    'Germany-HB-29': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.9 },
@@ -1053,7 +1053,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-30': {
+    'Germany-NI-30': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.5 },
@@ -1092,7 +1092,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-31': {
+    'Germany-NI-31': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.5 },
@@ -1131,7 +1131,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-32': {
+    'Germany-NI-32': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.2 },
@@ -1170,7 +1170,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-33': {
+    'Germany-NI-33': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.1 },
@@ -1209,7 +1209,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-34': {
+    'Germany-NI-34': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.3 },
@@ -1248,7 +1248,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-35': {
+    'Germany-HE-35': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.2 },
@@ -1287,7 +1287,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-36': {
+    'Germany-HE-36': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.5 },
@@ -1326,7 +1326,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-37': {
+    'Germany-NI-37': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.5 },
@@ -1365,7 +1365,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-38': {
+    'Germany-NI-38': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.8 },
@@ -1404,7 +1404,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-39': {
+    'Germany-NI-39': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.1 },
@@ -1443,7 +1443,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-40': {
+    'Germany-NW-40': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 61 },
@@ -1482,7 +1482,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-41': {
+    'Germany-NW-41': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.6 },
@@ -1521,7 +1521,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-42': {
+    'Germany-NW-42': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.6 },
@@ -1560,7 +1560,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-44': {
+    'Germany-NW-44': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 67.7 },
@@ -1599,7 +1599,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-45': {
+    'Germany-NW-45': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.3 },
@@ -1638,7 +1638,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-46': {
+    'Germany-NW-46': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 67.3 },
@@ -1677,7 +1677,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-47': {
+    'Germany-NW-47': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.4 },
@@ -1716,7 +1716,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-48': {
+    'Germany-NW-48': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68 },
@@ -1755,7 +1755,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-49': {
+    'Germany-NW-49': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.2 },
@@ -1794,7 +1794,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-50': {
+    'Germany-RP-50': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 64.9 },
@@ -1833,7 +1833,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-51': {
+    'Germany-NW-51': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 65.2 },
@@ -1872,7 +1872,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-52': {
+    'Germany-NW-52': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 67.8 },
@@ -1911,7 +1911,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-53': {
+    'Germany-NW-53': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 67.8 },
@@ -1950,7 +1950,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-54': {
+    'Germany-RP-54': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.1 },
@@ -1989,7 +1989,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-55': {
+    'Germany-RP-55': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.3 },
@@ -2028,7 +2028,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-56': {
+    'Germany-RP-56': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68 },
@@ -2067,7 +2067,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-57': {
+    'Germany-RP-57': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68 },
@@ -2106,7 +2106,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-58': {
+    'Germany-NW-58': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 67.3 },
@@ -2145,7 +2145,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-59': {
+    'Germany-NW-59': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 67.9 },
@@ -2184,7 +2184,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-60': {
+    'Germany-HE-60': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.3 },
@@ -2223,7 +2223,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-61': {
+    'Germany-HE-61': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.2 },
@@ -2262,7 +2262,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-63': {
+    'Germany-HE-63': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.4 },
@@ -2301,7 +2301,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-64': {
+    'Germany-HE-64': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.4 },
@@ -2340,7 +2340,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-65': {
+    'Germany-HE-65': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.2 },
@@ -2379,7 +2379,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-66': {
+    'Germany-SL-66': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.5 },
@@ -2418,7 +2418,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-67': {
+    'Germany-RP-67': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.4 },
@@ -2457,7 +2457,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-68': {
+    'Germany-BW-68': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.5 },
@@ -2496,7 +2496,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-69': {
+    'Germany-BW-69': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.5 },
@@ -2535,7 +2535,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-70': {
+    'Germany-BW-70': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.9 },
@@ -2574,7 +2574,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-71': {
+    'Germany-BW-71': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.9 },
@@ -2613,7 +2613,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-72': {
+    'Germany-BW-72': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.2 },
@@ -2652,7 +2652,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-73': {
+    'Germany-BW-73': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.2 },
@@ -2691,7 +2691,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-74': {
+    'Germany-BW-74': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.8 },
@@ -2730,7 +2730,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-75': {
+    'Germany-BW-75': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.8 },
@@ -2769,7 +2769,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-76': {
+    'Germany-BW-76': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.8 },
@@ -2808,7 +2808,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-77': {
+    'Germany-BW-77': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.1 },
@@ -2847,7 +2847,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-78': {
+    'Germany-BW-78': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.3 },
@@ -2886,7 +2886,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-79': {
+    'Germany-BW-79': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.3 },
@@ -2925,7 +2925,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-80': {
+    'Germany-BY-80': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.6 },
@@ -2964,7 +2964,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-81': {
+    'Germany-BY-81': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.8 },
@@ -3003,7 +3003,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-82': {
+    'Germany-BY-82': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.8 },
@@ -3042,7 +3042,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-83': {
+    'Germany-BY-83': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 70.2 },
@@ -3081,7 +3081,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-84': {
+    'Germany-BY-84': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.7 },
@@ -3120,7 +3120,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-85': {
+    'Germany-BY-85': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.6 },
@@ -3159,7 +3159,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-86': {
+    'Germany-BY-86': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.5 },
@@ -3198,7 +3198,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-87': {
+    'Germany-BY-87': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.6 },
@@ -3237,7 +3237,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-88': {
+    'Germany-BY-88': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.7 },
@@ -3276,7 +3276,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-89': {
+    'Germany-BY-89': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.3 },
@@ -3315,7 +3315,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-90': {
+    'Germany-SN-90': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.2 },
@@ -3354,7 +3354,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-91': {
+    'Germany-BY-91': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.1 },
@@ -3393,7 +3393,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-92': {
+    'Germany-BY-92': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.4 },
@@ -3432,7 +3432,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-93': {
+    'Germany-BY-93': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.5 },
@@ -3471,7 +3471,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-94': {
+    'Germany-BY-94': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.8 },
@@ -3510,7 +3510,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-95': {
+    'Germany-BY-95': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.4 },
@@ -3549,7 +3549,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-96': {
+    'Germany-BY-96': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.1 },
@@ -3588,7 +3588,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-97': {
+    'Germany-BY-97': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.8 },
@@ -3627,7 +3627,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-98': {
+    'Germany-BY-98': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 55.7 },
@@ -3666,7 +3666,7 @@ export const germanyRates = {
             maxWeight: 3000
         }
     },
-    'Germany-ZONA-99': {
+    'Germany-TH-99': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 55.7 },

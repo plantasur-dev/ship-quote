@@ -5,6 +5,8 @@ import { dateFormat } from '../../../../../../../lib/utils/date.utils.js';
 
 import { transportProducts } from '../../../../../../../lib/constants/dachser.products.js';
 
+import { isAgencyEligibleFor } from '../../../../domains/agency/agency.eligibility.js';
+
 import CarrierService from '../carriers.service.interface.js';
 
 import { 
@@ -22,7 +24,7 @@ export default class DachserService extends CarrierService {
     async getRates(input) {
         const { baseUrlApi, endpoints, apiKey, timeout } = this.apiConfig;
 
-        if (!this.agency.rules.supportsPallets) {
+        if (!isAgencyEligibleFor(this.agency, new Set([SHIPMENT_UNITS.PALLET]))) {
             return [];
         }
 

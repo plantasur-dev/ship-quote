@@ -2,23 +2,16 @@
 import { carrierFactory } from './carriers/carriers.service.js';
 
 import { 
-  getScope, 
-  SCOPE_LABELS 
-} from '../../../../../lib/constants/scopes.zone.js';
-
-import { 
   buildStaticErrorResult,
   buildApiErrorResult, 
   buildRateComplete 
 } from '../../domains/build.rate.result.js';
 
-import { presentRate } from '../../presenters/rate.presenter.js';
+import { presentAgencyRate } from '../../presenters/rate.presenter.js';
 
 export default async function getApiRates(agencies, input = {}) {
   
-  const scope = getScope(input.countryCode);
-
-  const zone = SCOPE_LABELS[scope];
+  const { zone } = input;
 
   const results = await Promise.all(
     agencies.map(async (agency) => {
@@ -26,39 +19,46 @@ export default async function getApiRates(agencies, input = {}) {
         const carrier = carrierFactory(agency);
 
         if (!carrier) {
-          return buildApiErrorResult({
-            agency: agency.name,
-            error: {
-              message: 'Carrier not implemented'
-            },
-            presentRate
-          });
+          return presentAgencyRate(
+            buildApiErrorResult({
+              agency: agency.name,
+              zone,
+              error: {
+                message: 'Carrier not implemented'
+              },
+            })
+          );
         }
         
         const result = await carrier.getRates(input);
 
         if (!result.length) {
-            return buildStaticErrorResult({
-                presentRate,
-                agency: agency.name,
-                zone,
-                code: 'NO_RATE'
-            });
+          return presentAgencyRate( 
+            buildStaticErrorResult({
+              agency: agency.name,
+              zone,
+              code: 'NO_RATE'
+            })
+          );
         }
 
-        return buildRateComplete({
-          agency: agency.name,
-          zone,
-          services: presentRate(result)
-        });
+        return presentAgencyRate(
+          buildRateComplete({
+            agency: agency.name,
+            zone,
+            services: result
+          })
+        );
 
       } catch (error) {
 
-        return buildApiErrorResult({
-          agency: agency.name,
-          error,
-          presentRate
-        });
+        return presentAgencyRate( 
+          buildApiErrorResult({
+            agency: agency.name,
+            zone,
+            error,
+          })
+        );
       }  
     })
   );

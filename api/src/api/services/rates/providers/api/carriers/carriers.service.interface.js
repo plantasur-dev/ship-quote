@@ -1,7 +1,7 @@
 
 import createHttpError from "http-errors";
 
-import { SHIPMENT_UNITS } from '../../../../../../lib/constants/index.js';
+import { filterItemsBySupportedUnits } from '../../../domains/agency/agency.eligibility.js';
 
 export default class CarrierService {
     
@@ -96,31 +96,13 @@ export default class CarrierService {
         
         const { quotations } = endpoints;
 
-        let items = [];
-        let itemsParcel = [];
-        let itemsPallet = [];
-
         if (!baseUrlApi)
             throw createHttpError(400, "Empty baseUrlAPI");
 
         if (!quotations) 
             throw createHttpError(400, "Empty endpoint quotations");
 
-        const { supportsPallets, supportsParcels } = this.agency?.rules;
-
-        if (supportsPallets) {
-            itemsPallet = input.items.filter(item => 
-                item.typeServices === SHIPMENT_UNITS.PALLET
-            );
-        }
-
-        if (supportsParcels) {
-            itemsParcel = input.items.filter(item => 
-                item.typeServices === SHIPMENT_UNITS.PARCEL
-            );
-        }
-
-        items = [...itemsPallet, ...itemsParcel];
+        const items = filterItemsBySupportedUnits(this.agency, input.items);
 
         if (!items.length) return [];
         

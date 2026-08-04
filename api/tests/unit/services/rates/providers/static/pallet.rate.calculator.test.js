@@ -1,24 +1,29 @@
 
-import { calculatePallet } from '../../../../src/api/services/rates/providers/static/pallet.rate.calculator.js';
+import { calculatePallet } from '../../../../../../src/api/services/rates/providers/static/pallet.rate.calculator.js';
 
 import {
     calculateSinglePallet,
     calculateWeightVolume
-} from '../../../../src/api/services/rates/providers/static/pallet.rate.utils.js';
+} from '../../../../../../src/api/services/rates/providers/static/pallet.rate.utils.js';
 
 import {
     buildStaticErrorResult,
     buildRateComplete
-} from '../../../../src/api/services/rates/domains/build.rate.result.js';
-
-import { presentRate } from '../../../../src/api/services/rates/presenters/rate.presenter.js';
+} from '../../../../../../src/api/services/rates/domains/build.rate.result.js';
 
 import {
     PRICING_MODES
-} from '../../../../src/lib/constants/index.js';
+} from '../../../../../../src/lib/constants/index.js';
+
+/**
+ * `calculatePallet` ya no llama a `presentRate`: ahora siempre devuelve el
+ * resultado crudo de dominio. La presentación se aplica una única vez, en
+ * `static.rate.provider.js` (ver `presentAgencyRate`). Por eso este test ya
+ * no mockea `presenters/rate.presenter.js`.
+ */
 
 vi.mock(
-    '../../../../src/api/services/rates/providers/static/pallet.rate.utils.js',
+    '../../../../../../src/api/services/rates/providers/static/pallet.rate.utils.js',
     () => ({
         calculateSinglePallet: vi.fn(),
         calculateWeightVolume: vi.fn()
@@ -26,14 +31,7 @@ vi.mock(
 );
 
 vi.mock(
-    '../../../../src/api/services/rates/presenters/rate.presenter.js',
-    () => ({
-        presentRate: vi.fn()
-    })
-);
-
-vi.mock(
-    '../../../../src/api/services/rates/domains/build.rate.result.js',
+    '../../../../../../src/api/services/rates/domains/build.rate.result.js',
     () => ({
         buildStaticErrorResult: vi.fn(),
         buildRateComplete: vi.fn()
@@ -59,11 +57,8 @@ describe('calculatePallet', () => {
     it('should call calculateSinglePallet when pricing mode is WEIGHT', () => {
 
         calculateSinglePallet.mockReturnValue(['service']);
-        presentRate.mockReturnValue(['service']);
 
-        buildRateComplete.mockReturnValue({
-            agency: 'DHL'
-        });
+        buildRateComplete.mockReturnValue({ agency: 'DHL' });
 
         calculatePallet(baseParams);
 
@@ -74,11 +69,8 @@ describe('calculatePallet', () => {
     it('should call calculateWeightVolume when pricing mode is WEIGHT_VOLUME', () => {
 
         calculateWeightVolume.mockReturnValue(['service']);
-        presentRate.mockReturnValue(['service']);
 
-        buildRateComplete.mockReturnValue({
-            agency: 'DHL'
-        });
+        buildRateComplete.mockReturnValue({ agency: 'DHL' });
 
         calculatePallet({
             ...baseParams,
@@ -94,35 +86,11 @@ describe('calculatePallet', () => {
         expect(calculateSinglePallet).not.toHaveBeenCalled();
     });
 
-    it('should call presentRate with calculated services', () => {
-
-        calculateSinglePallet.mockReturnValue([
-            { service: 'EXPRESS' }
-        ]);
-
-        presentRate.mockReturnValue([
-            { service: 'EXPRESS' }
-        ]);
-
-        buildRateComplete.mockReturnValue({});
-
-        calculatePallet(baseParams);
-
-        expect(presentRate)
-            .toHaveBeenCalledWith([
-                { service: 'EXPRESS' }
-            ]);
-    });
-
-    it('should return static NO_RATE result when presenter returns no services', () => {
+    it('should return static NO_RATE result when the calculator returns no services', () => {
 
         calculateSinglePallet.mockReturnValue([]);
 
-        presentRate.mockReturnValue([]);
-
-        const expected = {
-            error: 'NO_RATE'
-        };
+        const expected = { error: 'NO_RATE' };
 
         buildStaticErrorResult.mockReturnValue(expected);
 
@@ -130,27 +98,18 @@ describe('calculatePallet', () => {
 
         expect(buildStaticErrorResult)
             .toHaveBeenCalledWith({
-                presentRate,
                 agency: 'DHL',
+                zone: 'Madrid',
                 code: 'NO_RATE'
             });
 
         expect(result).toBe(expected);
-
     });
 
-    it('should build complete result', () => {
+    it('should build complete result with the raw services returned by the calculator', () => {
 
         calculateSinglePallet.mockReturnValue([
-            {
-                service: 'EXPRESS'
-            }
-        ]);
-
-        presentRate.mockReturnValue([
-            {
-                service: 'EXPRESS'
-            }
+            { service: 'EXPRESS' }
         ]);
 
         const expected = {
@@ -167,14 +126,11 @@ describe('calculatePallet', () => {
                 agency: 'DHL',
                 zone: 'Madrid',
                 services: [
-                    {
-                        service: 'EXPRESS'
-                    }
+                    { service: 'EXPRESS' }
                 ]
             });
 
         expect(result).toBe(expected);
-
     });
 
     it('should throw error when pricing mode is not supported', () => {
@@ -192,7 +148,5 @@ describe('calculatePallet', () => {
         ).toThrow(
             'Unsupported calculation pricing mode INVALID'
         );
-
     });
-
 });

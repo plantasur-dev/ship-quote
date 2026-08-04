@@ -23,3 +23,12 @@ export function presentRate(results) {
         }))
     }));
 }
+
+export function presentAgencyRate({ agency, available, zone, services }) {
+    return {
+        agency,
+        available,
+        zone,
+        services: presentRate(services)
+    };
+}

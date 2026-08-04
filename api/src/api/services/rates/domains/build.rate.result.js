@@ -1,16 +1,11 @@
 
 import { fixedToN } from '../../../../lib/utils/rate.utils.js';
 
-import { 
-    getScope, 
-    SCOPE_LABELS 
-} from '../../../../lib/constants/scopes.zone.js';
-
-const scope = getScope(process.env.DEFAULT_COUNTRY);
+import { applyFuelSurcharge } from './pricing/fuel.surcharge.js';
 
 export function buildRateComplete({
     agency,
-    zone = SCOPE_LABELS[scope],
+    zone,
     services = []
 }) {
     
@@ -33,21 +28,30 @@ export function buildRateResult({
     totalWeight = 0,
     concepts = [],
     incidents = [],
+    agencySupplements
 }) {
+
+    const baseTotal = concepts.reduce(
+        (sum, item) => sum + item.amount,
+        0
+    );
+
+    const fuelAmount = fixedToN(
+        applyFuelSurcharge(baseTotal, agencySupplements)
+    );
+
+    const finalConcepts = fuelAmount > 0
+        ? [...concepts, buildConcept('FUEL_SURCHARGE', fuelAmount)]
+        : concepts;
 
     return {
         service,
         transportType,
         itemCount,
         totalWeight,
-        concepts,
+        concepts: finalConcepts,
         incidents,
-        total: fixedToN(
-            concepts.reduce(
-                (sum, item) => sum + item.amount,
-                0
-            )
-        )
+        total: fixedToN(baseTotal + fuelAmount)
     };
 }
 
@@ -71,7 +75,8 @@ export function buildParcelRate({
     totalWeight,
     itemCount,
     concepts = [],
-    incidents = []
+    incidents = [],
+    agencySupplements
 }) {
 
     return buildRateResult({
@@ -80,20 +85,22 @@ export function buildParcelRate({
         itemCount,
         totalWeight,
         concepts,
-        incidents
+        incidents,
+        agencySupplements
     });
 }
 
 export function buildApiErrorResult({
     agency,
+    zone,
     transportType = 'unknown',
-    error,
-    presentRate
+    error
 }) {
     return buildRateComplete({
         agency,
+        zone,
 
-        services: presentRate([
+        services: [
             buildRateResult({
                 service: 'API_ERROR',
                 transportType,
@@ -108,14 +115,13 @@ export function buildApiErrorResult({
                     )
                 ]
             })
-        ])
+        ]
     });
 }
 
 export function buildStaticErrorResult({
-    presentRate,
     agency,
-    zone = SCOPE_LABELS[scope],
+    zone,
     transportType = 'unknown',
     code,
     message = ''
@@ -124,7 +130,7 @@ export function buildStaticErrorResult({
         agency,
         zone,
 
-        services: presentRate([
+        services: [
             buildRateResult({
                 service: code,
                 transportType,
@@ -138,7 +144,7 @@ export function buildStaticErrorResult({
                     )
                 ]
             })
-        ])
+        ]
     });
 }
 

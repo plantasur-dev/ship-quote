@@ -2,6 +2,7 @@
 const LABELS = {
     BASE: 'Tarifa base',
     NO_RATE: 'Sin tarifa disponible',
+    FUEL_SURCHARGE: 'Recargo por combustible',
     EXTRA_DIMENSIONS: 'Recargo por dimensiones. El paquete supera las dimensiones estándar permitidas.',
     EXTRA_WEIGHT: 'Recargo por exceso de peso',
     ADDITIONAL_BLOCK: 'Recargo por peso adicional. El envío supera el peso incluido y se ha añadido un suplemento por bloques adicionales de kg.',

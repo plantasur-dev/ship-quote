@@ -9,8 +9,6 @@ import {
     calculateWeightVolume
 } from './pallet.rate.utils.js';
 
-import { presentRate } from '../../presenters/rate.presenter.js';
-
 import { PRICING_MODES } from '../../../../../lib/constants/index.js';
 
 export function calculatePallet(params) {
@@ -29,12 +27,12 @@ export function calculatePallet(params) {
         throw new Error(`Unsupported calculation pricing mode ${ pricingMode }`);
     }
 
-    const services = presentRate(calculator());
+    const services = calculator();
 
     if (!services.length) {
         return buildStaticErrorResult({
-            presentRate,
             agency: nameAgency,
+            zone: zone.name,
             code: 'NO_RATE'
         });
     }

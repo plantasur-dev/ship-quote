@@ -2,7 +2,7 @@
 import {
     calculateParcelRate,
     calculateParcel
-} from '../../../../src/api/services/rates/providers/static/parcel.rate.calculator.js';
+} from '../../../../../../src/api/services/rates/providers/static/parcel.rate.calculator.js';
 
 function buildZone(pricingModeType = 'weight') {
     return {
@@ -18,11 +18,11 @@ function buildAgencyRates(services = []) {
 
     return new Map([
         [
-            'parcel|Madrid|none', 
-            { 
+            'parcel|Madrid|none',
+            {
                 type: 'parcel',
                 calculationType: 'unit',
-                services 
+                services
             }
         ]
     ]);
@@ -277,10 +277,30 @@ describe('calculateParcelRate', () => {
         expect(result).toHaveLength(2);
         expect(result.map(item => item.service)).toEqual(['express', 'priority']);
     });
+
+    it('applies the fuel surcharge over the total once, via buildParcelRate (not per concept)', () => {
+        const result = calculateParcelRate({
+            parcelItems: [{ weight: 1, large: 10, width: 10, height: 10 }],
+            agencyRates: buildAgencyRates([
+                {
+                    service: 'express',
+                    priceBreaks: [{ min: 0, max: 200, price: 10 }]
+                }
+            ]),
+            zone: buildZone('weight'),
+            agencySupplements: { fuelSurcharge: { enabled: true, type: 'percentage', value: 10 } }
+        });
+
+        expect(result[0].total).toBe(11);
+        expect(result[0].concepts).toEqual([
+            { code: 'BASE', amount: 10, meta: {} },
+            { code: 'FUEL_SURCHARGE', amount: 1, meta: {} }
+        ]);
+    });
 });
 
 describe('calculateParcel', () => {
-    it('returns a complete rate result when services are available', () => {
+    it('returns a complete RAW rate result (concepts, not breakdown): presentation now happens outside, in static.rate.provider.js', () => {
         const result = calculateParcel({
             parcelItems: [{ weight: 1, large: 10, width: 10, height: 10 }],
             agencyRates: buildAgencyRates([
@@ -303,14 +323,14 @@ describe('calculateParcel', () => {
                     service: 'Express',
                     total: 10,
                     itemCount: 1,
-                    breakdown: [{ type: 'Tarifa base', price: 10 }],
+                    concepts: [{ code: 'BASE', amount: 10 }],
                     incidents: []
                 }
             ]
         });
     });
 
-    it('returns a static error when no service can be priced', () => {
+    it('returns a static error when no service can be priced, with the zone the caller passed in (no more env-based default)', () => {
         const result = calculateParcel({
             parcelItems: [{ weight: 50, large: 10, width: 10, height: 10 }],
             agencyRates: buildAgencyRates([
@@ -320,7 +340,7 @@ describe('calculateParcel', () => {
                     limits: { maxPieceWeight: 10 }
                 }
             ]),
-            zone: {},
+            zone: { name: 'INTERNACIONAL' },
             agencySupplements: {},
             nameAgency: 'DHL'
         });
@@ -328,11 +348,11 @@ describe('calculateParcel', () => {
         expect(result).toMatchObject({
             agency: 'DHL',
             available: false,
-            zone: 'NACIONAL',
+            zone: 'INTERNACIONAL',
             services: [
                 {
-                    service: 'Sin tarifa disponible',
-                    incidents: [{ type: 'Sin tarifa disponible' }]
+                    service: 'NO_RATE',
+                    incidents: [{ code: 'NO_RATE' }]
                 }
             ]
         });

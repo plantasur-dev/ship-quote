@@ -1,141 +1,44 @@
 
 import {
-    calculateVolumeM3,
-    matchPrice,
-    calculateFuelSurcharge,
+    matchPrice, 
+    calculateExcessWeight, 
     calculateAdditionalWeightBlockCost,
-    calculateExcessWeight,
-    matchDimensions
-} from '../../../../../lib/utils/rate.utils.js';
+    calculateFixedSurcharge, 
+} from '../../domains/pricing/pricing.rules.js';
 
 import {  
     buildConcept, 
-    buildIncident 
 } from '../../domains/build.rate.result.js';
 
-export function dimensionsItem(item) {
-    const weight = Number(item.weight || 0);
-
-    const large = Number(item.large || 0);
-    const width = Number(item.width || 0);
-    const height = Number(item.height || 0);
-
-    const sumDimensions = large + width + height;
-
-    return {
-        weight,
-        large,
-        width,
-        height,
-        sumDimensions
-    }
-}
-
-export function validateParcelItem(item, limits = {}) {
-    const { weight, large, width, height, sumDimensions } = dimensionsItem(item);
-
-    const maxWeight = limits.maxPieceWeight || limits.maxWeight;
-
-    if (limits.maxLength && (
-        large > limits.maxLength ||
-        width > limits.maxLength ||
-        height > limits.maxLength)
-    ) {
-        return buildIncident(
-            'MAX_LENGTH_EXCEEDED',
-            {
-                maxLength: limits.maxLength,
-                dimensions: {
-                    large,
-                    width,
-                    height
-                }
-            }
-        );
-    }
-
-    if (limits.maxSumDimensions && sumDimensions > limits.maxSumDimensions) {
-        return buildIncident(
-            'MAX_DIMENSIONS_EXCEEDED',
-            {
-                maxSumDimensions: limits.maxSumDimensions,
-                currentDimensions: sumDimensions
-            }
-        );
-    }
-
-    if (maxWeight && weight > maxWeight) {
-        return buildIncident(
-            'MAX_WEIGHT_EXCEEDED',
-            {
-                maxWeight,
-                currentWeight: weight
-            }
-        );
-    }
-
-    return null;
-}
-
-export function enrichParcelItem(item, surcharges = {}) {
-    const { sumDimensions } = dimensionsItem(item);
-
-    const extraDimensions =
-        matchDimensions(
-            surcharges.dimensionRanges || [],
-            sumDimensions
-        );
-
-    return {
-        ...item,
-        dimensionSupplement: extraDimensions?.price || 0
-    };
-}
-
-export function calculateParcelTotals(items) {
-
-    const envVolume = Number(process.env.DEFAULT_PARCEL_VOLUME);
-
-    const PARCEL_VOL =
-        Number.isFinite(envVolume) && envVolume > 0
-            ? envVolume
-            : 6000;
-
-    return items.reduce((acc, item) => {
-        acc.extraDimensionsCost += item.dimensionSupplement || 0;
-
-        acc.totalItemsWeight += Number(item.weight || 0);
-
-        acc.volumetric += calculateVolumeM3(item, PARCEL_VOL);
-
-        return acc;
-    }, {
-        extraDimensionsCost: 0,
-        totalItemsWeight: 0,
-        volumetric: 0
-    });
-}
-
-export function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, agencySupplements}) {
+export function resolveParcelPrice({ totalWeight, extraDimensionsCost, itemCount, service }) {
     const { priceBreaks, surcharges } = service;
 
     const match = matchPrice(priceBreaks, totalWeight);
 
-    if (match) {
-        const fuelExtra =
-            calculateFuelSurcharge(agencySupplements, match.price);
+    const fixedSurchargeAmount = 
+        calculateFixedSurcharge(surcharges?.fixedSurcharge, itemCount);
 
+    if (match) {
         return {
             concepts: [
                 buildConcept(
                     'BASE',
-                    match.price + fuelExtra
+                    match.price
                 ),
                 ...(extraDimensionsCost > 0
                     ? [
                         buildConcept(
                             'EXTRA_DIMENSIONS',
                             extraDimensionsCost
+                        )
+                    ]
+                    : []
+                ),
+                ...(fixedSurchargeAmount > 0
+                    ? [
+                        buildConcept(
+                            'FIXED_SURCHARGE',
+                            fixedSurchargeAmount
                         )
                     ]
                     : []
@@ -150,9 +53,6 @@ export function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, 
     const excessWeight = totalWeight - last.max;
     if (excessWeight <= 0) return null;
 
-    const fuelExtra = 
-        calculateFuelSurcharge(agencySupplements, last.price);
-
     const extraWeightCost =
         calculateExcessWeight(surcharges?.extraKg, excessWeight);
 
@@ -161,7 +61,7 @@ export function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, 
 
     return {
         concepts: [
-            buildConcept('BASE', last.price + fuelExtra),
+            buildConcept('BASE', last.price),
             ...(extraDimensionsCost > 0
                 ? [
                     buildConcept(
@@ -188,6 +88,15 @@ export function resolveParcelPrice({ totalWeight, extraDimensionsCost, service, 
                         {
                             excessWeight
                         }
+                    )
+                ]
+                : []
+            ),
+            ...(fixedSurchargeAmount > 0
+                ? [
+                    buildConcept(
+                        'FIXED_SURCHARGE',
+                        fixedSurchargeAmount
                     )
                 ]
                 : []

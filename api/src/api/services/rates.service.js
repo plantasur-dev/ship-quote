@@ -7,13 +7,16 @@ import {
 } from "./rates/index.js";
 
 import { 
-    getScope, 
+    getScope,
+    SCOPE_LABELS, 
     AGENCY_TYPE 
 } from "../../lib/constants/index.js";
 
 async function rates(input) {
 
     const scope = getScope(input.countryCode);
+
+    const zone = SCOPE_LABELS[scope];
 
     const agencies = await Agency.find({ 
         active: { $ne: false }, 
@@ -31,9 +34,11 @@ async function rates(input) {
             agency.type === AGENCY_TYPE.API
         );
 
+    const enrichedInput = { ...input, scope, zone };
+
     const [staticResults, apiResults] = await Promise.all([
-        getStaticRates(staticAgencies, input),
-        getApiRates(apiAgencies, input)
+        getStaticRates(staticAgencies, enrichedInput),
+        getApiRates(apiAgencies, enrichedInput)
     ]);
 
     return [

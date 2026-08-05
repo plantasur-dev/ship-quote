@@ -57,6 +57,14 @@ export const austriaLocations = [
     { countryCode: "AT", countryName: "Austria", name: "Vorarlberg", adminCode: "VO", postalCode: "65" },
     { countryCode: "AT", countryName: "Austria", name: "Vorarlberg", adminCode: "VO", postalCode: "66" },
     { countryCode: "AT", countryName: "Austria", name: "Vorarlberg", adminCode: "VO", postalCode: "67" },
+    { countryCode: "AT", countryName: "Austria", name: "Vorarlberg", adminCode: "VO", postalCode: "68" },
+
+    { countryCode: "AT", countryName: "Austria", name: "Burgenland", adminCode: "BU", postalCode: "70" },
+    { countryCode: "AT", countryName: "Austria", name: "Burgenland", adminCode: "BU", postalCode: "71" },
+    { countryCode: "AT", countryName: "Austria", name: "Burgenland", adminCode: "BU", postalCode: "72" },
+    { countryCode: "AT", countryName: "Austria", name: "Burgenland", adminCode: "BU", postalCode: "73" },
+    { countryCode: "AT", countryName: "Austria", name: "Burgenland", adminCode: "BU", postalCode: "74" },
+    { countryCode: "AT", countryName: "Austria", name: "Burgenland", adminCode: "BU", postalCode: "75" },
 
     { countryCode: "AT", countryName: "Austria", name: "Steiermark", adminCode: "ST", postalCode: "80" },
     { countryCode: "AT", countryName: "Austria", name: "Steiermark", adminCode: "ST", postalCode: "81" },

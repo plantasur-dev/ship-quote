@@ -7,10 +7,13 @@ import {
     PRICING_MODES
 } from '../../../../../lib/constants/index.js';
 
-import { 
+import {
     validateParcelItem,
     enrichParcelItem,
-    calculateParcelTotals,
+    calculateParcelTotals
+} from '../../domains/parcel/parcel.rules.js';
+
+import { 
     resolveParcelPrice
 } from './parcel.rate.utils.js';
 
@@ -20,8 +23,6 @@ import {
     buildParcelRate, 
     buildIncident 
 } from '../../domains/build.rate.result.js';
-
-import { presentRate } from '../../presenters/rate.presenter.js';
 
 export function calculateParcelRate({ 
     parcelItems,
@@ -98,18 +99,20 @@ export function calculateParcelRate({
 
         const totalWeight = Math.ceil(selectedWeight);
 
+        const itemCount = validItems.length;
+
         const pricing = resolveParcelPrice({
             totalWeight,
             extraDimensionsCost,
-            service,
-            agencySupplements
+            itemCount,
+            service
         });
 
         if (!pricing) {
             return [
                 buildParcelRate({
                     serviceName,
-                    itemCount: validItems.length,
+                    itemCount,
                     totalWeight,
                     incidents: [
                         buildIncident(
@@ -124,9 +127,10 @@ export function calculateParcelRate({
         return [
             buildParcelRate({
                 serviceName,
-                itemCount: validItems.length,
+                itemCount,
                 totalWeight,
-                concepts: pricing.concepts
+                concepts: pricing.concepts,
+                agencySupplements
             }),
             ...incidents
         ];
@@ -134,14 +138,14 @@ export function calculateParcelRate({
 }
 
 export function calculateParcel(params = {}) {
-    const services = presentRate(calculateParcelRate(params));
+    const services = calculateParcelRate(params);
 
     const { nameAgency, zone } = params;
 
     if (services.length === 0) {
         return buildStaticErrorResult({
-            presentRate,
             agency: nameAgency,
+            zone: zone.name,
             code: 'NO_RATE'
         });
     }

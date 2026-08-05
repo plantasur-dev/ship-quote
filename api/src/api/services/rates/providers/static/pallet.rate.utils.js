@@ -1,11 +1,13 @@
 
 import {
     getEffectiveWeight,
-    groupPallets,
+    groupPallets
+} from '../../domains/pallet/pallet.rules.js';
+
+import {
     matchPrice,
-    calculateFuelSurcharge,
-    fixedToN
-} from '../../../../../lib/utils/rate.utils.js';
+    calculateTonnagePricing
+} from '../../domains/pricing/pricing.rules.js';
 
 import {
     buildRateResult,
@@ -17,34 +19,6 @@ import {
 import {
     SHIPMENT_UNITS
 } from '../../../../../lib/constants/index.js';
-
-export function calculateTonnagePricing(tonnagePricingRule, priceBase, totalWeight) {
-
-    const price = fixedToN(priceBase);
-
-    if (!tonnagePricingRule?.enabled) return { price, unit: '€/kg' };
-
-    const { threshold, unit } = tonnagePricingRule;
-    
-    if (totalWeight < threshold) return { price, unit: '€/kg' };
-    
-    return { 
-        price: fixedToN(( totalWeight / 1000 ) * price),
-        unit 
-    };
-}
-
-export function calculatePricing(agencySupplements, tonnagePricingRule, priceBase, totalWeight) {
-    
-    const fuelExtraCost = 
-        calculateFuelSurcharge(agencySupplements, priceBase);
-
-    return calculateTonnagePricing(
-        tonnagePricingRule, 
-        priceBase + fuelExtraCost, 
-        totalWeight
-    );
-}
 
 export function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplements }) {
     
@@ -61,8 +35,7 @@ export function calculateWeightVolume({ palletItems, agencyRates, zone, agencySu
         if (!match) return acc;
         
         const { price, unit } = 
-            calculatePricing(
-                agencySupplements,
+            calculateTonnagePricing(
                 zone.pricingMode?.tonnagePricingRule, 
                 match.price, 
                 totalWeight
@@ -83,7 +56,8 @@ export function calculateWeightVolume({ palletItems, agencyRates, zone, agencySu
                             pricingType: zone.pricingMode?.type
                         }
                     )
-                ]
+                ],
+                agencySupplements
             })
         );
 
@@ -132,14 +106,8 @@ export function calculateGroupServices({
                 return acc;
             }
 
-            const fuelExtraCost = 
-                calculateFuelSurcharge(agencySupplements, match.price);
-
-            const unitPrice = 
-                fixedToN(match.price + fuelExtraCost);
-            
-            const total = 
-                fixedToN((match.price + fuelExtraCost) * quantityPallet);
+            const unitPrice = match.price;
+            const total = match.price * quantityPallet;
 
             acc.push(
                 buildRateResult({
@@ -156,7 +124,8 @@ export function calculateGroupServices({
                                 unitPrice,
                                 items: group.items
                             })
-                        ]
+                        ],
+                        agencySupplements
                     })
                 );
 

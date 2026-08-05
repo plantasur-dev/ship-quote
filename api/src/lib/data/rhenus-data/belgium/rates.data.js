@@ -1,6 +1,6 @@
 
 export const belgiumRates = {
-    'Belgium-ZONA-10': {
+    'Belgium-BRU-10': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -35,7 +35,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-11': {
+    'Belgium-BRU-11': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -70,7 +70,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-12': {
+    'Belgium-BRU-12': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -105,7 +105,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-13': {
+    'Belgium-BRU-13': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -140,7 +140,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-14': {
+    'Belgium-WBR-14': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -175,7 +175,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-15': {
+    'Belgium-VBR-15': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -210,7 +210,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-16': {
+    'Belgium-VBR-16': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -245,7 +245,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-17': {
+    'Belgium-VBR-17': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -280,7 +280,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-18': {
+    'Belgium-VBR-18': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -315,7 +315,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-19': {
+    'Belgium-VBR-19': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -350,7 +350,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-20': {
+    'Belgium-VAN-20': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -385,7 +385,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-21': {
+    'Belgium-VAN-21': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -420,7 +420,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-22': {
+    'Belgium-VAN-22': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -455,7 +455,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-23': {
+    'Belgium-VAN-23': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -490,7 +490,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-24': {
+    'Belgium-VAN-24': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -525,7 +525,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-25': {
+    'Belgium-VAN-25': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -560,7 +560,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-26': {
+    'Belgium-VAN-26': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -595,7 +595,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-27': {
+    'Belgium-VAN-27': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -630,7 +630,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-28': {
+    'Belgium-VAN-28': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -665,7 +665,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-29': {
+    'Belgium-VAN-29': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -700,7 +700,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-30': {
+    'Belgium-VBR-30': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -735,7 +735,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-31': {
+    'Belgium-VBR-31': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -770,7 +770,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-32': {
+    'Belgium-VBR-32': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -805,7 +805,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-33': {
+    'Belgium-VBR-33': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -840,7 +840,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-34': {
+    'Belgium-VBR-34': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -875,7 +875,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-35': {
+    'Belgium-VLI-35': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -910,7 +910,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-36': {
+    'Belgium-VLI-36': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -945,7 +945,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-37': {
+    'Belgium-VLI-37': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -980,7 +980,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-38': {
+    'Belgium-VLI-38': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1015,7 +1015,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-39': {
+    'Belgium-VLI-39': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1050,7 +1050,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-40': {
+    'Belgium-WLG-40': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1085,7 +1085,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-41': {
+    'Belgium-WLG-41': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1120,7 +1120,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-42': {
+    'Belgium-WLG-42': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1155,7 +1155,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-43': {
+    'Belgium-WLG-43': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1190,7 +1190,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-44': {
+    'Belgium-WLG-44': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1225,7 +1225,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-45': {
+    'Belgium-WLG-45': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1260,7 +1260,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-46': {
+    'Belgium-WLG-46': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1295,7 +1295,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-47': {
+    'Belgium-WLG-47': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1330,7 +1330,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-48': {
+    'Belgium-WLG-48': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1365,7 +1365,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-49': {
+    'Belgium-WLG-49': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1400,7 +1400,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-50': {
+    'Belgium-WNA-50': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1435,7 +1435,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-51': {
+    'Belgium-WNA-51': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1470,7 +1470,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-52': {
+    'Belgium-WNA-52': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1505,7 +1505,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-53': {
+    'Belgium-WNA-53': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1540,7 +1540,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-54': {
+    'Belgium-WNA-54': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1575,7 +1575,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-55': {
+    'Belgium-WNA-55': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1610,7 +1610,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-56': {
+    'Belgium-WNA-56': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1645,7 +1645,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-57': {
+    'Belgium-WLG-57': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1680,7 +1680,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-58': {
+    'Belgium-WHT-58': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1715,7 +1715,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-59': {
+    'Belgium-WHT-59': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1750,7 +1750,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-60': {
+    'Belgium-WHT-60': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1785,7 +1785,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-61': {
+    'Belgium-WHT-61': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1820,7 +1820,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-62': {
+    'Belgium-WHT-62': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1855,7 +1855,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-63': {
+    'Belgium-WHT-63': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1890,7 +1890,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-64': {
+    'Belgium-WHT-64': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1925,7 +1925,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-65': {
+    'Belgium-WHT-65': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1960,7 +1960,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-66': {
+    'Belgium-WHT-66': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -1995,7 +1995,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-67': {
+    'Belgium-WHT-67': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -2030,7 +2030,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-68': {
+    'Belgium-WHT-68': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -2065,7 +2065,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-69': {
+    'Belgium-WHT-69': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.7 },
@@ -2100,7 +2100,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-70': {
+    'Belgium-WHT-70': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2135,7 +2135,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-71': {
+    'Belgium-WHT-71': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2170,7 +2170,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-72': {
+    'Belgium-WHT-72': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2205,7 +2205,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-73': {
+    'Belgium-WHT-73': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2240,7 +2240,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-74': {
+    'Belgium-WHT-74': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2275,7 +2275,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-75': {
+    'Belgium-WHT-75': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2310,7 +2310,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-76': {
+    'Belgium-WHT-76': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2345,7 +2345,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-77': {
+    'Belgium-WHT-77': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2380,7 +2380,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-78': {
+    'Belgium-WHT-78': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2415,7 +2415,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-79': {
+    'Belgium-VOV-79': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2450,7 +2450,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-80': {
+    'Belgium-VWV-80': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2485,7 +2485,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-81': {
+    'Belgium-VWV-81': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2520,7 +2520,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-82': {
+    'Belgium-VWV-82': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2555,7 +2555,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-83': {
+    'Belgium-VWV-83': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2590,7 +2590,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-84': {
+    'Belgium-VWV-84': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 62.5 },
@@ -2625,7 +2625,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-85': {
+    'Belgium-VWV-85': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2660,7 +2660,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-86': {
+    'Belgium-VWV-86': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2695,7 +2695,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-87': {
+    'Belgium-VWV-87': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2730,7 +2730,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-88': {
+    'Belgium-VWV-88': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2765,7 +2765,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-89': {
+    'Belgium-VWV-89': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2800,7 +2800,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-90': {
+    'Belgium-VOV-90': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2835,7 +2835,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-91': {
+    'Belgium-VOV-91': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2870,7 +2870,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-92': {
+    'Belgium-VOV-92': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2905,7 +2905,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-93': {
+    'Belgium-VOV-93': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2940,7 +2940,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-94': {
+    'Belgium-VOV-94': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -2975,7 +2975,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-95': {
+    'Belgium-VOV-95': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -3010,7 +3010,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-96': {
+    'Belgium-VOV-96': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -3045,7 +3045,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-97': {
+    'Belgium-VOV-97': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -3080,7 +3080,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-98': {
+    'Belgium-VOV-98': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },
@@ -3115,7 +3115,7 @@ export const belgiumRates = {
             maxWeight: 2500
         }
     },
-    'Belgium-ZONA-99': {
+    'Belgium-VOV-99': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 54.5 },

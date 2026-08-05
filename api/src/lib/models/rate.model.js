@@ -29,6 +29,23 @@ const surchargeSchema = new mongoose.Schema({
         }
     },
 
+    fixedSurcharge: {
+        enabled: {
+            type: Boolean,
+            default: false
+        },
+
+        calculateByQuantity: {
+            type: Boolean,
+            default: false
+        },
+
+        price: {
+            type: Number,
+            default: 0
+        }
+    },
+
     dimensionRanges: [rangeAmountSchema],
 
     multiParcelExcess: {

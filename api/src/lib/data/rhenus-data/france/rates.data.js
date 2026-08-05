@@ -1,6 +1,6 @@
 
 export const franceRates = {
-    'France-ZONA-01': {
+    'France-ARA-01': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.5 },
@@ -40,7 +40,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-02': {
+    'France-HDF-02': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.1 },
@@ -80,7 +80,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-03': {
+    'France-ARA-03': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.7 },
@@ -120,7 +120,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-04': {
+    'France-PAC-04': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.9 },
@@ -160,7 +160,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-05': {
+    'France-PAC-05': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.6 },
@@ -200,7 +200,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-06': {
+    'France-PAC-06': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.8 },
@@ -240,7 +240,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-07': {
+    'France-ARA-07': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.2 },
@@ -280,7 +280,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-08': {
+    'France-GES-08': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.5 },
@@ -320,7 +320,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-09': {
+    'France-OCC-09': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.9 },
@@ -360,7 +360,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-10': {
+    'France-GES-10': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.4 },
@@ -400,7 +400,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-11': {
+    'France-OCC-11': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74 },
@@ -440,7 +440,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-12': {
+    'France-OCC-12': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74 },
@@ -480,7 +480,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-13': {
+    'France-PAC-13': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74 },
@@ -520,7 +520,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-14': {
+    'France-NOR-14': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 75 },
@@ -560,7 +560,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-15': {
+    'France-ARA-15': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.2 },
@@ -600,7 +600,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-16': {
+    'France-NAQ-16': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.7 },
@@ -640,7 +640,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-17': {
+    'France-NAQ-17': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.8 },
@@ -680,7 +680,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-18': {
+    'France-CVL-18': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.8 },
@@ -720,7 +720,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-19': {
+    'France-NAQ-19': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.3 },
@@ -760,7 +760,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-20': {
+    'France-COR-20': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 146.7 },
@@ -800,7 +800,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-21': {
+    'France-BFC-21': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.7 },
@@ -840,7 +840,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-22': {
+    'France-BRE-22': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 75 },
@@ -880,7 +880,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-23': {
+    'France-NAQ-23': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.2 },
@@ -920,7 +920,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-24': {
+    'France-NAQ-24': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.8 },
@@ -960,7 +960,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-25': {
+    'France-BFC-25': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74 },
@@ -1000,7 +1000,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-26': {
+    'France-ARA-26': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.2 },
@@ -1040,7 +1040,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-27': {
+    'France-NOR-27': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.2 },
@@ -1080,7 +1080,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-28': {
+    'France-CVL-28': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.1 },
@@ -1120,7 +1120,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-29': {
+    'France-BRE-29': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 75.5 },
@@ -1160,7 +1160,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-30': {
+    'France-OCC-30': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.8 },
@@ -1200,7 +1200,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-31': {
+    'France-OCC-31': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.5 },
@@ -1240,7 +1240,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-32': {
+    'France-OCC-32': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.1 },
@@ -1280,7 +1280,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-33': {
+    'France-NAQ-33': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 67.6 },
@@ -1320,7 +1320,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-34': {
+    'France-OCC-34': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.2 },
@@ -1360,7 +1360,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-35': {
+    'France-BRE-35': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.5 },
@@ -1400,7 +1400,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-36': {
+    'France-CVL-36': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.9 },
@@ -1440,7 +1440,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-37': {
+    'France-CVL-37': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.4 },
@@ -1480,7 +1480,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-38': {
+    'France-ARA-38': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 71.5 },
@@ -1520,7 +1520,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-39': {
+    'France-BFC-39': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.4 },
@@ -1560,7 +1560,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-40': {
+    'France-NAQ-40': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.8 },
@@ -1600,7 +1600,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-41': {
+    'France-CVL-41': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.7 },
@@ -1640,7 +1640,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-42': {
+    'France-ARA-42': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.7 },
@@ -1680,7 +1680,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-43': {
+    'France-ARA-43': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.2 },
@@ -1720,7 +1720,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-44': {
+    'France-PDL-44': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.3 },
@@ -1760,7 +1760,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-45': {
+    'France-CVL-45': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.2 },
@@ -1800,7 +1800,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-46': {
+    'France-OCC-46': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.3 },
@@ -1840,7 +1840,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-47': {
+    'France-NAQ-47': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 72.8 },
@@ -1880,7 +1880,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-48': {
+    'France-OCC-48': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.8 },
@@ -1920,7 +1920,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-49': {
+    'France-PDL-49': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.3 },
@@ -1960,7 +1960,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-50': {
+    'France-NOR-50': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.9 },
@@ -2000,7 +2000,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-51': {
+    'France-GES-51': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.2 },
@@ -2040,7 +2040,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-52': {
+    'France-GES-52': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.3 },
@@ -2080,7 +2080,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-53': {
+    'France-PDL-53': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.3 },
@@ -2120,7 +2120,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-54': {
+    'France-GES-54': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.9 },
@@ -2160,7 +2160,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-55': {
+    'France-GES-55': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.7 },
@@ -2200,7 +2200,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-56': {
+    'France-BRE-56': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.9 },
@@ -2240,7 +2240,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-57': {
+    'France-GES-57': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 75 },
@@ -2280,7 +2280,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-58': {
+    'France-BFC-58': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74 },
@@ -2320,7 +2320,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-59': {
+    'France-HDF-59': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 67.7 },
@@ -2360,7 +2360,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-60': {
+    'France-HDF-60': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 77.6 },
@@ -2400,7 +2400,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-61': {
+    'France-NOR-61': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.6 },
@@ -2440,7 +2440,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-62': {
+    'France-HDF-62': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 88.8 },
@@ -2480,7 +2480,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-63': {
+    'France-ARA-63': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.5 },
@@ -2520,7 +2520,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-64': {
+    'France-NAQ-64': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.2 },
@@ -2560,7 +2560,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-65': {
+    'France-OCC-65': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.5 },
@@ -2600,7 +2600,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-66': {
+    'France-OCC-66': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.9 },
@@ -2640,7 +2640,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-67': {
+    'France-GES-67': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 75 },
@@ -2680,7 +2680,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-68': {
+    'France-GES-68': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.5 },
@@ -2720,7 +2720,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-69': {
+    'France-ARA-69': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 66.9 },
@@ -2760,7 +2760,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-70': {
+    'France-BFC-70': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.1 },
@@ -2800,7 +2800,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-71': {
+    'France-BFC-71': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.3 },
@@ -2840,7 +2840,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-72': {
+    'France-PDL-72': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.3 },
@@ -2880,7 +2880,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-73': {
+    'France-ARA-73': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.2 },
@@ -2920,7 +2920,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-74': {
+    'France-ARA-74': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.4 },
@@ -2960,7 +2960,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-75': {
+    'France-IDF-75': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 68.9 },
@@ -3000,7 +3000,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-76': {
+    'France-NOR-76': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.4 },
@@ -3040,7 +3040,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-77': {
+    'France-IDF-77': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76.1 },
@@ -3080,7 +3080,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-78': {
+    'France-IDF-78': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 77.1 },
@@ -3120,7 +3120,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-79': {
+    'France-NAQ-79': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.4 },
@@ -3160,7 +3160,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-80': {
+    'France-HDF-80': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 79.2 },
@@ -3200,7 +3200,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-81': {
+    'France-OCC-81': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.8 },
@@ -3240,7 +3240,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-82': {
+    'France-OCC-82': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.2 },
@@ -3280,7 +3280,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-83': {
+    'France-PAC-83': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.5 },
@@ -3320,7 +3320,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-84': {
+    'France-PAC-84': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.6 },
@@ -3360,7 +3360,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-85': {
+    'France-PDL-85': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.4 },
@@ -3400,7 +3400,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-86': {
+    'France-NAQ-86': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.5 },
@@ -3440,7 +3440,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-87': {
+    'France-NAQ-87': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73.2 },
@@ -3480,7 +3480,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-88': {
+    'France-GES-88': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.5 },
@@ -3520,7 +3520,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-89': {
+    'France-BFC-89': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.3 },
@@ -3560,7 +3560,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-90': {
+    'France-BFC-90': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.3 },
@@ -3600,7 +3600,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-91': {
+    'France-IDF-91': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 76.7 },
@@ -3640,7 +3640,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-92': {
+    'France-IDF-92': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 70.9 },
@@ -3680,7 +3680,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-93': {
+    'France-IDF-93': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 67.1 },
@@ -3720,7 +3720,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-94': {
+    'France-IDF-94': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 69.8 },
@@ -3760,7 +3760,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-95': {
+    'France-IDF-95': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 73 },
@@ -3800,7 +3800,7 @@ export const franceRates = {
             maxWeight: 3000
         }
     },
-    'France-ZONA-98': {
+    'France-WF-98': {
         service: "basic",
         priceBreaks: [
             { min: 0, max: 50, price: 74.8 },

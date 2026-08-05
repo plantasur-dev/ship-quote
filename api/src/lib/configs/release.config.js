@@ -1,8 +1,8 @@
 
 export const latestRelease = {
     target: 'api',
-    version: "3.2.0",
-    title: "🚚 Nueva agencia disponible: Rhenus Internacional",
-    message: "✨ Se ha añadido la agencia Rhenus Internacional con tarifas para Alemania, Austria, Bélgica, Francia, República Checa e Italia.",
-    date: "2026-07-28"
+    version: "3.3.0",
+    title: "⛽ Nuevas tarifas y recargo por combustible",
+    message: "✨ Ahora las tarifas incluyen el cálculo automático del Fuel Surcharge cuando aplica. También se han añadido las tarifas de Correos Express, MRW Portugal y una nueva zona para Baleares.",
+    date: "2026-08-05"
 };

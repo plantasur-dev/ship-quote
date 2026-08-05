@@ -297,6 +297,90 @@ describe('calculateParcelRate', () => {
             { code: 'FUEL_SURCHARGE', amount: 1, meta: {} }
         ]);
     });
+
+    it('adds a fixed surcharge per shipment when configured (flat, not by quantity)', () => {
+        const result = calculateParcelRate({
+            parcelItems: [
+                { weight: 1, large: 10, width: 10, height: 10 },
+                { weight: 1, large: 10, width: 10, height: 10 }
+            ],
+            agencyRates: buildAgencyRates([
+                {
+                    service: 'express',
+                    priceBreaks: [{ min: 0, max: 200, price: 10 }],
+                    surcharges: {
+                        fixedSurcharge: { enabled: true, calculateByQuantity: false, price: 3 }
+                    }
+                }
+            ]),
+            zone: buildZone('weight'),
+            agencySupplements: {}
+        });
+
+        expect(result[0]).toMatchObject({
+            itemCount: 2,
+            concepts: [
+                { code: 'BASE', amount: 10 },
+                { code: 'FIXED_SURCHARGE', amount: 3 }
+            ],
+            total: 13
+        });
+    });
+
+    it('adds a fixed surcharge by quantity when configured (price * number of parcels)', () => {
+        const result = calculateParcelRate({
+            parcelItems: [
+                { weight: 1, large: 10, width: 10, height: 10 },
+                { weight: 1, large: 10, width: 10, height: 10 },
+                { weight: 1, large: 10, width: 10, height: 10 }
+            ],
+            agencyRates: buildAgencyRates([
+                {
+                    service: 'express',
+                    priceBreaks: [{ min: 0, max: 200, price: 10 }],
+                    surcharges: {
+                        fixedSurcharge: { enabled: true, calculateByQuantity: true, price: 2 }
+                    }
+                }
+            ]),
+            zone: buildZone('weight'),
+            agencySupplements: {}
+        });
+
+        expect(result[0]).toMatchObject({
+            itemCount: 3,
+            concepts: [
+                { code: 'BASE', amount: 10 },
+                { code: 'FIXED_SURCHARGE', amount: 6 }
+            ],
+            total: 16
+        });
+    });
+
+    it('also applies the fixed surcharge in the excess-weight branch (beyond the last price break)', () => {
+        const result = calculateParcelRate({
+            parcelItems: [{ weight: 10, large: 10, width: 10, height: 10 }],
+            agencyRates: buildAgencyRates([
+                {
+                    service: 'express',
+                    priceBreaks: [{ min: 0, max: 5, price: 10 }],
+                    surcharges: {
+                        extraKg: { enabled: true, pricePerKg: 2 },
+                        fixedSurcharge: { enabled: true, calculateByQuantity: false, price: 4 }
+                    }
+                }
+            ]),
+            zone: buildZone('weight'),
+            agencySupplements: {}
+        });
+
+        expect(result[0].total).toBe(24);
+        expect(result[0].concepts).toEqual([
+            { code: 'BASE', amount: 10, meta: {} },
+            { code: 'EXTRA_WEIGHT', amount: 10, meta: { excessWeight: 5 } },
+            { code: 'FIXED_SURCHARGE', amount: 4, meta: {} }
+        ]);
+    });
 });
 
 describe('calculateParcel', () => {

@@ -65,3 +65,14 @@ export function calculateAdditionalWeightBlockCost(multiParcelExcess, totalWeigh
 
     return (numBlocks * pricePerBlock || 0);
 }
+
+export function calculateFixedSurcharge(fixedSurcharge, quantityParcel = 0) {
+    
+    if (!fixedSurcharge?.enabled) return 0;
+
+    if (fixedSurcharge?.calculateByQuantity) {
+        return fixedSurcharge.price * quantityParcel;
+    }
+
+    return fixedSurcharge.price;
+}

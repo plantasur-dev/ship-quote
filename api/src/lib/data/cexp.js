@@ -20,6 +20,15 @@ export const correosZones = {
             ],
         },
         {
+            name: "PORTUGAL",
+            provinces: [
+                "PT-LIS", "PT-STR", "PT-LEI", "PT-SET", "PT-COI", "PT-VIS", 
+                "PT-AVE", "PT-POR", "PT-BRA", "PT-VCT", "PT-VRL", "PT-BRG", 
+                "PT-CTB", "PT-GUA","PT-EVO", "PT-PTG", "PT-BEJ", "PT-FAR", 
+                "PT-MAD", "PT-ACO",
+            ]
+        },
+        {
             name: "ANDALUCIA",
             provinces: [],
         },
@@ -143,5 +152,38 @@ export const correosRates = {
             maxLength: 150,
             maxSumDimensions: 240
         }
-    }
+    }, 
+
+    PORTUGAL: {
+        service: "basic",
+        priceBreaks: [
+            { min: 0, max: 1, price: 3.87 },
+            { min: 1, max: 2, price: 4.00 },
+            { min: 2, max: 5, price: 4.80 },
+            { min: 5, max: 10, price: 5.51 }
+        ],
+        surcharges: {
+            extraKg: {
+                enabled: true,
+                pricePerKg: 0.39
+            },
+            fixedSurcharge : {
+                enabled: true,
+                calculateByQuantity: true,
+                price: 1.20
+            },
+            dimensionRanges: [],
+            multiParcelExcess: {
+                enabled: false,
+                thresholdKg: 40,
+                divisor: 1,
+                pricePerBlock: 0
+            }
+        },
+        limits: {
+            maxWeight: 40,
+            maxLength: 150,
+            maxSumDimensions: 240
+        }
+    },
 };

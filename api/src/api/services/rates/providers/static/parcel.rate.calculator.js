@@ -99,9 +99,12 @@ export function calculateParcelRate({
 
         const totalWeight = Math.ceil(selectedWeight);
 
+        const itemCount = validItems.length;
+
         const pricing = resolveParcelPrice({
             totalWeight,
             extraDimensionsCost,
+            itemCount,
             service
         });
 
@@ -109,7 +112,7 @@ export function calculateParcelRate({
             return [
                 buildParcelRate({
                     serviceName,
-                    itemCount: validItems.length,
+                    itemCount,
                     totalWeight,
                     incidents: [
                         buildIncident(
@@ -124,7 +127,7 @@ export function calculateParcelRate({
         return [
             buildParcelRate({
                 serviceName,
-                itemCount: validItems.length,
+                itemCount,
                 totalWeight,
                 concepts: pricing.concepts,
                 agencySupplements

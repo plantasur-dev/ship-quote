@@ -2,17 +2,21 @@
 import {
     matchPrice, 
     calculateExcessWeight, 
-    calculateAdditionalWeightBlockCost, 
+    calculateAdditionalWeightBlockCost,
+    calculateFixedSurcharge, 
 } from '../../domains/pricing/pricing.rules.js';
 
 import {  
     buildConcept, 
 } from '../../domains/build.rate.result.js';
 
-export function resolveParcelPrice({ totalWeight, extraDimensionsCost, service }) {
+export function resolveParcelPrice({ totalWeight, extraDimensionsCost, itemCount, service }) {
     const { priceBreaks, surcharges } = service;
 
     const match = matchPrice(priceBreaks, totalWeight);
+
+    const fixedSurchargeAmount = 
+        calculateFixedSurcharge(surcharges?.fixedSurcharge, itemCount);
 
     if (match) {
         return {
@@ -26,6 +30,15 @@ export function resolveParcelPrice({ totalWeight, extraDimensionsCost, service }
                         buildConcept(
                             'EXTRA_DIMENSIONS',
                             extraDimensionsCost
+                        )
+                    ]
+                    : []
+                ),
+                ...(fixedSurchargeAmount > 0
+                    ? [
+                        buildConcept(
+                            'FIXED_SURCHARGE',
+                            fixedSurchargeAmount
                         )
                     ]
                     : []
@@ -75,6 +88,15 @@ export function resolveParcelPrice({ totalWeight, extraDimensionsCost, service }
                         {
                             excessWeight
                         }
+                    )
+                ]
+                : []
+            ),
+            ...(fixedSurchargeAmount > 0
+                ? [
+                    buildConcept(
+                        'FIXED_SURCHARGE',
+                        fixedSurchargeAmount
                     )
                 ]
                 : []

@@ -56,7 +56,7 @@ describe('calculatePallet', () => {
 
     it('should call calculatePalletBasedPricing when pricing mode is PALLET_CLASSIFICATION', () => {
 
-        calculateSinglePallet.mockReturnValue(['service']);
+        calculatePalletBasedPricing.mockReturnValue(['service']);
 
         buildRateComplete.mockReturnValue({ agency: 'DHL' });
 
@@ -108,7 +108,7 @@ describe('calculatePallet', () => {
 
     it('should build complete result with the raw services returned by the calculator', () => {
 
-        calculateSinglePallet.mockReturnValue([
+        calculatePalletBasedPricing.mockReturnValue([
             { service: 'EXPRESS' }
         ]);
 

@@ -270,7 +270,7 @@ describe('calculateParcelRate', () => {
                     priceBreaks: [{ min: 0, max: 200, price: 15 }]
                 }
             ]),
-            zone: buildZone('weight'),
+            zone: buildZone('real_weight'),
             agencySupplements: {}
         });
 
@@ -287,7 +287,7 @@ describe('calculateParcelRate', () => {
                     priceBreaks: [{ min: 0, max: 200, price: 10 }]
                 }
             ]),
-            zone: buildZone('weight'),
+            zone: buildZone('real_weight'),
             agencySupplements: { fuelSurcharge: { enabled: true, type: 'percentage', value: 10 } }
         });
 
@@ -313,7 +313,7 @@ describe('calculateParcelRate', () => {
                     }
                 }
             ]),
-            zone: buildZone('weight'),
+            zone: buildZone('real_weight'),
             agencySupplements: {}
         });
 
@@ -343,7 +343,7 @@ describe('calculateParcelRate', () => {
                     }
                 }
             ]),
-            zone: buildZone('weight'),
+            zone: buildZone('real_weight'),
             agencySupplements: {}
         });
 
@@ -370,7 +370,7 @@ describe('calculateParcelRate', () => {
                     }
                 }
             ]),
-            zone: buildZone('weight'),
+            zone: buildZone('real_weight'),
             agencySupplements: {}
         });
 

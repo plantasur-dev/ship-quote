@@ -2,7 +2,7 @@
 import {
     calculateWeightVolume,
     calculateGroupServices,
-    calculateSinglePallet
+    calculatePalletBasedPricing
 } from '../../../../../../src/api/services/rates/providers/static/pallet.rate.utils.js';
 
 import {
@@ -331,7 +331,7 @@ describe('calculateGroupServices', () => {
     });
 });
 
-describe('calculateSinglePallet', () => {
+describe('calculatePalletBasedPricing', () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
@@ -353,7 +353,7 @@ describe('calculateSinglePallet', () => {
 
         buildRejectedServices.mockReturnValue([]);
 
-        calculateSinglePallet(params);
+        calculatePalletBasedPricing(params);
 
         expect(groupPallets).toHaveBeenCalledWith(
             params.palletItems,
@@ -367,7 +367,7 @@ describe('calculateSinglePallet', () => {
 
         buildRejectedServices.mockReturnValue([]);
 
-        const result = calculateSinglePallet(params);
+        const result = calculatePalletBasedPricing(params);
 
         expect(result).toEqual([]);
     });
@@ -381,7 +381,7 @@ describe('calculateSinglePallet', () => {
 
         buildRejectedServices.mockReturnValue([{ service: 'REJECTED' }]);
 
-        const result = calculateSinglePallet(params);
+        const result = calculatePalletBasedPricing(params);
 
         expect(buildRejectedServices).toHaveBeenCalledWith([{ id: 99 }]);
         expect(result).toEqual([{ service: 'REJECTED' }]);
@@ -415,7 +415,7 @@ describe('calculateSinglePallet', () => {
             ]
         ]);
 
-        const result = calculateSinglePallet({
+        const result = calculatePalletBasedPricing({
             ...params,
             agencyRates
         });

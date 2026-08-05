@@ -77,12 +77,12 @@ export function calculateGroupServices({
         
         return rate.services.reduce((acc, service) => {
             const pricesRate = service.priceBreaks;
-            const groupItemCount = group.quantity;
+            const quantityPallet = group.quantity;
             const fallbackToLastPrice = service?.fallbackToLastPrice;
 
             const match = matchPrice(
                 pricesRate, 
-                groupItemCount, 
+                quantityPallet, 
                 fallbackToLastPrice
             );
             
@@ -91,7 +91,7 @@ export function calculateGroupServices({
                     buildRateResult({
                         service: service.service,
                         transportType: SHIPMENT_UNITS.PALLET,
-                        itemCount: groupItemCount,
+                        itemCount: quantityPallet,
                         incidents: [
                             buildIncident(
                                 'NO_RATE', 
@@ -113,14 +113,14 @@ export function calculateGroupServices({
                 buildRateResult({
                     service: service.service,
                     transportType: SHIPMENT_UNITS.PALLET,
-                    itemCount: groupItemCount,
+                    itemCount: quantityPallet,
                     concepts: [
                         buildConcept(
                             'BASE', 
                             total, 
                             {
                                 palletType: group.palletType.name,
-                                quantity: groupItemCount,
+                                quantity: quantityPallet,
                                 unitPrice,
                                 items: group.items
                             })

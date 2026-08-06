@@ -1,6 +1,8 @@
 
 import mongoose from "mongoose";
 
+import { invalidateAgencyTariffs } from "../../api/services/cache.service.js";
+
 const zoneSchema = new mongoose.Schema({
     agencyId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -83,6 +85,15 @@ zoneSchema.virtual('rules', {
     localField: '_id',
     foreignField: 'zoneId'
 });
+
+const triggerRefresh = () => invalidateAgencyTariffs();
+
+zoneSchema.post('save', triggerRefresh);
+zoneSchema.post('findOneAndUpdate', triggerRefresh);
+zoneSchema.post('findOneAndDelete', triggerRefresh);
+zoneSchema.post('deleteOne', triggerRefresh);
+zoneSchema.post('updateOne', triggerRefresh);
+zoneSchema.post('insertMany', triggerRefresh);
 
 const Zone = mongoose.model("Zone", zoneSchema);
 

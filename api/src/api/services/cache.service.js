@@ -215,3 +215,8 @@ export function getAgencyTariffs() {
 
     return agencyTariffs;
 }
+
+export async function invalidateAgencyTariffs() {
+    await loadAgencyTariffs().
+        catch (error => console.error('Error refrescando caché', error));
+}

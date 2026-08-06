@@ -1,6 +1,8 @@
 
 import mongoose from "mongoose";
 
+import { invalidateAgencyTariffs } from "../../api/services/cache.service.js";
+
 const palletTypeSchema = new mongoose.Schema({
     agencyId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -50,7 +52,15 @@ const palletTypeSchema = new mongoose.Schema({
 });
 
 const sanitizeInput = (value) => 
-    (value === "" || value == null ? 0 : Number(value))
+    (value === "" || value == null ? 0 : Number(value));
+
+const triggerRefresh = () => invalidateAgencyTariffs();
+
+palletTypeSchema.post('save', triggerRefresh);
+palletTypeSchema.post('findOneAndUpdate', triggerRefresh);
+palletTypeSchema.post('findOneAndDelete', triggerRefresh);
+palletTypeSchema.post('deleteOne', triggerRefresh);
+palletTypeSchema.post('updateOne', triggerRefresh);
 
 const PalletType = mongoose.model("PalletType", palletTypeSchema);
 

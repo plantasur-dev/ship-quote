@@ -1,6 +1,8 @@
 
 import mongoose from "mongoose";
 
+import { invalidateAgencyTariffs } from "../../api/services/cache.service.js";
+
 const rangeAmountSchema = new mongoose.Schema({
     min: Number,
     max: Number,
@@ -167,6 +169,14 @@ rateSchema.index({
     type: 1, 
     zoneName: 1 
 });
+
+const triggerRefresh = () => invalidateAgencyTariffs();
+
+rateSchema.post('save', triggerRefresh);
+rateSchema.post('findOneAndUpdate', triggerRefresh);
+rateSchema.post('findOneAndDelete', triggerRefresh);
+rateSchema.post('deleteOne', triggerRefresh);
+rateSchema.post('updateOne', triggerRefresh);
 
 const Rate = mongoose.model("Rate", rateSchema);
 

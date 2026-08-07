@@ -7,6 +7,7 @@ import { getProvinceByCountryCodeAndPostalCode } from '../../src/api/services/pr
 import Agency from '../../src/lib/models/agency.model.js';
 import PalletType from '../../src/lib/models/palletType.model.js';
 import Zone from '../../src/lib/models/zone.model.js';
+import { expect } from 'vitest';
 
 vi.mock('../../src/api/services/rates.service.js', () => ({
     default: vi.fn()
@@ -62,6 +63,12 @@ const zoneData = {
     volumetric: { "enabled": true, "factor": 6000 },
     pricingMode: { "type": "weight_volume" },
     postalCodeRanges: []
+};
+
+const zoneData_classification = {
+    ...zoneData,
+    name: "ZONA 2",
+    pricingMode: { "type": "pallet_classification" }
 };
 
 const compareResult = [{
@@ -122,6 +129,7 @@ const compareResult = [{
 
 let agency;
 let zone;
+let zone_classification;
 let palletType;
 
 describe('POST /api/v1/rates', () => {
@@ -153,6 +161,11 @@ describe('POST /api/v1/rates', () => {
             ...zoneData
         });
 
+        zone_classification = await Zone.create({
+            "agencyId": agency._id,
+            ...zoneData_classification
+        });
+
         palletType = await PalletType.create({
             "agencyId": agency._id,
             "name": "Pallet prueba",
@@ -170,7 +183,7 @@ describe('POST /api/v1/rates', () => {
             .post('/api/v1/rates')
             .send({
                 type: 'pallet',
-                zoneName: zone.name,
+                zoneId: zone._id,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]
@@ -181,13 +194,13 @@ describe('POST /api/v1/rates', () => {
         expect(res.body.message).toBe('agencyId is required');
     });
 
-    it('should return 400 when palleTypeId is null or empty', async () => {
+    it('should return 400 when palletTypeId is null or empty and pricingMode is pallet_classification', async () => {
         const res = await request(app)
             .post('/api/v1/rates')
             .send({
                 agencyId: agency._id,
                 type: 'pallet',
-                zoneName: zone.name,
+                zoneId: zone_classification._id,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]
@@ -198,14 +211,14 @@ describe('POST /api/v1/rates', () => {
         expect(res.body.message).toBe('palletTypeId is required');
     });
 
-    it('should return 400 when palletTypeId is invalid', async () => {
+    it('should return 400 when palletTypeId is invalid and pricingMode is pallet_classification', async () => {
         const res = await request(app)
             .post('/api/v1/rates')
             .send({
                 agencyId: agency._id,
                 palletTypeId: 'invalid',
                 type: 'pallet',
-                zoneName: zone.name,
+                zoneId: zone_classification._id,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]
@@ -216,13 +229,29 @@ describe('POST /api/v1/rates', () => {
         expect(res.body.message).toContain('palletTypeId is not a valid id');
     });
 
+    it('should not require palletTypeId when pricingMode is not pallet_classification', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .send({
+                agencyId: agency._id,
+                type: 'pallet',
+                zoneId: zone._id,
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(201);
+    });
+
     it('should return 400 when type is missing', async () => {
         const res = await request(app)
             .post('/api/v1/rates')
             .send({
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
-                zoneName: zone.name,
+                zoneId: zone._id,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]
@@ -230,7 +259,7 @@ describe('POST /api/v1/rates', () => {
             });
 
         expect(res.status).toBe(400);
-        expect(res.body.message).toBe('type is required');
+        expect(res.body.message).toBe('type (Shipment Unit) is required');
     });
     
     it('should return 400 when type is invalid', async () => {
@@ -240,7 +269,7 @@ describe('POST /api/v1/rates', () => {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
                 type: 'invalid',
-                zoneName: zone.name,
+                zoneId: zone._id,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]
@@ -251,7 +280,7 @@ describe('POST /api/v1/rates', () => {
         expect(res.body.message).toContain('type must be one of');
     });
 
-    it('should return 400 when zoneName is missing', async () => {
+    it('should return 400 when zoneId is missing', async () => {
         const res = await request(app)
             .post('/api/v1/rates')
             .send({
@@ -265,7 +294,7 @@ describe('POST /api/v1/rates', () => {
             });
 
         expect(res.status).toBe(400);
-        expect(res.body.message).toBe('zoneName is required');
+        expect(res.body.message).toBe('zoneId is required');
     });
 
     it('should return 400 when services is not Array o empty', async () => {
@@ -274,6 +303,7 @@ describe('POST /api/v1/rates', () => {
             .send({
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
+                zoneId: zone._id,
                 type: 'pallet',
                 calculationType: 'unit',
                 zoneName: zone.name,
@@ -291,7 +321,7 @@ describe('POST /api/v1/rates', () => {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
                 type: 'pallet',
-                zoneName: zone.name,
+                zoneId: zone._id,
                 services: [{
                     service: 'premium',
                     priceBreaks: [{ min: 1, max: 10, price: 10 }]

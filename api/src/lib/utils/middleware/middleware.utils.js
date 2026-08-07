@@ -72,19 +72,19 @@ export const validateAgency = async (agencyId) => {
     return agency;
 };
 
-export const validateZone = async (agencyId, zoneName) => {
+export const validateZoneById = async (agencyId, zoneId) => {
 
     if (!agencyId) {
         throw createHttpError(400, 'agencyId is required');
     }
 
-    if (!zoneName) {
-        throw createHttpError(400, 'zoneName is required');
+    if (!zoneId) {
+        throw createHttpError(400, 'zoneId is required');
     }
-
-    const zone = await Zone.findOne({ agencyId, name: zoneName });
-
-    if (!zone) throw createHttpError(404, `Zone ${ zoneName } not found`);
+    
+    const zone = await Zone.findById(zoneId);
+    
+    if (!zone) throw createHttpError(404, `Zone ${ zoneId } not found`);
 
     return zone;
 };

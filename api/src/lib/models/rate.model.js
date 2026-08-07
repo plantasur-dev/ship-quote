@@ -131,6 +131,10 @@ const rateSchema = new mongoose.Schema({
         required: true,
         index: true
     },
+    zoneId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Zone"
+    },
     type: {
         type: String,
         enum: ["pallet", "parcel"],

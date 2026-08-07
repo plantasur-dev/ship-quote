@@ -65,7 +65,7 @@ describe("rateValidation middleware", () => {
             body: {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
-                zoneName: zone.name,
+                zoneId: zone._id,
                 ...rateSend,
                 calculationType: "UNIT"
             }
@@ -86,7 +86,7 @@ describe("rateValidation middleware", () => {
             body: {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
-                zoneName: zone.name,
+                zoneId: zone._id,
                 ...rateSend,
                 calculationType: "   "
             }
@@ -106,7 +106,7 @@ describe("rateValidation middleware", () => {
             body: {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
-                zoneName: zone.name,
+                zoneId: zone._id,
                 ...rateSend,
                 calculationType: "weight"
             }
@@ -128,7 +128,7 @@ describe("rateValidation middleware", () => {
             body: {
                 agencyId: agency._id,
                 palletTypeId: palletType._id,
-                zoneName: zone.name,
+                zoneId: zone._id,
                 ...rateSend
             }
         };

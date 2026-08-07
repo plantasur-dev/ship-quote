@@ -1,9 +1,11 @@
 
 import createHttpError from 'http-errors';
 
-import { 
+import {
+    SHIPMENT_UNITS, 
     SHIPMENT_UNIT_VALUES, 
-    CALCULATION_TYPES_RATE 
+    CALCULATION_TYPES_RATE,
+    PRICING_MODES 
 } from '../../lib/constants/index.js';
 
 import { 
@@ -15,7 +17,7 @@ import {
     normalizeString, 
     validateAgency,
     validatePalletType, 
-    validateZone
+    validateZoneById
 } from '../../lib/utils/middleware/middleware.utils.js';
 
 export const rateItemsValidation = (req, res, next) => {
@@ -73,7 +75,7 @@ export const rateValidation = async (req, res, next) => {
     const {
         agencyId,
         type,
-        zoneName,
+        zoneId,
         palletTypeId,
         calculationType,
         services
@@ -81,29 +83,31 @@ export const rateValidation = async (req, res, next) => {
 
     const agency = await validateAgency(agencyId);
 
-    await validatePalletType(palletTypeId);
-   
-    const normalizedType = normalizeString(type);
+    const normalizedShipmentUnitType = normalizeString(type);
     
-    if (normalizedType == null) {
-        throw createHttpError(400, 'type is required');
+    if (normalizedShipmentUnitType == null) {
+        throw createHttpError(400, 'type (Shipment Unit) is required');
     }
 
-    const loweredType = normalizedType.toLowerCase();
+    const loweredShipmentUnitType = normalizedShipmentUnitType.toLowerCase();
 
-    if (!SHIPMENT_UNIT_VALUES.includes(loweredType)) {
+    if (!SHIPMENT_UNIT_VALUES.includes(loweredShipmentUnitType)) {
         throw createHttpError(400, `type must be one of: ${ SHIPMENT_UNIT_VALUES.join(', ') }`);
     }
 
-    const normalizedZoneName = normalizeString(zoneName);
+    const zone = await validateZoneById(agencyId, zoneId);
 
-    const zone = await validateZone(agencyId, normalizedZoneName);
+    if (normalizedShipmentUnitType === SHIPMENT_UNITS.PALLET && 
+        zone.pricingMode.type === PRICING_MODES.PALLET_CLASSIFICATION
+    ) {
+        await validatePalletType(palletTypeId);
+    }
 
     const normalizedCalculationMode = normalizeString(zone.calculationMode);
 
     const loweredCalculationMode = normalizedCalculationMode.toLocaleLowerCase();
 
-    if (loweredType !== loweredCalculationMode) {
+    if (loweredShipmentUnitType !== loweredCalculationMode) {
         throw createHttpError(400, `Only zone type "${ loweredCalculationMode }" is accepted.`);
     }
     
@@ -130,8 +134,8 @@ export const rateValidation = async (req, res, next) => {
     services.forEach(validateService);
 
     req.locals = { agency, zone };
-    req.body.type = loweredType;
-    req.body.zoneName = normalizedZoneName;
+    req.body.type = loweredShipmentUnitType;
+    req.body.zoneName = zone.name;
 
     next();
 };

@@ -12,6 +12,7 @@ export async function create(req, res) {
     const {
         agencyId,
         type,
+        zoneId,
         zoneName,
         palletTypeId,
         calculationType,
@@ -21,6 +22,7 @@ export async function create(req, res) {
     const rate = await Rate.create({
         agencyId,
         type,
+        zoneId,
         zoneName,
         palletTypeId,
         calculationType,

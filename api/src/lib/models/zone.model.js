@@ -80,6 +80,12 @@ zoneSchema.index({
     unique: true
 });
 
+zoneSchema.virtual('rates', {
+    ref: 'Rate',
+    localField: '_id',
+    foreignField: 'zoneId'
+});
+
 zoneSchema.virtual('rules', {
     ref: 'ZoneRules',
     localField: '_id',

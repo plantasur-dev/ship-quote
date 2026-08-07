@@ -64,8 +64,15 @@ export const details = async (req, res) => {
 
     const zone = await Zone
         .findById(req.params.zoneId)
-        .populate('agencyId', 'name code')
-        .populate('rules');
+        .populate({
+            path:'agencyId', 
+            select: 'name code'
+        })
+        .populate('rules')
+        .populate({ 
+            path: 'rates',
+            select: 'services'
+        });
 
     if (!zone) throw createHttpError(404, 'Zone not found');
 

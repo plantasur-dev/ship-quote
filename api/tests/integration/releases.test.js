@@ -13,9 +13,9 @@ const latestRelease = {
 
 describe("GET /api/v1/releases - latest()", () => {
     it("should return the latest release", async () => {
-         await request(app)
-            .get("/api/v1/releases/latest")
-            .expect(200)
-            .expect(latestRelease);
+        await request(app)
+        .get("/api/v1/releases/latest")
+        .expect(200)
+        .expect(latestRelease);
     });
 });

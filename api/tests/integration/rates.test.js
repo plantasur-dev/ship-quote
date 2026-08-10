@@ -1,13 +1,21 @@
 
-import request from 'supertest';
+import request, { cookies } from "supertest";
 
-import Rate from '../../src/lib/models/rate.model.js';
+import app from "../../app.js";
+
+import Agency from "../../src/lib/models/agency.model.js"
+import PalletType from "../../src/lib/models/palletType.model.js";
+
 import rates from '../../src/api/services/rates.service.js';
-import { getProvinceByCountryCodeAndPostalCode } from '../../src/api/services/provinces.service.js';
-import Agency from '../../src/lib/models/agency.model.js';
-import PalletType from '../../src/lib/models/palletType.model.js';
-import Zone from '../../src/lib/models/zone.model.js';
-import { expect } from 'vitest';
+
+import { 
+    getProvinceByCountryCodeAndPostalCode 
+} from '../../src/api/services/provinces.service.js';
+
+import { 
+    createAuthenticatedUser 
+} from "../utils/auth.js";
+import Zone from "../../src/lib/models/zone.model.js";
 
 vi.mock('../../src/api/services/rates.service.js', () => ({
     default: vi.fn()
@@ -16,18 +24,6 @@ vi.mock('../../src/api/services/rates.service.js', () => ({
 vi.mock('../../src/api/services/provinces.service.js', () => ({
     getProvinceByCountryCodeAndPostalCode: vi.fn()
 }));
-
-vi.mock('../../src/lib/models/rate.model.js', () => ({
-    default: {
-        create: vi.fn()
-    }
-}));
-
-let app;
-
-beforeAll(async () => {
-    app = (await import('../../app.js')).default;
-});
 
 const validItem = {
     typeServices: 'pallet',
@@ -127,216 +123,18 @@ const compareResult = [{
     ]
 }];
 
-let agency;
-let zone;
-let zone_classification;
-let palletType;
-
-describe('POST /api/v1/rates', () => {
-
-    beforeEach(async () => {
-        vi.clearAllMocks();
-
-        agency = await Agency.create({
-            "name": "Correos4",
-            "type": "static",
-            "rules": {
-                "hasAndaluciaRule": false,
-                "supportsPallets": true,
-                "supportsParcels": false
-            },
-            "apiConfig": {
-                "timeout": 3000,
-                "baseUrlApi": "https://www.desa.cexpr.es/wspsc",
-                "endpoints": {
-                    "quotations": "",
-                    "transportOrders": ""
-                },
-                "apiKey": "Pruebas"
-            }
-        });
-
-        zone = await Zone.create({
-            "agencyId": agency._id,
-            ...zoneData
-        });
-
-        zone_classification = await Zone.create({
-            "agencyId": agency._id,
-            ...zoneData_classification
-        });
-
-        palletType = await PalletType.create({
-            "agencyId": agency._id,
-            "name": "Pallet prueba",
-            "constraints": {
-                "maxWeight": "300",
-                "maxHeight": "",
-                "maxLength": "",
-                "maxWidth": ""
-            }
-        });
-    });
-
-    it('should return 400 when agencyId is missing', async () => {
-        const res = await request(app)
-            .post('/api/v1/rates')
-            .send({
-                type: 'pallet',
-                zoneId: zone._id,
-                services: [{
-                    service: 'premium',
-                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
-                }]
-            });
-
-        expect(res.status).toBe(400);
-        expect(res.body.message).toBe('agencyId is required');
-    });
-
-    it('should return 400 when palletTypeId is null or empty and pricingMode is pallet_classification', async () => {
-        const res = await request(app)
-            .post('/api/v1/rates')
-            .send({
-                agencyId: agency._id,
-                type: 'pallet',
-                zoneId: zone_classification._id,
-                services: [{
-                    service: 'premium',
-                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
-                }]
-            });
-
-        expect(res.status).toBe(400);
-        expect(res.body.message).toBe('palletTypeId is required');
-    });
-
-    it('should return 400 when palletTypeId is invalid and pricingMode is pallet_classification', async () => {
-        const res = await request(app)
-            .post('/api/v1/rates')
-            .send({
-                agencyId: agency._id,
-                palletTypeId: 'invalid',
-                type: 'pallet',
-                zoneId: zone_classification._id,
-                services: [{
-                    service: 'premium',
-                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
-                }]
-            });
-
-        expect(res.status).toBe(400);
-        expect(res.body.message).toContain('palletTypeId is not a valid id');
-    });
-
-    it('should not require palletTypeId when pricingMode is not pallet_classification', async () => {
-        const res = await request(app)
-            .post('/api/v1/rates')
-            .send({
-                agencyId: agency._id,
-                type: 'pallet',
-                zoneId: zone._id,
-                services: [{
-                    service: 'premium',
-                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
-                }]
-            });
-
-        expect(res.status).toBe(201);
-    });
-
-    it('should return 400 when type is missing', async () => {
-        const res = await request(app)
-            .post('/api/v1/rates')
-            .send({
-                agencyId: agency._id,
-                palletTypeId: palletType._id,
-                zoneId: zone._id,
-                services: [{
-                    service: 'premium',
-                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
-                }]
-            });
-
-        expect(res.status).toBe(400);
-        expect(res.body.message).toBe('type (Shipment Unit) is required');
-    });
-    
-    it('should return 400 when type is invalid', async () => {
-        const res = await request(app)
-            .post('/api/v1/rates')
-            .send({
-                agencyId: agency._id,
-                palletTypeId: palletType._id,
-                type: 'invalid',
-                zoneId: zone._id,
-                services: [{
-                    service: 'premium',
-                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
-                }]
-            });
-
-        expect(res.status).toBe(400);
-        expect(res.body.message).toContain('type must be one of');
-    });
-
-    it('should return 400 when zoneId is missing', async () => {
-        const res = await request(app)
-            .post('/api/v1/rates')
-            .send({
-                agencyId: agency._id,
-                palletTypeId: palletType._id,
-                type: 'pallet',
-                services: [{
-                    service: 'premium',
-                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
-                }]
-            });
-
-        expect(res.status).toBe(400);
-        expect(res.body.message).toBe('zoneId is required');
-    });
-
-    it('should return 400 when services is not Array o empty', async () => {
-        const res = await request(app)
-            .post('/api/v1/rates')
-            .send({
-                agencyId: agency._id,
-                palletTypeId: palletType._id,
-                zoneId: zone._id,
-                type: 'pallet',
-                calculationType: 'unit',
-                zoneName: zone.name,
-                services: []
-            });
-
-        expect(res.status).toBe(400);
-        expect(res.body.message).toBe('services must be a non-empty array');
-    });
-
-    it('should return 201 when create rate', async () => {
-        const res = await request(app)
-            .post('/api/v1/rates')
-            .send({
-                agencyId: agency._id,
-                palletTypeId: palletType._id,
-                type: 'pallet',
-                zoneId: zone._id,
-                services: [{
-                    service: 'premium',
-                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
-                }]
-            });
-
-        expect(res.status).toBe(201);
-    });
-});
-
 describe('POST /api/v1/rates/compareByProvinceCode', () => {
+
+    let authCookie;
+
+    beforeEach( async () => {
+        ({ cookie: authCookie } = await createAuthenticatedUser());
+    });
 
     it('should return 400 when body is empty', async () => {
         const res = await request(app)
             .post('/api/v1/rates/compareByProvinceCode')
+            .set("Cookie", authCookie)
             .send({});
 
         expect(res.status).toBe(400);
@@ -347,6 +145,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
     it('should return 400 when destination fields are missing', async () => {
         const res = await request(app)
             .post('/api/v1/rates/compareByProvinceCode')
+            .set("Cookie", authCookie)
             .send({
                 items: [validItem]
             });
@@ -359,6 +158,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
     it('should return 400 when destination fields are not strings', async () => {
         const res = await request(app)
             .post('/api/v1/rates/compareByProvinceCode')
+            .set("Cookie", authCookie)
             .send({
                 destinationPostalCode: 28001,
                 countryCode: 34,
@@ -373,6 +173,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
     it('should return 400 when postal code is invalid', async () => {
         const res = await request(app)
             .post('/api/v1/rates/compareByProvinceCode')
+            .set("Cookie", authCookie)
             .send({
                 destinationPostalCode: 'invalid-Postal',
                 countryCode: 'ES',
@@ -387,6 +188,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
     it('should return 400 when items is not an array', async () => {
         const res = await request(app)
             .post('/api/v1/rates/compareByProvinceCode')
+            .set("Cookie", authCookie)
             .send({
                 destinationPostalCode: '28001',
                 countryCode: 'ES',
@@ -401,6 +203,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
     it('should return 400 when items array is empty', async () => {
         const res = await request(app)
             .post('/api/v1/rates/compareByProvinceCode')
+            .set("Cookie", authCookie)
             .send({
                 destinationPostalCode: '28001',
                 countryCode: 'ES',
@@ -415,6 +218,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
     it('should return 400 when typeServices is missing', async () => {
         const res = await request(app)
             .post('/api/v1/rates/compareByProvinceCode')
+            .set("Cookie", authCookie)
             .send({
                 destinationPostalCode: '28001',
                 countryCode: 'ES',
@@ -436,6 +240,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
         async (field) => {
             const res = await request(app)
                 .post('/api/v1/rates/compareByProvinceCode')
+                .set("Cookie", authCookie)
                 .send({
                 ...validProvincePayload,
                 items: [{
@@ -453,6 +258,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
 
         const res = await request(app)
             .post('/api/v1/rates/compareByProvinceCode')
+            .set("Cookie", authCookie)
             .send(validProvincePayload);
 
         expect(res.status).toBe(404);
@@ -465,6 +271,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
 
         const res = await request(app)
             .post('/api/v1/rates/compareByProvinceCode')
+            .set("Cookie", authCookie)
             .send(validProvincePayload);
 
         expect(res.status).toBe(200);
@@ -628,5 +435,204 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
             ...validPostalCodePayload,
             province: 'ES-M'
         });
+    });
+});
+
+describe('POST /api/v1/rates', () => {
+    let authCookie;
+    let agency;
+    let zone;
+    let zone_classification;
+    let palletType;
+
+    beforeEach(async () => {
+        ({ cookie: authCookie } = await createAuthenticatedUser());
+
+        agency = await Agency.create({ name: "Correos Prueba" });
+
+        palletType = await PalletType.create([
+            {
+                agencyId: agency._id,
+                name: "Pallet1 agencia 1 listado",
+                constraints: { maxWeight: 100 }
+            },
+            {
+                agencyId: agency._id,
+                name: "Pallet2 agencia 1 listado",
+                constraints: { maxWeight: 130 }
+            }
+        ]);
+
+        zone = await Zone.create({
+            agencyId: agency._id,
+            ...zoneData
+        });
+
+        zone_classification = await Zone.create({
+            agencyId: agency._id,
+            ...zoneData_classification
+        });
+    });
+
+    it('should return 400 when agencyId is missing', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .set("Cookie", authCookie)
+            .send({
+                type: 'pallet',
+                zoneId: zone._id,
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('agencyId is required');
+    });
+
+    it('should return 400 when palletTypeId is null or empty and pricingMode is pallet_classification', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .set("Cookie", authCookie)
+            .send({
+                agencyId: agency._id,
+                type: 'pallet',
+                zoneId: zone_classification._id,
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('palletTypeId is required');
+    });
+
+    it('should return 400 when palletTypeId is invalid and pricingMode is pallet_classification', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .set("Cookie", authCookie)
+            .send({
+                agencyId: agency._id,
+                palletTypeId: 'invalid',
+                type: 'pallet',
+                zoneId: zone_classification._id,
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toContain('palletTypeId is not a valid id');
+    });
+
+    it('should not require palletTypeId when pricingMode is not pallet_classification', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .set("Cookie", authCookie)
+            .send({
+                agencyId: agency._id,
+                type: 'pallet',
+                zoneId: zone._id,
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(201);
+    });
+
+    it('should return 400 when type is missing', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .set("Cookie", authCookie)
+            .send({
+                agencyId: agency._id,
+                palletTypeId: palletType._id,
+                zoneId: zone._id,
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('type (Shipment Unit) is required');
+    });
+    
+    it('should return 400 when type is invalid', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .set("Cookie", authCookie)
+            .send({
+                agencyId: agency._id,
+                palletTypeId: palletType._id,
+                type: 'invalid',
+                zoneId: zone._id,
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toContain('type must be one of');
+    });
+
+    it('should return 400 when zoneId is missing', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .set("Cookie", authCookie)
+            .send({
+                agencyId: agency._id,
+                palletTypeId: palletType._id,
+                type: 'pallet',
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('zoneId is required');
+    });
+
+    it('should return 400 when services is not Array o empty', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .set("Cookie", authCookie)
+            .send({
+                agencyId: agency._id,
+                palletTypeId: palletType._id,
+                zoneId: zone._id,
+                type: 'pallet',
+                calculationType: 'unit',
+                zoneName: zone.name,
+                services: []
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('services must be a non-empty array');
+    });
+
+    it('should return 201 when create rate', async () => {
+        const res = await request(app)
+            .post('/api/v1/rates')
+            .set("Cookie", authCookie)
+            .send({
+                agencyId: agency._id,
+                palletTypeId: palletType._id,
+                type: 'pallet',
+                zoneId: zone._id,
+                services: [{
+                    service: 'premium',
+                    priceBreaks: [{ min: 1, max: 10, price: 10 }]
+                }]
+            });
+
+        expect(res.status).toBe(201);
     });
 });

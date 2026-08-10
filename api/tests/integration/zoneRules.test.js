@@ -1,16 +1,19 @@
 
-import request from 'supertest';
-
-import app from "../../app.js";
+import request, { cookies } from 'supertest';
 
 import mongoose from "mongoose";
+
+import app from "../../app.js";
 
 import Agency from '../../src/lib/models/agency.model.js';
 import Zone from '../../src/lib/models/zone.model.js';
 import ZoneRules from '../../src/lib/models/zone.rules.model.js';
 
+import { createAuthenticatedUser } from '../utils/auth.js';
+
 let agency;
 let zone;
+let authCookie;
 
 const agencyData = {
     name: "CorreosPrueba",
@@ -36,16 +39,18 @@ const zoneRuleData = {
     postalCodeRanges: []
 };
 
-describe("POST /zones/:zoneId/rules", () => {
+beforeEach(async () => {
+    ({ cookie: authCookie } = await createAuthenticatedUser());
 
-    beforeEach(async () => {
-        agency = await Agency.create(agencyData);
+    agency = await Agency.create(agencyData);
 
-        zone = await Zone.create({
-            agencyId: agency._id,
-            ...zoneData
-        });
+    zone = await Zone.create({
+        agencyId: agency._id,
+        ...zoneData
     });
+});
+
+describe("POST /zones/:zoneId/rules", () => {
 
     it('should return 404 when zoneId is not found', async () => {
 
@@ -53,6 +58,7 @@ describe("POST /zones/:zoneId/rules", () => {
 
         const res = await request(app)
             .post(`/api/v1/zones/${fakeId}/rules`)
+            .set('Cookie', authCookie)
             .send({
                 zoneId: fakeId,
                 agencyId: agency._id,
@@ -67,6 +73,7 @@ describe("POST /zones/:zoneId/rules", () => {
 
         const res = await request(app)
             .post(`/api/v1/zones/${zone._id}/rules`)
+            .set('Cookie', authCookie)
             .send({
                 zoneId: zone._id,
                 agencyId: agency._id,
@@ -86,6 +93,7 @@ describe("GET /zones/:zoneId/rules", () => {
 
         const res = await request(app)
             .get(`/api/v1/zones/${fakeId}/rules`)
+            .set('Cookie', authCookie)
             .expect(404);
         
         expect(res.body.message).toBe('Zone Rules not founds');
@@ -112,6 +120,7 @@ describe("GET /zones/:zoneId/rules", () => {
 
         const res = await request(app)
             .get(`/api/v1/zones/${zone._id}/rules`)
+            .set('Cookie', authCookie)
             .expect(200);
         
         expect(res.body[0]).toHaveProperty("agencyId", agency._id.toString());

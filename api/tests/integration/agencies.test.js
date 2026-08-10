@@ -1,9 +1,19 @@
 
 import request from "supertest";
-import app from "../../app.js";
+
 import mongoose from "mongoose";
 
+import app from "../../app.js";
+
 import Agency from "../../src/lib/models/agency.model.js";
+
+import { createAuthenticatedUser } from "../utils/auth.js";
+
+let authCookie;
+
+beforeEach(async () => {
+    ({ cookie: authCookie } = await createAuthenticatedUser());
+});
 
 describe("POST /api/agencies", () => {
 
@@ -30,6 +40,7 @@ describe("POST /api/agencies", () => {
 
         const res = await request(app)
             .post("/api/v1/agencies")
+            .set("Cookie", authCookie)
             .send(payload)
             .expect(201);
 
@@ -47,6 +58,7 @@ describe("POST /api/agencies", () => {
 
         const res = await request(app)
             .post("/api/v1/agencies")
+            .set("Cookie", authCookie)
             .send(payload)
             .expect(400);
 
@@ -61,6 +73,7 @@ describe("POST /api/agencies", () => {
 
         const res = await request(app)
             .post("/api/v1/agencies")
+            .set("Cookie", authCookie)
             .send({
                 name: "mr express"
             })
@@ -72,6 +85,7 @@ describe("POST /api/agencies", () => {
     it("debería fallar si el type es inválido", async () => {
         const res = await request(app)
             .post("/api/v1/agencies")
+            .set("Cookie", authCookie)
             .send({
                 name: "Invalid type",
                 code: "invalid",
@@ -90,6 +104,7 @@ describe("POST /api/agencies", () => {
 
         const res = await request(app)
             .get("/api/v1/agencies")
+            .set("Cookie", authCookie)
             .expect(200);
 
         expect(Array.isArray(res.body)).toBe(true);
@@ -102,6 +117,7 @@ describe("POST /api/agencies", () => {
     it("debería devolver 404 si no hay agencias", async () => {
         const res = await request(app)
             .get("/api/v1/agencies")
+            .set("Cookie", authCookie)
             .expect(404);
 
         expect(res.body).toHaveProperty("message", "Agencies not found");
@@ -114,7 +130,8 @@ describe("POST /api/agencies", () => {
         });
 
         const res = await request(app)
-            .patch(`/api/v1/agencies/${agency._id}`)
+            .patch(`/api/v1/agencies/${ agency._id }`)
+            .set("Cookie", authCookie)
             .expect(200);
 
         expect(res.body).toHaveProperty("active", false);
@@ -124,7 +141,8 @@ describe("POST /api/agencies", () => {
         const fakeId = new mongoose.Types.ObjectId();
 
         const res = await request(app)
-            .patch(`/api/v1/agencies/${fakeId}`)
+            .patch(`/api/v1/agencies/${ fakeId }`)
+            .set("Cookie", authCookie)
             .expect(404);
 
         expect(res.body).toHaveProperty("message", "Agency not found");

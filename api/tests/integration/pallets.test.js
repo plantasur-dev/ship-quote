@@ -1,38 +1,28 @@
 
 import request from "supertest";
-import app from "../../app.js";
+
 import mongoose from "mongoose";
+
+import app from "../../app.js";
 
 import PalletType from "../../src/lib/models/palletType.model.js";
 
 import Agency from "../../src/lib/models/agency.model.js";
 
-let agency;
-
-beforeEach(async () => {
-    agency = await Agency.create({
-        "name": "Correos2",
-        "type": "static",
-        "rules": {
-            "hasAndaluciaRule": false,
-            "supportsPallets": false,
-            "supportsParcels": true
-        },
-        "apiConfig": {
-            "timeout": 3000,
-            "baseUrlApi": "https://www.desa.cexpr.es/wspsc",
-            "endpoints": {
-                "quotations": "",
-                "transportOrders": ""
-            },
-            "apiKey": "Pruebas"
-        }
-    });
-});
+import { createAuthenticatedUser } from "../utils/auth.js";
+import { it } from "vitest";
 
 describe("Pallets API", () => {
 
+    let authCookie;
+
+    beforeEach(async () => {
+        ({ cookie: authCookie } = await createAuthenticatedUser());
+    });
+
     it("debería crear un pallet", async () => {
+
+        const agency = await Agency.create({ name: "Correos Prueba" });
 
         const payload = {
             agencyId: agency._id,
@@ -47,6 +37,7 @@ describe("Pallets API", () => {
 
         const res = await request(app)
             .post("/api/v1/pallets")
+            .set("Cookie", authCookie)
             .send(payload)
             .expect(201);
 
@@ -55,6 +46,8 @@ describe("Pallets API", () => {
     });
 
     it("debería fallar si falta el nombre", async () => {
+
+        const agency = await Agency.create({ name: "Test Agency" });
 
         const payload = {
             agencyId: agency._id,
@@ -65,6 +58,7 @@ describe("Pallets API", () => {
 
         const res = await request(app)
             .post("/api/v1/pallets")
+            .set("Cookie", authCookie)
             .send(payload)
             .expect(400);
 
@@ -73,6 +67,8 @@ describe("Pallets API", () => {
 
     it("debería fallar si faltan campos obligatorios", async () => {
 
+        const agency = await Agency.create({ name: "Test Agency" });
+
         const payload = {
             agencyId: agency._id,
             name: "Pallet inválido"
@@ -80,6 +76,7 @@ describe("Pallets API", () => {
 
         const res = await request(app)
             .post("/api/v1/pallets")
+            .set("Cookie", authCookie)
             .send(payload)
             .expect(400);
     });
@@ -98,10 +95,11 @@ describe("Pallets API", () => {
 
         const res = await request(app)
             .post("/api/v1/pallets")
+            .set("Cookie", authCookie)
             .send(payload)
             .expect(404);
 
-        expect(res.body.message).toMatch(/agency/i);
+        expect(res.body.message).toContain("not found");
     });
 
     it("debería listar pallets", async () => {
@@ -121,6 +119,7 @@ describe("Pallets API", () => {
 
         const res = await request(app)
             .get("/api/v1/pallets")
+            .set("Cookie", authCookie)
             .expect(200);
 
         expect(res.body).toHaveLength(2);
@@ -130,9 +129,53 @@ describe("Pallets API", () => {
 
         const res = await request(app)
             .get("/api/v1/pallets")
+            .set("Cookie", authCookie)
             .expect(404);
 
         expect(res.body).toHaveProperty("message", "Pallets not found");
+    });
+
+    it("debería devolver 200 si la agencia tiene pallets ", async () => {
+
+        const agency = await Agency.create({ name: "Ag.WithPallets" });
+
+        await PalletType.create([
+            {
+                agencyId: agency._id,
+                name: "Pallet1 agencia 1 listado",
+                constraints: { maxWeight: 100 }
+            },
+            {
+                agencyId: agency._id,
+                name: "Pallet2 agencia 1 listado",
+                constraints: { maxWeight: 130 }
+            },
+            {
+                agencyId: new mongoose.Types.ObjectId(),
+                name: "Pallet de otra agencia listado",
+                constraints: { maxWeight: 200 }
+            }
+        ]);
+        
+        const res = await request(app)
+            .get(`/api/v1/agencies/${ agency._id }/pallets`)
+            .set("Cookie", authCookie)
+            .expect(200);
+        
+        expect(res.body[0]).toHaveProperty("name", "Pallet1 agencia 1 listado");
+        expect(res.body[1]).toHaveProperty("name", "Pallet2 agencia 1 listado");
+    });
+
+    it("debería devolver 404 si la agencia no tiene pallets", async () => {
+
+        const fakeAgencyId = new mongoose.Types.ObjectId();
+
+        const res = await request(app)
+            .get(`/api/v1/agencies/${ fakeAgencyId }/pallets`)
+            .set("Cookie", authCookie)
+            .expect(404);
+
+        expect(res.body.message).toContain("Pallets not found by agency");
     });
 
     it("debería devolver detalle de un pallet", async () => {
@@ -144,7 +187,8 @@ describe("Pallets API", () => {
         });
 
         const res = await request(app)
-            .get(`/api/v1/pallets/${pallet._id}`)
+            .get(`/api/v1/pallets/${ pallet._id }`)
+            .set("Cookie", authCookie)
             .expect(200);
 
         expect(res.body).toHaveProperty("name", "Pallet detalle");
@@ -155,7 +199,8 @@ describe("Pallets API", () => {
         const fakeId = new mongoose.Types.ObjectId();
 
         const res = await request(app)
-            .get(`/api/v1/pallets/${fakeId}`)
+            .get(`/api/v1/pallets/${ fakeId }`)
+            .set("Cookie", authCookie)
             .expect(404);
 
         expect(res.body).toHaveProperty("message", "Pallet not found");
@@ -165,6 +210,7 @@ describe("Pallets API", () => {
 
         const res = await request(app)
             .get("/api/v1/pallets/invalid-id")
+            .set("Cookie", authCookie)
             .expect(404);
 
         expect(res.body).toHaveProperty('message', 'Resource not found');
@@ -179,7 +225,8 @@ describe("Pallets API", () => {
         });
 
         await request(app)
-            .delete(`/api/v1/pallets/${pallet._id}`)
+            .delete(`/api/v1/pallets/${ pallet._id }`)
+            .set("Cookie", authCookie)
             .expect(204);
 
         const deleted = await PalletType.findById(pallet._id);
@@ -192,6 +239,16 @@ describe("Pallets API", () => {
 
         await request(app)
             .delete(`/api/v1/pallets/${fakeId}`)
+            .set("Cookie", authCookie)
             .expect(204);
+    });
+
+    it("debería devolver 401 sin cookie de sesión", async () => {
+
+        const res = await request(app)
+            .get("/api/v1/pallets")
+            .expect(401);
+
+        expect(res.body).toHaveProperty("message", "Unauthorized");
     });
 });

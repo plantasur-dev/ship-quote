@@ -1,10 +1,22 @@
 
 import request from "supertest";
-import app from "../../app.js";
+
 import mongoose from "mongoose";
+
+import app from "../../app.js";
 
 import Zone from "../../src/lib/models/zone.model.js";
 import Agency from "../../src/lib/models/agency.model.js";
+
+import { 
+    createAuthenticatedUser 
+} from "../utils/auth.js";
+
+let authCookie;
+
+beforeEach(async () => {
+    ({ cookie: authCookie } = await createAuthenticatedUser());
+});
 
 describe("Zones API", () => {
 
@@ -26,6 +38,7 @@ describe("Zones API", () => {
 
         const res = await request(app)
             .post("/api/v1/zones")
+            .set('Cookie', authCookie)
             .send(payload)
             .expect(201);
 
@@ -37,6 +50,7 @@ describe("Zones API", () => {
 
         const res = await request(app)
             .post("/api/v1/zones")
+            .set('Cookie', authCookie)
             .send({
                 name: "Zona inválida"
             })
@@ -45,7 +59,22 @@ describe("Zones API", () => {
         expect(res.body).toHaveProperty("message", "agencyId is required");
     });
 
-    it("debería fallar si falta name", async () => {
+    it("debería fallar si el agencyId no existe", async () => {
+
+        const res = await request(app)
+            .post("/api/v1/zones")
+            .set("Cookie", authCookie)
+            .send({
+                agencyId: new mongoose.Types.ObjectId(),
+                name: "Zona huérfana",
+                provinces: ["ES-M"]
+            })
+            .expect(404);
+
+        expect(res.body.message).toContain("not found");
+    });
+
+    it("debería fallar si falta name de la Zona", async () => {
 
         const agency = await Agency.create({
             name: "Test Agency"
@@ -53,6 +82,7 @@ describe("Zones API", () => {
 
         const res = await request(app)
             .post("/api/v1/zones")
+            .set('Cookie', authCookie)
             .send({
                 agencyId: agency._id
             })
@@ -82,6 +112,7 @@ describe("Zones API", () => {
 
         const res = await request(app)
             .get("/api/v1/zones")
+            .set('Cookie', authCookie)
             .expect(200);
 
         expect(res.body.zones).toHaveLength(2);
@@ -91,10 +122,30 @@ describe("Zones API", () => {
         expect(res.body.zones[0].agencyId).toHaveProperty("code");
     });
 
+    it("debería fallar si una provincia no existe en el catálogo", async () => {
+
+        const agency = await Agency.create({
+            name: "Test Agency"
+        });
+
+        const res = await request(app)
+            .post("/api/v1/zones")
+            .set("Cookie", authCookie)
+            .send({
+                agencyId: agency._id,
+                name: "Zona con provincia inválida",
+                provinces: ["Madrid"]
+            })
+            .expect(400);
+
+        expect(res.body.message).toContain("Unknown provinces");
+    });
+
     it("debería devolver 404 si no hay zonas", async () => {
 
         const res = await request(app)
             .get("/api/v1/zones")
+            .set('Cookie', authCookie)
             .expect(404);
 
         expect(res.body).toHaveProperty("message", "Zones not found");
@@ -114,6 +165,7 @@ describe("Zones API", () => {
 
         const res = await request(app)
             .get(`/api/v1/zones/${zone._id}`)
+            .set('Cookie', authCookie)
             .expect(200);
 
         expect(res.body).toHaveProperty("name", "Zona detalle");
@@ -127,6 +179,7 @@ describe("Zones API", () => {
 
         const res = await request(app)
             .get(`/api/v1/zones/${fakeId}`)
+            .set('Cookie', authCookie)
             .expect(404);
 
         expect(res.body).toHaveProperty("message", "Zone not found");
@@ -136,6 +189,7 @@ describe("Zones API", () => {
 
         const res = await request(app)
             .get("/api/v1/zones/invalid-id")
+            .set('Cookie', authCookie)
             .expect(404);
 
         expect(res.body).toHaveProperty('message', 'Resource not found');
@@ -148,6 +202,7 @@ describe("Zones API", () => {
 
         const res = await request(app)
             .post('/api/v1/zones/full')
+            .set('Cookie', authCookie)
             .send({
                 agencyId: agency._id,
                 calculationMode: "pallet",
@@ -186,5 +241,14 @@ describe("Zones API", () => {
             });
 
         expect(res.status).toBe(201);
+    });
+
+    it("debería devolver 401 sin cookie de sesión", async () => {
+
+        const res = await request(app)
+            .get("/api/v1/zones")
+            .expect(401);
+
+        expect(res.body).toHaveProperty("message", "Unauthorized");
     });
 });

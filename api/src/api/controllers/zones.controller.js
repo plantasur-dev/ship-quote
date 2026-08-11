@@ -2,7 +2,7 @@
 import createHttpError from "http-errors";
 
 import Zone from "../../lib/models/zone.model.js";
-import zonesFull from "../services/zones.services.js";
+import zonesFull from "../services/zones.service.js";
 
 export const create = async (req, res) => {
 

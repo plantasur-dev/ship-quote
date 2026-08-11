@@ -71,5 +71,8 @@ export async function compareByPostalCode(req, res) {
 
     if(!result) throw createHttpError(404, 'Compare not found');
 
-    res.json(result);
+    req.audit.action = "TARIFF_SEARCH";
+    req.audit.response = result;
+
+    res.json(result);   
 }

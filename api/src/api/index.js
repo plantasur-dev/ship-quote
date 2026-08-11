@@ -5,6 +5,7 @@ import * as Errors from './middlewares/errors.middleware.js';
 
 import {
     checkAuth,
+    audit,
     schemaValidation,
     rateValidation,
     rateItemsValidation,  
@@ -22,10 +23,13 @@ import * as Zones from './controllers/zones.controller.js';
 import * as ZoneRules from './controllers/zoneRules.controller.js';
 import * as Releases from './controllers/releases.controller.js';
 import * as Cache from './controllers/cache.controller.js';
+import * as Audits from './controllers/audits.controller.js';
 
 const apiRouter = Router();
 
 apiRouter.use(checkAuth);
+
+apiRouter.use(audit);
 
 apiRouter.post('/auth/signup', Users.create);
 apiRouter.post('/auth/login', Users.login);
@@ -36,10 +40,9 @@ apiRouter.get('/debug/maps', checkAuth, Cache.debugMap);
 
 apiRouter.get('/releases/latest', Releases.latest);
 
-apiRouter.post('/agencies',
-    schemaValidation, 
-    Agencies.create
-);
+apiRouter.get('/audits', Audits.list)
+
+apiRouter.post('/agencies', schemaValidation,  Agencies.create);
 apiRouter.get('/agencies', Agencies.list);
 apiRouter.get('/agencies/:agencyId/pallets', Pallets.palletsByAgency);
 apiRouter.patch('/agencies/:agencyId', Agencies.updateAgencyStatus);

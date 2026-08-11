@@ -8,9 +8,7 @@ import app from "../../app.js";
 import Zone from "../../src/lib/models/zone.model.js";
 import Agency from "../../src/lib/models/agency.model.js";
 
-import { 
-    createAuthenticatedUser 
-} from "../utils/auth.js";
+import { createAuthenticatedUser } from "../helpers/auth.helpers.js";
 
 let authCookie;
 

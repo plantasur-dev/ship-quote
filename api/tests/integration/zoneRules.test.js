@@ -9,7 +9,7 @@ import Agency from '../../src/lib/models/agency.model.js';
 import Zone from '../../src/lib/models/zone.model.js';
 import ZoneRules from '../../src/lib/models/zone.rules.model.js';
 
-import { createAuthenticatedUser } from '../utils/auth.js';
+import { createAuthenticatedUser } from "../helpers/auth.helpers.js";
 
 let agency;
 let zone;

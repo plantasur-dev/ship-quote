@@ -9,8 +9,7 @@ import PalletType from "../../src/lib/models/palletType.model.js";
 
 import Agency from "../../src/lib/models/agency.model.js";
 
-import { createAuthenticatedUser } from "../utils/auth.js";
-import { it } from "vitest";
+import { createAuthenticatedUser } from "../helpers/auth.helpers.js";
 
 describe("Pallets API", () => {
 

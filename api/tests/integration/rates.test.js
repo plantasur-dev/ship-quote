@@ -5,6 +5,7 @@ import app from "../../app.js";
 
 import Agency from "../../src/lib/models/agency.model.js"
 import PalletType from "../../src/lib/models/palletType.model.js";
+import Zone from "../../src/lib/models/zone.model.js";
 
 import rates from '../../src/api/services/rates.service.js';
 
@@ -12,10 +13,7 @@ import {
     getProvinceByCountryCodeAndPostalCode 
 } from '../../src/api/services/provinces.service.js';
 
-import { 
-    createAuthenticatedUser 
-} from "../utils/auth.js";
-import Zone from "../../src/lib/models/zone.model.js";
+import { createAuthenticatedUser } from "../helpers/auth.helpers.js";
 
 vi.mock('../../src/api/services/rates.service.js', () => ({
     default: vi.fn()

@@ -1,10 +1,11 @@
 
+import createHttpError from 'http-errors';
+
+import mongoose from 'mongoose';
+
 import User from '../../lib/models/user.model.js';
 
 import Session from '../../lib/models/session.model.js';
-
-import createHttpError from 'http-errors';
-import mongoose from 'mongoose';
 
 export async function create(req, res) {
     

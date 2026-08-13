@@ -2,6 +2,10 @@
 import mongoose from 'mongoose';
 
 import { 
+    registerDefaultUser 
+} from './users/users.bootstrap.js';
+
+import { 
     initProvinces, 
     loadProvinces
 } from '../../api/services/provinces.service.js';
@@ -60,6 +64,7 @@ async function bootstrap() {
     await initProvinces();
 
     await Promise.all([
+        registerDefaultUser(),
         loadCountries(),
         loadProvinces()
     ]);

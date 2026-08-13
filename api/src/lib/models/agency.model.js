@@ -81,7 +81,7 @@ const agencySchema = new mongoose.Schema({
         baseUrlApi: { 
             type: String,
             required: function () {
-                return this.type === 'api'
+                return this.type === 'api' || this.type === 'hybrid'
             },
         },
         endpoints: {
@@ -91,7 +91,7 @@ const agencySchema = new mongoose.Schema({
         apiKey: { 
             type: String,
             required: function () {
-                return this.type === 'api'
+                return this.type === 'api' || this.type === 'hybrid'
             },
         },
     }
@@ -102,6 +102,10 @@ const agencySchema = new mongoose.Schema({
         virtuals: true,
         transform: function (doc, ret) {
             delete ret._id;
+            
+            if (ret.apiConfig){
+                delete ret.apiConfig.apiKey;
+            }
         },
     }
 });

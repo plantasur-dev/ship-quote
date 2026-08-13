@@ -19,6 +19,24 @@ export const normalizeString = (value) => {
     return normalized.length ? normalized : null;
 };
 
+export const unknownFields = (fields, allowedFields) => {
+    const unknownFields = Object.keys(fields).filter(
+        field => !allowedFields.includes(field)
+    );
+
+    if (unknownFields.length > 0) {
+        throw createHttpError(400, `Unknown fields: ${ unknownFields.join(', ') }`);
+    }
+};
+
+export const missingFields = (nameObject, fields, requiredFields) => {
+    const missingFields = requiredFields.filter(field => !(field in fields));
+    
+    if (missingFields.length > 0) {
+        throw createHttpError(400, `Required fields in ${ nameObject }: ${ missingFields.join(', ') }`); 
+    }
+};
+
 export const validateName = (name) => {
  
     if (typeof name !== 'string' || !name.trim()) {

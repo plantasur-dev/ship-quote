@@ -7,6 +7,7 @@ import {
     checkAuth,
     audit,
     schemaValidation,
+    updateAgenciesValidation,
     rateValidation,
     rateItemsValidation,  
     rateDestinationValidation,
@@ -42,10 +43,16 @@ apiRouter.get('/releases/latest', Releases.latest);
 
 apiRouter.get('/audits', Audits.list)
 
-apiRouter.post('/agencies', schemaValidation,  Agencies.create);
+apiRouter.post('/agencies', schemaValidation, Agencies.create);
 apiRouter.get('/agencies', Agencies.list);
 apiRouter.get('/agencies/:agencyId/pallets', Pallets.palletsByAgency);
-apiRouter.patch('/agencies/:agencyId', Agencies.updateAgencyStatus);
+apiRouter.patch('/agencies/:agencyId/status', Agencies.updateStatuAgency);
+apiRouter.patch(
+    '/agencies/:agencyId', 
+    schemaValidation, 
+    updateAgenciesValidation, 
+    Agencies.update
+);
 
 apiRouter.post('/locations', schemaValidation, Locations.create);
 apiRouter.get('/locations/countries', Locations.listCountries);

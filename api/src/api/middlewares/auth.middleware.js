@@ -3,24 +3,21 @@ import createHttpError from "http-errors";
 
 import Session from "../../lib/models/session.model.js";
 
+const whiteList = [
+    { method: 'POST', path: '/auth/login' },
+    { method: 'POST', path: '/rates/compareByPostalCode' },
+    { method: 'GET', path: '/releases/latest' },
+    { method: 'GET', path: '/locations/countries' },
+    { method: 'GET', path: '/locations/provinces' }
+];
+
 export async function checkAuth(req, res, next) {
 
-    if (req.method === 'POST' && req.path === '/auth/signup') {
-        next();
-        return;
-    }
+    const ispublic = whiteList.some(item => 
+        item.path === req.path && item.method === req.method
+    );
 
-    if (req.method === 'POST' && req.path === '/auth/login') {
-        next();
-        return;
-    }
-
-    if (req.method === 'POST' && req.path === '/rates/compareByPostalCode') {
-        next();
-        return;
-    }
-
-    if (req.method === 'GET' && req.path === '/releases/latest') {
+    if (ispublic) {
         next();
         return;
     }
@@ -33,7 +30,7 @@ export async function checkAuth(req, res, next) {
 
     const session = await Session.findById(sessionId).populate('user');
 
-    if (!session) {
+    if (!session || !session.user) {
         throw createHttpError(401, 'Unauthorized');
     }
 

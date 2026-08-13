@@ -12,13 +12,12 @@ export function audit(req, res, next) {
         response: null
     };
 
-    const request = {  
-        params: sanitizer(req.params),
-        query: sanitizer(req.query),
-        body: sanitizer(req.body)
-    };
-
     res.on('finish', () => {
+        const request = {  
+            params: sanitizer(req.params),
+            query: sanitizer(req.query),
+            body: sanitizer(req.body)
+        };
         
         const userId = req.session?.user?.id ?? null;
         

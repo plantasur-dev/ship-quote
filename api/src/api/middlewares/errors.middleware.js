@@ -57,8 +57,6 @@ export const errorHandler = (err, req, res, next) => {
         return;
     }
 
-    const message = 'Error internal server';
-
     res.locals.logData = {
         event: 'server_error',
         error: err.name,
@@ -66,7 +64,7 @@ export const errorHandler = (err, req, res, next) => {
         stack: err.stack
     }
 
-    res.status(500).json({ message });
+    res.status(500).json({ message: 'Error internal server' });
 };
 
 export const routerNotFound = (req, res) => {

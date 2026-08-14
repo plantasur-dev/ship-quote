@@ -9,35 +9,40 @@ import Session from "../../src/lib/models/session.model.js";
 import { createAuthenticatedUser } from "../helpers/auth.helpers.js";
 
 const validUser = {
-  username: "tester",
-  email: "tester@example.com",
+  username: "tester1",
+  email: "tester1@example.com",
   password: "password123"
 };
 
 describe("POST /api/v1/auth/signup", () => {
+  
+  it("debería crear un usuario", async () => {
+    const { cookie, user } = await createAuthenticatedUser();
 
-  it("debería crear un usuario (ruta pública, sin cookie)", async () => {
     const res = await request(app)
         .post("/api/v1/auth/signup")
+        .set("Cookie", cookie)
         .send(validUser)
         .expect(201);
 
-    expect(res.body).toHaveProperty("username", "tester");
-    expect(res.body).toHaveProperty("email", "tester@example.com");
+    expect(res.body).toHaveProperty("username", "tester1");
+    expect(res.body).toHaveProperty("email", "tester1@example.com");
     expect(res.body).not.toHaveProperty("password");
   });
 
   it("debería fallar si el email ya existe", async () => {
+    const { cookie, user } = await createAuthenticatedUser();
+
     await User.create(validUser);
 
     const res = await request(app)
         .post("/api/v1/auth/signup")
+        .set("Cookie", cookie)
         .send({ ...validUser, username: "otheruser" })
         .expect(409);
 
     expect(res.body).toHaveProperty("message", "Resource duplicate");
   });
-
 });
 
 describe("POST /api/v1/auth/login", () => {

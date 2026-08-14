@@ -1,7 +1,7 @@
 
 import createHttpError from "http-errors";
 
-import merge from 'lodash/merge';
+import merge from 'lodash/merge.js';
 
 import Agency from "../../lib/models/agency.model.js";
 

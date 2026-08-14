@@ -1,13 +1,10 @@
 
-import rates from '../../../src/api/services/rates.service.js';
-
 import Agency from '../../../src/lib/models/agency.model.js';
+
 import { getScope, SCOPE_LABELS } from '../../../src/lib/constants/scopes.zone.js';
 
-import {
-    getStaticRates,
-    getApiRates
-} from '../../../src/api/services/rates/index.js';
+import rates from '../../../src/api/services/rates.service.js';
+import { getStaticRates, getApiRates } from '../../../src/api/services/rates/index.js';
 
 vi.mock('../../../src/lib/models/agency.model.js', () => ({
     default: {

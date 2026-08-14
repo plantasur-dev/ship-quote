@@ -1,11 +1,9 @@
 
-import { describe, it, expect, vi } from "vitest";
-
 import Agency from "../../../../src/lib/models/agency.model";
+import Zone from "../../../../src/lib/models/zone.model";
 import PalletType from "../../../../src/lib/models/palletType.model";
 
 import { rateValidation } from "../../../../src/api/middlewares/rate.validation.middleware";
-import Zone from "../../../../src/lib/models/zone.model";
 
 let agency;
 let zone;
@@ -32,7 +30,6 @@ const rateSend = {
 describe("rateValidation middleware", () => {
 
     beforeEach(async () => {
-
         agency = await Agency.create({
             "name": "Correos Prueba",
             "type": "static",
@@ -60,85 +57,70 @@ describe("rateValidation middleware", () => {
         });
     });
 
-    it("should call next when calculationType is valid", async () => {
-        const req = {
-            body: {
-                agencyId: agency._id,
-                palletTypeId: palletType._id,
-                zoneId: zone._id,
-                ...rateSend,
-                calculationType: "UNIT"
-            }
-        };
+    afterEach(async () => {
+        await Promise.all([
+            Agency.deleteMany({}),
+            Zone.deleteMany({}),
+            PalletType.deleteMany({}),
+        ]);
+        vi.clearAllMocks();
+    });
 
+    const buildReq = (overrides = {}) => ({
+        body: {
+            agencyId: agency._id,
+            palletTypeId: palletType._id,
+            zoneId: zone._id,
+            ...rateSend,
+            ...overrides,
+        },
+    });
+
+    it("should call next when calculationType is valid", async () => {
+        const req = buildReq({ calculationType: "UNIT" });
         const res = {};
         const next = vi.fn();
 
         await rateValidation(req, res, next);
 
-        expect(next).toHaveBeenCalled();
+        expect(next).toHaveBeenCalledOnce();
         expect(req.body.calculationType).toBe("unit");
     });
 
-
     it("should return 400 when calculationType is empty", async () => {
-        const req = {
-            body: {
-                agencyId: agency._id,
-                palletTypeId: palletType._id,
-                zoneId: zone._id,
-                ...rateSend,
-                calculationType: "   "
-            }
-        };
-
+        const req = buildReq({ calculationType: "      " });
         const res = {};
         const next = vi.fn();
 
-        await expect(
-            rateValidation(req, res, next)
-        ).rejects.toThrow("calculationType cannot be empty");
-    });
+        await expect(rateValidation(req, res, next)).rejects.toMatchObject({ 
+            status: 400, 
+            message: "calculationType cannot be empty"
+        });
 
+        expect(next).not.toHaveBeenCalledOnce();
+    });
 
     it("should return 400 when calculationType is not allowed", async () => {
-        const req = {
-            body: {
-                agencyId: agency._id,
-                palletTypeId: palletType._id,
-                zoneId: zone._id,
-                ...rateSend,
-                calculationType: "weight"
-            }
-        };
-
+        const req = buildReq({ calculationType: "weight" });
         const res = {};
         const next = vi.fn();
 
-        await expect(
-            rateValidation(req, res, next)
-        ).rejects.toThrow(
-            "calculationType must be one of: unit, quantity"
-        );
+        await expect(rateValidation(req, res, next)).rejects.toMatchObject({ 
+            status: 400, 
+            message: "calculationType must be one of: unit, quantity"
+        });
+
+        expect(next).not.toHaveBeenCalledOnce();
     });
 
-
     it("should call next when calculationType is not provided", async () => {
-        const req = {
-            body: {
-                agencyId: agency._id,
-                palletTypeId: palletType._id,
-                zoneId: zone._id,
-                ...rateSend
-            }
-        };
-
+        const req = buildReq();
+        delete req.body.calculationType;
         const res = {};
         const next = vi.fn();
 
         await rateValidation(req, res, next);
 
-        expect(next).toHaveBeenCalled();
+        expect(next).toHaveBeenCalledOnce();
     });
-
 });

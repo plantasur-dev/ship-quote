@@ -1,5 +1,5 @@
 
-import request, { cookies } from 'supertest';
+import request from 'supertest';
 
 import mongoose from "mongoose";
 

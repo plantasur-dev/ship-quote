@@ -1,17 +1,13 @@
 
-import {
-    getStaticRates
-} from '../../../../../../src/api/services/rates/index.js';
+import { loadDataStaticRate } from '../../../../../../src/lib/utils/rate.utils.js';
 
 import { getAgencyTariffs } from '../../../../../../src/api/services/cache.service.js';
 
-import { loadDataStaticRate } from '../../../../../../src/lib/utils/rate.utils.js';
-
-import { resolveZone } from '../../../../../../src/api/services/rates/domains/zone/zone.rules.js';
-
+import { getStaticRates } from '../../../../../../src/api/services/rates/index.js';
 import { calculatePallet } from '../../../../../../src/api/services/rates/providers/static/pallet.rate.calculator.js';
 import { calculateParcel } from '../../../../../../src/api/services/rates/providers/static/parcel.rate.calculator.js';
 
+import { resolveZone } from '../../../../../../src/api/services/rates/domains/zone/zone.rules.js';
 import { buildStaticErrorResult } from '../../../../../../src/api/services/rates/domains/build.rate.result.js';
 
 import { presentAgencyRate } from '../../../../../../src/api/services/rates/presenters/rate.presenter.js';

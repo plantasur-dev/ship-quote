@@ -1,36 +1,51 @@
 
 import createHttpError from "http-errors";
 
-import { AGENCY_TYPE } from "../../constants/index.js";
+import { 
+    AGENCY_TYPE, 
+    SCOPE_TYPES 
+} from "../../constants/index.js";
 
 import { 
     unknownFields,
-    missingFields
+    missingFields,
+    normalizeString
 } from "./middleware.utils.js";
 
 export const validateRules = (rules) => {
     
     if (rules) {
+        if (typeof rules !== 'object' || Array.isArray(rules)) {
+            throw createHttpError(400, 'Must be an object');
+        }
+
+        const { hasAndaluciaRule, supportsPallets, supportsParcels, coverage } = rules;
+
         const allowedFieldsRules = ['hasAndaluciaRule', 'supportsPallets', 'supportsParcels', 'coverage'];
 
         unknownFields(rules , allowedFieldsRules);
 
         missingFields('rules', rules , allowedFieldsRules);
 
-        if (typeof rules.hasAndaluciaRule !== 'boolean' || 
-            typeof rules.supportsPallets !== 'boolean' ||
-            typeof rules.supportsParcels !== 'boolean'
+        if (typeof hasAndaluciaRule !== 'boolean' || 
+            typeof supportsPallets !== 'boolean' ||
+            typeof supportsParcels !== 'boolean'
         ) {
             throw createHttpError(400, `Fields supportsPallets, supportsParcels and hasAndaluciaRule must be an Boolean`); 
         }
 
-        if (!Array.isArray(rules.coverage) || 
-            rules.coverage.length === 0 ||
-            !rules.coverage.every(item => typeof item === 'string')
+        if (!Array.isArray(coverage) || 
+            coverage.length === 0 ||
+            !coverage.every(item => typeof item === 'string')
         ) {
             throw createHttpError(400, 'Coverage must be a non-empty array of strings'); 
         }
-        
+
+        const invalidValues = coverage.filter(c => !Object.values(SCOPE_TYPES).includes(c));
+
+        if (invalidValues.length > 0) {
+            throw createHttpError(400, `rules.coverage contains invalid values: ${ invalidValues.join(', ') }. Must be one of: ${ validCoverage.join(' or ') }.`);
+        }
     }
 };
 
@@ -41,25 +56,40 @@ export const validateSupplements = (supplements) => {
 
         unknownFields(supplements , allowedFieldsSupplements);
 
-        const { fuelSurcharge } = supplements;
+        if (supplements.fuelSurcharge && supplements.fuelSurcharge.enabled === true) {
 
-        if (fuelSurcharge && fuelSurcharge.enabled === true) {
-            missingFields('fuelSurcharge', fuelSurcharge , ['type', 'value']);
+            const { type: surchargeType, value } = supplements.fuelSurcharge;
 
-            if (typeof fuelSurcharge.type !== 'string') {
-                throw createHttpError(400, `Fields type must be an string`);
+            const normalizedSurchargeType = normalizeString(surchargeType);
+            
+            if (normalizedSurchargeType === null) {
+                throw createHttpError(400, 'type surcharge is required');
             }
 
-            if (typeof fuelSurcharge.value !== 'number') {
-                throw createHttpError(400, `Fields value must be an number`);
+            const loweredSurchargeType = normalizedSurchargeType.toLowerCase();
+
+            if (!['percentage', 'fixed'].includes(loweredSurchargeType)) {
+                throw createHttpError(400, `Type surcharge fuel must be one of: ${ ['percentage', 'fixed'].join(', ') }`)
             }
+    
+            if (value !== undefined && (typeof value !== 'number' || value < 0)) {
+                throw createHttpError(400, 'The surcharge value must be a positive number');
+            }
+
+            if (loweredSurchargeType === 'percentage' && value > 100) {
+                throw createHttpError(400, 'The surcharge percentage cannot exceed 100%');
+            }
+    
+            supplements.fuelSurcharge.type = loweredSurchargeType;
         }
     }
 };
 
 export const validateApiConfig = (type, apiConfig) => {
 
-    if (type !== AGENCY_TYPE.STATIC && apiConfig) {
+    const requiresApiConfig = type === AGENCY_TYPE.API || type === AGENCY_TYPE.HYBRID;
+
+    if (requiresApiConfig && apiConfig) {
         const allowedFieldsApiConfig = ['timeout', 'baseUrlApi', 'endpoints', 'apiKey'];
 
         unknownFields(apiConfig , allowedFieldsApiConfig);

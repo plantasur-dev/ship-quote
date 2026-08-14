@@ -1,18 +1,23 @@
 
 import createHttpError from "http-errors";
 
+import merge from 'lodash/merge';
+
 import Agency from "../../lib/models/agency.model.js";
+
 
 export async function create(req, res) {
 
-    const { name, type, rules, apiConfig } = req.body;
+    const { active, name, type, rules, supplements, apiConfig } = req.body;
 
     if (!name) throw createHttpError(400, 'Name is required');
 
     const agency = await Agency.create({ 
+        active,
         name,
         type, 
         rules,
+        supplements,
         apiConfig 
     });
 
@@ -45,17 +50,19 @@ export async function update(req, res) {
     if (rules) criteria.rules = rules;
     
     if (supplements) {
-        criteria.supplements = { 
-            ...agency.supplements, 
-            ...supplements 
-        };
+        criteria.supplements = merge(
+            {},
+            agency.supplements?.toObject(),
+            supplements
+        );
     }
 
     if (apiConfig) {
-        criteria.apiConfig = {
-            ...agency.apiConfig, 
-            ...apiConfig
-        };
+        criteria.apiConfig = merge(
+            {},
+            agency.apiConfig?.toObject(),
+            apiConfig
+        );
     }
         
     Object.assign(agency, criteria);

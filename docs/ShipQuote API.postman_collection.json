@@ -7,13 +7,137 @@
   },
   "item": [
     {
-      "name": "Agencies",
+      "name": "Auth",
       "item": [
         {
-          "name": "List Agencies",
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"ADMIN\",\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/signup",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "signup"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify session",
           "request": {
             "method": "GET",
             "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/verify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Agencies",
+      "item": [
+        {
+          "name": "Create Agencies",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"La agencia se crea\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.expect(response).to.have.property(\"id\");\r\npm.collectionVariables.set(\"agencyId\", response.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Correos21\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": true,\r\n        \"supportsParcels\": true,\r\n        \"coverage\": [\r\n            \"national\"\r\n        ]\r\n    },\r\n    \"supplements\": {\r\n        \"fuelSurcharge\": {\r\n            \"enabled\": true,\r\n            \"type\": \"Percentage\",\r\n            \"value\": 10\r\n        }\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{baseUrl}}/agencies",
               "host": [
@@ -24,22 +148,72 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Create Agencies Pallet",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"CorreosPallet\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": true,\r\n        \"supportsParcels\": false\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/agencies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "agencies"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "Create Agencies Parcel",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"CorreosParcel\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/agencies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "agencies"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
         },
         {
-          "name": "Create Agencies",
+          "name": "List Agencies",
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Correos2\",\r\n    \"type\": \"api\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{baseUrl}}/agencies",
               "host": [
@@ -59,7 +233,35 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"id\": \"69df4338af0c211956345372\"\r\n}",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/agencies/{{agencyId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agencies",
+                "{{agencyId}}",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Angencies",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true,\r\n        \"coverage\": [\r\n            \"national\"\r\n        ]\r\n    },\r\n    \"supplements\": {\r\n        \"fuelSurcharge\": {\r\n            \"enabled\": true,\r\n            \"type\": \"fixed\",\r\n            \"value\": 12\r\n        }\r\n    },\r\n    \"apiConfig\": {\r\n        \"endpoints\":{\r\n            \"quotations\": \"prueba\"\r\n        },\r\n        \"timeout\": 3001,\r\n        \"baseUrlApi\": \"url\",\r\n        \"apiKey\": \"pruebas\"\r\n    },\r\n    \"type\": \"api\",\r\n    \"active\": true\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -85,13 +287,39 @@
       "name": "Rates",
       "item": [
         {
-          "name": "Compare Rate By Posta Code",
+          "name": "Create Rate",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"destinationPostalCode\": \"19025\",\r\n    \"countryCode\": \"ES\",\r\n    \"items\": [\r\n        {\r\n            \"typeServices\": \"pallet\",\r\n            \"weight\": 215,\r\n            \"large\": 80,\r\n            \"width\": 90,\r\n            \"height\": 80\r\n        }\r\n    ]\r\n}",
+              "raw": "{\r\n  \"agencyId\": \"{{agencyId}}\",\r\n  \"type\": \"pallet\",\r\n  \"zoneId\": \"{{zoneId}}\",\r\n  \"palletTypeId\": \"{{palletTypeId}}\",\r\n  \"calculationType\": \"unit\",\r\n  \"services\": [\r\n    {\r\n      \"service\": \"economy\",\r\n      \"priceBreaks\": [\r\n        {\r\n          \"min\": 1,\r\n          \"max\": 5,\r\n          \"price\": 10\r\n        },\r\n        {\r\n          \"min\": 5,\r\n          \"max\": 10,\r\n          \"price\": 15\r\n        },\r\n        {\r\n          \"min\": 10,\r\n          \"max\": 20,\r\n          \"price\": 25\r\n        }\r\n      ],\r\n      \"fallbackToLastPrice\": true,\r\n      \"surcharges\": {\r\n        \"extraKg\": {\r\n          \"enabled\": true,\r\n          \"pricePerKg\": 2.5\r\n        },\r\n        \"dimensionRanges\": [\r\n          {\r\n            \"min\": 100,\r\n            \"max\": 150,\r\n            \"price\": 5\r\n          },\r\n          {\r\n            \"min\": 150,\r\n            \"max\": 200,\r\n            \"price\": 10\r\n          }\r\n        ],\r\n        \"multiParcelExcess\": {\r\n          \"enabled\": true,\r\n          \"thresholdKg\": 40,\r\n          \"divisor\": 10,\r\n          \"pricePerBlock\": 3\r\n        }\r\n      },\r\n      \"limits\": {\r\n        \"maxWeight\": 50,\r\n        \"maxLength\": 120,\r\n        \"maxSumDimensions\": 250\r\n      }\r\n    },\r\n    {\r\n      \"service\": \"express\",\r\n      \"priceBreaks\": [\r\n        {\r\n          \"min\": 0,\r\n          \"max\": 5,\r\n          \"price\": 20\r\n        },\r\n        {\r\n          \"min\": 5,\r\n          \"max\": 10,\r\n          \"price\": 30\r\n        }\r\n      ],\r\n      \"fallbackToLastPrice\": false,\r\n      \"surcharges\": {\r\n        \"extraKg\": {\r\n          \"enabled\": true,\r\n          \"pricePerKg\": 4\r\n        },\r\n        \"dimensionRanges\": [],\r\n        \"multiParcelExcess\": {\r\n          \"enabled\": false,\r\n          \"thresholdKg\": 40,\r\n          \"divisor\": 1,\r\n          \"pricePerBlock\": 0\r\n        }\r\n      },\r\n      \"limits\": {\r\n        \"maxWeight\": 30,\r\n        \"maxLength\": 100,\r\n        \"maxSumDimensions\": 200\r\n      }\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rates",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rates"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Compare Rate By Postal Code",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"destinationPostalCode\": \"28002\",\r\n    \"countryCode\": \"ES\",\r\n    \"items\": [\r\n        {\r\n            \"typeServices\": \"pallet\",\r\n            \"weight\": 5,\r\n            \"large\": 10.6,\r\n            \"width\": 8.26,\r\n            \"height\": 9\r\n        }\r\n    ]\r\n    \r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -118,7 +346,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"destinationPostalCode\": \"23400\",\r\n  \"countryCode\": \"ES\",\r\n  \"province\": \"ES-J\",\r\n  \"items\": [\r\n    { \"typeServices\": \"pallet\", \"weight\": 200, \"large\": 100, \"width\": 80, \"height\": 100 },\r\n    { \"typeServices\": \"pallet\", \"weight\": 100,  \"large\": 100, \"width\": 80, \"height\": 100 }\r\n  ]\r\n}",
+              "raw": "{\r\n  \"destinationPostalCode\": \"23400\",\r\n  \"countryCode\": \"ES\",\r\n  \"province\": \"ES-J\",\r\n  \"items\": [\r\n    {\r\n        \"typeServices\": \"parcel\",\r\n        \"weight\": 12,\r\n        \"large\": 20,\r\n        \"width\": 20,\r\n        \"height\": 20\r\n    },\r\n    {\r\n        \"typeServices\": \"pallet\",\r\n        \"weight\": 29,\r\n        \"large\": 20,\r\n        \"width\": 20,\r\n        \"height\": 20\r\n    }\r\n  ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -144,13 +372,13 @@
       "name": "Locations",
       "item": [
         {
-          "name": "Create Location",
+          "name": "Create location Province",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"country_code\": \"pt\",\r\n    \"country_name\": \"portugal\", \r\n    \"admin_code\": \"al\",\r\n    \"name\": \"algarve\"\r\n}",
+              "raw": "{\r\n    \"countryCode\": \"pl\",\r\n    \"postalCode\": \"20\",\r\n    \"countryName\": \"polonia\", \r\n    \"adminCode\": \"cr\",\r\n    \"name\": \"cracovia\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -170,18 +398,19 @@
           "response": []
         },
         {
-          "name": "Province By PostalCode",
+          "name": "Provinces By CountryCode And PostalCode",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/locations/provincesByPostalCode/{{postalCode}}",
+              "raw": "{{baseUrl}}/locations/provincesByCountryCodeAndPostalCode/{{countryCode}}/{{postalCode}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "locations",
-                "provincesByPostalCode",
+                "provincesByCountryCodeAndPostalCode",
+                "{{countryCode}}",
                 "{{postalCode}}"
               ]
             }
@@ -189,7 +418,7 @@
           "response": []
         },
         {
-          "name": "List Countries",
+          "name": "List locations Countries",
           "request": {
             "method": "GET",
             "header": [],
@@ -214,7 +443,7 @@
           "response": []
         },
         {
-          "name": "List Provinces",
+          "name": "List locations Provinces",
           "request": {
             "method": "GET",
             "header": [],
@@ -238,12 +467,23 @@
       "item": [
         {
           "name": "Create Pallet",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Pallet para {{agencyId}} se crea\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.expect(response).to.have.property(\"id\");\r\npm.collectionVariables.set(\"palletTypeId\", response.id);"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"agencyId\": \"69df4338af0c211956345372\",\r\n    \"name\": \"Pallet prueba\",\r\n    \"constraints\": {\r\n        \"maxWeight\": \"300\",\r\n        \"maxHeight\": \"\",\r\n        \"maxLength\": \"\",\r\n        \"maxWidth\": \"\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"agencyId\": \"{{agencyId}}\",\r\n    \"name\": \"Pallet prueba\",\r\n    \"constraints\": {\r\n        \"maxWeight\": \"200\",\r\n        \"maxHeight\": \"90\",\r\n        \"maxLength\": \"80\",\r\n        \"maxWidth\": \"10\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -273,6 +513,25 @@
                 "{{baseUrl}}"
               ],
               "path": [
+                "pallets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List pallets By agency",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agencies/{{agencyId}}/pallets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agencies",
+                "{{agencyId}}",
                 "pallets"
               ]
             }
@@ -314,33 +573,6 @@
             }
           },
           "response": []
-        },
-        {
-          "name": "Compare Pallets",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"item\": {\r\n        \"large\": 100, \r\n        \"width\": 115, \r\n        \"height\": 120\r\n    }\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/pallets/compare",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "pallets",
-                "compare"
-              ]
-            }
-          },
-          "response": []
         }
       ]
     },
@@ -359,6 +591,19 @@
               ],
               "path": [
                 "zones"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "6",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "14",
+                  "type": "text",
+                  "disabled": true
+                }
               ]
             }
           },
@@ -371,7 +616,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"agencyId\": \"69f9be5ee37548d0bb3bd3f8\",\r\n    \"name\": \"PROVINCIAL\",\r\n    \"provinces\": [\"ES-GR\"],\r\n    \"calculationMode\": \"parcel\",\r\n    \"postalCodeExceptions\": []\r\n}",
+              "raw": "{\r\n    \"agencyId\": \"{{agencyId}}\",\r\n    \"name\": \"PROVINCIAL FACTOR 1\",\r\n    \"provinces\": [\"ES-J\"],\r\n    \"calculationMode\": \"pallet\",\r\n    \"volumetric\": { \"enabled\": true, \"factor\": 6000 },\r\n    \"pricingMode\": { \"type\": \"weight_volume\" },\r\n    \"postalCodeRanges\": []\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -403,6 +648,619 @@
               "path": [
                 "zones",
                 "{{zoneId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Zone Full",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"agencyId\": \"{{agencyId}}\",\r\n  \"calculationMode\": \"pallet\",\r\n  \"pricingMode\": {\r\n    \"type\": \"pallet_classification\"\r\n  },\r\n  \"volumetric\": {\r\n    \"enabled\": false\r\n  },\r\n  \"zones\": [\r\n    {\r\n      \"name\": \"ZONA 14\",\r\n      \"provinces\": [\"ES-GU\", \"ES-M\"]\r\n    },\r\n    {\r\n      \"name\": \"ZONA 23\",\r\n      \"provinces\": [\"ES-SO\", \"ES-TO\"]\r\n    }\r\n  ],\r\n  \"exceptions\": [\r\n    {\r\n      \"province\": \"ES-GU\",\r\n      \"zoneName\": \"ZONA 23\",\r\n      \"from\": \"19261\",\r\n      \"to\": \"19261\",\r\n      \"kind\": \"exception\"\r\n    },\r\n    {\r\n      \"province\": \"ES-GU\",\r\n      \"zoneName\": \"ZONA 23\",\r\n      \"from\": \"19280\",\r\n      \"to\": \"19287\",\r\n      \"kind\": \"exception\"\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/zones/full",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zones",
+                "full"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "201 - Caso Base",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"agencyId\": \"64f1a2b3c4d5e6f7a8b9c0d1\",\r\n  \"calculationMode\": \"pallet\",\r\n  \"pricingMode\": {\r\n    \"type\": \"pallet_classification\"\r\n  },\r\n  \"volumetric\": {\r\n    \"enabled\": false\r\n  },\r\n  \"zones\": [\r\n    {\r\n      \"name\": \"ZONA 1\",\r\n      \"provinces\": [\"ES-GU\", \"ES-M\"]\r\n    },\r\n    {\r\n      \"name\": \"ZONA 2\",\r\n      \"provinces\": [\"ES-SO\", \"ES-TO\"]\r\n    }\r\n  ],\r\n  \"exceptions\": [\r\n    {\r\n      \"province\": \"ES-GU\",\r\n      \"zoneName\": \"ZONA 2\",\r\n      \"from\": \"19261\",\r\n      \"to\": \"19261\",\r\n      \"kind\": \"exception\"\r\n    },\r\n    {\r\n      \"province\": \"ES-GU\",\r\n      \"zoneName\": \"ZONA 2\",\r\n      \"from\": \"19280\",\r\n      \"to\": \"19287\",\r\n      \"kind\": \"exception\"\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/zones/full",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "zones",
+                    "full"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "201 - Caso Rhenus (prefix, sin default)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"agencyId\": \"6a6aeaefba5a5ea62630c712\",\r\n  \"calculationMode\": \"pallet\",\r\n  \"pricingMode\": { \"type\": \"weight_volume\" },\r\n  \"volumetric\": { \"enabled\": true, \"factor\": 250 },\r\n  \"zones\": [\r\n    { \"name\": \"Austria-ZONA-10\", \"provinces\": [\"AT-WI\"] },\r\n    { \"name\": \"Austria-ZONA-11\", \"provinces\": [\"AT-WI\"] }\r\n  ],\r\n  \"exceptions\": [\r\n    { \"province\": \"AT-WI\", \"zoneName\": \"Austria-ZONA-10\", \"from\": \"10\", \"to\": \"10\", \"kind\": \"prefix\" },\r\n    { \"province\": \"AT-WI\", \"zoneName\": \"Austria-ZONA-11\", \"from\": \"11\", \"to\": \"11\", \"kind\": \"prefix\" }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/zones/full",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "zones",
+                    "full"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "409 Conflicto",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"agencyId\": \"6a6aeaefba5a5ea62630c712\",\r\n  \"zones\": [\r\n    { \"name\": \"ZONA 1\", \"provinces\": [\"ES-GU\"] },\r\n    { \"name\": \"ZONA 1B\", \"provinces\": [\"ES-GU\"] }\r\n  ],\r\n  \"exceptions\": []\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/zones/full",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "zones",
+                    "full"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": "",
+              "header": [],
+              "cookie": [
+                {
+                  "expires": "Invalid Date",
+                  "domain": "",
+                  "path": ""
+                }
+              ],
+              "body": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Releases",
+      "item": [
+        {
+          "name": "Latest",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/releases/latest",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "releases",
+                "latest"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Audits",
+      "item": [
+        {
+          "name": "List Audit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/audits",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "audits"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Debug",
+      "item": [
+        {
+          "name": "Debug Maps",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/debug/maps",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "debug",
+                "maps"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Flow Creation Pallet",
+      "item": [
+        {
+          "name": "1. Create Agencies",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"La agencia se crea\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.expect(response).to.have.property(\"id\");\r\npm.collectionVariables.set(\"agencyId\", response.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"CorreosPallet\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": true,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/agencies",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agencies"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Create Agencies Pallet",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"CorreosPallet\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": true,\r\n        \"supportsParcels\": false\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/agencies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "agencies"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "Create Agencies Parcel",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"CorreosParcel\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/agencies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "agencies"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "2. Create Pallet",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Pallet para {{agencyId}} se crea\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.expect(response).to.have.property(\"id\");\r\npm.collectionVariables.set(\"palletTypeId\", response.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"agencyId\": \"{{agencyId}}\",\r\n    \"name\": \"Pallet prueba\",\r\n    \"constraints\": {\r\n        \"maxWeight\": \"600\",\r\n        \"maxHeight\": \"220\",\r\n        \"maxLength\": \"110\",\r\n        \"maxWidth\": \"100\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pallets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pallets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3. Create Zone Full",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"ZoneFull para {{agencyId}} se crea\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.expect(response[0]).to.have.property(\"id\");\r\npm.collectionVariables.set(\"zoneId\", response[0].id);\r\npm.collectionVariables.set(\"zoneName\", response[0].name);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"agencyId\": \"{{agencyId}}\",\r\n  \"calculationMode\": \"pallet\",\r\n  \"pricingMode\": {\r\n    \"type\": \"pallet_classification\"\r\n  },\r\n  \"volumetric\": {\r\n    \"enabled\": false\r\n  },\r\n  \"zones\": [\r\n    {\r\n      \"name\": \"ZONA 141\",\r\n      \"provinces\": [\"ES-J\", \"ES-MA\"]\r\n    },\r\n    {\r\n      \"name\": \"ZONA 231\",\r\n      \"provinces\": [\"ES-AL\", \"ES-CO\"]\r\n    }\r\n  ],\r\n  \"exceptions\": [\r\n    {\r\n      \"province\": \"ES-J\",\r\n      \"zoneName\": \"ZONA 231\",\r\n      \"from\": \"23400\",\r\n      \"to\": \"23401\",\r\n      \"kind\": \"exception\"\r\n    },\r\n    {\r\n      \"province\": \"ES-J\",\r\n      \"zoneName\": \"ZONA 231\",\r\n      \"from\": \"23800\",\r\n      \"to\": \"23887\",\r\n      \"kind\": \"exception\"\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/zones/full",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zones",
+                "full"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4. Create Rate",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"agencyId\": \"{{agencyId}}\",\r\n    \"type\": \"pallet\",\r\n    \"zoneId\": \"{{zoneId}}\",\r\n    \"zoneName\": \"{{zoneName}}\",\r\n    \"palletTypeId\": \"{{palletTypeId}}\",\r\n    \"calculationType\": \"unit\",\r\n    \"services\": [\r\n        {\r\n            \"service\": \"economy\",\r\n            \"priceBreaks\": [\r\n                {\r\n                    \"min\": 1,\r\n                    \"max\": 5,\r\n                    \"price\": 10\r\n                },\r\n                {\r\n                    \"min\": 5,\r\n                    \"max\": 10,\r\n                    \"price\": 15\r\n                },\r\n                {\r\n                    \"min\": 10,\r\n                    \"max\": 20,\r\n                    \"price\": 25\r\n                }\r\n            ],\r\n            \"fallbackToLastPrice\": true\r\n        },\r\n        {\r\n            \"service\": \"express\",\r\n            \"priceBreaks\": [\r\n                {\r\n                    \"min\": 0,\r\n                    \"max\": 5,\r\n                    \"price\": 20\r\n                },\r\n                {\r\n                    \"min\": 5,\r\n                    \"max\": 10,\r\n                    \"price\": 30\r\n                }\r\n            ],\r\n            \"fallbackToLastPrice\": false\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rates",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rates"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5. Compare Rate By Postal Code",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"destinationPostalCode\": \"29002\",\r\n    \"countryCode\": \"ES\",\r\n    \"items\": [\r\n        {\r\n            \"typeServices\": \"pallet\",\r\n            \"weight\": 5,\r\n            \"large\": 10,\r\n            \"width\": 8,\r\n            \"height\": 9\r\n        }\r\n    ]\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rates/compareByPostalCode",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rates",
+                "compareByPostalCode"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Flow Creation Parcel",
+      "item": [
+        {
+          "name": "1. Create Agencies",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"La agencia se crea\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.expect(response).to.have.property(\"id\");\r\npm.collectionVariables.set(\"agencyId\", response.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Correos2\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": true,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/agencies",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agencies"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Create Agencies Pallet",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"CorreosPallet\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": true,\r\n        \"supportsParcels\": false\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/agencies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "agencies"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "Create Agencies Parcel",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"CorreosParcel\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/agencies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "agencies"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "2. Create Zone Full",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"ZoneFull para {{agencyId}} se crea\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\nconst response = pm.response.json();\r\n\r\npm.expect(response[0]).to.have.property(\"id\");\r\npm.collectionVariables.set(\"zoneId\", response[0].id);\r\npm.collectionVariables.set(\"zoneName\", response[0].name);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"agencyId\": \"{{agencyId}}\",\r\n  \"calculationMode\": \"parcel\",\r\n  \"pricingMode\": {\r\n    \"type\": \"real_weight\"\r\n  },\r\n  \"volumetric\": {\r\n    \"enabled\": false\r\n  },\r\n  \"zones\": [\r\n    {\r\n      \"name\": \"ZONA 201\",\r\n      \"provinces\": [\"ES-H\", \"ES-M\"]\r\n    },\r\n    {\r\n      \"name\": \"ZONA 202\",\r\n      \"provinces\": [\"ES-SE\", \"ES-GR\"]\r\n    }\r\n  ],\r\n  \"exceptions\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/zones/full",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zones",
+                "full"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3. Create Rate",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"agencyId\": \"{{agencyId}}\",\r\n    \"type\": \"parcel\",\r\n    \"zoneId\": \"{{zoneId}}\",\r\n    \"calculationType\": \"unit\",\r\n    \"services\": [\r\n        {\r\n            \"service\": \"basic\",\r\n            \"priceBreaks\": [\r\n                {\r\n                    \"min\": 0,\r\n                    \"max\": 1,\r\n                    \"price\": 3.87\r\n                },\r\n                {\r\n                    \"min\": 1,\r\n                    \"max\": 2,\r\n                    \"price\": 4.00\r\n                },\r\n                {\r\n                    \"min\": 2,\r\n                    \"max\": 5,\r\n                    \"price\": 4.80\r\n                },\r\n                {\r\n                    \"min\": 5,\r\n                    \"max\": 10,\r\n                    \"price\": 5.51\r\n                }\r\n            ],\r\n            \"surcharges\": {\r\n                \"extraKg\": {\r\n                    \"enabled\": true,\r\n                    \"pricePerKg\": 0.39\r\n                },\r\n                \"fixedSurcharge\": {\r\n                    \"enabled\": true,\r\n                    \"calculateByQuantity\": true,\r\n                    \"price\": 1.20\r\n                },\r\n                \"dimensionRanges\": [],\r\n                \"multiParcelExcess\": {\r\n                    \"enabled\": false,\r\n                    \"thresholdKg\": 40,\r\n                    \"divisor\": 1,\r\n                    \"pricePerBlock\": 0\r\n                }\r\n            },\r\n            \"limits\": {\r\n                \"maxWeight\": 40,\r\n                \"maxLength\": 150,\r\n                \"maxSumDimensions\": 240\r\n            }\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rates",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rates"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4. Compare Rate By Postal Code",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"destinationPostalCode\": \"29002\",\r\n    \"countryCode\": \"ES\",\r\n    \"items\": [\r\n        {\r\n            \"typeServices\": \"pallet\",\r\n            \"weight\": 5,\r\n            \"large\": 10,\r\n            \"width\": 8,\r\n            \"height\": 9\r\n        }\r\n    ]\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rates/compareByPostalCode",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rates",
+                "compareByPostalCode"
               ]
             }
           },
@@ -454,6 +1312,10 @@
     },
     {
       "key": "zoneId",
+      "value": ""
+    },
+    {
+      "key": "zoneName",
       "value": ""
     }
   ]

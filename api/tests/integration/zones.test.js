@@ -99,12 +99,16 @@ describe("Zones API", () => {
             {
                 agencyId: agency._id,
                 name: "Zona 1",
-                provinces: ["Madrid"]
+                provinces: ["Madrid"],
+                calculationMode: "pallet",
+                pricingMode: { type: "weight_volume" },
             },
             {
                 agencyId: agency._id,
                 name: "Zona 2",
-                provinces: ["Barcelona"]
+                provinces: ["Barcelona"],
+                calculationMode: "pallet",
+                pricingMode: { type: "weight_volume" },
             }
         ]);
 
@@ -158,7 +162,9 @@ describe("Zones API", () => {
         const zone = await Zone.create({
             agencyId: agency._id,
             name: "Zona detalle",
-            provinces: ["Sevilla"]
+            provinces: ["Sevilla"],
+            calculationMode: "pallet",
+            pricingMode: { type: "weight_volume" }
         });
 
         const res = await request(app)

@@ -108,7 +108,9 @@ describe("GET /zones/:zoneId/rules", () => {
         const zone = await Zone.create({
             agencyId: agency._id,
             name: "Zona para ZoneRule",
-            provinces: ["ES-S"]
+            provinces: ["ES-S"],
+            calculationMode: "pallet",
+            pricingMode: { type: "weight_volume" },
         });
 
         const zoneRule = await ZoneRules.create({

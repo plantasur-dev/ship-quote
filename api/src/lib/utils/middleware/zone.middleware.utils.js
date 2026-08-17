@@ -4,7 +4,7 @@ import createHttpError from "http-errors";
 import mongoose from "mongoose";
 
 import {
-    SHIPMENT_UNIT_VALUES as CALCULATION_MODES, 
+    SHIPMENT_UNIT_ARRAY as CALCULATION_MODES, 
     POSTAL_CODE_RANGE_KINDS, 
     PRICING_MODES_BY_CALCULATION_MODE 
 } from "../../constants/index.js";

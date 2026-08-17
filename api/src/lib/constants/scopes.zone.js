@@ -14,3 +14,5 @@ export function getScope(countryCode) {
         ? SCOPE_TYPES.NATIONAL 
         : SCOPE_TYPES.INTERNATIONAL;
 }
+
+export const SCOPE_TYPES_ARRAY = Object.values(SCOPE_TYPES);

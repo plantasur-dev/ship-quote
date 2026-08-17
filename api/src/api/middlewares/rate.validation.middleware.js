@@ -3,7 +3,7 @@ import createHttpError from 'http-errors';
 
 import {
     SHIPMENT_UNITS, 
-    SHIPMENT_UNIT_VALUES, 
+    SHIPMENT_UNIT_ARRAY, 
     CALCULATION_TYPES_RATE,
     PRICING_MODES 
 } from '../../lib/constants/index.js';
@@ -91,8 +91,8 @@ export const rateValidation = async (req, res, next) => {
 
     const loweredShipmentUnitType = normalizedShipmentUnitType.toLowerCase();
 
-    if (!SHIPMENT_UNIT_VALUES.includes(loweredShipmentUnitType)) {
-        throw createHttpError(400, `type must be one of: ${ SHIPMENT_UNIT_VALUES.join(', ') }`);
+    if (!SHIPMENT_UNIT_ARRAY.includes(loweredShipmentUnitType)) {
+        throw createHttpError(400, `type must be one of: ${ SHIPMENT_UNIT_ARRAY.join(', ') }`);
     }
 
     const zone = await validateZoneById(agencyId, zoneId);

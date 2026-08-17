@@ -5,7 +5,7 @@ import {
     PRICING_MODES,
     PRICING_MODES_VALUES, 
     SHIPMENT_UNITS, 
-    SHIPMENT_UNIT_VALUES 
+    SHIPMENT_UNIT_ARRAY 
 } from '../constants/index.js';
 
 import { invalidateAgencyTariffs } from "../../api/services/cache.service.js";
@@ -25,7 +25,7 @@ const zoneSchema = new mongoose.Schema({
     },
     calculationMode: {
         type: String,
-        enum: SHIPMENT_UNIT_VALUES,
+        enum: SHIPMENT_UNIT_ARRAY,
         required: [true, 'calculationMode es obligatorio.']
     },
     volumetric: {

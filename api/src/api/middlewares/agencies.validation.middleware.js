@@ -3,7 +3,7 @@ import createHttpError from "http-errors";
 
 import { 
     AGENCY_TYPE, 
-    agencyTypeToArray 
+    AGENCY_TYPE_ARRAY 
 } from "../../lib/constants/index.js";
 
 import { 
@@ -42,8 +42,8 @@ export const agenciesValidation = async (req, res, next) => {
 
     const loweredType = normalizedType.toLowerCase();
 
-    if (!agencyTypeToArray.includes(loweredType)) {
-        throw createHttpError(400, `type must be one of: ${ agencyTypeToArray.join(', ') }`);
+    if (!AGENCY_TYPE_ARRAY.includes(loweredType)) {
+        throw createHttpError(400, `type must be one of: ${ AGENCY_TYPE_ARRAY.join(', ') }`);
     }
 
     validateRules(rules);
@@ -87,8 +87,8 @@ export const updateAgenciesValidation = async (req, res, next) => {
 
     const loweredType = normalizedType.toLowerCase()
 
-    if (!agencyTypeToArray.includes(loweredType)) {
-        throw createHttpError(400, `type must be one of: ${ agencyTypeToArray.join(', ') }`);
+    if (!AGENCY_TYPE_ARRAY.includes(loweredType)) {
+        throw createHttpError(400, `type must be one of: ${ AGENCY_TYPE_ARRAY.join(', ') }`);
     }
 
     validateRules(rules);

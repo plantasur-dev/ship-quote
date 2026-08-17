@@ -4,5 +4,5 @@ export const SHIPMENT_UNITS = {
     PARCEL: 'parcel'
 };
 
-export const SHIPMENT_UNIT_VALUES = 
+export const SHIPMENT_UNIT_ARRAY = 
     Object.values(SHIPMENT_UNITS);

@@ -2,8 +2,8 @@
 import createHttpError from 'http-errors';
 
 import { 
-    SERVICE_NAMES, 
-    SHIPMENT_UNIT_VALUES 
+    SERVICE_NAMES_ARRAY, 
+    SHIPMENT_UNIT_ARRAY 
 } from '../../constants/index.js';
 
 import { 
@@ -25,7 +25,7 @@ export const validateItem = (item, index) => {
     } else {
         const loweredTypeServices = normalizedTypeServices.toLowerCase();
 
-        if (!SHIPMENT_UNIT_VALUES.includes(loweredTypeServices)) {
+        if (!SHIPMENT_UNIT_ARRAY.includes(loweredTypeServices)) {
             errors.push('typeServices unknown');
         } else {
             item.typeServices = loweredTypeServices;
@@ -91,8 +91,8 @@ export const validateService = (service, index) => {
     if (normalizedServiceName != null) {
         const loweredService = normalizedServiceName.toLowerCase();
 
-        if (!SERVICE_NAMES.includes(loweredService)) {
-            throw createHttpError(400, `services[${ index }].service must be one of: ${ SERVICE_NAMES.join(', ') }`);
+        if (!SERVICE_NAMES_ARRAY.includes(loweredService)) {
+            throw createHttpError(400, `services[${ index }].service must be one of: ${ SERVICE_NAMES_ARRAY.join(', ') }`);
         }
 
         service.service = loweredService;

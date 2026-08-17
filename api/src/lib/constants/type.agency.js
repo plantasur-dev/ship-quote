@@ -5,4 +5,4 @@ export const AGENCY_TYPE = {
     HYBRID: 'hybrid'
 };
 
-export const agencyTypeToArray = Object.values(AGENCY_TYPE);
+export const AGENCY_TYPE_ARRAY = Object.values(AGENCY_TYPE);

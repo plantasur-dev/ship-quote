@@ -4,7 +4,7 @@ import createHttpError from 'http-errors';
 import {
     SHIPMENT_UNITS, 
     SHIPMENT_UNIT_ARRAY, 
-    CALCULATION_TYPES_RATE,
+    CALCULATION_TYPES_RATE_ARRAY,
     PRICING_MODES 
 } from '../../lib/constants/index.js';
 
@@ -120,7 +120,7 @@ export const rateValidation = async (req, res, next) => {
 
         const loweredCalculationType = normalizedCalculationType.toLowerCase();
 
-        if (!CALCULATION_TYPES_RATE.includes(loweredCalculationType)) {
+        if (!CALCULATION_TYPES_RATE_ARRAY.includes(loweredCalculationType)) {
             throw createHttpError(400, 'calculationType must be one of: unit, quantity');
         }
 

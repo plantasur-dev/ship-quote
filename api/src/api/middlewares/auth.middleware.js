@@ -34,6 +34,10 @@ export async function checkAuth(req, res, next) {
         throw createHttpError(401, 'Unauthorized');
     }
 
+    if (session.expireAt < new Date()) {
+        throw createHttpError(401, 'Expired session');
+    }
+
     req.session = session;
 
     next();

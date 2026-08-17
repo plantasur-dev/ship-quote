@@ -33,10 +33,11 @@ export async function login(req, res) {
 
     const session = await Session.create({ user: user.id });
 
-    res.cookie("sessionId", session.id, {
+    res.cookie('sessionId', session.id, {
         httpOnly: true,
-        secure: process.env.COOKIE_SECURE === "true",
-        sameSite: process.env.COOKIE_SECURE === "true" ? "none" : undefined,
+        secure: process.env.COOKIE_SECURE === 'true',
+        sameSite: process.env.COOKIE_SECURE === 'true' ? 'none' : undefined,
+        maxAge: 2 * 24 * 60 * 60 * 1000
     });
 
     res.json(user);

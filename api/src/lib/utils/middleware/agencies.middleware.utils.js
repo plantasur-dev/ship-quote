@@ -3,7 +3,8 @@ import createHttpError from "http-errors";
 
 import { 
     AGENCY_TYPE, 
-    SCOPE_TYPES 
+    SCOPE_TYPES,
+    SCOPE_TYPES_ARRAY 
 } from "../../constants/index.js";
 
 import { 
@@ -44,7 +45,7 @@ export const validateRules = (rules) => {
         const invalidValues = coverage.filter(c => !Object.values(SCOPE_TYPES).includes(c));
 
         if (invalidValues.length > 0) {
-            throw createHttpError(400, `rules.coverage contains invalid values: ${ invalidValues.join(', ') }. Must be one of: ${ validCoverage.join(' or ') }.`);
+            throw createHttpError(400, `rules.coverage contains invalid values: ${ invalidValues.join(', ') }. Must be one of: ${ SCOPE_TYPES_ARRAY.join(' or ') }.`);
         }
     }
 };

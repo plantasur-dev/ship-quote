@@ -52,7 +52,7 @@ describe('agenciesValidation', () => {
         vi.restoreAllMocks();
     });
 
-    it('lanza 400 si el name es requerido (normalizeString -> null)', () => {
+    it('lanza 400 si name es requerido (normalizeString -> null)', () => {
         const req = buildReq({ type: 'api' });
 
         expect(() => agenciesValidation(req, {}, next)).toThrowError(
@@ -64,7 +64,7 @@ describe('agenciesValidation', () => {
        
     });
 
-    it('lanza 400 si el name tiene menos de 3 caracteres', () => {
+    it('lanza 400 si name tiene menos de 3 caracteres', () => {
         const req = buildReq({ name: 'ab', type: 'api' });
 
         expect(() => agenciesValidation(req, {}, next)).toThrowError(
@@ -75,7 +75,7 @@ describe('agenciesValidation', () => {
         );
     });
 
-    it('lanza 400 si el name tiene más de 14 caracteres', () => {
+    it('lanza 400 si name tiene más de 14 caracteres', () => {
         const req = buildReq({ name: 'a'.repeat(15), type: 'api' });
 
         expect(() => agenciesValidation(req, {}, next)).toThrowError(
@@ -97,7 +97,7 @@ describe('agenciesValidation', () => {
         );
     });
 
-    it('lanza 400 si el type es requerido (normalizeString -> null)', () => {
+    it('lanza 400 si type es requerido (normalizeString -> null)', () => {
         const req = buildReq({ name: 'Valid Name', active: true });
 
         expect(() => agenciesValidation(req, {}, next)).toThrowError(
@@ -108,7 +108,7 @@ describe('agenciesValidation', () => {
         );
     });
 
-    it('lanza 400 si el type no está en la lista permitida', () => {
+    it('lanza 400 si type no está en la lista permitida', () => {
         const req = buildReq({ name: 'Valid Name', type: 'invalid-type', active: true });
 
         expect(() => agenciesValidation(req, {}, next)).toThrowError(
@@ -162,7 +162,7 @@ describe('agenciesValidation', () => {
         expect(next).not.toHaveBeenCalled();
     });
 
-    it('no exige apiConfig cuando el type es static', () => {
+    it('no exige apiConfig cuando type es static', () => {
         const req = buildReq({ name: 'Valid Name', type: 'static', active: true });
 
         agenciesValidation(req, {}, next);
@@ -171,7 +171,7 @@ describe('agenciesValidation', () => {
         expect(req.body.type).toBe('static');
     });
 
-    it('normaliza el type a minúsculas en req.body', () => {
+    it('normaliza type a minúsculas en req.body', () => {
         const req = buildReq({ name: 'Valid Name', type: 'STATIC', active: true });
 
         agenciesValidation(req, {}, next);
@@ -215,7 +215,7 @@ describe('updateAgenciesValidation', () => {
         );
     });
 
-    it('lanza 400 si el type falta', () => {
+    it('lanza 400 si type falta', () => {
         const req = buildReq({ active: true });
 
         expect(() => updateAgenciesValidation(req, {}, next)).toThrowError(
@@ -226,7 +226,7 @@ describe('updateAgenciesValidation', () => {
         );
     });
 
-    it('lanza 400 si el type no es válido', () => {
+    it('lanza 400 si type no es válido', () => {
         const req = buildReq({ active: true, type: 'foo' });
 
         expect(() => updateAgenciesValidation(req, {}, next)).toThrowError(
@@ -272,7 +272,7 @@ describe('updateAgenciesValidation', () => {
         expect(next).not.toHaveBeenCalled();
     });
 
-    it('elimina apiConfig del body cuando el type es static', () => {
+    it('elimina apiConfig del body cuando type es static', () => {
         const req = buildReq({
             active: true,
             type: 'STATIC',
@@ -286,7 +286,7 @@ describe('updateAgenciesValidation', () => {
         expect(next).toHaveBeenCalledOnce();
     });
 
-    it('conserva apiConfig cuando el type es api o hybrid', () => {
+    it('conserva apiConfig cuando type es api o hybrid', () => {
         const req = buildReq({
             active: true,
             type: 'hybrid',
@@ -302,7 +302,7 @@ describe('updateAgenciesValidation', () => {
         expect(req.body.type).toBe('hybrid');
     });
 
-    it('normaliza el type a minúsculas en req.body', () => {
+    it('normaliza type a minúsculas en req.body', () => {
         const req = buildReq({ active: true, type: 'Static' });
 
         updateAgenciesValidation(req, {}, next);

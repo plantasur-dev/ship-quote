@@ -7,6 +7,8 @@ import Agency from "../../models/agency.model.js";
 import Zone from '../../models/zone.model.js';
 import PalletType from "../../models/palletType.model.js";
 
+import { AGENCY_TYPE } from "../../constants/type.agency.js";
+
 export const isInvalidNumber = (value, { allowZero = false } = {}) => {
     const n = Number(value);
     return Number.isNaN(n) || (allowZero ? n < 0 : n <= 0);
@@ -57,7 +59,7 @@ export const validatePalletType = async (palletTypeId) => {
     const palletType = await PalletType.findById(palletTypeId);
 
     if (!palletType) {
-        throw createHttpError(404, `PalletType ${ palletTypeId} not found`);
+        throw createHttpError(404, `PalletType ${ palletTypeId } not found`);
     }
 
     return palletTypeId;
@@ -80,10 +82,10 @@ export const validateAgency = async (agencyId) => {
     }
  
     if (!agency.active) {
-        throw createHttpError(409, `Agency ${ agency.name } is not active`);
+        throw createHttpError(400, `Agency ${ agency.name } is not active`);
     }
 
-    if (agency.type === 'api') {
+    if (agency.type === AGENCY_TYPE.API) {
         throw createHttpError(400, `Agency ${ agencyId } is type API`);
     }
  

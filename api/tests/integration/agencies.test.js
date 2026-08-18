@@ -18,7 +18,7 @@ beforeEach(async () => {
 
 describe('POST /api/agencies', () => {
 
-    it('debería devolver 201 al crear una agencia', async () => {
+    it('devuelve 201 al crear una agencia', async () => {
         const payload = {
             name: 'mr express',
             type: 'api',
@@ -35,7 +35,8 @@ describe('POST /api/agencies', () => {
                 endpoints: {
                     quotations: '/quotes',
                     transportOrders: '/orders'
-                }
+                },
+                timeout: 3000
             }
         };
 

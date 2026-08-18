@@ -52,20 +52,12 @@ export const agenciesValidation = (req, res, next) => {
 
     const requiresApiConfig = loweredType === AGENCY_TYPE.API || loweredType === AGENCY_TYPE.HYBRID;
 
-    if (requiresApiConfig) {
-        if (!apiConfig?.baseUrlApi || typeof apiConfig.baseUrlApi !== 'string') {
-            throw createHttpError(400, 'baseUrlApi is required for agencies of type API or hybrid');
-        }
-
-        if (!apiConfig?.apiKey || typeof apiConfig.apiKey !== 'string') {
-            throw createHttpError(400, 'apiKey is required for agencies of type API or hybrid');
-        }
-
-        if (!URL.canParse(apiConfig?.baseUrlApi)) {
-            throw createHttpError(400, 'baseUrlApi is not valid');
-        }
+    if (requiresApiConfig && !apiConfig) {
+        throw createHttpError(400, 'apiConfig is required for agencies of type API or hybrid');
     }
-
+        
+    validateApiConfig(loweredType, apiConfig);
+    
     req.body.type = loweredType;
 
     next();       

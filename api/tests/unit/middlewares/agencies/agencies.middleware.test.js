@@ -150,104 +150,16 @@ describe('agenciesValidation', () => {
         expect(next).not.toHaveBeenCalled();
     });
 
-    describe('cuando el type requiere apiConfig (api / hybrid)', () => {
-        
-        it('lanza 400 si falta baseUrlApi', () => {
-            const req = buildReq({
-                name: 'Valid Name',
-                type: 'api',
-                active: true,
-                apiConfig: { 
-                    apiKey: 'Pruebas'
-                }
-            });
+    it('lanza un 400 cuando type es API o HYBRID y apiConfig es requerido', () => {
+        const req = buildReq({ name: 'Valid Name', type: 'api', active: true });
 
-            expect(() => agenciesValidation(req, {}, next)).toThrowError(
-                expect.objectContaining({
-                    status: 400,
-                    message: 'baseUrlApi is required for agencies of type API or hybrid',
-                })
-            );
-        });
-
-        it('lanza 400 si baseUrlApi no es string', () => {
-            const req = buildReq({
-                name: 'Valid Name',
-                active: true,
-                type: 'api',
-                apiConfig: { baseUrlApi: 123, apiKey: 'key123' },
-            });
-
-            expect(() => agenciesValidation(req, {}, next)).toThrowError(
-                expect.objectContaining({
-                    status: 400,
-                    message: 'baseUrlApi is required for agencies of type API or hybrid',
-                })
-            );
-        });
-
-        it('lanza 400 si falta apiKey', () => {
-            const req = buildReq({
-                name: 'Valid Name',
-                active: true,
-                type: 'hybrid',
-                apiConfig: { baseUrlApi: 'https://example.com' },
-            });
-
-            expect(() => agenciesValidation(req, {}, next)).toThrowError(
-                expect.objectContaining({
-                    status: 400,
-                    message: 'apiKey is required for agencies of type API or hybrid',
-                })
-            );
-        });
-
-        it('lanza 400 si baseUrlApi no es una URL válida', () => {
-            vi.spyOn(URL, 'canParse').mockReturnValue(false);
-            const req = buildReq({
-                name: 'Valid Name',
-                active: true,
-                type: 'api',
-                apiConfig: { baseUrlApi: 'not-a-url', apiKey: 'key123' },
-            });
-
-            expect(() => agenciesValidation(req, {}, next)).toThrowError(
-                expect.objectContaining({
-                    status: 400,
-                    message: 'baseUrlApi is not valid',
-                })
-            );
-        });
-
-        it('pasa validación con apiConfig completo y válido (type api)', () => {
-            vi.spyOn(URL, 'canParse').mockReturnValue(true);
-            const req = buildReq({
-                name: 'Valid Name',
-                active: true,
-                type: 'API',
-                apiConfig: { baseUrlApi: 'https://example.com', apiKey: 'key123' },
-            });
-
-            agenciesValidation(req, {}, next);
-
-            expect(next).toHaveBeenCalledOnce();
-            expect(req.body.type).toBe('api');
-        });
-
-        it('pasa validación con apiConfig completo y válido (type hybrid)', () => {
-            vi.spyOn(URL, 'canParse').mockReturnValue(true);
-            const req = buildReq({
-                name: 'Valid Name',
-                active: true,
-                type: 'Hybrid',
-                apiConfig: { baseUrlApi: 'https://example.com', apiKey: 'key123' },
-            });
-
-            agenciesValidation(req, {}, next);
-
-            expect(next).toHaveBeenCalledOnce();
-            expect(req.body.type).toBe('hybrid');
-        });
+        expect(() => agenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'apiConfig is required for agencies of type API or hybrid',
+            })
+        );
+        expect(next).not.toHaveBeenCalled();
     });
 
     it('no exige apiConfig cuando el type es static', () => {

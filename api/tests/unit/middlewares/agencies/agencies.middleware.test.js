@@ -52,197 +52,217 @@ describe('agenciesValidation', () => {
         vi.restoreAllMocks();
     });
 
-    it('lanza 400 si el name es requerido (normalizeString -> null)', async () => {
+    it('lanza 400 si el name es requerido (normalizeString -> null)', () => {
         const req = buildReq({ type: 'api' });
 
-        await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'Name agency is required',
-        });
-        expect(next).not.toHaveBeenCalled();
+        expect(() => agenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'Name agency is required',
+            })
+        );
+       
     });
 
-    it('lanza 400 si el name tiene menos de 3 caracteres', async () => {
+    it('lanza 400 si el name tiene menos de 3 caracteres', () => {
         const req = buildReq({ name: 'ab', type: 'api' });
 
-        await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'Name agency must be between 3 and 14 characters',
-        });
+        expect(() => agenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'Name agency must be between 3 and 14 characters',
+            })
+        );
     });
 
-    it('lanza 400 si el name tiene más de 14 caracteres', async () => {
+    it('lanza 400 si el name tiene más de 14 caracteres', () => {
         const req = buildReq({ name: 'a'.repeat(15), type: 'api' });
 
-        await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'Name agency must be between 3 and 14 characters',
-        });
+        expect(() => agenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'Name agency must be between 3 and 14 characters',
+            })
+        );
     });
 
-    it('lanza 400 si active viene y no es boolean', async () => {
+    it('lanza 400 si active viene y no es boolean', () => {
         const req = buildReq({ name: 'Valid Name', type: 'static', active: 'yes' });
 
-        await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'active must be boolean',
-        });
+        expect(() => agenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'active must be boolean',
+            })
+        );
     });
 
-    it('no falla por active cuando es false (comportamiento actual del middleware)', async () => {
-        // Nota: `active && typeof active !== 'boolean'` no evalúa la rama cuando active es falsy.
-        const req = buildReq({ name: 'Valid Name', type: 'static', active: false });
+    it('lanza 400 si el type es requerido (normalizeString -> null)', () => {
+        const req = buildReq({ name: 'Valid Name', active: true });
 
-        await agenciesValidation(req, {}, next);
-
-        expect(next).toHaveBeenCalledOnce();
+        expect(() => agenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'Type agency is required'
+            })
+        );
     });
 
-    it('lanza 400 si el type es requerido (normalizeString -> null)', async () => {
-        const req = buildReq({ name: 'Valid Name' });
+    it('lanza 400 si el type no está en la lista permitida', () => {
+        const req = buildReq({ name: 'Valid Name', type: 'invalid-type', active: true });
 
-        await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'Type agency is required',
-        });
+        expect(() => agenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'type must be one of: api, static, hybrid',
+            })
+        );
     });
 
-    it('lanza 400 si el type no está en la lista permitida', async () => {
-        const req = buildReq({ name: 'Valid Name', type: 'invalid-type' });
-
-        await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'type must be one of: api, static, hybrid',
-        });
-    });
-
-    it('llama a validateRules y validateSupplements con los valores del body', async () => {
+    it('llama a validateRules y validateSupplements con los valores del body', () => {
         const req = buildReq({
             name: 'Valid Name',
+            active: true,
             type: 'static',
             rules: ['r1'],
             supplements: ['s1'],
         });
 
-        await agenciesValidation(req, {}, next);
+        agenciesValidation(req, {}, next);
 
         expect(validateRules).toHaveBeenCalledWith(['r1']);
         expect(validateSupplements).toHaveBeenCalledWith(['s1']);
         expect(next).toHaveBeenCalledOnce();
     });
 
-    it('propaga el error si validateRules lanza', async () => {
+    it('propaga el error si validateRules lanza', () => {
         validateRules.mockImplementation(() => {
             throw Object.assign(new Error('rules inválidas'), { status: 400 });
         });
-        const req = buildReq({ name: 'Valid Name', type: 'static' });
+        const req = buildReq({ name: 'Valid Name', type: 'static', active: true });
 
-        await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'rules inválidas',
-        });
+        expect(() => agenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'rules inválidas',
+            })
+        );
         expect(next).not.toHaveBeenCalled();
     });
 
     describe('cuando el type requiere apiConfig (api / hybrid)', () => {
         
-        it('lanza 400 si falta baseUrlApi', async () => {
+        it('lanza 400 si falta baseUrlApi', () => {
             const req = buildReq({
                 name: 'Valid Name',
                 type: 'api',
+                active: true,
                 apiConfig: { 
                     apiKey: 'Pruebas'
                 }
             });
 
-            await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-                status: 400,
-                message: 'baseUrlApi is required for agencies of type API or hybrid',
-            });
+            expect(() => agenciesValidation(req, {}, next)).toThrowError(
+                expect.objectContaining({
+                    status: 400,
+                    message: 'baseUrlApi is required for agencies of type API or hybrid',
+                })
+            );
         });
 
-        it('lanza 400 si baseUrlApi no es string', async () => {
+        it('lanza 400 si baseUrlApi no es string', () => {
             const req = buildReq({
                 name: 'Valid Name',
+                active: true,
                 type: 'api',
                 apiConfig: { baseUrlApi: 123, apiKey: 'key123' },
             });
 
-            await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-                status: 400,
-                message: 'baseUrlApi is required for agencies of type API or hybrid',
-            });
+            expect(() => agenciesValidation(req, {}, next)).toThrowError(
+                expect.objectContaining({
+                    status: 400,
+                    message: 'baseUrlApi is required for agencies of type API or hybrid',
+                })
+            );
         });
 
-        it('lanza 400 si falta apiKey', async () => {
+        it('lanza 400 si falta apiKey', () => {
             const req = buildReq({
                 name: 'Valid Name',
+                active: true,
                 type: 'hybrid',
                 apiConfig: { baseUrlApi: 'https://example.com' },
             });
 
-            await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-                status: 400,
-                message: 'apiKey is required for agencies of type API or hybrid',
-            });
+            expect(() => agenciesValidation(req, {}, next)).toThrowError(
+                expect.objectContaining({
+                    status: 400,
+                    message: 'apiKey is required for agencies of type API or hybrid',
+                })
+            );
         });
 
-        it('lanza 400 si baseUrlApi no es una URL válida', async () => {
+        it('lanza 400 si baseUrlApi no es una URL válida', () => {
             vi.spyOn(URL, 'canParse').mockReturnValue(false);
             const req = buildReq({
                 name: 'Valid Name',
+                active: true,
                 type: 'api',
                 apiConfig: { baseUrlApi: 'not-a-url', apiKey: 'key123' },
             });
 
-            await expect(agenciesValidation(req, {}, next)).rejects.toMatchObject({
-                status: 400,
-                message: 'baseUrlApi is not valid',
-            });
+            expect(() => agenciesValidation(req, {}, next)).toThrowError(
+                expect.objectContaining({
+                    status: 400,
+                    message: 'baseUrlApi is not valid',
+                })
+            );
         });
 
-        it('pasa validación con apiConfig completo y válido (type api)', async () => {
+        it('pasa validación con apiConfig completo y válido (type api)', () => {
             vi.spyOn(URL, 'canParse').mockReturnValue(true);
             const req = buildReq({
                 name: 'Valid Name',
+                active: true,
                 type: 'API',
                 apiConfig: { baseUrlApi: 'https://example.com', apiKey: 'key123' },
             });
 
-            await agenciesValidation(req, {}, next);
+            agenciesValidation(req, {}, next);
 
             expect(next).toHaveBeenCalledOnce();
             expect(req.body.type).toBe('api');
         });
 
-        it('pasa validación con apiConfig completo y válido (type hybrid)', async () => {
+        it('pasa validación con apiConfig completo y válido (type hybrid)', () => {
             vi.spyOn(URL, 'canParse').mockReturnValue(true);
             const req = buildReq({
                 name: 'Valid Name',
+                active: true,
                 type: 'Hybrid',
                 apiConfig: { baseUrlApi: 'https://example.com', apiKey: 'key123' },
             });
 
-            await agenciesValidation(req, {}, next);
+            agenciesValidation(req, {}, next);
 
             expect(next).toHaveBeenCalledOnce();
             expect(req.body.type).toBe('hybrid');
         });
     });
 
-    it('no exige apiConfig cuando el type es static', async () => {
-        const req = buildReq({ name: 'Valid Name', type: 'static' });
+    it('no exige apiConfig cuando el type es static', () => {
+        const req = buildReq({ name: 'Valid Name', type: 'static', active: true });
 
-        await agenciesValidation(req, {}, next);
+        agenciesValidation(req, {}, next);
 
         expect(next).toHaveBeenCalledOnce();
         expect(req.body.type).toBe('static');
     });
 
-    it('normaliza el type a minúsculas en req.body', async () => {
-        const req = buildReq({ name: 'Valid Name', type: 'STATIC' });
+    it('normaliza el type a minúsculas en req.body', () => {
+        const req = buildReq({ name: 'Valid Name', type: 'STATIC', active: true });
 
-        await agenciesValidation(req, {}, next);
+        agenciesValidation(req, {}, next);
 
         expect(req.body.type).toBe('static');
     });
@@ -261,43 +281,51 @@ describe('updateAgenciesValidation', () => {
         vi.restoreAllMocks();
     });
 
-    it('lanza 400 si active no es boolean', async () => {
+    it('lanza 400 si active no es boolean', () => {
         const req = buildReq({ active: 'true', type: 'static' });
 
-        await expect(updateAgenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'active must be boolean',
-        });
+        expect(() => updateAgenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'active must be boolean',
+            })
+        );
     });
 
-    it('lanza 400 si active falta (undefined no es boolean)', async () => {
+    it('lanza 400 si active falta (undefined no es boolean)', () => {
         const req = buildReq({ type: 'static' });
 
-        await expect(updateAgenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'active must be boolean',
-        });
+        expect(() => updateAgenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'active must be boolean',
+            })
+        );
     });
 
-    it('lanza 400 si el type falta', async () => {
+    it('lanza 400 si el type falta', () => {
         const req = buildReq({ active: true });
 
-        await expect(updateAgenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'type are required fields',
-        });
+        expect(() => updateAgenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'type are required fields',
+            })
+        );
     });
 
-    it('lanza 400 si el type no es válido', async () => {
+    it('lanza 400 si el type no es válido', () => {
         const req = buildReq({ active: true, type: 'foo' });
 
-        await expect(updateAgenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'type must be one of: api, static, hybrid',
-        });
+        expect(() => updateAgenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'type must be one of: api, static, hybrid',
+            })
+        );
     });
 
-    it('llama a validateRules, validateSupplements y validateApiConfig con los valores esperados', async () => {
+    it('llama a validateRules, validateSupplements y validateApiConfig con los valores esperados', () => {
         const req = buildReq({
             active: true,
             type: 'API',
@@ -306,7 +334,7 @@ describe('updateAgenciesValidation', () => {
             apiConfig: { baseUrlApi: 'https://example.com', apiKey: 'k' },
         });
 
-        await updateAgenciesValidation(req, {}, next);
+        updateAgenciesValidation(req, {}, next);
 
         expect(validateRules).toHaveBeenCalledWith(['r1']);
         expect(validateSupplements).toHaveBeenCalledWith(['s1']);
@@ -317,41 +345,43 @@ describe('updateAgenciesValidation', () => {
         expect(next).toHaveBeenCalledOnce();
     });
 
-    it('propaga el error si validateApiConfig lanza', async () => {
+    it('propaga el error si validateApiConfig lanza', () => {
         validateApiConfig.mockImplementation(() => {
             throw Object.assign(new Error('apiConfig inválido'), { status: 400 });
         });
         const req = buildReq({ active: true, type: 'api', apiConfig: {} });
 
-        await expect(updateAgenciesValidation(req, {}, next)).rejects.toMatchObject({
-            status: 400,
-            message: 'apiConfig inválido',
-        });
+        expect(() => updateAgenciesValidation(req, {}, next)).toThrowError(
+            expect.objectContaining({
+                status: 400,
+                message: 'apiConfig inválido',
+            })
+        );
         expect(next).not.toHaveBeenCalled();
     });
 
-    it('elimina apiConfig del body cuando el type es static', async () => {
+    it('elimina apiConfig del body cuando el type es static', () => {
         const req = buildReq({
             active: true,
             type: 'STATIC',
             apiConfig: { baseUrlApi: 'https://example.com', apiKey: 'k' },
         });
 
-        await updateAgenciesValidation(req, {}, next);
+        updateAgenciesValidation(req, {}, next);
 
         expect(req.body.apiConfig).toBeUndefined();
         expect(req.body.type).toBe('static');
         expect(next).toHaveBeenCalledOnce();
     });
 
-    it('conserva apiConfig cuando el type es api o hybrid', async () => {
+    it('conserva apiConfig cuando el type es api o hybrid', () => {
         const req = buildReq({
             active: true,
             type: 'hybrid',
             apiConfig: { baseUrlApi: 'https://example.com', apiKey: 'k' },
         });
 
-        await updateAgenciesValidation(req, {}, next);
+        updateAgenciesValidation(req, {}, next);
 
         expect(req.body.apiConfig).toEqual({
             baseUrlApi: 'https://example.com',
@@ -360,10 +390,10 @@ describe('updateAgenciesValidation', () => {
         expect(req.body.type).toBe('hybrid');
     });
 
-    it('normaliza el type a minúsculas en req.body', async () => {
+    it('normaliza el type a minúsculas en req.body', () => {
         const req = buildReq({ active: true, type: 'Static' });
 
-        await updateAgenciesValidation(req, {}, next);
+        updateAgenciesValidation(req, {}, next);
 
         expect(req.body.type).toBe('static');
     });

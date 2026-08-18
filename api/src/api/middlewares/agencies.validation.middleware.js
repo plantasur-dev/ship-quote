@@ -16,7 +16,7 @@ import {
     normalizeString
 } from "../../lib/utils/middleware/middleware.utils.js";
 
-export const agenciesValidation = async (req, res, next) => {
+export const agenciesValidation = (req, res, next) => {
 
     const { active, name, type, apiConfig, supplements, rules } = req.body;
 
@@ -30,7 +30,7 @@ export const agenciesValidation = async (req, res, next) => {
         throw createHttpError(400, 'Name agency must be between 3 and 14 characters');
     }
  
-    if (active && typeof active !== 'boolean') {
+    if (typeof active !== 'boolean') {
         throw createHttpError(400, 'active must be boolean');
     }
 
@@ -71,7 +71,7 @@ export const agenciesValidation = async (req, res, next) => {
     next();       
 };
 
-export const updateAgenciesValidation = async (req, res, next) => {
+export const updateAgenciesValidation = (req, res, next) => {
     
     const { active, type, rules, supplements, apiConfig } = req.body;
     

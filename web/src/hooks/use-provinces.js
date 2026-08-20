@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 
-import { listProvinces } from '../services/api-services';
+import { listProvinces } from '../services/api-service';
 
 export function useProvinces(countryCode) {
 

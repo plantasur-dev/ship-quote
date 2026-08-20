@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-import { compareRatesByPostalCode } from '../services/api-services';
+import { compareRatesByPostalCode } from '../services/api-service';
 
 export function useCompareRateResult() {
 

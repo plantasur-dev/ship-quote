@@ -1,2 +1,21 @@
 
 @import "tailwindcss";
+
+@theme {
+    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+    --font-display: "Space Grotesk", "Inter", sans-serif;
+  
+    --color-canvas: #0B1120;
+    --color-panel: #121A2C;
+    --color-panel-border: #232D45;
+    --color-input-bg: #0E1526;
+
+    --color-text-primary: #EDEFF7;
+    --color-text-muted: #8A93AC;
+
+    --color-accent: #E3A008;
+    --color-danger: #E5484D;
+
+    --color-accent-soft: rgba(227, 160, 8, 0.14);
+    --color-danger-soft: rgba(229, 72, 77, 0.12);
+}

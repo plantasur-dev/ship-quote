@@ -1,13 +1,16 @@
 
-import { Wifi, WifiOff } from "lucide-react";
+import { Wifi, WifiOff, Fuel, Euro, Percent } from "lucide-react";
+import { useAgencies } from "../../../../hooks";
 
-function AgencyStatusRow({ name, type, status }) {
-    const isOnline = status === "online";
+function AgencyStatusRow({ name, type, active, supplements }) {
+    const isOnline = active === true;
+
+    const { enabled, type: typeOperation, value } = supplements?.fuelSurcharge;
 
     return (
         <div className="flex items-center justify-between border-b border-panel-border py-3 last:border-0">
             <div className="flex items-center gap-2.5">
-                {isOnline ? (
+                { isOnline ? (
                     <Wifi size={ 14 } className="text-accent" />
                 ) : (
                     <WifiOff size={ 14 } className="text-danger" />
@@ -15,32 +18,63 @@ function AgencyStatusRow({ name, type, status }) {
                 <div>
                     <p className="text-sm text-text-primary">{ name }</p>
                     <p className="font-mono text-[10px] uppercase tracking-wider text-text-muted">
-                        {type}
+                        { type }
                     </p>
                 </div>
             </div>
-            <span
-                className={[
-                    "rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider",
-                    isOnline ? "bg-accent-soft text-accent" : "bg-danger-soft text-danger",
-                ].join(" ")}
-            >
-                {isOnline ? "Operativa" : "Sin respuesta"}
-            </span>
+            <div className="flex items-center gap-6">
+                <span className={`font-mono text-[10px] tracking-wider 
+                    ${ isOnline 
+                        ? 'text-accent' 
+                        : 'text-danger'}`
+                    }
+                >
+                    { enabled && (
+                        <div className="flex items-center gap-1">
+                            <Fuel
+                                size={12}
+                                className="w-4 shrink-0 text-muted-foreground"
+                            />
+
+                            <span className="text-[12px]">{value}</span>
+
+                            { type === 'fixed' ? (
+                                <Euro size={10} />
+                            ) : (
+                                <Percent size={10} />
+                            )}
+                        </div>
+                    )}
+                </span>
+                <span
+                    className={[
+                        "rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider",
+                        isOnline ? "bg-accent-soft text-accent" : "bg-danger-soft text-danger",
+                    ].join(" ")}
+                >
+                    { isOnline ? "Activa" : "Desactivada" }
+                </span>
+            </div>
         </div>
     );
 }
 
-const AGENCIES = [
-    { name: "Dachser", type: "API", status: "online" },
-    { name: "Rhenus", type: "Estática", status: "online" },
-    { name: "Cayco", type: "Estática", status: "online" },
-    { name: "Tecum", type: "Híbrida", status: "offline" },
-];
-
 function StateAgencies() {
 
+    const { agencies, isLoadingAgencies } = useAgencies();
+
+    if (isLoadingAgencies) {
+        return <div className="rounded-2xl border border-panel-border bg-panel p-5">
+                    <p className="text-xs text-text-muted">Cargando...</p>
+                </div>;
+    }
+
+    const totalAgencies = agencies.length;
+
+    const visibleAgencies = agencies.slice(0, 6);
+
     return (
+        ( visibleAgencies &&
         <div className="rounded-2xl border border-panel-border bg-panel p-5">
             <h2 className="mb-1 font-display text-sm font-semibold text-text-primary">
                 Estado de agencias
@@ -49,11 +83,20 @@ function StateAgencies() {
                 Conectividad de carriers en tiempo real
             </p>
             <div>
-                { AGENCIES.map((agency) => (
-                    <AgencyStatusRow key={ agency.name } { ...agency } />
-                ))}
+                { visibleAgencies
+                    .toSorted((a, b) => a.type.localeCompare(b.type))
+                    .map((agency) => (
+                        <AgencyStatusRow key={ agency.name } { ...agency } />
+                    ))
+                }
             </div>
-        </div>
+            <div>
+                { (totalAgencies > visibleAgencies.length) && 
+                    (<p className="font-mono text-[10px] tracking-wider text-accent">
+                        +{ totalAgencies - visibleAgencies.length } más
+                    </p>)}
+            </div>
+        </div>)
     );
 }
 

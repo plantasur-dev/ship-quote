@@ -15,7 +15,10 @@ if (!baseURL) {
     throw new Error('No se encontró la URL de la API. Revisa las variables de entorno.');
 }
 
-const http = axios.create({ baseURL });
+const http = axios.create({ 
+    baseURL, 
+    withCredentials: true 
+});
 
 http.interceptors.response.use(
     (res) => res.data,
@@ -47,3 +50,7 @@ export const listCountries = (lang = 'ES') =>
 
 export const compareRatesByPostalCode = (data) => 
     http.post('/rates/compareByPostalCode', data);
+
+
+export const listAgencies = () => 
+    http.get('/agencies');

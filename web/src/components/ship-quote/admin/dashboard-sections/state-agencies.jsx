@@ -30,7 +30,7 @@ function AgencyStatusRow({ name, type, active, supplements }) {
                     }
                 >
                     { enabled && (
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-0.5">
                             <Fuel
                                 size={12}
                                 className="w-4 shrink-0 text-muted-foreground"

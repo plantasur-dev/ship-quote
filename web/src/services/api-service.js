@@ -54,3 +54,7 @@ export const compareRatesByPostalCode = (data) =>
 
 export const listAgencies = () => 
     http.get('/agencies');
+
+
+export const listAudit = (pagination = {}) =>
+    http.get('/audits', { params: pagination });

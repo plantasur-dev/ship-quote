@@ -1,43 +1,60 @@
 
 import { useEffect, useState } from "react";
+import { useLiveClock, formatDay, formatClock } from "../../../../utils";
+import { listAudit } from "../../../../services/api-service";
 
-function useLiveClock() {
-    const [now, setNow] = useState(() => new Date());
+function ActivityRow({ createdAt, statusCode, userId, action, endpoint, metadata }) {
+    const timeFormated = formatClock(new Date(createdAt));
 
-    useEffect(() => {
-        const id = setInterval(() => setNow(new Date()), 30_000);
-        return () => clearInterval(id);
-    }, []);
+    const actionFormated = action[0].toUpperCase() + action.slice(1).toLowerCase();
 
-    return now;
-}
+    const endpointFormated = endpoint.replace('/api/v1/', '');
 
+    const { ip } = metadata;
 
-function formatDay(date) {
-    return date.toLocaleDateString("es-ES", { day: "2-digit", month: "short" });
-}
+    const isSuccess = statusCode === 200;
 
-function ActivityRow({ time, user, action, target }) {
     return (
         <div className="flex items-center gap-4 border-b border-panel-border py-3 text-sm last:border-0">
-            <span className="w-12 shrink-0 font-mono text-[11px] text-text-muted">{time}</span>
-            <span className="w-24 shrink-0 truncate text-text-muted">{user}</span>
+            <span className="w-25 shrink-0 font-mono text-[11px] text-text-muted">{ timeFormated }</span>
+            <span className="w-24 shrink-0 truncate text-text-muted">{ userId && userId?.username } { ip }</span>
             <span className="flex-1 text-text-primary">
-                {action} <span className="text-accent">{target}</span>
+
+                <span className={`font-mono text-[12px] tracking-wider 
+                    ${ isSuccess 
+                        ? 'text-green-300' 
+                        : 'text-danger'}`
+                    }
+                >{ statusCode }</span> · { actionFormated } <span className="text-accent">{ endpointFormated }</span>
             </span>
         </div>
     );
 }
 
-const ACTIVITY = [
-    { time: "14:22", user: "M. Otero", action: "Actualizó tarifa", target: "Germany-ZONA-01" },
-    { time: "13:58", user: "A. Reboiro", action: "Creó zona", target: "Italy-ZONA-04" },
-    { time: "12:41", user: "sistema", action: "Refrescó caché", target: "agencyTariffs" },
-    { time: "11:15", user: "M. Otero", action: "Desactivó agencia", target: "Tecum" },
-    { time: "09:30", user: "A. Reboiro", action: "Creó tipo de palet", target: "Media europalet" },
-];
-
 function Activity() {
+
+    const [activity, setActivity] = useState([]);
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchAudit = async () => {
+            try {
+                setIsLoading(true);
+                const activity = await listAudit({ page: 1, limit: 9 });
+                setActivity(activity.data);
+            } catch (error) {
+                setError({
+                    type: 'error',
+                    message: error?.message || 'Error cargando actividad'
+                });
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchAudit();
+    }, []);
     
     const now = useLiveClock();
 
@@ -48,11 +65,11 @@ function Activity() {
                     Actividad reciente
                 </h2>
                 <span className="font-mono text-[10px] uppercase tracking-wider text-text-muted">
-                    hoy · {formatDay(now)}
+                    hoy · { formatDay(now) }
                 </span>
             </div>
             <div className="mt-3">
-                {ACTIVITY.map((entry, i) => (
+                { activity.map((entry, i) => (
                     <ActivityRow key={i} {...entry} />
                 ))}
             </div>

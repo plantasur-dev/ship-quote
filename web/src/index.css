@@ -2,20 +2,70 @@
 @import "tailwindcss";
 
 @theme {
-    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-    --font-display: "Space Grotesk", "Inter", sans-serif;
-  
-    --color-canvas: #0B1120;
-    --color-panel: #121A2C;
-    --color-panel-border: #232D45;
-    --color-input-bg: #0E1526;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
 
-    --color-text-primary: #EDEFF7;
-    --color-text-muted: #8A93AC;
+  --color-canvas: #0B1120;
+  --color-panel: #121A2C;
+  --color-panel-border: #232D45;
+  --color-input-bg: #0E1526;
 
-    --color-accent: #E3A008;
-    --color-danger: #E5484D;
+  --color-text-primary: #EDEFF7;
+  --color-text-muted: #8A93AC;
 
-    --color-accent-soft: rgba(227, 160, 8, 0.14);
-    --color-danger-soft: rgba(229, 72, 77, 0.12);
+  --color-accent: #E3A008;
+  --color-danger: #E5484D;
+
+  --color-accent-soft: rgba(227, 160, 8, 0.14);
+  --color-danger-soft: rgba(229, 72, 77, 0.12);
+}
+
+/* Page Base */
+html, body {
+  background-color: #0B1120;
+  margin: 0;
+  padding: 0;
+}
+
+#initial-loader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background-color: #0B1120;
+  font-family: ui-monospace, "IBM Plex Mono", monospace;
+}
+
+#initial-loader .logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid #232D45;
+  background-color: #121A2C;
+  color: #E3A008;
+  font-size: 13px;
+  font-weight: 600;
+  animation: loader-pulse 1.4s ease-in-out infinite;
+}
+
+#initial-loader .loader-text {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #8A93AC;
+}
+
+@keyframes loader-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.94); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #initial-loader .logo-box { animation: none; }
 }

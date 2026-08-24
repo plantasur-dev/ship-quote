@@ -1,6 +1,7 @@
 
-import { Wifi, WifiOff, Fuel, Euro, Percent } from "lucide-react";
+import { Wifi, WifiOff, Fuel, Euro, Percent, FolderSearch } from "lucide-react";
 import { useAgencies } from "../../../../hooks";
+import { RouteSpinner } from "../../../ui/loaders/loader";
 
 function AgencyStatusRow({ name, type, active, supplements }) {
     const isOnline = active === true;
@@ -63,18 +64,21 @@ function StateAgencies() {
 
     const { agencies, isLoadingAgencies } = useAgencies();
 
-    if (isLoadingAgencies) {
-        return <div className="rounded-2xl border border-panel-border bg-panel p-5">
-                    <p className="text-xs text-text-muted">Cargando...</p>
-                </div>;
+   if (isLoadingAgencies) {
+        return (
+            <div className="rounded-2xl border border-panel-border bg-panel p-5">
+                <div className="flex items-center justify-center py-10">
+                    <RouteSpinner size={45} />
+                </div>
+            </div>
+        );
     }
 
     const totalAgencies = agencies.length;
 
     const visibleAgencies = agencies.slice(0, 6);
 
-    return (
-        ( visibleAgencies &&
+    return ( 
         <div className="rounded-2xl border border-panel-border bg-panel p-5">
             <h2 className="mb-1 font-display text-sm font-semibold text-text-primary">
                 Estado de agencias
@@ -83,20 +87,29 @@ function StateAgencies() {
                 Conectividad de carriers en tiempo real
             </p>
             <div>
+
+                { !totalAgencies && 
+                    <span className="flex items-center justify-center py-10 text-accent gap-2">
+                        <FolderSearch /> Agencias no encontradas
+                    </span>
+                }
+
                 { visibleAgencies
                     .toSorted((a, b) => a.type.localeCompare(b.type))
                     .map((agency) => (
                         <AgencyStatusRow key={ agency.name } { ...agency } />
                     ))
                 }
+
             </div>
             <div>
                 { (totalAgencies > visibleAgencies.length) && 
                     (<p className="font-mono text-[10px] tracking-wider text-accent">
                         +{ totalAgencies - visibleAgencies.length } más
-                    </p>)}
+                    </p>)
+                }
             </div>
-        </div>)
+        </div>
     );
 }
 

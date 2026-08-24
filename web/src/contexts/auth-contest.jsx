@@ -9,6 +9,7 @@ function AuthContextProvider ({ children }) {
 
     const navigate = useNavigate();
     const [user, setUser] = useState(undefined);
+    const [isAuthLoading, setIsAuthLoading] = useState(true);
     
     useEffect(() => {
         const verifySession = async () => {
@@ -17,6 +18,8 @@ function AuthContextProvider ({ children }) {
                 setUser(user);
             } catch (error) {
                 setUser(null);
+            } finally {
+                setIsAuthLoading(false);
             }
         };
 
@@ -35,7 +38,7 @@ function AuthContextProvider ({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }} >
+        <AuthContext.Provider value={{ user, login, logout, isAuthLoading }} >
             { children }
         </AuthContext.Provider>
     );

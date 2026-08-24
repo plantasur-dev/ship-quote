@@ -4,11 +4,11 @@ import { useAuth } from "../contexts/auth-contest";
 import { LoadingScreen } from "../components/ui";
 
 function PrivateRouter({ children }) {
-    const { user } = useAuth();
+    const { user, isAuthLoading } = useAuth();
 
-    if (user === undefined) return <LoadingScreen />;
+    if (isAuthLoading) return <LoadingScreen />;
     
-    if (!user) return <Navigate to='/login'/>
+    if (!user) return <Navigate to='/login' replace />
     else return children;
 }
 

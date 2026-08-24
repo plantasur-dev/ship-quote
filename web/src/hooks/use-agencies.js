@@ -5,14 +5,13 @@ import { listAgencies } from "../services/api-service";
 
 export function useAgencies() {
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [agencies, setAgencies] = useState([]);
 
     useEffect(() => {
         const fetchAgencies = async () => {
             try {
-                setIsLoading(true);
                 const agencies = await listAgencies();
                 setAgencies(agencies);    
             } catch (error) {

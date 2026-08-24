@@ -1,6 +1,6 @@
 
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../contexts/auth-contest";
+import { useAuth } from "../contexts/auth-context";
 import { LoadingScreen } from "../components/ui";
 
 function PrivateRouter({ children }) {

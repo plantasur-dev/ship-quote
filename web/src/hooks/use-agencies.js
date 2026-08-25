@@ -21,12 +21,39 @@ export function useAgencies() {
                 });
             } finally {
                 setIsLoading(false);
-            }
-            
+            } 
         };
 
         fetchAgencies();
     }, []);
 
-    return { isLoadingAgencies: isLoading, agenciesError: error, agencies };
+    const updateStateAgency = (agencyId) => {
+        setAgencies((prev) =>
+            prev.map((agency) => ( 
+                agency.id === agencyId 
+                ? { ...agency, active: !agency.active } 
+                : agency
+            ))
+        );
+    };
+
+    const updateFuelSurcharge = (agencyId, fuelSurcharge) => {
+        const supplements = { fuelSurcharge };
+        
+        setAgencies((prev) => 
+            prev.map((agency) => (
+                agency.id === agencyId
+                ? { ...agency, supplements }
+                : agency
+            ))
+        );
+    };
+
+    return {
+        isLoadingAgencies: isLoading, 
+        agenciesError: error, 
+        agencies, 
+        updateStateAgency, 
+        updateFuelSurcharge 
+    };
 }

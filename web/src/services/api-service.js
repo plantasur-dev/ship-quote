@@ -55,6 +55,15 @@ export const compareRatesByPostalCode = (data) =>
 export const listAgencies = () => 
     http.get('/agencies');
 
+export const setActiveAgency = (agencyId) =>
+    http.patch(`/agencies/${ agencyId }/active`)
+
+export const updateFuelSurchargeAgency = (agencyId, data) =>
+    http.patch(`/agencies/${ agencyId }/supplements/fuel-surcharge`, data);
+
+export const updateAgency = (agencyId, data) =>
+    http.patch(`/agencies/${ agencyId }`, data);
+
 
 export const listAudit = (pagination = {}) =>
     http.get('/audits', { params: pagination });

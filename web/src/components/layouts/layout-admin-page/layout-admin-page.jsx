@@ -1,20 +1,28 @@
 
 import { Navbar, Footer, Jumbotron, Siderbar } from "../../ui";
+import { AlertProvider } from "../../../contexts/alert-context";
 
 function LayoutAdminPage ({ children, jumbotron = {} }) {
     
     return (
-        <div className="flex min-h-screen bg-canvas">
+        <AlertProvider>
+            <div className="flex min-h-screen bg-canvas">
 
-                <Siderbar />
+                    <Siderbar />
 
-                <main className="flex-1 space-y-6 p-6 lg:p-8">
+                    <main className="flex min-w-0 flex-1 flex-col gap-6 overflow-y-auto p-6 lg:p-8">
 
-                    <Jumbotron { ...jumbotron } />
-                    { children }
-                    
-                </main>
-        </div>
+                        <Jumbotron { ...jumbotron } />
+                        
+                        <div className="flex min-h-0 flex-1 flex-col gap-6">
+                            
+                            { children }
+                        
+                        </div>
+
+                    </main>
+            </div>
+        </AlertProvider>
     );
 }
 

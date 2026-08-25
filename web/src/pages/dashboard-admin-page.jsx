@@ -1,7 +1,7 @@
 
 import { LayoutDashboard } from "lucide-react";
 import { LayoutAdminPage } from "../components/layouts";
-import { Stats, StateAgencies, Activity } from "../components/ship-quote";
+import { Stats, StateAgencies, Activity } from "../components/ship-quote/admin";
 
 export default function DashboardAdmin() {
 

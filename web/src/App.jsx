@@ -5,7 +5,8 @@ import { PrivateRouter } from './guards';
 import { 
   Dashboard, 
   DashboardAdmin,
-  LoginPage
+  LoginPage,
+  AgenciesPage
 } from './pages';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path='/login' element={ <LoginPage /> }/>
 
         <Route path='/admin' element={ <PrivateRouter> <DashboardAdmin/> </PrivateRouter> }/>
+        <Route path='/admin/agencies' element={ <PrivateRouter> <AgenciesPage/> </PrivateRouter> }/>
       </Routes>
     </>
   )

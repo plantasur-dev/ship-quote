@@ -76,7 +76,10 @@ function StateAgencies() {
 
     const totalAgencies = agencies.length;
 
-    const visibleAgencies = agencies.slice(0, 6);
+    const visibleAgencies = agencies.toSorted((a, b) =>(
+        Number(b.active) - Number(a.active) ||
+        a.type.localeCompare(b.type)
+    )).slice(0, 6)
 
     return ( 
         <div className="rounded-2xl border border-panel-border bg-panel p-5">
@@ -94,9 +97,7 @@ function StateAgencies() {
                     </span>
                 }
 
-                { visibleAgencies
-                    .toSorted((a, b) => a.type.localeCompare(b.type))
-                    .map((agency) => (
+                { visibleAgencies.map((agency) => (
                         <AgencyStatusRow key={ agency.name } { ...agency } />
                     ))
                 }

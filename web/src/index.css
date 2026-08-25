@@ -15,9 +15,13 @@
 
   --color-accent: #E3A008;
   --color-danger: #E5484D;
+  --color-warning: #F0973E;
+  --color-info: #4C9FE0;
 
   --color-accent-soft: rgba(227, 160, 8, 0.14);
   --color-danger-soft: rgba(229, 72, 77, 0.12);
+  --color-warning-soft: rgba(240, 151, 62, 0.14);
+  --color-info-soft: rgba(76, 159, 224, 0.14);
 }
 
 /* Page Base */

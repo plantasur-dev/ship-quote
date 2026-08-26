@@ -7,6 +7,8 @@ import {
   DashboardAdmin,
   LoginPage,
   AgenciesPage,
+  AgenciesOverviewPage,
+  AgenciesFormPage,
   NotFoundPage
 } from './pages';
 
@@ -19,7 +21,10 @@ function App() {
         <Route path='/login' element={ <LoginPage /> }/>
 
         <Route path='/admin' element={ <PrivateRouter> <DashboardAdmin/> </PrivateRouter> }/>
+
         <Route path='/admin/agencies' element={ <PrivateRouter> <AgenciesPage/> </PrivateRouter> }/>
+        <Route path='/admin/agencies/quick' element={ <PrivateRouter> <AgenciesOverviewPage/> </PrivateRouter> }/>
+        <Route path='/admin/agencies/new' element={ <PrivateRouter> <AgenciesFormPage /> </PrivateRouter> }/>
 
         <Route path='*' element={ <NotFoundPage /> } />
       </Routes>

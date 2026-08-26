@@ -4,11 +4,10 @@ import { useAgencies } from "../../../../../hooks";
 import { RouteSpinner } from "../../../../ui/loaders/loader";
 import AgencyCard from "../agency-card/agency-card";
 
-export default function AgenciesList() {
+function AgenciesOverview() {
  
     const { 
         isLoadingAgencies, 
-        agenciesError, 
         agencies, 
         updateStateAgency, 
         updateFuelSurcharge 
@@ -46,3 +45,5 @@ export default function AgenciesList() {
         </section>
     );
 }
+
+export default AgenciesOverview;

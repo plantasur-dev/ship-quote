@@ -19,7 +19,9 @@ function ActivityRow({ createdAt, statusCode, userId, action, endpoint, metadata
     return (
         <div className="flex items-center gap-4 border-b border-panel-border py-3 text-sm last:border-0">
             <span className="w-25 shrink-0 font-mono text-[11px] text-text-muted">{ timeFormated }</span>
-            <span className="w-24 shrink-0 truncate text-text-muted">{ userId && userId?.username } { ip }</span>
+            <span className="w-24 shrink-0 truncate text-text-muted">
+                { userId && userId?.username[0].toUpperCase() + userId?.username.slice(1).toLowerCase() } { ip }
+            </span>
             <span className="flex-1 text-text-primary">
 
                 <span className={`font-mono text-[12px] tracking-wider 

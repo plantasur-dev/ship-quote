@@ -13,6 +13,8 @@ function Siderbar() {
 
     const location = useLocation();
 
+    const currentSection = location.pathname.split('/');
+
     return (
         <aside className="hidden w-60 shrink-0 flex-col border-r border-panel-border bg-panel px-4 py-6 lg:flex">
             <div className="mb-8 flex items-center gap-2.5 px-2">
@@ -30,13 +32,13 @@ function Siderbar() {
             </div>
 
             <nav className="flex-1 space-y-1">
-                { NAV_ITEMS.map(({ label, icon: Icon, to }) => (
+                { NAV_ITEMS.map(({ label, icon: Icon, to, section }) => (
                     <Link
                         to={ to }
                         key={ label }
                         className={[
                             "flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-colors cursor-pointer",
-                            ( to === location.pathname )
+                            (currentSection.includes(section))
                                 ? "bg-accent-soft text-accent"
                                 : "text-text-muted hover:bg-input-bg hover:text-text-primary",
                         ].join(" ")}

@@ -26,7 +26,7 @@ export default function AgenciesList() {
         return (
             <div className="flex flex-1 items-center justify-center">
                 <span className="flex items-center text-accent gap-2"> 
-                    <FolderSearch /> Sin agencias
+                    <FolderSearch />No existen agencias
                 </span>
             </div>
         );

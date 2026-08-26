@@ -50,11 +50,11 @@ function Siderbar() {
             <div className="mt-6 flex items-center justify-between rounded-lg border border-panel-border px-3 py-2.5">
                 <div className="flex items-center gap-2.5">
                     <div className="flex h-7 w-7 items-center justify-center rounded-md bg-input-bg font-mono text-[11px] text-text-primary">
-                        { user.username.slice(0, 2).toUpperCase() }
+                        { user?.username.slice(0, 2).toUpperCase() }
                     </div>
                     <div className="leading-tight">
-                        <p className="text-xs text-text-primary">{ user.username[0] + user.username.slice(1).toLowerCase() }</p>
-                        <p className="font-mono text-[10px] text-text-muted">{ user.email }</p>
+                        <p className="text-xs text-text-primary">{ user && user.username[0] + user.username.slice(1).toLowerCase() }</p>
+                        <p className="font-mono text-[10px] text-text-muted">{ user?.email }</p>
                     </div>
                 </div>
                 <button 

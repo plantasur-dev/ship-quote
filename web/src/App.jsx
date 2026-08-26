@@ -6,7 +6,8 @@ import {
   Dashboard, 
   DashboardAdmin,
   LoginPage,
-  AgenciesPage
+  AgenciesPage,
+  NotFoundPage
 } from './pages';
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
 
         <Route path='/admin' element={ <PrivateRouter> <DashboardAdmin/> </PrivateRouter> }/>
         <Route path='/admin/agencies' element={ <PrivateRouter> <AgenciesPage/> </PrivateRouter> }/>
+
+        <Route path='*' element={ <NotFoundPage /> } />
       </Routes>
     </>
   )

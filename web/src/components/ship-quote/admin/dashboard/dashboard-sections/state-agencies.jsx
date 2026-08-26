@@ -1,7 +1,7 @@
 
 import { Wifi, WifiOff, Fuel, Euro, Percent, FolderSearch } from "lucide-react";
-import { useAgencies } from "../../../../hooks";
-import { RouteSpinner } from "../../../ui/loaders/loader";
+import { useAgencies } from "../../../../../hooks";
+import { RouteSpinner } from "../../../../ui/loaders/loader";
 
 function AgencyStatusRow({ name, type, active, supplements }) {
     const isOnline = active === true;

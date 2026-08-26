@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from "react";
-import { useLiveClock, formatDay, formatClock } from "../../../../utils";
-import { listAudit } from "../../../../services/api-service";
-import { RouteSpinner } from "../../../ui/loaders/loader";
+import { useLiveClock, formatDay, formatClock } from '../../../../../utils/date-utils';
+import { listAudit } from "../../../../../services/api-service";
+import { RouteSpinner } from "../../../../ui/loaders/loader";
 import { FolderSearch } from "lucide-react";
 
 function ActivityRow({ createdAt, statusCode, userId, action, endpoint, metadata }) {

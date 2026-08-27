@@ -1,9 +1,10 @@
 
+import { FolderSearch } from "lucide-react";
+import { RouteSpinner } from "../../../../ui/loaders/loader";
 import { useEffect, useState } from "react";
 import { useLiveClock, formatDay, formatClock } from '../../../../../utils/date-utils';
 import { listAudit } from "../../../../../services/api-service";
-import { RouteSpinner } from "../../../../ui/loaders/loader";
-import { FolderSearch } from "lucide-react";
+import { useAlert } from "../../../../../contexts/alert-context";
 
 function ActivityRow({ createdAt, statusCode, userId, action, endpoint, metadata }) {
     const timeFormated = formatClock(new Date(createdAt));
@@ -38,34 +39,39 @@ function ActivityRow({ createdAt, statusCode, userId, action, endpoint, metadata
 function Activity() {
 
     const [activity, setActivity] = useState([]);
-    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-
+    const alert = useAlert();
     const now = useLiveClock();
 
     useEffect(() => {
         const fetchAudit = async () => {
+            setIsLoading(true);
+            await new Promise(resolve => setTimeout(resolve, 800));
+
             try {
                 const activity = await listAudit({ page: 1, limit: 9 });
                 setActivity(activity.data);
             } catch (error) {
-                setError({
-                    type: 'error',
-                    message: error?.message || 'Error cargando actividad'
-                });
+                alert.error('Error cargando actividad', message);
             } finally {
                 setIsLoading(false);
             }
         }
 
         fetchAudit();
+
+        const timerOut = setInterval(() => {
+            fetchAudit();
+        }, 60 * 1000);
+        
+        return() => clearInterval(timerOut);
     }, []);
 
     if (isLoading) {
         return (
             <div className="rounded-2xl border border-panel-border bg-panel p-5">
                 <div className="flex items-center justify-center py-10">
-                    <RouteSpinner size={45} />
+                    <RouteSpinner size={ 45 } />
                 </div>
             </div>
         );

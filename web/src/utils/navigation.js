@@ -10,11 +10,11 @@ import {
 } from "lucide-react";
 
 export const NAV_ITEMS = [
-    { label: "Dashboard", icon: LayoutDashboard, to: '/admin' },
-    { label: "Zonas", icon: MapPinned, to: '/admin/zones' },
-    { label: "Agencias", icon: Building2, to: '/admin/agencies/quick' },
-    { label: "Tarifas", icon: Tags },
-    { label: "Tipos de palet", icon: Boxes },
-    { label: "Usuarios", icon: Users },
-    { label: "Auditoría", icon: ScrollText },
+    { label: "Dashboard", icon: LayoutDashboard, to: '/admin/dashboard', section: 'dashboard' },
+    { label: "Zonas", icon: MapPinned, to: '/admin/zones', section: 'zones' },
+    { label: "Agencias", icon: Building2, to: '/admin/agencies/overview', section: 'agencies' },
+    { label: "Tarifas", icon: Tags, to: '/admin/rates', section: 'rates' },
+    { label: "Tipos de palet", icon: Boxes, to: '/admin/pallets', section: 'pallets' },
+    { label: "Usuarios", icon: Users, to: '/admin/users', section: 'users' },
+    { label: "Auditoría", icon: ScrollText, to: '/admin/audits', section: 'audits' },
 ];

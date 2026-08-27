@@ -36,12 +36,11 @@ function Siderbar() {
                     <Link
                         to={ to }
                         key={ label }
-                        className={[
-                            "flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-colors cursor-pointer",
-                            (currentSection.includes(section))
+                        className={
+                            `flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-colors cursor-pointer
+                            ${(currentSection.includes(section))
                                 ? "bg-accent-soft text-accent"
-                                : "text-text-muted hover:bg-input-bg hover:text-text-primary",
-                        ].join(" ")}
+                                : "text-text-muted hover:bg-input-bg hover:text-text-primary"}`}
                     >
                         <Icon size={ 16 } />
                         { label }

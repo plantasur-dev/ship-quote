@@ -2,9 +2,9 @@
 import { FolderSearch } from "lucide-react";
 import { RouteSpinner } from "../../../../ui/loaders/loader";
 import { useEffect, useState } from "react";
-import { useLiveClock, formatDay, formatClock } from '../../../../../utils/date-utils';
 import { listAudit } from "../../../../../services/api-service";
 import { useAlert } from "../../../../../contexts/alert-context";
+import { useLiveClock, formatDay, formatClock, TIMER_ACTIVITY } from "../../../../../utils";
 
 function ActivityRow({ createdAt, statusCode, userId, action, endpoint, metadata }) {
     const timeFormated = formatClock(new Date(createdAt));
@@ -62,7 +62,7 @@ function Activity() {
 
         const timerOut = setInterval(() => {
             fetchAudit();
-        }, 60 * 1000);
+        }, TIMER_ACTIVITY);
         
         return() => clearInterval(timerOut);
     }, []);

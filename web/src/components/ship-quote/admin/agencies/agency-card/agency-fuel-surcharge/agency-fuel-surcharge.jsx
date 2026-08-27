@@ -61,7 +61,7 @@ function FuelSurchargeField({ agency, onUpdateFuel }) {
         }
 
         setSaving(true);
-        const resultUpdateFuel = await onSave(parsed);
+        await onSave(parsed);
         setSaving(false);
                 
         setTimeout(() => {

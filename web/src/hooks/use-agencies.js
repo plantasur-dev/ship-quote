@@ -27,7 +27,7 @@ export function useAgencies() {
         fetchAgencies();
     }, []);
 
-    const updateStateAgency = (agencyId) => {
+    const handleUpdateStateAgency = (agencyId) => {
         setAgencies((prev) =>
             prev.map((agency) => ( 
                 agency.id === agencyId 
@@ -37,13 +37,16 @@ export function useAgencies() {
         );
     };
 
-    const updateFuelSurcharge = (agencyId, fuelSurcharge) => {
-        const supplements = { fuelSurcharge };
-        
+    const handleUpdateFuelSurcharge = (agencyId, fuelSurcharge) => {     
         setAgencies((prev) => 
             prev.map((agency) => (
                 agency.id === agencyId
-                ? { ...agency, supplements }
+                ? { ...agency,
+                    supplements: {
+                        ...agency.supplements.fuelSurcharge,
+                        fuelSurcharge
+                    }
+                }
                 : agency
             ))
         );
@@ -53,7 +56,7 @@ export function useAgencies() {
         isLoadingAgencies: isLoading, 
         agenciesError: error, 
         agencies, 
-        updateStateAgency, 
-        updateFuelSurcharge 
+        handleUpdateStateAgency, 
+        handleUpdateFuelSurcharge 
     };
 }

@@ -9,8 +9,8 @@ function AgenciesOverview() {
     const { 
         isLoadingAgencies, 
         agencies, 
-        updateStateAgency, 
-        updateFuelSurcharge 
+        handleUpdateStateAgency, 
+        handleUpdateFuelSurcharge 
     } = useAgencies();
     
     if (isLoadingAgencies) {
@@ -38,8 +38,8 @@ function AgenciesOverview() {
                     <AgencyCard
                         key={ agency.id }
                         agency={ agency }
-                        onToggleActive={ updateStateAgency }
-                        onUpdateFuel={ updateFuelSurcharge }
+                        onToggleActive={ handleUpdateStateAgency }
+                        onUpdateFuel={ handleUpdateFuelSurcharge }
                     />
             ))}
         </section>

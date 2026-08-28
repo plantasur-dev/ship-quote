@@ -1,5 +1,6 @@
 
 import { Globe2, MapPin } from "lucide-react";
+import { Link } from 'react-router-dom';
 import ActiveToggle from "./agency-toggle/agency-toggle";
 import FuelSurchargeField from "./agency-fuel-surcharge/agency-fuel-surcharge";
 
@@ -14,23 +15,27 @@ function AgencyCard({ agency, onToggleActive, onUpdateFuel }) {
         >
             <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="
-                        flex 
-                        h-10 
-                        w-10 
-                        items-center 
-                        justify-center 
-                        rounded-xl 
-                        border 
-                        border-panel-border 
-                        bg-input-bg 
-                        font-display 
-                        text-sm 
-                        font-semibold 
-                        text-accent
-                    ">
-                        { agency?.name?.slice(0, 2).toUpperCase() }
-                    </div>
+                    <Link to={`/admin/agencies/${ agency.id }/update`} >
+                        <div className="
+                            flex 
+                            h-10 
+                            w-10 
+                            items-center 
+                            justify-center 
+                            rounded-xl 
+                            border 
+                            border-panel-border 
+                            hover:border-accent
+                            bg-input-bg
+                            hover:bg-info-soft
+                            font-display 
+                            text-sm 
+                            font-semibold 
+                            text-accent
+                        ">
+                            { agency?.name?.slice(0, 2).toUpperCase() }
+                        </div>
+                    </Link>
                     <div>
                         <p className="font-display text-sm font-semibold text-text-primary">
                             { agency.name }

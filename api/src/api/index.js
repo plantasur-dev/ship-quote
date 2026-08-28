@@ -52,7 +52,11 @@ apiRouter.post(
 );
 apiRouter.get('/agencies', Agencies.list);
 apiRouter.get('/agencies/:agencyId/pallets', Pallets.palletsByAgency);
-apiRouter.patch('/agencies/:agencyId/status', Agencies.updateStatuAgency);
+apiRouter.patch('/agencies/:agencyId/active', Agencies.toggleAgencyActive);
+apiRouter.patch(
+    '/agencies/:agencyId/supplements/fuel-surcharge',
+    schemaValidation, 
+    Agencies.updateFuelSurcharge);
 apiRouter.patch(
     '/agencies/:agencyId', 
     schemaValidation, 

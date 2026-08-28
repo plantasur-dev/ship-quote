@@ -72,7 +72,7 @@ export async function update(req, res) {
     res.json(agency);
 }
 
-export async function updateStatuAgency(req, res) {
+export async function toggleAgencyActive(req, res) {
     
     const agency = await Agency.findById(req.params.agencyId);
 
@@ -84,3 +84,29 @@ export async function updateStatuAgency(req, res) {
 
     res.json(agency);
 };
+
+export async function updateFuelSurcharge(req, res) {
+
+    const agency = await Agency.findById(req.params.agencyId);
+
+    if (!agency) throw createHttpError(404, 'Agency not found');
+
+    const { enabled, type, value } = req.body;
+
+    if (!agency.supplements?.fuelSurcharge?.enabled && !enabled ) {
+        throw createHttpError(400, 'Supplements fuel surcharge is not active');
+    }
+
+    const { fuelSurcharge } = agency.supplements;
+        
+    agency.supplements ??= {};
+    agency.supplements.fuelSurcharge = { 
+        enabled: enabled ?? fuelSurcharge?.enabled, 
+        type: type ?? fuelSurcharge?.type, 
+        value: value ?? fuelSurcharge.value 
+    };
+
+    await agency.save();
+
+    res.json(agency.supplements.fuelSurcharge);   
+}

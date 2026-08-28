@@ -254,7 +254,7 @@ describe('GET /api/agencies/{agenciesId}/pallets', () => {
     });
 });
 
-describe('PATCH /api/agencies/{agenciesId}/status', () => {
+describe('PATCH /api/agencies/{agenciesId}/active', () => {
 
     it('debería devolver 200 y cambiar el estado activo de una agencia', async () => {
         const agency = await Agency.create({
@@ -263,7 +263,7 @@ describe('PATCH /api/agencies/{agenciesId}/status', () => {
         });
 
         const res = await request(app)
-            .patch(`/api/v1/agencies/${ agency._id }/status`)
+            .patch(`/api/v1/agencies/${ agency._id }/active`)
             .set('Cookie', authCookie)
             .expect(200);
 
@@ -274,7 +274,7 @@ describe('PATCH /api/agencies/{agenciesId}/status', () => {
         const fakeId = new mongoose.Types.ObjectId();
 
         const res = await request(app)
-            .patch(`/api/v1/agencies/${ fakeId }/status`)
+            .patch(`/api/v1/agencies/${ fakeId }/active`)
             .set('Cookie', authCookie)
             .expect(404);
 

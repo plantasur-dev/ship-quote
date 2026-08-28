@@ -1,6 +1,7 @@
 
 import { ArrowLeft, PackageSearch, Van } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { NAV_ITEMS } from "../utils";
 import { useAuth } from "../contexts/auth-context";
 
 function BrokenRouteBackdrop() {
@@ -108,11 +109,11 @@ function NotFoundPage() {
                                 className="flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-canvas transition-opacity hover:opacity-90 cursor-pointer"
                             >
                                 <ArrowLeft size={ 15 } />
-                                Volver al atrás
+                                Volver atrás
                             </button>
 
                             <Link
-                                to='/admin'
+                                to={ NAV_ITEMS[0].to }
                                 className="rounded-xl border border-panel-border px-4 py-2.5 text-sm text-text-muted transition-colors hover:border-accent hover:text-accent"
                             >
                                 Ir al dashboard

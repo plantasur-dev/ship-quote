@@ -1,10 +1,7 @@
 
 import createHttpError from "http-errors";
 
-import merge from 'lodash/merge.js';
-
 import Agency from "../../lib/models/agency.model.js";
-
 
 export async function create(req, res) {
 
@@ -45,38 +42,37 @@ export async function details(req, res) {
 }
 
 export async function update(req, res) {
-    
+
     const { agencyId } = req.params;
 
     const agency = await Agency.findById(agencyId);
 
     if (!agency) throw createHttpError(404, 'Agency not found');
 
-    const { active, type, apiConfig, supplements, rules } = req.body;
+    const { apiConfig, supplements, rules, ...rest } = req.body;
+    
+    Object.assign(agency, rest);
 
-    const criteria = {};
-
-    if (active) criteria.active = active;
-    if (type) criteria.type = type;
-    if (rules) criteria.rules = rules;
+    if (rules){
+        agency.rules = {
+            ...agency.rules.toObject(),
+            ...rules
+        }
+    }
     
     if (supplements) {
-        criteria.supplements = merge(
-            {},
-            agency.supplements?.toObject(),
-            supplements
-        );
+        agency.supplements = {
+            ...agency.supplements.toObject(),
+            ...supplements
+        };
     }
 
     if (apiConfig) {
-        criteria.apiConfig = merge(
-            {},
-            agency.apiConfig?.toObject(),
-            apiConfig
-        );
+        agency.apiConfig = {
+            ...agency.apiConfig.toObject(),
+            ...apiConfig,
+        };
     }
-        
-    Object.assign(agency, criteria);
 
     await agency.save();
 

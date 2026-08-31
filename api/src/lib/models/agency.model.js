@@ -1,6 +1,5 @@
 
 import mongoose from "mongoose";
-
 import { 
     SCOPE_TYPES, 
     SCOPE_TYPES_ARRAY,
@@ -95,14 +94,7 @@ const agencySchema = new mongoose.Schema({
         endpoints: {
             quotations: String,
             transportOrders: String
-        },
-        apiKey: { 
-            type: String,
-            required: function () {
-                return this.type === AGENCY_TYPE.API || 
-                    this.type === AGENCY_TYPE.HYBRID
-            },
-        },
+        }
     }
 }, { 
     timestamps: true,

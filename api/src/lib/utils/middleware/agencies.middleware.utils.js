@@ -91,7 +91,7 @@ export const validateApiConfig = (type, apiConfig) => {
     const requiresApiConfig = type === AGENCY_TYPE.API || type === AGENCY_TYPE.HYBRID;
 
     if (requiresApiConfig && apiConfig) {
-        const allowedFieldsApiConfig = ['timeout', 'baseUrlApi', 'endpoints', 'apiKey'];
+        const allowedFieldsApiConfig = ['timeout', 'baseUrlApi', 'endpoints'];
 
         unknownFields(apiConfig , allowedFieldsApiConfig);
 
@@ -101,9 +101,7 @@ export const validateApiConfig = (type, apiConfig) => {
             throw createHttpError(400, `Fields timeout must be an number`);
         }
 
-        if (typeof apiConfig.baseUrlApi !== 'string' ||
-            typeof apiConfig.apiKey !== 'string'
-        ) {
+        if (typeof apiConfig.baseUrlApi !== 'string') {
             throw createHttpError(400, `Fields baseUrlApi and apiKey must be an string`);
         }
 

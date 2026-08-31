@@ -262,26 +262,6 @@ function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
                                 { errors.apiconfig?.baseurlapi && 
                                     <FieldError message={ errors.apiconfig.baseurlapi.message }/> }
                             </div>
-                            <div className="sm:col-span-2">
-                                { (!isEdit) 
-                                    ? <FieldLabel required>API key</FieldLabel>
-                                    : <FieldLabel>API key</FieldLabel>
-                                }
-                                <input
-                                    id='apiconfig.apikey'
-                                    type="password"
-                                    placeholder="••••••••••••"
-                                    className={`${ inputClass } font-mono ${ errors.apiconfig?.apikey 
-                                        ? 'border-2 !border-danger focus:!border-danger' 
-                                        : 'border-panel-border'
-                                    }`}
-                                    { ...register('apiconfig.apikey',
-                                        validations.apiconfig.apikey
-                                    )}
-                                />
-                                { errors.apiconfig?.apikey && 
-                                    <FieldError message={ errors.apiconfig?.apikey.message }/> }
-                            </div>
                         </div>
 
                         <div className="mt-3 grid grid-cols-2 gap-4 border-t border-panel-border pt-4">

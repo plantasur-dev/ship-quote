@@ -132,8 +132,7 @@ export const loadFieldsDefault = (agency) => {
             endpoints: {
                 quotations: agency?.apiConfig?.endpoints?.quotations ?? '',
                 transportorders: agency?.apiConfig?.endpoints?.transportOrders ?? ''
-            },
-            apikey: ''
+            }
         }
     }
 }
@@ -169,8 +168,7 @@ export const validationsForm = ({ isEdit = false }) => {
             }
         },
         apiconfig: {
-            baseurlapi: { required: 'Endpoint conexión requerido' },
-            apikey: { required: !isEdit ? 'ApiKey es requerida' : false }
+            baseurlapi: { required: 'Endpoint conexión requerido' }
         }
     }
 }

@@ -35,8 +35,7 @@ export const mapAgencyFromApi = ({ data, isEdit = false }) => {
             endpoints: {
                 quotations: data.apiconfig.endpoints?.quotations,
                 transportOrders: data.apiconfig.endpoints?.transportorders,
-            },
-            apiKey: data.apiconfig.apikey,
+            }
         };
     }
 

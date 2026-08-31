@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
+import { NAV_ITEMS } from "../../../utils";
+
 import { useAuth } from "../../../contexts/auth-context";
 
 
@@ -34,7 +36,7 @@ function LoginForm() {
             clearErrors();
 
             await login(data.emailUser, data.passwordUser);
-            navigate('/admin');
+            navigate(NAV_ITEMS[0].to);
         } catch (error) {
             console.error(error?.message);
             setServerError(error?.message);

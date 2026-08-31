@@ -30,11 +30,10 @@ function LoginForm() {
     });
 
     const handleLogin = async (data) => {
-        try {
-            setServerError(null);
-        
-            clearErrors();
+        setServerError(null);
+        clearErrors();
 
+        try {
             await login(data.emailUser, data.passwordUser);
             navigate(NAV_ITEMS[0].to);
         } catch (error) {
@@ -181,9 +180,10 @@ function LoginForm() {
                     bg-accent
                 "
             >
-                { isSubmitting ? ( 
-                    <Loader2 size={ 16 } className="animate-spin" /> ) 
-                    : ( <> Entrar <ArrowRight size={ 16 } /> </> ) }
+                { isSubmitting 
+                    ? ( <Loader2 size={ 16 } className="animate-spin" /> ) 
+                    : ( <> Entrar <ArrowRight size={ 16 } /> </> ) 
+                }
             </button>
         </form>
     );

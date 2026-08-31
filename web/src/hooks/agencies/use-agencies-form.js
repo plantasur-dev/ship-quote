@@ -1,36 +1,33 @@
 
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { NAV_ITEMS } from '../utils';
-import { useAlert } from '../contexts/alert-context'; 
-import { createAgency, updateAgency } from '../services/api-service';
+import { NAV_ITEMS, REDIRECT_DELAY, wait } from '../../utils';
+import { useAlert } from '../../contexts/alert-context'; 
+import { createAgency, updateAgency } from '../../services/api-service';
 
 export function useAgenciesForm ({ mode, agencyId }) {
     
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const alert = useAlert();
 
     const navigate = useNavigate()
 
     const onSubmit = async (data, setError, clearErrors) => {   
-
+        setIsLoading(true);
         clearErrors();
 
         try {
             if (mode === "create") {
                 await createAgency(data);
-
-                alert.success("Agencia creada correctamente");
-                await new Promise(resolve => setTimeout(resolve, 4000));   
+                alert.success("Agencia creada correctamente");   
             }
 
             if (mode === "edit") {
                 await updateAgency(agencyId, data);
-
                 alert.success("Agencia actualizada correctamente");
-                await new Promise(resolve => setTimeout(resolve, 4000));
             }
 
+            await wait(REDIRECT_DELAY);
             navigate(NAV_ITEMS[2].to);
         } catch (error) {
             if (error.type === 'validations') {

@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 
-import { getAgency } from "../services/api-service";
+import { getAgency } from "../../services/api-service";
 
 export function useAgency(agencyId) {
 

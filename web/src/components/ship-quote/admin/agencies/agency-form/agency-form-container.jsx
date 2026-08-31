@@ -11,7 +11,7 @@ function AgencyFormContainer({ mode }) {
 
     const { agency, isLoading: isLoadingAgency } = useAgency(agencyId);
 
-    const { onSubmit, error } = useAgenciesForm({ mode, agencyId });
+    const { onSubmit } = useAgenciesForm({ mode, agencyId });
 
     if (isLoadingAgency) {
         return <LoadingScreen label={ `Cargando carrier...`}/>;

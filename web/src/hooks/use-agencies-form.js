@@ -12,7 +12,10 @@ export function useAgenciesForm ({ mode, agencyId }) {
 
     const navigate = useNavigate()
 
-    const onSubmit = async (data, setError) => {   
+    const onSubmit = async (data, setError, clearErrors) => {   
+
+        clearErrors();
+
         try {
             if (mode === "create") {
                 await createAgency(data);
@@ -30,19 +33,22 @@ export function useAgenciesForm ({ mode, agencyId }) {
 
             navigate(NAV_ITEMS[2].to);
         } catch (error) {
-            Object.entries(error).forEach(([field, message]) => {
-                setError(field, {
-                    type: 'server',
-                    message
+            if (error.type === 'validations') {
+                Object.entries(error.errors).forEach(([field, errorDetail]) => {
+                    setError(field.toLowerCase(), {
+                        message: errorDetail.message,
+                    });
                 });
+            }
 
+            if (error.type === 'server') {
                 alert.error(
-                    mode === "create"
+                    (mode === "create")
                         ? "Error al crear agencia"
                         : "Error al actualizar agencia",
-                    message
+                    error.errors || "Ha ocurrido un error en el servidor"
                 );
-            });
+            }            
         } finally {
             setIsLoading(false);
         }

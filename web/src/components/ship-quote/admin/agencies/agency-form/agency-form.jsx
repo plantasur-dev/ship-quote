@@ -28,6 +28,7 @@ function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
         watch,
         reset,
         setError,
+        clearErrors,
         formState: { isSubmitting, isValid, errors } 
     } = useForm({ 
         mode: 'all', 
@@ -42,11 +43,11 @@ function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
     const isApiType = typeAgency === TYPE_AGENCY.api || typeAgency === TYPE_AGENCY.hybrid;
 
     const hasFuelSurchargeError = !!errors.supplements?.fuelsurcharge?.type;
-
+    
     return (
         <div className="min-h-screen space-y-6 bg-canvas p-6 lg:p-8">
                     
-            <form onSubmit={ handleSubmit((data) => handleOnSubmit(data, setError)) } className="mx-auto max-w-2xl space-y-5">
+            <form onSubmit={ handleSubmit((data) => handleOnSubmit(data, setError, clearErrors)) } className="mx-auto max-w-2xl space-y-5">
                 
                 <div className="rounded-2xl border border-panel-border bg-panel p-6">
                     <SectionHeading eyebrow="01 · Identificación" title="Datos generales" />
@@ -273,9 +274,7 @@ function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
                                         type="text"
                                         placeholder="quotations"
                                         className={ `${ inputClass } border-panel-border` }
-                                        { ...register('apiconfig.endpoints.quotations', 
-                                            validations.endpoints?.quotations
-                                        )}
+                                        { ...register('apiconfig.endpoints.quotations')}
                                     />
                                 </div>
                                 
@@ -285,9 +284,7 @@ function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
                                         type="text"
                                         placeholder="transportOrders"
                                         className={ `${ inputClass } border-panel-border` }
-                                        { ...register('apiconfig.endpoints.transportorders', 
-                                            validations.endpoints?.transportorders
-                                        )}
+                                        { ...register('apiconfig.endpoints.transportorders')}
                                     />
                                 </div>
                             </div>

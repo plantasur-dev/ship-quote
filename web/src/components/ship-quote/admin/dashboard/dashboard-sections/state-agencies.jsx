@@ -33,11 +33,11 @@ function AgencyStatusRow({ name, type, active, supplements }) {
                     { enabled && (
                         <div className="flex items-center gap-0.5">
                             <Fuel
-                                size={12}
+                                size={ 12 }
                                 className="w-4 shrink-0 text-muted-foreground"
                             />
 
-                            <span className="text-[12px]">{value}</span>
+                            <span className="text-[12px]">{ value }</span>
 
                             { type === 'fixed' ? (
                                 <Euro size={10} />
@@ -64,7 +64,7 @@ function StateAgencies() {
 
     const { agencies, isLoadingAgencies } = useAgencies();
 
-   if (isLoadingAgencies) {
+    if (isLoadingAgencies) {
         return (
             <div className="rounded-2xl border border-panel-border bg-panel p-5">
                 <div className="flex items-center justify-center py-10">

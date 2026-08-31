@@ -27,16 +27,13 @@ http.interceptors.response.use(
     (err) => {
         const { status, data } = err?.response || {};
 
-        let message = `API Error [${ status ?? err?.name }]: ${ data?.message || err.message } `;
-
+        console.error(err);
+    
         if (status === 400 ){
-            console.log(data);
-            return Promise.reject( data );
+            return Promise.reject({ type: 'validations', errors: data });
         }
-        
-        console.error(message);
-
-        return Promise.reject({ message });
+       
+        return Promise.reject({ type: 'server', errors: data, status });
     }
 );
 

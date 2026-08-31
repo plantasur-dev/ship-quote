@@ -14,6 +14,7 @@ import {
     validationsForm,
     loadFieldsDefault
 } from './agency-form-util';
+import DeleteButton from '../../../../ui/buttons/delete-button';
 
 function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
     
@@ -294,12 +295,12 @@ function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
 
                 { isApiType && (
                     <p className="mt-3 text-xs text-text-muted">
-                        Las agencias API e Híbridas necesitan Apikey; no olvide añadirla para no tener problemas de conexión.
+                        Las agencias API e Híbridas necesitan endpoints para las consultas; no olvide añadirla para no tener problemas de conexión.
                     </p>
                 )}
 
                 <div className="flex justify-end gap-2.5">
-                    { !isEdit && 
+                    { !isEdit ?
                         <button
                             type="button"
                             onClick={ () => reset({ ...defaultValues }) }
@@ -307,6 +308,8 @@ function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
                         >
                             Limpiar
                         </button>
+                    :
+                        <DeleteButton />   
                     }
                     <button
                         type="submit"

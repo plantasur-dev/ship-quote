@@ -1,9 +1,8 @@
 
 import { useParams } from "react-router-dom";
-import { useAgency } from "../../../../../hooks/use-agency";
+import { useAgency, useAgenciesForm } from "../../../../../hooks";
 import LoadingScreen from "../../../../ui/loaders/loader";
 import AgencyForm from "./agency-form";
-import { useAgenciesForm } from "../../../../../hooks/use-agencies-form"; 
 
 function AgencyFormContainer({ mode }) {
 

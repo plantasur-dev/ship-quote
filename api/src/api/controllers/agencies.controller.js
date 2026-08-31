@@ -33,6 +33,17 @@ export async function list(req, res) {
     res.json(agencies);
 };
 
+export async function details(req, res) {
+    
+    const { agencyId } = req.params;
+
+    const agency = await Agency.findById(agencyId);
+
+    if (!agency) throw createHttpError(404, 'Agency not found');
+
+    res.json(agency);
+}
+
 export async function update(req, res) {
     
     const { agencyId } = req.params;

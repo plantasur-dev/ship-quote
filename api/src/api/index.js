@@ -52,6 +52,7 @@ apiRouter.post(
 );
 apiRouter.get('/agencies', Agencies.list);
 apiRouter.get('/agencies/:agencyId/pallets', Pallets.palletsByAgency);
+apiRouter.get('/agencies/:agencyId', Agencies.details);
 apiRouter.patch('/agencies/:agencyId/active', Agencies.toggleAgencyActive);
 apiRouter.patch(
     '/agencies/:agencyId/supplements/fuel-surcharge',

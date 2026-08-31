@@ -2,8 +2,6 @@
 import { Building2, Plus, Undo2 } from "lucide-react";
 import { RouteButton } from "../components/ui";
 import { LayoutAdminPage } from "../components/layouts";
-import { agenciesConfig } from "../components/ship-quote/admin/agencies/agency-config";
-import ItemsList from "../components/ship-quote/admin/items-list.jsx/items-list";
 import { useAgencies } from "../hooks";
 
 function AgenciesPage() {

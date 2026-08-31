@@ -1,6 +1,7 @@
 
 import './agency-form.css';
 import { Save } from "lucide-react";
+import { TYPE_AGENCY } from '../../../../../utils';
 import { Controller, useForm } from 'react-hook-form';
 import { RouteSpinner } from "../../../../ui/loaders/loader";
 import { 
@@ -10,20 +11,23 @@ import {
     FieldError,
     FormToggleRow,
     inputClass,
-    validations,
+    validationsForm,
     loadFieldsDefault
 } from './agency-form-util';
 
-function AgencyForm({mode, agency, handleOnSubmit = () => {} }) {
-
+function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
+    
     const defaultValues = loadFieldsDefault(agency);
-        
+
+    const validations = validationsForm({ isEdit });
+    
     const { 
         register, 
         handleSubmit,
         control,
         watch,
         reset,
+        setError,
         formState: { isSubmitting, isValid, errors } 
     } = useForm({ 
         mode: 'all', 
@@ -35,16 +39,14 @@ function AgencyForm({mode, agency, handleOnSubmit = () => {} }) {
     const typeFuelSurcharge = watch('supplements.fuelsurcharge.type');
     const typeAgency = watch('type');
 
-    const isApiType = typeAgency === "api" || typeAgency === "hybrid";
+    const isApiType = typeAgency === TYPE_AGENCY.api || typeAgency === TYPE_AGENCY.hybrid;
 
-    const isUpdateForm = !!agency;
-
-    const hasFuelSurchargeError  = !!errors.supplements?.fuelsurcharge?.type;
+    const hasFuelSurchargeError = !!errors.supplements?.fuelsurcharge?.type;
 
     return (
         <div className="min-h-screen space-y-6 bg-canvas p-6 lg:p-8">
                     
-            <form onSubmit={ handleSubmit(handleOnSubmit) } className="mx-auto max-w-2xl space-y-5">
+            <form onSubmit={ handleSubmit((data) => handleOnSubmit(data, setError)) } className="mx-auto max-w-2xl space-y-5">
                 
                 <div className="rounded-2xl border border-panel-border bg-panel p-6">
                     <SectionHeading eyebrow="01 · Identificación" title="Datos generales" />
@@ -261,7 +263,10 @@ function AgencyForm({mode, agency, handleOnSubmit = () => {} }) {
                                     <FieldError message={ errors.apiconfig.baseurlapi.message }/> }
                             </div>
                             <div className="sm:col-span-2">
-                                <FieldLabel required>API key</FieldLabel>
+                                { (!isEdit) 
+                                    ? <FieldLabel required>API key</FieldLabel>
+                                    : <FieldLabel>API key</FieldLabel>
+                                }
                                 <input
                                     id='apiconfig.apikey'
                                     type="password"
@@ -288,7 +293,7 @@ function AgencyForm({mode, agency, handleOnSubmit = () => {} }) {
                                         type="text"
                                         placeholder="quotations"
                                         className={ `${ inputClass } border-panel-border` }
-                                        { ...register('apiconfig.quotations', 
+                                        { ...register('apiconfig.endpoints.quotations', 
                                             validations.endpoints?.quotations
                                         )}
                                     />
@@ -300,7 +305,7 @@ function AgencyForm({mode, agency, handleOnSubmit = () => {} }) {
                                         type="text"
                                         placeholder="transportOrders"
                                         className={ `${ inputClass } border-panel-border` }
-                                        { ...register('apiconfig.transportorders', 
+                                        { ...register('apiconfig.endpoints.transportorders', 
                                             validations.endpoints?.transportorders
                                         )}
                                     />
@@ -317,20 +322,22 @@ function AgencyForm({mode, agency, handleOnSubmit = () => {} }) {
                 )}
 
                 <div className="flex justify-end gap-2.5">
-                    <button
-                        type="button"
-                        onClick={ () => reset({ ...defaultValues }) }
-                        className="rounded-xl border border-panel-border px-4 py-2.5 text-sm text-text-muted transition-colors hover:text-text-primary cursor-pointer"
-                    >
-                        Limpiar
-                    </button>
+                    { !isEdit && 
+                        <button
+                            type="button"
+                            onClick={ () => reset({ ...defaultValues }) }
+                            className="rounded-xl border border-panel-border px-4 py-2.5 text-sm text-text-muted transition-colors hover:text-text-primary cursor-pointer"
+                        >
+                            Limpiar
+                        </button>
+                    }
                     <button
                         type="submit"
                         disabled={ !isValid }
                         className="flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-canvas transition-opacity disabled:opacity-60 cursor-pointer"
                     >
                         { isSubmitting ? <RouteSpinner size={ 15 } /> : <Save size={ 15 } />}
-                        { !isUpdateForm ? 'Crear' : 'Guardar' } agencia
+                        { !isEdit ? 'Crear' : 'Guardar' } agencia
                     </button>
                 </div>
             </form>

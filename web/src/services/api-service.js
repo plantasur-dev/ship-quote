@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-import { toNumber  } from '../utils';
+import { mapAgencyFromApi } from './agency-mapper/agency-mapper';
 
 const config = {
     isTest: import.meta.env.VITE_NODE_ENV === 'test',
@@ -30,12 +30,13 @@ http.interceptors.response.use(
         let message = `API Error [${ status ?? err?.name }]: ${ data?.message || err.message } `;
 
         if (status === 400 ){
-            message = `${ data?.message || err.message } `;
+            console.log(data);
+            return Promise.reject( data );
         }
         
         console.error(message);
 
-        return Promise.reject( { message } || data );
+        return Promise.reject({ message });
     }
 );
 
@@ -54,53 +55,14 @@ export const compareRatesByPostalCode = (data) =>
     http.post('/rates/compareByPostalCode', data);
 
 
-export const createAgency = (data) => {
-    console.log(data)
+export const createAgency = (data) => 
+    http.post(`/agencies`, mapAgencyFromApi({ data }));
 
-    const isApi = data.type === 'api' || data.type === 'hybric';
+export const getAgency = (agencyId) => 
+    http.get(`/agencies/${ agencyId }`);
 
-    const payload = {
-        name: data.name,
-        type: data.type,
-        active: data.active,
-
-        rules: {
-            supportsPallets: data.rules?.supportspallets,
-            supportsParcels: data.rules?.supportsparcels,
-            hasAndaluciaRule: data.rules?.hasandaluciarule,
-            coverage: data.rules?.coverage ?? [],
-        },
-    };
-
-    if (data.supplements.fuelsurcharge.enabled) {
-        payload.supplements = {
-            fuelSurcharge: {
-                enabled: data.supplements.fuelsurcharge.enabled,
-                type: data.supplements.fuelsurcharge.type,
-                value: toNumber(data.supplements.fuelsurcharge.value),
-            },
-        };
-    }
-
-    if (isApi) {
-        payload.apiConfig = {
-            timeout: toNumber(data.apiconfig.timeout, 3000),
-            baseUrlApi: data.apiconfig.baseurlapi,
-            endpoints: {
-                quotations: data.apiconfig.endpoints?.quotations,
-                transportOrders: data.apiconfig.endpoints?.transportorders,
-            },
-            apiKey: data.apiconfig.apikey,
-        };
-    }
-
-    console.log(payload);
-
-    return http.post(`/agencies`, payload);
-}
-    
 export const updateAgency = (agencyId, data) =>
-    http.patch(`/agencies/${ agencyId }`, data);
+    http.patch(`/agencies/${ agencyId }`, mapAgencyFromApi({ isEdit: true , data }));
 
 export const listAgencies = () => 
     http.get('/agencies');

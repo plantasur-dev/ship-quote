@@ -10,3 +10,5 @@ export { NAV_ITEMS } from './navigation';
 
 export { STATUS_MESSAGES } from './constants';
 export { TIMER_ACTIVITY  } from './constants';
+export { TYPE_FUEL_SURCHARGE } from './constants';
+export { TYPE_AGENCY } from './constants';

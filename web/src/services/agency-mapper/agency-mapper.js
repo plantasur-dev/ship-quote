@@ -18,7 +18,7 @@ export const mapAgencyFromApi = ({ data, isEdit = false }) => {
         },
     };
 
-    if (data.supplements.fuelsurcharge.enabled) {
+    if (data.supplements.fuelsurcharge.enabled || isEdit) {
         payload.supplements = {
             fuelSurcharge: {
                 enabled: data.supplements.fuelsurcharge.enabled,

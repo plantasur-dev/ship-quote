@@ -14,6 +14,11 @@ export function useCompareRateResult() {
         setError(null);
         setIsLoading(true);
 
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+
         try {
             const rates = await compareRatesByPostalCode(data);
             setResultRates(rates);

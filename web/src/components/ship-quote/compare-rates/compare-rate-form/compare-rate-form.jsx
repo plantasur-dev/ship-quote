@@ -10,8 +10,6 @@ import {
     useProvinces, 
 } from "../../../../hooks";
 
-import CompareRateItemsDetails from './item-draft-details/item-draft-details';
-
 import {
     SkeletonForm,
     CountrySelector,

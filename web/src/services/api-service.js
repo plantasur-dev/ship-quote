@@ -70,6 +70,9 @@ export const setActiveAgency = (agencyId) =>
 export const updateFuelSurchargeAgency = (agencyId, data) =>
     http.patch(`/agencies/${ agencyId }/supplements/fuel-surcharge`, data);
 
+export const deleteAgency = (agencyId) => 
+    http.delete(`/agencies/${ agencyId }`);
+
 
 export const listAudit = (pagination = {}) =>
     http.get('/audits', { params: pagination });

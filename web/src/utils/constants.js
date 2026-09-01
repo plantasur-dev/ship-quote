@@ -3,7 +3,7 @@ import { Hash, Percent } from "lucide-react";
 
 export const TIMER_ACTIVITY = 60 * 1500;
 
-export const REDIRECT_DELAY = 4000;
+export const REDIRECT_DELAY = 3200;
 
 export const STATUS_MESSAGES = [
     "Sincronizando zonas",

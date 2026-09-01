@@ -1,9 +1,10 @@
 
 import './agency-form.css';
 import { Save } from "lucide-react";
-import { TYPE_AGENCY } from '../../../../../utils';
 import { Controller, useForm } from 'react-hook-form';
+import { DeleteButton } from '../../../../ui';
 import { RouteSpinner } from "../../../../ui/loaders/loader";
+import { TYPE_AGENCY } from '../../../../../utils';
 import { 
     COVERAGE_OPTIONS, 
     SectionHeading, 
@@ -14,9 +15,13 @@ import {
     validationsForm,
     loadFieldsDefault
 } from './agency-form-util';
-import DeleteButton from '../../../../ui/buttons/delete-button';
 
-function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
+function AgencyForm({ 
+    agency, 
+    handleOnSubmit = () => {}, 
+    handleOnDelete = () => {}, 
+    isEdit = false 
+}) {
     
     const defaultValues = loadFieldsDefault(agency);
 
@@ -309,7 +314,7 @@ function AgencyForm({ agency, handleOnSubmit = () => {}, isEdit = false }) {
                             Limpiar
                         </button>
                     :
-                        <DeleteButton />   
+                        <DeleteButton onDelete={ handleOnDelete }/>   
                     }
                     <button
                         type="submit"

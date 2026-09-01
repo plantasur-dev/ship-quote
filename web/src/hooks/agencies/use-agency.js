@@ -1,12 +1,14 @@
 
 import { useEffect, useState } from "react";
-
+import { useAlert } from '../../contexts/alert-context'; 
 import { getAgency } from "../../services/api-service";
 
-export function useAgency(agencyId) {
+export function useAgency({ agencyId }) {
 
     const [isLoading, setIsLoading] = useState(true);
     const [agency, setAgency] = useState(null);
+
+    const alert = useAlert();
 
     useEffect(() => {
         if (!agencyId) {
@@ -20,6 +22,7 @@ export function useAgency(agencyId) {
                 setAgency(agency);
             } catch (error) {
                 console.log(error);
+                alert.error('Error cargando agencia', error);
             } finally {
                 setIsLoading(false);
             }

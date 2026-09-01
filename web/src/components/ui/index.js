@@ -9,3 +9,4 @@ export { default as Jumbotron } from './jumbotron/jumbotron';
 export { default as Siderbar } from './siderbar/siderbar';
 export { default as RouteSpinner } from './loaders/loader';
 export { default as RouteButton } from './buttons/route-button'
+export { default as DeleteButton } from './buttons/delete-button';

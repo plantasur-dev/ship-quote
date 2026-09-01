@@ -7,17 +7,18 @@ export default function DeleteButton({ onDelete }) {
 
     const handleClick = () => {
         if (isConfirming) {
-            onDelete(); // Ejecuta la función de eliminar
+            onDelete();
             setIsConfirming(false);
         } else {
-            setIsConfirming(true); // Pasa al estado de confirmación
+            setIsConfirming(true);
         }
     };
 
     return (
         <button
+            type='button'
             onClick={ handleClick }
-            onMouseLeave={ () => setIsConfirming(false) } // Cancela si el usuario saca el cursor
+            onMouseLeave={ () => setIsConfirming(false) }
             className={`
                 flex 
                 cursor-pointer 

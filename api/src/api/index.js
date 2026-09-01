@@ -64,6 +64,7 @@ apiRouter.patch(
     updateAgenciesValidation, 
     Agencies.update
 );
+apiRouter.delete('/agencies/:agencyId', Agencies.remove);
 
 apiRouter.post('/locations', schemaValidation, Locations.create);
 apiRouter.get('/locations/countries', Locations.listCountries);

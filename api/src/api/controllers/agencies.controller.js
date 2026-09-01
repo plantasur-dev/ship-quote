@@ -79,6 +79,19 @@ export async function update(req, res) {
     res.json(agency);
 }
 
+export async function remove(req, res) {
+    
+    const agency = await Agency.findById(req.params.agencyId);
+
+    if (!agency) throw createHttpError(404, 'Agency not found');
+
+    if (!req.session?.user) throw createHttpError(401, 'Unauthorized');
+    
+    await Agency.findByIdAndDelete(agency.id);
+
+    res.status(204).json();
+}
+
 export async function toggleAgencyActive(req, res) {
     
     const agency = await Agency.findById(req.params.agencyId);

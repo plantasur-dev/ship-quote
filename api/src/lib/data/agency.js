@@ -54,8 +54,7 @@ const agenciesData = [
             endpoints: {
                 quotations: 'quotations',
                 transportOrders: ''
-            },
-            apiKey: process.env.DACHSER_API_KEY
+            }
         }
     },
     {
@@ -82,8 +81,7 @@ const agenciesData = [
             endpoints: {
                 quotations: '',
                 transportOrders: ''
-            },
-            apiKey: 'pruebas'
+            }
         }
     },{
         name: 'Mrw',
@@ -109,8 +107,7 @@ const agenciesData = [
             endpoints: {
                 quotations: '',
                 transportOrders: ''
-            },
-            apiKey: 'pruebas'
+            }
         }
     },
     {

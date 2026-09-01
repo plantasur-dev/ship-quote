@@ -7,7 +7,10 @@ import {
     Boxes,
     Users,
     ScrollText,
+    SquareActivity,
 } from "lucide-react";
+
+const loggingApiUrl = import.meta.env.VITE_API_URL_LOG
 
 export const NAV_ITEMS = [
     { label: "Dashboard", icon: LayoutDashboard, to: '/admin/dashboard', section: 'dashboard' },
@@ -17,4 +20,5 @@ export const NAV_ITEMS = [
     { label: "Tipos de palet", icon: Boxes, to: '/admin/pallets', section: 'pallets' },
     { label: "Usuarios", icon: Users, to: '/admin/users', section: 'users' },
     { label: "Auditoría", icon: ScrollText, to: '/admin/audits', section: 'audits' },
+    { label: "Log", icon: SquareActivity, to: loggingApiUrl, section: 'log' }
 ];

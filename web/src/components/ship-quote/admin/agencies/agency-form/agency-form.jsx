@@ -319,7 +319,24 @@ function AgencyForm({
                     <button
                         type="submit"
                         disabled={ !isValid }
-                        className="flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-canvas transition-opacity disabled:opacity-60 cursor-pointer"
+                        className={`
+                            flex 
+                            items-center 
+                            gap-2 
+                            rounded-xl 
+                            bg-accent 
+                            px-5 
+                            py-2.5 
+                            text-sm 
+                            font-semibold 
+                            text-canvas 
+                            transition-opacity 
+                            disabled:opacity-60 
+                            ${ isValid 
+                                ? 'cursor-pointer' 
+                                : 'cursor-not-allowed'
+                            }
+                        `}
                     >
                         { isSubmitting ? <RouteSpinner size={ 15 } /> : <Save size={ 15 } />}
                         { !isEdit ? 'Crear' : 'Guardar' } agencia

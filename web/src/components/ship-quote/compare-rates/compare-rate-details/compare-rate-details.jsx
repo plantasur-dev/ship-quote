@@ -7,6 +7,22 @@ import CompareRateSkeletonDetails from "./compare-rate-skeleton-details";
 
 import AgencyCard from './agency-card/agency-card';
 
+function EmptyState() {
+    return (
+        <div className="flex flex-col items-center justify-center text-center py-24">
+            <div className="text-7xl mb-6">🗺️</div>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+                Sin cotizaciones todavía
+            </h2>
+            <p className="text-gray-500 max-w-md">
+                Comienza una nueva cotización para comparar las mejores tarifas
+                de envío entre nuestros proveedores. Consulta precios y elige la opción que mejor se adapte
+                a tu envío.
+            </p>
+        </div>
+    );
+}
+
 function CompareRateDetails({ isLoading, error, resultRates = [] }) {
     const [open, setOpen] = useState(null);
 
@@ -21,6 +37,8 @@ function CompareRateDetails({ isLoading, error, resultRates = [] }) {
             center={ true } 
         />;
     }
+
+    if (!resultRates.length) return EmptyState();
 
     const toggle = (id) => {
         setOpen((prev) => (prev === id ? null : id));

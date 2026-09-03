@@ -1,61 +1,56 @@
 
 import mongoose from "mongoose";
 
+export const AUDIT_ACTIONS = [
+    'CREATE',
+    'READ',
+    'UPDATE',
+    'DELETE',
+    'LOGIN',
+    'EXPORT',
+    'TARIFF_SEARCH',
+    'UNKNOWN'
+];
+
 const auditSchema = new mongoose.Schema({
 
     action: {
-        type: String
+        type: String,
+        enum: AUDIT_ACTIONS,
+        default: 'UNKNOWN',
+        index: true
     },
 
-    endpoint: {
-        type: String
+    resource: {
+        type: String,
+        index: true
+    },
+
+    resourceId: {
+        type: mongoose.Schema.Types.Mixed,
+        default: null
     },
 
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null,
+        index: true
     },
 
-    duration: {
-        type: Number
+    ip: {
+        type: String,
+        index: true
     },
 
-    statusCode: {
-        type: Number
-    },
-
-    request: {
-        params: {
-            type: mongoose.Schema.Types.Mixed,
-            default: {}
-        },
-
-        query: {
-            type: mongoose.Schema.Types.Mixed,
-            default: {}
-        },
-
-        body: {
-            type: mongoose.Schema.Types.Mixed,
-            default: {}
-        }
+    input: {
+        type: mongoose.Schema.Types.Mixed,
+        default: {}
     },
 
     response: {
         type: mongoose.Schema.Types.Mixed,
         default: null
-    },
-
-    metadata: {
-        ip: {
-            type: String
-        },
-        method: {
-            type: String
-        },
-        userAgent: {
-            type: String
-        }
     }
 
 }, {
@@ -69,10 +64,11 @@ const auditSchema = new mongoose.Schema({
     }
 });
 
+auditSchema.index({ resource: 1, action: 1, createdAt: -1 });
+auditSchema.index({ ip: 1, createdAt: -1 });
 auditSchema.index({ userId: 1, createdAt: -1 });
-auditSchema.index({ action: 1, createdAt: -1 });
 auditSchema.index({ createdAt: -1 });
-auditSchema.index({ statusCode: 1, createdAt: -1 });
+auditSchema.index({ 'input.destinationPostalCode': 1, createdAt: -1 });
 
 const Audit = mongoose.model('Audit', auditSchema);
 

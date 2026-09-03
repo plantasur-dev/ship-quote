@@ -1,48 +1,79 @@
 
 import { auditStore } from "../services/audit.service.js";
-
 import { sanitizer } from "../../lib/utils/sanitizer.utils.js";
 
+const METHOD_ACTION_MAP = {
+    GET: 'READ',
+    POST: 'CREATE',
+    PUT: 'UPDATE',
+    PATCH: 'UPDATE',
+    DELETE: 'DELETE'
+};
+
+const EXCLUDED_PATHS = [
+    '/auth',
+    '/audit'
+];
+
+function isExcluded(path) {
+    return EXCLUDED_PATHS.some(excluded => path.includes(excluded));
+}
+
+function extractResource(req) {
+    const parts = req.baseUrl?.split('/').filter(Boolean) ?? [];
+    const resource = [...parts].reverse().find(p => !/^v\d+$/i.test(p));
+
+    return resource ?? 'unknown';
+}
+
 export function audit(req, res, next) {
-
-    const start = Date.now();
-
+ 
+     if (isExcluded(req.originalUrl)) {
+        return next();
+    }
+ 
     req.audit = {
         action: null,
+        resource: null,
+        resourceId: null,
         response: null
     };
 
+    const originalJson = res.json.bind(res);
+    res.json = (body) => {
+        if (req.audit.response === null) {
+            req.audit.response = body;
+        }
+        return originalJson(body);
+    };
+ 
     res.on('finish', () => {
-        const request = {  
-            params: sanitizer(req.params),
-            query: sanitizer(req.query),
-            body: sanitizer(req.body)
-        };
-        
+        const input = sanitizer({
+            ...req.params,
+            ...req.query,
+            ...req.body
+        });
+ 
         const userId = req.session?.user?.id ?? null;
-        
-        const action = req.audit.action 
-            ?? (userId ? 'MANAGER' : 'UNKNOWN');
-
-        const duration = Date.now() - start;
-
+ 
+        const action = req.audit.action
+            ?? METHOD_ACTION_MAP[req.method]
+            ?? 'UNKNOWN';
+ 
+        const resource = req.audit.resource ?? extractResource(req);
+ 
         auditStore({
             action,
-            endpoint: req.originalUrl,
+            resource,
+            resourceId: req.audit.resourceId ?? req.params?.id ?? null,
             userId,
-            metadata: {
-                ip: req.ip,
-                method: req.method,
-                userAgent: req.get('user-agent')
-            },
-            request,
-            response: req.audit.response,
-            statusCode: res.statusCode,
-            duration
+            ip: req.ip,
+            input,
+            response: req.audit.response !== null ? sanitizer(req.audit.response) : null
         }).catch(error => {
             console.error("Audit error:", error);
         });
     });
-
+ 
     next();
-};
+}

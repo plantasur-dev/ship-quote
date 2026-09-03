@@ -2,7 +2,7 @@
 import createHttpError from "http-errors";
 
 import Zone from "../../lib/models/zone.model.js";
-import zonesFull from "../services/zones.service.js";
+import { createZoneWithRules } from "../services/zones.service.js";
 
 export const create = async (req, res) => {
 
@@ -79,7 +79,7 @@ export const details = async (req, res) => {
     res.json(zone);
 };
 
-export const full = async (req, res) => {
+export const createWithRules = async (req, res) => {
  
     const {
         zones,
@@ -91,7 +91,7 @@ export const full = async (req, res) => {
  
     const agency = req.locals.agency;
  
-    const insertedZones = await zonesFull({
+    const insertedZones = await createZoneWithRules({
         agency,
         zones,
         calculationMode,

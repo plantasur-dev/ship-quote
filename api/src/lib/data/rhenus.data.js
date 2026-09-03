@@ -1,5 +1,5 @@
 
-import { getProvinceByCountryCode } from '../../api/services/provinces.service.js';
+import { getProvincesByCountryCode } from '../../api/services/provinces.service.js';
 
 import { prefixZone } from '../utils/bootstrap.utils.js';
 
@@ -24,7 +24,7 @@ export const rhenusRates = {
 export async function createRhenusZones() {
         
     const postalRanges = countries.map((country) => {
-        const countryData = getProvinceByCountryCode(country);
+        const countryData = getProvincesByCountryCode(country);
         
         return countryData.map(({ postalCode, adminFullCode, countryName, adminCode }) => {
             const countryNameNormalize = countryName.replace(/\s+/g, "");

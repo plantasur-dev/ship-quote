@@ -42,8 +42,8 @@ apiRouter.get('/debug/maps', checkAuth, Cache.debugMap);
 apiRouter.get('/releases/latest', Releases.latest);
 
 apiRouter.get('/audits', Audits.list);
-apiRouter.get('/audits/last-activity', Audits.recentActivity);
-apiRouter.get('/audits/most-code-postal', Audits.mostQueriedPostalCode);
+apiRouter.get('/audits/recent-activity', Audits.recentActivity);
+apiRouter.get('/audits/most-queried-postal', Audits.mostQueriedPostalCode);
 apiRouter.get('/audits/stats', Audits.stats);
 apiRouter.get('/audits/:activityId', Audits.detail);
 
@@ -86,13 +86,13 @@ apiRouter.post(
     zoneValidation,
     Zones.create
 );
-apiRouter.post('/zones/:zoneId/rules', schemaValidation, ZoneRules.create);
 apiRouter.post(
-    '/zones/full',
+    '/zones/with-rules',
     schemaValidation,
     zoneFullValidation,
-    Zones.full
+    Zones.createWithRules
 );
+apiRouter.post('/zones/:zoneId/rules', schemaValidation, ZoneRules.create);
 apiRouter.get('/zones', Zones.list);
 apiRouter.get('/zones/:zoneId/rules', ZoneRules.details);
 apiRouter.get('/zones/:zoneId', Zones.details);
@@ -103,14 +103,14 @@ apiRouter.post('/rates',
     Rates.create
 );
 apiRouter.post(
-    '/rates/compareByProvinceCode', 
+    '/rates/compare/province', 
     schemaValidation,
     rateDestinationValidation,
     rateItemsValidation,
-    Rates.compareByProvinceCode
+    Rates.compareByProvince
 );
 apiRouter.post(
-    '/rates/compareByPostalCode', 
+    '/rates/compare/postal-code', 
     schemaValidation,
     rateDestinationValidation,
     rateItemsValidation,

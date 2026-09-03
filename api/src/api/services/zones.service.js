@@ -1,17 +1,16 @@
 
 import Zone from "../../lib/models/zone.model.js";
 import ZoneRules from "../../lib/models/zone.rules.model.js";
-
 import { zonesBootstrap } from "../../lib/utils/bootstrap.utils.js";
 
-async function zonesFull({
+export const createZoneWithRules = async ({
     agency,
     zones,
     calculationMode,
     pricingMode,
     volumetric,
     exceptions
-}) {
+}) => {
 
     const bootstrapParams = {
         zoneModel: Zone,
@@ -35,5 +34,3 @@ async function zonesFull({
 
     return insertedZones;
 };
-
-export default zonesFull;

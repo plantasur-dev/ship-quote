@@ -32,7 +32,7 @@ export async function create(req, res) {
     res.status(201).json(rate);
 };
 
-export async function compareByProvinceCode(req, res) {
+export async function compareByProvince(req, res) {
     const { destinationPostalCode, countryCode, province, items } = req.body;
 
     const result = await rates({

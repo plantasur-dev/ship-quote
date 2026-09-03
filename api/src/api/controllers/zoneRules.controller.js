@@ -1,8 +1,8 @@
 
 import createHttpError from "http-errors";
-
 import Zone from "../../lib/models/zone.model.js";
 import ZoneRules from "../../lib/models/zone.rules.model.js";
+
 
 export const create = async (req, res) => {
 
@@ -35,7 +35,7 @@ export const details = async (req, res) => {
         .find({ zoneId })
         .populate('zoneId');
 
-    if (!zoneRules.length) throw createHttpError(404, 'Zone Rules not founds');
+    if (!zoneRules.length) throw createHttpError(404, 'Zone Rules not found');
 
     res.json(zoneRules);
 };

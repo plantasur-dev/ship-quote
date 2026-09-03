@@ -1,9 +1,8 @@
 
 import createHttpError from "http-errors";
-
 import PalletType from "../../lib/models/palletType.model.js";
-
 import Agency from "../../lib/models/agency.model.js";
+
 
 export const create = async (req, res) => {
 

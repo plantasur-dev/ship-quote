@@ -1,6 +1,7 @@
 
 import { getAgencyTariffs } from "../services/cache.service.js";
 
+
 function inspectAgencyTariffs(agencies) {
     const result = {};
 

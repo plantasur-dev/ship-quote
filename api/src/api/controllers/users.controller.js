@@ -3,6 +3,7 @@ import createHttpError from 'http-errors';
 import User from '../../lib/models/user.model.js';
 import Session from '../../lib/models/session.model.js';
 
+
 export async function create(req, res) {
     
     const { username, email, password } = req.body;

@@ -1,14 +1,10 @@
 
 import createHttpError from 'http-errors';
-
 import Rate from '../../lib/models/rate.model.js';
-
 import rates from '../services/rates.service.js';
-
 import { getProvinceByCountryCodeAndPostalCode } from '../services/provinces.service.js';
 
 export async function create(req, res) {
-
     const {
         agencyId,
         type,
@@ -42,7 +38,7 @@ export async function compareByProvince(req, res) {
         items
     });
 
-    if(!result) throw createHttpError(404, 'Compare not found');
+    if(!result.length) throw createHttpError(404, 'Compare not found');
 
     res.json(result);
 }
@@ -69,7 +65,7 @@ export async function compareByPostalCode(req, res) {
         items
     });
 
-    if(!result) throw createHttpError(404, 'Compare not found');
+    if(!result.length) throw createHttpError(404, 'Compare not found');
 
     req.audit.action = "TARIFF_SEARCH";
     req.audit.response = result;

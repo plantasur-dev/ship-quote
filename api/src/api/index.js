@@ -1,8 +1,6 @@
 
 import { Router } from "express";
-
 import * as Errors from './middlewares/errors.middleware.js';
-
 import {
     checkAuth,
     audit,
@@ -27,6 +25,7 @@ import * as Releases from './controllers/releases.controller.js';
 import * as Cache from './controllers/cache.controller.js';
 import * as Audits from './controllers/audits.controller.js';
 
+
 const apiRouter = Router();
 
 apiRouter.use(checkAuth);
@@ -42,7 +41,11 @@ apiRouter.get('/debug/maps', checkAuth, Cache.debugMap);
 
 apiRouter.get('/releases/latest', Releases.latest);
 
-apiRouter.get('/audits', Audits.list)
+apiRouter.get('/audits', Audits.list);
+apiRouter.get('/audits/last-activity', Audits.recentActivity);
+apiRouter.get('/audits/most-code-postal', Audits.mostQueriedPostalCode);
+apiRouter.get('/audits/stats', Audits.stats);
+apiRouter.get('/audits/:activityId', Audits.detail);
 
 apiRouter.post(
     '/agencies', 
@@ -69,10 +72,8 @@ apiRouter.delete('/agencies/:agencyId', Agencies.remove);
 apiRouter.post('/locations', schemaValidation, Locations.create);
 apiRouter.get('/locations/countries', Locations.listCountries);
 apiRouter.get('/locations/provinces', Locations.listProvinces);
-apiRouter.get(
-    '/locations/provincesByCountryCodeAndPostalCode/:countryCode/:postalCode',
-    Locations.provincesByCountryCodeAndPostalCode
-);
+apiRouter.get('/locations/countries/:countryCode/provinces', Locations.listCountryProvinces);
+apiRouter.get('/locations/countries/:countryCode/provinces/:postalCode', Locations.getProvince);
 
 apiRouter.post('/pallets', schemaValidation, Pallets.create);
 apiRouter.get('/pallets', Pallets.list);

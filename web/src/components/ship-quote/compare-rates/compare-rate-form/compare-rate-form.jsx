@@ -37,13 +37,12 @@ function CompareRateForm({ handlerCalculateRates }) {
     });
       
     const { isLoadingCountries, countriesError, countries } = useCountries();
-    const { isLoadingProvinces, provincesError, provinces } = useProvinces(countryCode);
+    const { isLoadingProvinces, provinces } = useProvinces(countryCode);
     
     if (isLoadingCountries) return <SkeletonForm />;
     
     const externalErrors = {
         ...(countriesError ? { countries: countriesError } : {}),
-        ...(provincesError ? { provinces: provincesError } : {}),
     };
 
     const allServerErrors = {

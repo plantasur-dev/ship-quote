@@ -9,8 +9,7 @@ function AuthContextProvider ({ children }) {
 
     const navigate = useNavigate();
     const [user, setUser] = useState(undefined);
-    const [isAuthLoading, setIsAuthLoading] = useState(true);
-    
+
     useEffect(() => {
         const verifySession = async () => {
             try {
@@ -18,13 +17,28 @@ function AuthContextProvider ({ children }) {
                 setUser(user);
             } catch (error) {
                 setUser(null);
-            } finally {
-                setIsAuthLoading(false);
             }
         };
 
         verifySession();
     }, []);
+
+    useEffect(() => {
+        const handleSessionExpired = () => {
+            setUser(null);
+            navigate('/login');
+        };
+
+        window.addEventListener(
+            'auth:session-expired', 
+            handleSessionExpired
+        );
+        return () => {
+            window.removeEventListener(
+                'auth:session-expired', 
+                handleSessionExpired);
+            };
+    }, [navigate]);
 
     const login = async (email, password) => {
         const user = await ServiceAuth.login(email, password);
@@ -32,13 +46,16 @@ function AuthContextProvider ({ children }) {
     }
 
     const logout = async () => {
-        await ServiceAuth.logout();
-        setUser(null);
-        navigate('/login');
+        try {
+            await ServiceAuth.logout();
+        } finally {
+            setUser(null);
+            navigate('/login');
+        }
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthLoading }} >
+        <AuthContext.Provider value={{ user, login, logout, isAuthLoading: user === undefined }} >
             { children }
         </AuthContext.Provider>
     );

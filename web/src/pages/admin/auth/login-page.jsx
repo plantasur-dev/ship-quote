@@ -1,8 +1,8 @@
 
 
-import { RouteBackdrop } from "../components/ui";
+import { RouteBackdrop } from "../../../components/ui";
 
-import { LoginForm } from "../components/auth";
+import { LoginForm } from "../../../components/auth";
 
 export default function LoginPage() {
 

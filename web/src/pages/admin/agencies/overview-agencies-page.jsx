@@ -1,8 +1,8 @@
 
 import { Building2, Plus } from "lucide-react";
-import { RouteButton } from "../components/ui"; 
-import { LayoutAdminPage } from "../components/layouts";
-import { AgenciesOverview } from "../components/ship-quote/admin";
+import { RouteButton } from "../../../components/ui"; 
+import { LayoutAdminPage } from "../../../components/layouts";
+import { AgenciesOverview } from "../../../components/ship-quote/admin";
 
 function OverviewAgenciesPage() {
 

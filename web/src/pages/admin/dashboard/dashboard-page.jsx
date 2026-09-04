@@ -1,9 +1,9 @@
 
 import { LayoutDashboard } from "lucide-react";
-import { LayoutAdminPage } from "../components/layouts";
-import { Stats, StateAgencies, Activity } from "../components/ship-quote/admin";
+import { LayoutAdminPage } from "../../../components/layouts";
+import { Stats, StateAgencies, Activity } from "../../../components/ship-quote/admin";
 
-export default function DashboardAdmin() {
+export default function Dashboard() {
 
     const jumbotron = {
         icon: LayoutDashboard,

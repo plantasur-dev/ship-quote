@@ -1,8 +1,8 @@
 
 import { Building2, Undo2 } from "lucide-react";
-import { RouteButton } from "../components/ui";
-import { LayoutAdminPage } from "../components/layouts";
-import AgencyFormContainer from "../components/ship-quote/admin/agencies/agency-form/agency-form-container";
+import { RouteButton } from "../../../components/ui";
+import { LayoutAdminPage } from "../../../components/layouts";
+import AgencyFormContainer from "../../../components/ship-quote/admin/agencies/agency-form/agency-form-container";
 
 function CreateAgencyPage() {
 

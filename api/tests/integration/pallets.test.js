@@ -1,14 +1,9 @@
 
 import request from "supertest";
-
 import mongoose from "mongoose";
-
 import app from "../../app.js";
-
 import PalletType from "../../src/lib/models/palletType.model.js";
-
 import Agency from "../../src/lib/models/agency.model.js";
-
 import { createAuthenticatedUser } from "../helpers/auth.helpers.js";
 
 describe("Pallets API", () => {

@@ -1,11 +1,10 @@
 
 import createHttpError from "http-errors";
-
 import Session from "../../lib/models/session.model.js";
 
 const whiteList = [
     { method: 'POST', path: '/auth/login' },
-    { method: 'POST', path: '/rates/compareByPostalCode' },
+    { method: 'POST', path: '/rates/compare/postal-code' },
     { method: 'GET', path: '/releases/latest' },
     { method: 'GET', path: '/locations/countries' },
     { method: 'GET', path: '/locations/provinces' }

@@ -1,13 +1,9 @@
 
 import request from "supertest";
-
 import mongoose from "mongoose";
-
 import app from "../../app.js";
-
 import Zone from "../../src/lib/models/zone.model.js";
 import Agency from "../../src/lib/models/agency.model.js";
-
 import { createAuthenticatedUser } from "../helpers/auth.helpers.js";
 
 let authCookie;
@@ -199,13 +195,13 @@ describe("Zones API", () => {
         expect(res.body).toHaveProperty('message', 'Resource not found');
     });
 
-    it('Post /zones/full debería insertar las zones. zoneRules responder con 201', async () => {
+    it('Post /zones/with-rules debería insertar las zones. zoneRules responder con 201', async () => {
         const agency = await Agency.create({
             name: "Test Agency"
         });
 
         const res = await request(app)
-            .post('/api/v1/zones/full')
+            .post('/api/v1/zones/with-rules')
             .set('Cookie', authCookie)
             .send({
                 agencyId: agency._id,

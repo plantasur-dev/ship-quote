@@ -1,16 +1,11 @@
 
 import request from "supertest";
-
-import mongoose from "mongoose";
-
 import app from "../../app.js";
-
 import { createAuthenticatedUser } from "../helpers/auth.helpers.js";
-
 import Audit from "../../src/lib/models/audit.model.js";
 
 const auditsValid = {
-    action: 'UNKOWN',
+    action: 'READ',
     endpoint: "/api/v1/auth/login",
     statusCode: 200
 }

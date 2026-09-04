@@ -1,20 +1,15 @@
 
 import createHttpError from "http-errors";
-
 import { 
     AGENCY_TYPE, 
     AGENCY_TYPE_ARRAY 
 } from "../../lib/constants/index.js";
-
 import { 
     validateRules, 
     validateSupplements,
     validateApiConfig
 } from "../../lib/utils/middleware/agencies.middleware.utils.js";
-
-import { 
-    normalizeString
-} from "../../lib/utils/middleware/middleware.utils.js";
+import { normalizeString} from "../../lib/utils/middleware/middleware.utils.js";
 
 export const agenciesValidation = (req, res, next) => {
 

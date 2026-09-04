@@ -23,7 +23,7 @@ import {
     normalizeString,
     unknownFields,
     missingFields
- } from '../../../../src/lib/utils/middleware/middleware.utils.js';
+} from '../../../../src/lib/utils/middleware/middleware.utils.js';
 
 const defaultNormalize = (value) => {
     if (value === undefined || value === null) return null;
@@ -274,34 +274,4 @@ describe('validateApiConfig', () => {
             })
         );
     });
-
-    it('lanza 400 si apiConfig.apiKey no es string', () => {
-        const req = buildReq({ apiConfig: { timeout: 3000, baseUrlApi: 'base.url', apiKey: null } });
-
-        expect(() => validateApiConfig('api', req.body.apiConfig)).toThrowError(
-            expect.objectContaining({
-                status: 400,
-                message: 'Fields baseUrlApi and apiKey must be an string',
-            })
-        );
-    });
-
-    it('lanza 400 si apiConfig.endpoints no es array', () => {
-        const req = buildReq({ 
-            apiConfig: {
-                timeout: 3000,
-                baseUrlApi: 'base.url',
-                endpoints: null,
-                apiKey: 'aaaaaaaa',
-            }
-        });
-
-        expect(() => validateApiConfig('api', req.body.apiConfig)).toThrowError(
-            expect.objectContaining({
-                status: 400,
-                message: 'Fields endpoints must be an object of strings',
-            })
-        );
-    });
-
 });

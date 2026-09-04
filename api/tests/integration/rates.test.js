@@ -1,18 +1,11 @@
 
-import request, { cookies } from "supertest";
-
+import request from "supertest";
 import app from "../../app.js";
-
 import Agency from "../../src/lib/models/agency.model.js"
 import PalletType from "../../src/lib/models/palletType.model.js";
 import Zone from "../../src/lib/models/zone.model.js";
-
 import rates from '../../src/api/services/rates.service.js';
-
-import { 
-    getProvinceByCountryCodeAndPostalCode 
-} from '../../src/api/services/provinces.service.js';
-
+import { getProvinceByCountryCodeAndPostalCode } from '../../src/api/services/provinces.service.js';
 import { createAuthenticatedUser } from "../helpers/auth.helpers.js";
 
 vi.mock('../../src/api/services/rates.service.js', () => ({
@@ -131,7 +124,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
 
     it('should return 400 when body is empty', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByProvinceCode')
+            .post('/api/v1/rates/compare/province')
             .set("Cookie", authCookie)
             .send({});
 
@@ -142,7 +135,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
 
     it('should return 400 when destination fields are missing', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByProvinceCode')
+            .post('/api/v1/rates/compare/province')
             .set("Cookie", authCookie)
             .send({
                 items: [validItem]
@@ -155,7 +148,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
 
     it('should return 400 when destination fields are not strings', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByProvinceCode')
+            .post('/api/v1/rates/compare/province')
             .set("Cookie", authCookie)
             .send({
                 destinationPostalCode: 28001,
@@ -170,7 +163,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
 
     it('should return 400 when postal code is invalid', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByProvinceCode')
+            .post('/api/v1/rates/compare/province')
             .set("Cookie", authCookie)
             .send({
                 destinationPostalCode: 'invalid-Postal',
@@ -185,7 +178,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
 
     it('should return 400 when items is not an array', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByProvinceCode')
+            .post('/api/v1/rates/compare/province')
             .set("Cookie", authCookie)
             .send({
                 destinationPostalCode: '28001',
@@ -200,7 +193,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
 
     it('should return 400 when items array is empty', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByProvinceCode')
+            .post('/api/v1/rates/compare/province')
             .set("Cookie", authCookie)
             .send({
                 destinationPostalCode: '28001',
@@ -215,7 +208,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
 
     it('should return 400 when typeServices is missing', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByProvinceCode')
+            .post('/api/v1/rates/compare/province')
             .set("Cookie", authCookie)
             .send({
                 destinationPostalCode: '28001',
@@ -237,7 +230,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
         'should return 400 when %s is invalid',
         async (field) => {
             const res = await request(app)
-                .post('/api/v1/rates/compareByProvinceCode')
+                .post('/api/v1/rates/compare/province')
                 .set("Cookie", authCookie)
                 .send({
                 ...validProvincePayload,
@@ -255,7 +248,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
         rates.mockResolvedValue(null);
 
         const res = await request(app)
-            .post('/api/v1/rates/compareByProvinceCode')
+            .post('/api/v1/rates/compare/province')
             .set("Cookie", authCookie)
             .send(validProvincePayload);
 
@@ -268,7 +261,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
         rates.mockResolvedValue(compareResult);
 
         const res = await request(app)
-            .post('/api/v1/rates/compareByProvinceCode')
+            .post('/api/v1/rates/compare/province')
             .set("Cookie", authCookie)
             .send(validProvincePayload);
 
@@ -285,11 +278,11 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
     });
 });
 
-describe('POST /api/v1/rates/compareByPostalCode', () => {
+describe('POST /api/v1/rates/compare/postal-code', () => {
 
     it('should return 400 when body is empty', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByPostalCode')
+            .post('/api/v1/rates/compare/postal-code')
             .send({});
 
         expect(res.status).toBe(400);
@@ -297,7 +290,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
 
     it('should return 400 when destination fields are missing', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByPostalCode')
+            .post('/api/v1/rates/compare/postal-code')
             .send({
                 items: [validItem]
             });
@@ -307,7 +300,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
 
     it('should return 404 when postal code is invalid', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByPostalCode')
+            .post('/api/v1/rates/compare/postal-code')
             .send({
                 destinationPostalCode: '99999',
                 countryCode: 'ES',
@@ -321,7 +314,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
 
     it('should return 400 when countryCode is invalid', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByPostalCode')
+            .post('/api/v1/rates/compare/postal-code')
             .send({
                 destinationPostalCode: "28001",
                 countryCode: "34",
@@ -335,7 +328,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
 
     it('should return 400 when destinationPostalCode is empty', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByPostalCode')
+            .post('/api/v1/rates/compare/postal-code')
             .send({
                 destinationPostalCode: "",
                 countryCode: "ES",
@@ -349,7 +342,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
 
     it('should return 400 when items array is empty', async () => {
         const res = await request(app)
-            .post('/api/v1/rates/compareByPostalCode')
+            .post('/api/v1/rates/compare/postal-code')
             .send({
                 destinationPostalCode: '28001',
                 countryCode: 'ES',
@@ -365,7 +358,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
         getProvinceByCountryCodeAndPostalCode.mockReturnValue(undefined);
 
         const res = await request(app)
-            .post('/api/v1/rates/compareByPostalCode')
+            .post('/api/v1/rates/compare/postal-code')
             .send(validPostalCodePayload);
 
         expect(res.status).toBe(404);
@@ -383,7 +376,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
         });
 
         const res = await request(app)
-            .post('/api/v1/rates/compareByPostalCode')
+            .post('/api/v1/rates/compare/postal-code')
             .send({
                 ...validInternationalPostalCodePayload
             });
@@ -406,7 +399,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
         rates.mockResolvedValue(null);
 
         const res = await request(app)
-            .post('/api/v1/rates/compareByPostalCode')
+            .post('/api/v1/rates/compare/postal-code')
             .send(validPostalCodePayload);
 
         expect(res.status).toBe(404);
@@ -422,7 +415,7 @@ describe('POST /api/v1/rates/compareByPostalCode', () => {
         rates.mockResolvedValue(compareResult);
 
         const res = await request(app)
-            .post('/api/v1/rates/compareByPostalCode')
+            .post('/api/v1/rates/compare/postal-code')
             .send(validPostalCodePayload);
 
         expect(res.status).toBe(200);

@@ -1,24 +1,22 @@
 
 import createHttpError from 'http-errors';
-
 import {
     SHIPMENT_UNITS, 
     SHIPMENT_UNIT_ARRAY, 
     CALCULATION_TYPES_RATE_ARRAY,
     PRICING_MODES 
 } from '../../lib/constants/index.js';
-
 import { 
     validateService, 
     validateItem 
 } from '../../lib/utils/middleware/rate.middleware.utils.js';
-
 import { 
     normalizeString, 
     validateAgency,
     validatePalletType, 
     validateZoneById
 } from '../../lib/utils/middleware/middleware.utils.js';
+
 
 export const rateItemsValidation = (req, res, next) => {
     const { items } = req.body;

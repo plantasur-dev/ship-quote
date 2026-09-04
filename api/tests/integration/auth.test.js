@@ -1,11 +1,8 @@
 
 import request from "supertest";
-
 import app from "../../app.js";
-
 import User from "../../src/lib/models/user.model.js";
 import Session from "../../src/lib/models/session.model.js";
-
 import { createAuthenticatedUser } from "../helpers/auth.helpers.js";
 
 const validUser = {

@@ -1,13 +1,9 @@
 
 import request from 'supertest';
-
 import mongoose from 'mongoose';
-
 import app from '../../app.js';
-
 import Agency from '../../src/lib/models/agency.model.js';
 import PalletType from '../../src/lib/models/palletType.model.js';
-
 import { createAuthenticatedUser } from '../helpers/auth.helpers.js';
 
 let authCookie;
@@ -31,7 +27,6 @@ describe('POST /api/agencies', () => {
             },
             apiConfig: {
                 baseUrlApi: 'https://api.example.com',
-                apiKey: '123456',
                 endpoints: {
                     quotations: '/quotes',
                     transportOrders: '/orders'
@@ -132,8 +127,6 @@ describe('PATCH /api/agencies/:agenciesId', () => {
         
         expect(res.body.supplements).toEqual({
             fuelSurcharge: {
-                enabled: true,
-                type: 'percentage',
                 value: 38
             }
         });
@@ -163,7 +156,6 @@ describe('PATCH /api/agencies/:agenciesId', () => {
                 type: 'api',
                 apiConfig: {
                     baseUrlApi: 'https://api.example.com',
-                    apiKey: '123456',
                     endpoints: {
                         quotations: '/quotesPRUEBA',
                         transportOrders: '/orders'

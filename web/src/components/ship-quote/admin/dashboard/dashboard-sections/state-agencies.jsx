@@ -92,8 +92,8 @@ function StateAgencies() {
             <div>
 
                 { !totalAgencies && 
-                    <span className="flex items-center justify-center py-10 text-accent gap-2">
-                        <FolderSearch /> Agencias no encontradas
+                    <span className="flex items-center justify-center py-10 text-sm text-accent gap-2">
+                        <FolderSearch size={ 16 } /> Agencias no encontradas
                     </span>
                 }
 

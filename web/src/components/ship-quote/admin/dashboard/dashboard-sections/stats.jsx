@@ -3,10 +3,43 @@ import {
     ArrowDownRight, 
     ArrowUpRight, 
     Building2, 
+    ChartColumn, 
     MapPinned, 
     Tags, 
     Users 
 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { RouteSpinner } from "../../../../ui/loaders/loader";
+import { getStatsAudit, getMostCodePostalAudit } from "../../../../../services/api-service";
+
+const STATS = [
+    {
+        label: "Consultas de tarifas",
+        getValue: (stats) => stats.tariffSearchOfToday,
+        getDelta: (stats) =>
+            stats.tariffSearchOfToday - stats.tariffSearchOfYesterday,
+        icon: Tags,
+    },
+    {
+        label: "Agencias",
+        getValue: (stats) => stats.countAgencies,
+        getDelta: () => 0,
+        icon: Building2,
+    },
+    {
+        label: "C.Postal más consultado",
+        getValue: (stats) => stats.codePostal,
+        getDelta: (stats) => stats.total,
+        icon: MapPinned,
+    },
+    {
+        label: "Sesiones activas",
+        getValue: (stats) => stats.activeOfTodaySession,
+        getDelta: (stats) =>
+            (stats?.activeOfTodaySession - stats?.activeOfYesterdaySession),
+        icon: Users,
+    }
+];
 
 function StatCard({ label, value, delta, trend, icon: Icon }) {
     const isUp = trend === "up";
@@ -43,20 +76,80 @@ function StatCard({ label, value, delta, trend, icon: Icon }) {
     );
 }
 
-const STATS = [
-    { label: "Zonas activas", value: "184", delta: "+6", trend: "up", icon: MapPinned },
-    { label: "Agencias", value: "7", delta: "0", trend: "flat", icon: Building2 },
-    { label: "Tarifas cargadas", value: "2.340", delta: "+112", trend: "up", icon: Tags },
-    { label: "Sesiones activas", value: "3", delta: "-1", trend: "down", icon: Users },
-];
-
-
 function Stats() {
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [stats, setStats] = useState(null);
+
+    useEffect(() => {
+        setIsLoading(true);
+
+        const fetchStats = async () => {
+            try {
+                const [stats, mostConsultedZone] = await Promise.all([
+                    getStatsAudit(),
+                    getMostCodePostalAudit(),
+                ]);
+
+                setStats({
+                    ...stats, 
+                    codePostal: Number(mostConsultedZone[0]._id), 
+                    total: mostConsultedZone[0].total
+                });
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchStats();        
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className="rounded-2xl border border-panel-border bg-panel p-5">
+                <div className="flex items-center justify-center py-10">
+                    <RouteSpinner size={ 45 } />
+                </div>
+            </div>
+        );
+    }
+
+    if (!stats) {
+        return (
+            <div className="rounded-2xl border border-panel-border bg-panel p-5">
+                <div className="flex items-center justify-center py-10 text-sm text-accent gap-1">
+                    <ChartColumn size={ 16 }/>
+                    Sin estadísticas
+                </div>
+            </div>
+        );
+    }
+   
     return (
-        <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            { STATS.map((stat) => (
-                <StatCard key={ stat.label } { ...stat } />
-            ))}
+          <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            { STATS.map((stat) => {
+                const value = stat.getValue(stats);
+                const delta = stat.getDelta(stats);
+
+                return (
+                    <StatCard
+                        key={ stat.label }
+                        label={ stat.label }
+                        value={ value }
+                        delta={ delta > 0 ? `+${ delta }` : `${ delta }`}
+                        trend={
+                            delta > 0
+                                ? "up"
+                                : delta < 0
+                                    ? "down"
+                                    : "flat"
+                        }
+                        icon={ stat.icon }
+                    />
+                );
+            })}
         </section>
     );
 }

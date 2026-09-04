@@ -10,7 +10,7 @@ export function useAudits({ polling = true, filter = {} } = {}) {
       
     const fetchAudit = useCallback(async () => {
         setIsLoading(true);
-        await wait(800);
+        await wait(400);
 
         try {
             const activity = await getRecentActivitiesAudit(filter);

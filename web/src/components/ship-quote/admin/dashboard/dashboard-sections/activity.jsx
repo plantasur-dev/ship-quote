@@ -22,12 +22,12 @@ function ActivityRow({ createdAt, userId, action, resource, ip, input = {} }) {
                 <span className={`font-mono text-[12px] tracking-wider
                     ${ input && countryCode === 'ES' 
                         ? 'text-green-300' 
-                        : 'text-warning-soft'}`
+                        : 'text-info'}`
                     }
                 >{ input && 
                     countryCode 
-                        ? `Consulta ${ countryCode } ${ destinationPostalCode }` 
-                        : <span className="text-danger">Consola interna</span> }
+                        ? `Consulta ${ countryCode ?? '' } ${ destinationPostalCode ?? '' }` 
+                        : <span className="text-violet-300">Consola interna</span> }
                 </span> · Operación { actionFormated } <span className="text-accent">{ resource }</span>
             </span>
         </div>

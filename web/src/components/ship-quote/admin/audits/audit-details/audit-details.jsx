@@ -19,7 +19,7 @@ function AuditDetails({ activityId }) {
 
     const { action, createdAt, userId, ip, input = {}, response = {} } = activity;
  
-    const { countryCode, destinationPostalCode, province, items = [] } = input;
+    const { countryCode, destinationPostalCode, items = [] } = input;
   
     const agencies = Object.values(response ?? {});
     const availableCount = agencies.filter(a => a.available).length;

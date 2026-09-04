@@ -16,7 +16,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\": \"ADMIN\",\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"123456\"\r\n}",
+              "raw": "{\r\n    \"username\": \"Rafa\",\r\n    \"email\": \"rafa@test.com\",\r\n    \"password\": \"123456\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -131,7 +131,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Correos21\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": true,\r\n        \"supportsParcels\": true,\r\n        \"coverage\": [\r\n            \"national\"\r\n        ]\r\n    },\r\n    \"supplements\": {\r\n        \"fuelSurcharge\": {\r\n            \"enabled\": true,\r\n            \"type\": \"Percentage\",\r\n            \"value\": 10\r\n        }\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"active\": true,\r\n    \"name\": \"Correos212\",\r\n    \"type\": \"static\"\r\n    \r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -185,7 +185,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n    \"name\": \"CorreosParcel\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
+                  "raw": "{\r\n    \"name\": \"CorreosParcel\",\r\n    \"type\": \"static\",\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true\r\n    },\r\n    \"supplements\": {\r\n        \"fuelSurcharge\": {\r\n            \"enabled\": true,\r\n            \"type\": \"fixed\",\r\n            \"value\": \"12\"\r\n        }\r\n    },\r\n    \"apiConfig\": {\r\n        \"timeout\": 3000,\r\n        \"baseUrlApi\": \"https://www.desa.cexpr.es/wspsc\",\r\n        \"endpoints\": {\r\n            \"quotations\": \"\",\r\n            \"transportOrders\": \"\"\r\n        },\r\n        \"apiKey\": \"Pruebas\"\r\n    }\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -202,10 +202,12 @@
                   ]
                 }
               },
-              "_postman_previewlanguage": null,
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
               "header": null,
               "cookie": [],
-              "body": null
+              "body": ""
             }
           ]
         },
@@ -227,13 +229,50 @@
           "response": []
         },
         {
-          "name": "Status Agencies",
+          "name": "Details Agency",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agencies/{{agencyId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agencies",
+                "{{agencyId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Active Agencies",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agencies/{{agencyId}}/active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agencies",
+                "{{agencyId}}",
+                "active"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Agencies",
           "request": {
             "method": "PATCH",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "",
+              "raw": "{\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true,\r\n        \"coverage\": [\r\n            \"national\"\r\n        ]\r\n    },\r\n    \"supplements\": {\r\n        \"fuelSurcharge\": {\r\n            \"enabled\": true,\r\n            \"type\": \"fixed\",\r\n            \"value\": 12\r\n        }\r\n    },\r\n    \"apiConfig\": {\r\n        \"endpoints\":{\r\n            \"quotations\": \"prueba\"\r\n        },\r\n        \"timeout\": 3001,\r\n        \"baseUrlApi\": \"url\",\r\n        \"apiKey\": \"pruebas\"\r\n    },\r\n    \"type\": \"api\",\r\n    \"active\": false\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -241,33 +280,52 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/agencies/{{agencyId}}/status",
+              "raw": "{{baseUrl}}/agencies/{{agencyId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "agencies",
-                "{{agencyId}}",
-                "status"
+                "{{agencyId}}"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Update Angencies",
+          "name": "Update FuelSurcharge",
           "request": {
             "method": "PATCH",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"rules\": {\r\n        \"hasAndaluciaRule\": false,\r\n        \"supportsPallets\": false,\r\n        \"supportsParcels\": true,\r\n        \"coverage\": [\r\n            \"national\"\r\n        ]\r\n    },\r\n    \"supplements\": {\r\n        \"fuelSurcharge\": {\r\n            \"enabled\": true,\r\n            \"type\": \"fixed\",\r\n            \"value\": 12\r\n        }\r\n    },\r\n    \"apiConfig\": {\r\n        \"endpoints\":{\r\n            \"quotations\": \"prueba\"\r\n        },\r\n        \"timeout\": 3001,\r\n        \"baseUrlApi\": \"url\",\r\n        \"apiKey\": \"pruebas\"\r\n    },\r\n    \"type\": \"api\",\r\n    \"active\": true\r\n}",
+              "raw": "{\r\n\r\n    \"type\": \"fixed\",\r\n    \"value\": 5\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
+            "url": {
+              "raw": "{{baseUrl}}/agencies/{{agencyId}}/supplements/fuel-surcharge",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agencies",
+                "{{agencyId}}",
+                "supplements",
+                "fuel-surcharge"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Agency",
+          "request": {
+            "method": "DELETE",
+            "header": [],
             "url": {
               "raw": "{{baseUrl}}/agencies/{{agencyId}}",
               "host": [
@@ -327,13 +385,14 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/rates/compareByPostalCode",
+              "raw": "{{baseUrl}}/rates/compare/postal-code",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "rates",
-                "compareByPostalCode"
+                "compare",
+                "postal-code"
               ]
             }
           },
@@ -354,13 +413,14 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/rates/compareByProvinceCode",
+              "raw": "{{baseUrl}}/rates/compare/province",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "rates",
-                "compareByProvinceCode"
+                "compare",
+                "province"
               ]
             }
           },
@@ -398,20 +458,41 @@
           "response": []
         },
         {
-          "name": "Provinces By CountryCode And PostalCode",
+          "name": "Province By CountryCode And PostalCode",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/locations/provincesByCountryCodeAndPostalCode/{{countryCode}}/{{postalCode}}",
+              "raw": "{{baseUrl}}/locations/countries/{{countryCode}}/provinces/{{postalCode}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "locations",
-                "provincesByCountryCodeAndPostalCode",
+                "countries",
                 "{{countryCode}}",
+                "provinces",
                 "{{postalCode}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Provinces By CountryCode",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/locations/countries/{{countryCode}}/provinces",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "locations",
+                "countries",
+                "{{countryCode}}",
+                "provinces"
               ]
             }
           },
@@ -636,25 +717,7 @@
           "response": []
         },
         {
-          "name": "Details Zone",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/zones/{{zoneId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "zones",
-                "{{zoneId}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create Zone Full",
+          "name": "Create Zone with Rules",
           "request": {
             "method": "POST",
             "header": [],
@@ -668,13 +731,13 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/zones/full",
+              "raw": "{{baseUrl}}/zones/with-rules",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "zones",
-                "full"
+                "with-rules"
               ]
             }
           },
@@ -776,6 +839,24 @@
               "body": ""
             }
           ]
+        },
+        {
+          "name": "Details Zone",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/zones/{{zoneId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zones",
+                "{{zoneId}}"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -817,6 +898,101 @@
               ],
               "path": [
                 "audits"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "71",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "12",
+                  "disabled": true
+                },
+                {
+                  "key": "startDate",
+                  "value": "2026-08-26",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Recent Activity",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/audits/recent-activity?action=TARIFF_SEARCH",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "audits",
+                "recent-activity"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "TARIFF_SEARCH"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Most Queried CP",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/audits/most-queried-postal",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "audits",
+                "most-queried-postal"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/audits/stats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "audits",
+                "stats"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/audits/{{auditId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "audits",
+                "{{auditId}}"
               ]
             }
           },

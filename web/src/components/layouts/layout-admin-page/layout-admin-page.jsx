@@ -1,5 +1,5 @@
 
-import { Navbar, Footer, Jumbotron, Siderbar } from "../../ui";
+import { Jumbotron, Siderbar } from "../../ui";
 import { AlertProvider } from "../../../contexts/alert-context";
 
 function LayoutAdminPage ({ children, jumbotron = {} }) {

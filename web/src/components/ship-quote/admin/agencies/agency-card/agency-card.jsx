@@ -15,7 +15,7 @@ function AgencyCard({ agency, onToggleActive, onUpdateFuel }) {
         >
             <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                    <Link to={`/admin/agencies/${ agency.id }/update`} >
+                    <Link to={`/admin/agencies/${ agency.id }`} >
                         <div className="
                             flex 
                             h-10 

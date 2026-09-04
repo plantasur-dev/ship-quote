@@ -28,18 +28,33 @@ import * as Audits from './controllers/audits.controller.js';
 
 const apiRouter = Router();
 
-apiRouter.use(checkAuth);
-
 apiRouter.use(audit);
 
-apiRouter.post('/auth/signup', Users.create);
+apiRouter.get('/releases/latest', Releases.latest);
+
 apiRouter.post('/auth/login', Users.login);
+
+apiRouter.get('/locations/countries', Locations.listCountries);
+apiRouter.get('/locations/provinces', Locations.listProvinces);
+apiRouter.get('/locations/countries/:countryCode/provinces', Locations.listCountryProvinces);
+apiRouter.get('/locations/countries/:countryCode/provinces/:postalCode', Locations.getProvince);
+
+apiRouter.post(
+    '/rates/compare/postal-code', 
+    schemaValidation,
+    rateDestinationValidation,
+    rateItemsValidation,
+    Rates.compareByPostalCode
+);
+
+
+apiRouter.use(checkAuth);
+
+apiRouter.post('/auth/signup', Users.create);
 apiRouter.delete('/auth/logout', Users.logout);
 apiRouter.get('/auth/verify', Users.verify);
 
 apiRouter.get('/debug/maps', checkAuth, Cache.debugMap);
-
-apiRouter.get('/releases/latest', Releases.latest);
 
 apiRouter.get('/audits', Audits.list);
 apiRouter.get('/audits/recent-activity', Audits.recentActivity);
@@ -70,10 +85,6 @@ apiRouter.patch(
 apiRouter.delete('/agencies/:agencyId', Agencies.remove);
 
 apiRouter.post('/locations', schemaValidation, Locations.create);
-apiRouter.get('/locations/countries', Locations.listCountries);
-apiRouter.get('/locations/provinces', Locations.listProvinces);
-apiRouter.get('/locations/countries/:countryCode/provinces', Locations.listCountryProvinces);
-apiRouter.get('/locations/countries/:countryCode/provinces/:postalCode', Locations.getProvince);
 
 apiRouter.post('/pallets', schemaValidation, Pallets.create);
 apiRouter.get('/pallets', Pallets.list);
@@ -108,13 +119,6 @@ apiRouter.post(
     rateDestinationValidation,
     rateItemsValidation,
     Rates.compareByProvince
-);
-apiRouter.post(
-    '/rates/compare/postal-code', 
-    schemaValidation,
-    rateDestinationValidation,
-    rateItemsValidation,
-    Rates.compareByPostalCode
 );
 
 apiRouter.use(Errors.routerNotFound);

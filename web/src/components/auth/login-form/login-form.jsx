@@ -1,5 +1,5 @@
 
-import { Mail, Lock, Eye, EyeOff, Loader2, ArrowRight, MessageCircleWarning } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Loader2, ArrowRight, MessageCircleWarning, CircleAlert } from "lucide-react";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,22 @@ import { NAV_ITEMS } from "../../../utils";
 
 import { useAuth } from "../../../contexts/auth-context";
 
+const validations = {
+    emailUser: { 
+        required: 'Email requerido',
+        pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: 'Introduce un email correcto'
+        }
+    },
+    passwordUser: { 
+        required: 'Password requerido',
+        minLength: {
+            value: 6,
+            message: 'La contraseña debe tener al menos 6 caracteres'
+        },
+    }
+}
 
 function LoginForm() {
 
@@ -23,7 +39,7 @@ function LoginForm() {
         register, 
         handleSubmit,
         clearErrors,
-        formState: { isSubmitting, isValid } 
+        formState: { isSubmitting, isValid, errors } 
     } = useForm({ 
         mode: 'all', 
         reValidateMode: "onChange" 
@@ -37,8 +53,9 @@ function LoginForm() {
             await login(data.emailUser, data.passwordUser);
             navigate(NAV_ITEMS[0].to);
         } catch (error) {
-            console.error(error?.message);
-            setServerError(error?.message);
+            console.error(error);
+            const { errors } = error;
+            setServerError(errors?.message);
         }
     }
 
@@ -67,24 +84,35 @@ function LoginForm() {
                             py-2.5 
                             pl-10 
                             pr-3.5
-                            border 
-                            border-panel-border
-                            focus:ring-2
                             text-sm 
                             text-text-primary 
                             transition-shadow 
                             bg-input-bg
+                            border-2 
+                            focus:ring-2
+                            ${ errors.emailUser
+                                ? "border-red-600 focus:ring-red-600"
+                                : "border-panel-border focus:ring-panel-border"
+                            }
                         `}
                         {...register('emailUser', { 
-                            required: true,
+                            ...validations.emailUser,
                             onChange: () => {
                                 clearErrors();
                                 setServerError(null);
                             }
                         })}
                     />
-                    
                 </div>
+
+                { errors.emailUser && (
+                    <div className="mt-1 text-sm text-red-500">
+                        <div className='flex items-center gap-1 ml-2 mt-2'> 
+                            <CircleAlert size={ 16 } />
+                            { errors.emailUser.message }
+                        </div>
+                    </div>
+                )}
             </div>
 
             <div>
@@ -107,23 +135,26 @@ function LoginForm() {
                         type={ showPassword ? "text" : "password" }
                         autoComplete="current-password"                       
                         placeholder="••••••••"
-                        className="
+                        className={`
                             field-input 
                             w-full 
                             rounded-xl 
                             py-2.5 
                             pl-10 
                             pr-10
-                            border 
-                            border-panel-border 
-                            focus:ring-2
                             text-sm 
                             text-text-primary 
                             transition-shadow 
                             bg-input-bg
-                        "
+                            border-2 
+                            focus:ring-2
+                            ${ errors.passwordUser
+                                ? "border-red-600 focus:ring-red-600"
+                                : "border-panel-border focus:ring-panel-border"
+                            }
+                        `}
                         {...register('passwordUser', {
-                            required: true,
+                            ...validations.passwordUser,
                             onChange: () => {
                                 clearErrors();
                                 setServerError(null);
@@ -134,12 +165,21 @@ function LoginForm() {
                     <button
                         type="button"
                         onClick={ () => setShowPassword((show) => !show) }
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-text-muted"
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-text-muted cursor-pointer"
                         aria-label={ showPassword ? "Ocultar contraseña" : "Mostrar contraseña" }
                     >
                         { showPassword ? <EyeOff size={ 16 } /> : <Eye size={ 16 } /> }
                     </button>
                 </div>
+
+                { errors.passwordUser && (
+                    <div className="mt-1 text-sm text-red-500">
+                        <div className='flex items-center gap-1 ml-2 mt-2'> 
+                            <CircleAlert size={ 16 } />
+                            { errors.passwordUser.message }
+                        </div>
+                    </div>
+                ) }
             </div>
 
             { serverError && (

@@ -49,6 +49,7 @@ jobs:
         run: npm test
         env:
           NODE_ENV: test
+          DEFAULT_COUNTRY: ES
           MONGODB_URI_TEST: mongodb://localhost:27017/ship_quote_test
 
 

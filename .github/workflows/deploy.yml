@@ -12,7 +12,7 @@ env:
 jobs:
 
   test:
-    name: Run Tests
+    name: Run Tests API
     runs-on: ubuntu-latest
 
     services:
@@ -45,7 +45,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests API
+      - name: Run tests
         run: npm test
         env:
           NODE_ENV: test

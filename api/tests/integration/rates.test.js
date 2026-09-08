@@ -122,6 +122,10 @@ describe('POST /api/v1/rates/compare/province', () => {
         ({ cookie: authCookie } = await createAuthenticatedUser());
     });
 
+    afterEach(() => {
+        vi.clearAllMocks();
+    });
+
     it('should return 400 when body is empty', async () => {
         const res = await request(app)
             .post('/api/v1/rates/compare/province')
@@ -299,6 +303,8 @@ describe('POST /api/v1/rates/compare/postal-code', () => {
     });
 
     it('should return 404 when postal code is invalid', async () => {
+        getProvinceByCountryCodeAndPostalCode.mockReturnValue(undefined);
+        
         const res = await request(app)
             .post('/api/v1/rates/compare/postal-code')
             .send({

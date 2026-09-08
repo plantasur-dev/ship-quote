@@ -38,7 +38,7 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            --build-arg VITE_API_URL_PROD=http://localhost:8080/api/v1 \
+            --build-arg VITE_API_URL_PROD=http://localhost:8089/api/v1 \
             -t $REGISTRY/$IMAGE_NAME:${{ github.sha }} \
             .
 
@@ -47,31 +47,3 @@ jobs:
         run: |
           docker push \
             $REGISTRY/$IMAGE_NAME:${{ github.sha }}
-
-      - name: Deploy
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-
-          script: |
-
-            cd /opt/ship-quote
-
-            echo "${{ secrets.GHCR_TOKEN }}" | \
-              docker login ghcr.io \
-              --username "${{ secrets.GHCR_USERNAME }}" \
-              --password-stdin
-
-            export IMAGE_TAG=${{ github.sha }}
-
-            docker compose \
-              -f docker-compose.prod.yml \
-              pull
-
-            docker compose \
-              -f docker-compose.prod.yml \
-              up -d
-
-            docker image prune -f

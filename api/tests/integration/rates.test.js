@@ -114,7 +114,7 @@ const compareResult = [{
     ]
 }];
 
-describe('POST /api/v1/rates/compareByProvinceCode', () => {
+describe('POST /api/v1/rates/compare/province', () => {
 
     let authCookie;
 
@@ -245,7 +245,7 @@ describe('POST /api/v1/rates/compareByProvinceCode', () => {
     );
 
     it('should return 404 when compare is not found', async () => {
-        rates.mockResolvedValue(null);
+        rates.mockResolvedValue(undefined);
 
         const res = await request(app)
             .post('/api/v1/rates/compare/province')

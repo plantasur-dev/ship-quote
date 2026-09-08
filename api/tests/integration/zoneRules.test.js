@@ -92,7 +92,7 @@ describe("GET /zones/:zoneId/rules", () => {
             .set('Cookie', authCookie)
             .expect(404);
         
-        expect(res.body.message).toBe('Zone Rules not founds');
+        expect(res.body.message).toBe('Zone Rules not found');
     });
 
     it('should return 200 when zoneId is ok', async () => {

@@ -53,6 +53,7 @@ jobs:
           password: ${{ secrets.SERVER_SSH_KEY }}
           source: "docker-compose.prod.yml,infra/"
           target: "opt/ship-quote"
+
       
       - name: Deploy
         uses: appleboy/ssh-action@v1
@@ -63,6 +64,10 @@ jobs:
 
           script: |
             cd opt/ship-quote
+
+            cat > .env << 'EOF'
+            ${{ secrets.PRODUCTION_ENV }}
+            EOF
 
             echo "${{ secrets.GHCR_TOKEN }}" | \
               docker login ghcr.io \

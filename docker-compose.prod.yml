@@ -1,7 +1,7 @@
 services:
 
   app:
-    image: ghcr.io/rafacruiz/ship-quote:${IMAGE_TAG}
+    image: ghcr.io/plantasur-dev/ship-quote:${IMAGE_TAG}
 
     container_name: ship-quote-app
 

@@ -15,6 +15,10 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: api
+
     steps:
 
       - name: Checkout
@@ -24,9 +28,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: api/package-lock.json
 
       - name: Install dependencies
-        run: npm i
+        run: npm ci
 
       - name: Run tests
         run: npm test

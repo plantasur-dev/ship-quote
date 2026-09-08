@@ -9,9 +9,7 @@ import docRouter from "./src/api/docs/index.js";
 import apiRouter from "./src/api/index.js";
 import webRoute from './web/index.js';
 
-const app = express()
-
-const PORT = process.env.PORT || 3000;
+const app = express();
 
 app.use(httpLogger);
 

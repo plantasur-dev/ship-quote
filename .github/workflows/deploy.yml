@@ -54,7 +54,7 @@ jobs:
           source: "docker-compose.prod.yml,infra/"
           target: "opt/ship-quote"
 
-      
+
       - name: Deploy
         uses: appleboy/ssh-action@v1
         with:
@@ -78,4 +78,12 @@ jobs:
 
             docker compose \
               -f docker-compose.prod.yml \
+              -p ship-quote-app \
               pull
+
+            docker compose \
+              -f docker-compose.prod.yml \
+              -p ship-quote-app \
+              up -d
+
+            echo "Cleaning unused images..."

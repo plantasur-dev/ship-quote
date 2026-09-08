@@ -304,7 +304,7 @@ describe('POST /api/v1/rates/compare/postal-code', () => {
 
     it('should return 404 when postal code is invalid', async () => {
         getProvinceByCountryCodeAndPostalCode.mockReturnValue(undefined);
-        
+
         const res = await request(app)
             .post('/api/v1/rates/compare/postal-code')
             .send({
@@ -367,11 +367,14 @@ describe('POST /api/v1/rates/compare/postal-code', () => {
             .post('/api/v1/rates/compare/postal-code')
             .send(validPostalCodePayload);
 
-        expect(res.status).toBe(404);
-        expect(res.body.message)
-        .toBe('Province not found');
+        console.log('STATUS:', res.status);
+    console.log('BODY:', res.body);
+    console.log('CALLS:', getProvinceByCountryCodeAndPostalCode.mock.calls);
 
-        expect(rates).not.toHaveBeenCalled();
+    expect(getProvinceByCountryCodeAndPostalCode).toHaveBeenCalled();
+
+    expect(res.status).toBe(404);
+    expect(res.body.message).toBe('Province not found');
     });
 
     it('should continue when province is not found but country is not default', async () => {

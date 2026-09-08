@@ -53,7 +53,7 @@ jobs:
           password: ${{ secrets.SERVER_SSH_KEY }}
 
           script: |
-            cd /opt/ship-quote
+            cd opt/ship-quote
 
             echo "${{ secrets.GHCR_TOKEN }}" | \
               docker login ghcr.io \

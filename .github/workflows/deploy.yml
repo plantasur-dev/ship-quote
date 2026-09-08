@@ -48,7 +48,8 @@ jobs:
       - name: Run tests API
         run: npm test
         env:
-          MONGODB_URI: mongodb://localhost:27017/ship_quote_test
+          NODE_ENV: test
+          MONGODB_URI_TEST: mongodb://localhost:27017/ship_quote_test
 
 
   build:

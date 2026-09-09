@@ -1,7 +1,18 @@
 name: Test, Build and Deploy shipQuote
 
 on:
+  pull_request:
+    branches:
+      - main
+
   push:
+    branches:
+      - main
+
+  release:
+    types:
+      - published
+
   workflow_dispatch:
 
 env:
@@ -73,6 +84,7 @@ jobs:
         run: |
           docker build \
             --build-arg VITE_API_URL_PROD=http://81.46.212.167:8089/api/v1 \
+            --build-arg VITE_API_URL_LOG=http://81.46.212.167:3001 \
             -t $REGISTRY/$IMAGE_NAME:${{ github.sha }} \
             .
 

@@ -1,8 +1,8 @@
 
 import { FolderSearch } from "lucide-react";
 import { RouteSpinner } from "../../../../ui/loaders/loader";
-import { useAudits } from "../../../../../hooks";
-import { useLiveClock, formatDay, formatClock } from "../../../../../utils";
+import { useAudits, usePolling } from "../../../../../hooks";
+import { useLiveClock, formatDay, formatClock, TIMER_ACTIVITY } from "../../../../../utils";
 
 function ActivityRow({ createdAt, userId, action, resource, ip, input = {} }) {
     const timeFormated = formatClock(new Date(createdAt));
@@ -38,7 +38,9 @@ function Activity() {
 
     const now = useLiveClock();
 
-    const { activities, isLoading } = useAudits();
+    const { activities, isLoading, refetch } = useAudits();
+
+    usePolling(refetch, TIMER_ACTIVITY);
 
     if (isLoading) {
         return (

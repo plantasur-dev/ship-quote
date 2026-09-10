@@ -1,8 +1,10 @@
 
 import { Inbox } from "lucide-react";
+import { EmptyState } from "../../../../ui";
 import AuditItem from "../audit-item/audit-item";
 import { useAuditFilters, useAudits, usePolling } from "../../../../../hooks";
 import { TIMER_ACTIVITY } from "../../../../../utils";
+
 
 function AuditList () {
 
@@ -32,12 +34,10 @@ function AuditList () {
     }
 
     if (!activities.length) {
-        return (
-            <div className="flex flex-col items-center justify-center gap-2 py-16 text-text-muted">
-                <Inbox className="h-6 w-6" />
-                <p className="text-sm">No hay actividad registrada en este rango</p>
-            </div>
-        );
+        return <EmptyState 
+            icon={ Inbox } 
+            description={ 'No hay actividad registrada' }
+        />
     }
 
     return (

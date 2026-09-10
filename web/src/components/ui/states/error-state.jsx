@@ -2,7 +2,7 @@
 import { SearchX, ServerCrash, AlertTriangle, WifiOff, RefreshCcw } from "lucide-react";
 
 const VARIANTS = {
-    notFound: {
+    404: {
         icon: SearchX,
         title: "No se ha encontrado",
         description: "El recurso que buscas no existe o ha sido eliminado."
@@ -12,12 +12,12 @@ const VARIANTS = {
         title: "Algo ha fallado",
         description: "Ha ocurrido un error inesperado al cargar los datos."
     },
-    offline: {
+    ERR_NETWORK: {
         icon: WifiOff,
         title: "Sin conexión",
         description: "No hemos podido conectar con el servidor. Comprueba tu conexión."
     },
-    generic: {
+    unknown: {
         icon: AlertTriangle,
         title: "Ha ocurrido un error",
         description: "No hemos podido completar la operación."
@@ -25,7 +25,7 @@ const VARIANTS = {
 };
 
 function ErrorState({
-    variant = 'generic',
+    variant = 'unknown',
     title,
     description,
     code,

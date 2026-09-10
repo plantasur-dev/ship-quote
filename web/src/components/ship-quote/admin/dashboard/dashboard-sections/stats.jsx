@@ -9,8 +9,10 @@ import {
     Users 
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { EmptyState, ErrorState } from "../../../../ui";
 import { RouteSpinner } from "../../../../ui/loaders/loader";
 import { getStatsAudit, getMostCodePostalAudit } from "../../../../../services/api-service";
+
 
 const STATS = [
     {
@@ -80,6 +82,7 @@ function Stats() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [stats, setStats] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -89,13 +92,19 @@ function Stats() {
                     getMostCodePostalAudit(),
                 ]);
 
+                const codePostal = mostConsultedZone?.[0]?._id
+                    ? Number(mostConsultedZone[0]._id)
+                    : 'Sin datos';
+                const total = mostConsultedZone?.[0]?.total ?? 0;
+
                 setStats({
                     ...statsData, 
-                    codePostal: Number(mostConsultedZone[0]._id), 
-                    total: mostConsultedZone[0].total
+                    codePostal, 
+                    total,
                 });
             } catch (error) {
-                console.error(error);
+                console.error('stats ', error);
+                setError(error);
             } finally {
                 setIsLoading(false);
             }
@@ -113,20 +122,18 @@ function Stats() {
             </div>
         );
     }
-
-    if (!stats) {
-        return (
-            <div className="rounded-2xl border border-panel-border bg-panel p-5">
-                <div className="flex items-center justify-center py-10 text-sm text-accent gap-1">
-                    <ChartColumn size={ 16 }/>
-                    Sin estadísticas
-                </div>
-            </div>
-        );
+    
+    if (error !== null) {
+        return <ErrorState variant={ error.status } />;
     }
-   
-    return (
-          <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    
+    return !stats ? (
+        <EmptyState
+            icon={ ChartColumn }
+            description={ 'Sin estadísticas' }
+        />
+    ) : ( 
+        <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             { STATS.map((stat) => {
                 const value = stat.getValue(stats);
                 const delta = stat.getDelta(stats);

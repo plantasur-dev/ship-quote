@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-
 import { listAgencies } from "../../services/api-service";
 
 export function useAgencies() {
@@ -15,10 +14,8 @@ export function useAgencies() {
                 const agencies = await listAgencies();
                 setAgencies(agencies);    
             } catch (error) {
-                setError({
-                    type: 'error',
-                    message: error?.message || 'Error cargando agencias'
-                });
+                console.log('use-agencies', error)
+                setError(error);
             } finally {
                 setIsLoading(false);
             } 

@@ -1,7 +1,9 @@
 
 import { Wifi, WifiOff, Fuel, Euro, Percent, FolderSearch } from "lucide-react";
-import { useAgencies } from "../../../../../hooks";
 import { RouteSpinner } from "../../../../ui/loaders/loader";
+import { EmptyState, ErrorState } from "../../../../ui";
+import { useAgencies } from "../../../../../hooks";
+
 
 function AgencyStatusRow({ name, type, active, supplements }) {
     const isOnline = active === true;
@@ -62,8 +64,8 @@ function AgencyStatusRow({ name, type, active, supplements }) {
 
 function StateAgencies() {
 
-    const { agencies, isLoadingAgencies } = useAgencies();
-
+    const { agencies, isLoadingAgencies, agenciesError } = useAgencies();
+    
     if (isLoadingAgencies) {
         return (
             <div className="rounded-2xl border border-panel-border bg-panel p-5">
@@ -72,6 +74,10 @@ function StateAgencies() {
                 </div>
             </div>
         );
+    }
+
+    if (agenciesError !== null) {
+        return <ErrorState  variant={ agenciesError.status } />;
     }
 
     const totalAgencies = agencies.length;
@@ -92,9 +98,10 @@ function StateAgencies() {
             <div>
 
                 { !totalAgencies && 
-                    <span className="flex items-center justify-center py-10 text-sm text-accent gap-2">
-                        <FolderSearch size={ 16 } /> Agencias no encontradas
-                    </span>
+                    <EmptyState
+                        icon={ FolderSearch }
+                        description={ 'No se encontraron agencias' }
+                    />
                 }
 
                 { visibleAgencies.map((agency) => (

@@ -1,7 +1,5 @@
 
 import createHttpError from "http-errors";
-
-
 import { 
     getAuditsList, 
     getAuditsRecentActivity,
@@ -10,12 +8,9 @@ import {
     getStats
 } from "../services/audit.service.js";
 
+
 export const list = async (req, res) => {
     const audits = await getAuditsList({ ...req.query });
-
-    if (!audits.data.length) {
-        throw createHttpError(404, 'Audits not founds');
-    }
 
     return res.json(audits);    
 };
@@ -33,19 +28,11 @@ export const detail = async (req, res) => {
 export const recentActivity = async (req, res) => {
     const recent = await getAuditsRecentActivity({ ...req.query });
 
-    if (!recent.length) {
-        throw createHttpError(404, 'Audits not founds');
-    }
-
     return res.json(recent);
 };
 
 export const mostQueriedPostalCode = async (req, res) => {
     const mostQueriedValue = await getMostQueriedValue();
-
-    if (!mostQueriedValue.length) {
-        throw createHttpError(404, 'Audits not founds');
-    }
 
     return res.json(mostQueriedValue);
 };

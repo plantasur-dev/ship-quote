@@ -39,8 +39,12 @@ http.interceptors.response.use(
         if (status === 400 ){
             return Promise.reject({ type: 'validations', errors: data });
         }
-
-        return Promise.reject({ type: 'server', errors: data, status });
+        
+        return Promise.reject({ 
+            type: err?.name ?? 'server', 
+            errors: data ?? { ...err }, 
+            status: status ?? err?.code ?? 'unknown' 
+        });
     }
 );
 

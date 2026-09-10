@@ -1,8 +1,10 @@
 
 import { FolderSearch } from "lucide-react";
 import { RouteSpinner } from "../../../../ui/loaders/loader";
+import { EmptyState, ErrorState } from "../../../../ui";
 import { useAudits, usePolling } from "../../../../../hooks";
 import { useLiveClock, formatDay, formatClock, TIMER_ACTIVITY } from "../../../../../utils";
+
 
 function ActivityRow({ createdAt, userId, action, resource, ip, input = {} }) {
     const timeFormated = formatClock(new Date(createdAt));
@@ -38,7 +40,7 @@ function Activity() {
 
     const now = useLiveClock();
 
-    const { activities, isLoading, refetch } = useAudits();
+    const { activities, isLoading, refetch, error } = useAudits();
 
     usePolling(refetch, TIMER_ACTIVITY);
 
@@ -50,6 +52,10 @@ function Activity() {
                 </div>
             </div>
         );
+    }
+
+    if (error !== null) {
+        return <ErrorState variant={ error.status } />;
     }
 
     return (
@@ -66,9 +72,10 @@ function Activity() {
             <div className="mt-3">
 
                 { !activities.length && 
-                    <span className="flex items-center justify-center py-10 text-sm text-accent gap-2">
-                        <FolderSearch size={ 16 } /> Sin actividad
-                    </span>
+                    <EmptyState
+                        icon={ FolderSearch }
+                        description={ 'Sin actividad' }
+                    />
                 }
 
                 { activities.map((activity) => (

@@ -21,7 +21,7 @@ export function useAgency({ agencyId }) {
                 const agencyData = await getAgency(agencyId);
                 setAgency(agencyData);
             } catch (error) {
-                console.error(error);
+                console.error('use-agency', error);
                 setError(error);
             } finally {
                 setIsLoading(false);

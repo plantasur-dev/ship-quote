@@ -22,7 +22,7 @@ export function useAudit({ activityId }) {
                 const activity = await getActivityAudit(activityId);
                 setActivity(activity);
             } catch (error) {
-                console.error(error?.errors?.message);
+                console.error('use-audit', error?.errors?.message);
                 setError(error);
             } finally {
                 setIsLoading(false);

@@ -1,11 +1,13 @@
 
 import { FolderSearch } from "lucide-react";
+import { EmptyState, ErrorState } from '../../../../ui';
 import AgencyCard from "../agency-card/agency-card";
 import { useAgencies } from "../../../../../hooks";
 
 function AgenciesOverview() {
  
-    const { 
+    const {
+        agenciesError, 
         isLoadingAgencies, 
         agencies, 
         handleUpdateStateAgency, 
@@ -40,14 +42,15 @@ function AgenciesOverview() {
         );
     }
 
+    if (agenciesError !== null) {
+        return <ErrorState variant={ agenciesError.status } />;
+    }
+
     if (!agencies.length) {
-        return (
-            <div className="flex flex-1 items-center justify-center">
-                <span className="flex items-center text-accent gap-2"> 
-                    <FolderSearch />No existen agencias
-                </span>
-            </div>
-        );
+        return <EmptyState 
+            icon={ FolderSearch } 
+            description={ 'No se encontraron agencias' }
+        />
     }
 
     return (

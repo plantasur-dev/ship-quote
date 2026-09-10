@@ -148,7 +148,7 @@ function AgencyForm({
                                     <>
                                         { COVERAGE_OPTIONS.map(({ value, label, icon: Icon }) => {
                                             const currentValue = field.value ?? [];
-                                            const selected = currentValue.value?.includes(value);
+                                            const selected = currentValue?.includes(value);
                                             
                                             return (
                                                 <button
@@ -156,8 +156,8 @@ function AgencyForm({
                                                     type='button'
                                                     onClick={ () => {
                                                         const nextValue = selected
-                                                            ? currentValue.value.filter(item => item !== value)
-                                                            : [...currentValue.value, value];
+                                                            ? currentValue.filter(item => item !== value)
+                                                            : [...currentValue, value];
 
                                                         field.onChange(nextValue);
                                                     }}
@@ -344,7 +344,9 @@ function AgencyForm({
                             font-semibold 
                             text-canvas 
                             transition-opacity 
-                            disabled:opacity-60 
+                            hover:scale-[1.02]
+                            active:scale-[0.98]
+                            transition-all duration-300 
                             ${ isValid 
                                 ? 'cursor-pointer' 
                                 : 'cursor-not-allowed'

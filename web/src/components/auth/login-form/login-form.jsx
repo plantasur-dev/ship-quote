@@ -53,9 +53,7 @@ function LoginForm() {
             await login(data.emailUser, data.passwordUser);
             navigate(NAV_ITEMS[0].to);
         } catch (error) {
-            console.error(error);
-            const { errors } = error;
-            setServerError(errors?.message);
+            setServerError(error?.errors?.message);
         }
     }
 

@@ -2,7 +2,7 @@
 import './App.css';
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { PrivateRouter } from './guards';
+import { AuthenticatedRouter, PrivateRouter } from './guards';
 import { HomePage, NotFoundPage } from './pages';
 import { LoadingScreen } from './components/ui';
 
@@ -24,9 +24,7 @@ function App() {
   return (
     <Suspense fallback={ <LoadingSuspense /> }>
       <Routes>
-        <Route index element={ <HomePage /> } />
-        <Route path='/login' element={ <LoginPage /> }/>
-
+      
         <Route path='/admin/dashboard' element={ <PrivateRouter> <Dashboard/> </PrivateRouter> }/>
 
         <Route path='/admin/agencies/overview' element={ <PrivateRouter> <OverviewAgenciesPage/> </PrivateRouter> }/>
@@ -36,7 +34,12 @@ function App() {
         <Route path='/admin/audits' element={ <PrivateRouter> <PanelAuditsPage /> </PrivateRouter> }/>
         <Route path='/admin/audits/:activityId' element={<PrivateRouter> <AuditPage /> </PrivateRouter> } />
 
+        <Route path='/login' element={ <AuthenticatedRouter> <LoginPage /> </AuthenticatedRouter>}/>
+
+        <Route index element={ <HomePage /> } />
+
         <Route path='*' element={ <NotFoundPage /> } />
+        
       </Routes>
     </Suspense>
   )

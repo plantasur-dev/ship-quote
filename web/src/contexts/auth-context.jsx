@@ -16,8 +16,8 @@ function AuthContextProvider ({ children }) {
                 const user = await ServiceAuth.verify();
                 setUser(user);
             } catch (error) {
-                setUser(null);
-                console.error(error)
+                console.error(error);
+                navigate('/login');
             }
         };
 

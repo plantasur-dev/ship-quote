@@ -1,20 +1,20 @@
 
 import { useEffect, useState } from "react";
-import { useAlert } from '../../contexts/alert-context';
 import { getActivityAudit } from "../../services/api-service";
+
 
 export function useAudit({ activityId }) {
 
     const [activity, setActivity] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-
-    const alert = useAlert();
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchAudit = async () => {
 
             if(!activityId) {
                 setIsLoading(false);
+                setError(null);
                 return;
             }
                         
@@ -22,8 +22,8 @@ export function useAudit({ activityId }) {
                 const activity = await getActivityAudit(activityId);
                 setActivity(activity);
             } catch (error) {
-                console.error(error);
-                alert.error('Error cargando actividad', error);
+                console.error(error?.errors?.message);
+                setError(error);
             } finally {
                 setIsLoading(false);
             }
@@ -32,5 +32,5 @@ export function useAudit({ activityId }) {
         fetchAudit();
     }, [activityId]);
 
-    return { activity, isLoading };
+    return { activity, isLoading, error };
 }

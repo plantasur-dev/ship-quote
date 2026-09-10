@@ -1,14 +1,16 @@
 
 import { useParams } from "react-router-dom";
+import { ErrorState } from "../../../../ui";
 import LoadingScreen from "../../../../ui/loaders/loader";
 import AgencyForm from "./agency-form";
 import { useAgency, useAgenciesForm } from "../../../../../hooks";
+
 
 function AgencyFormContainer({ mode }) {
 
     const { agencyId } = useParams();
 
-    const { agency, isLoading: isLoadingAgency } = useAgency({ agencyId });
+    const { agency, isLoading: isLoadingAgency, error } = useAgency({ agencyId });
 
     const { onSubmit, onDelete, isLoadingDeleting } = useAgenciesForm({ mode, agencyId });
 
@@ -18,6 +20,13 @@ function AgencyFormContainer({ mode }) {
 
     if (isLoadingDeleting) {
         return <LoadingScreen label={ `Eliminando carrier...`}/>;
+    }
+
+    if (error !== null) {
+        return <ErrorState 
+            variant={ error?.type } 
+            code={ error?.status }
+        />
     }
 
     return (

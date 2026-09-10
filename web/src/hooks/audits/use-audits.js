@@ -18,7 +18,7 @@ export function useAudits({ filters = EMPTY_FILTERS } = {}) {
 
             setActivities(activities);
         } catch (error) {
-            console.error(error);
+            console.error(error?.errors?.message);
             setError(error);
         } finally {
             setIsLoading(false);

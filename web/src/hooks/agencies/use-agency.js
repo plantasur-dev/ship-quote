@@ -1,14 +1,12 @@
 
 import { useEffect, useState } from "react";
-import { useAlert } from '../../contexts/alert-context'; 
 import { getAgency } from "../../services/api-service";
 
 export function useAgency({ agencyId }) {
 
     const [isLoading, setIsLoading] = useState(Boolean(agencyId));
     const [agency, setAgency] = useState(null);
-
-    const alert = useAlert();
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (!agencyId) {
@@ -17,13 +15,14 @@ export function useAgency({ agencyId }) {
 
         const fetchAgency = async () => {
             setIsLoading(true);
+            setError(null);
             
             try {
                 const agencyData = await getAgency(agencyId);
                 setAgency(agencyData);
             } catch (error) {
                 console.error(error);
-                alert.error('Error cargando agencia', error);
+                setError(error);
             } finally {
                 setIsLoading(false);
             }
@@ -32,5 +31,5 @@ export function useAgency({ agencyId }) {
         fetchAgency();
     }, [agencyId]);
 
-    return { agency, isLoading };
+    return { agency, isLoading, error };
 }

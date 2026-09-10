@@ -1,10 +1,12 @@
 
 import {Truck, User } from "lucide-react";
+import { ErrorState } from "../../../../ui";
 import AuditDetailsSkeleton from "./audit-details-skeleton";
 import { AgencyCard, ItemCard, Province } from "../../../../entities/shipping";
 import { useAudit } from "../../../../../hooks";
 import { formatClock } from "../../../../../utils";
- 
+
+
 function formatFullDate(date) {
     return new Intl.DateTimeFormat('es-ES', {
         day: '2-digit',
@@ -15,11 +17,22 @@ function formatFullDate(date) {
 
 function AuditDetails({ activityId }) {
 
-    const { activity, isLoading } = useAudit({ activityId });
+    const { activity, isLoading, error } = useAudit({ activityId });
 
-    const { action, createdAt, userId, ip, input = {}, response = {} } = activity;
+    const { 
+        action, 
+        createdAt, 
+        userId, 
+        ip, 
+        input = {}, 
+        response = {} 
+    } = activity ?? {};
  
-    const { countryCode, destinationPostalCode, items = [] } = input;
+    const { 
+        countryCode, 
+        destinationPostalCode, 
+        items = [] 
+    } = input ?? {};
   
     const agencies = Object.values(response ?? {});
     const availableCount = agencies.filter(a => a.available).length;
@@ -27,6 +40,13 @@ function AuditDetails({ activityId }) {
     if (isLoading) {
         return <AuditDetailsSkeleton />;
     }
+
+    if (error !== null) {
+        return <ErrorState 
+            variant={ error?.type } 
+            code={ error?.status }
+        />
+    };
 
     return (
         <div className="flex flex-col gap-5 text-sm">

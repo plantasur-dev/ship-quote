@@ -7,13 +7,10 @@ import { TIMER_ACTIVITY } from "../../../../../utils";
 function AuditList () {
 
     const {
-        filters
-    } = useAuditFilters();
-
+        filters,
+    } = useAuditFilters({ limit: 40, action: 'TARIFF_SEARCH' });
+    
     const { activities, isLoading, refetch } = useAudits({ filters });
-
-    filters.limit = 40;
-    filters.action = 'TARIFF_SEARCH';
 
     usePolling(refetch, TIMER_ACTIVITY);
 

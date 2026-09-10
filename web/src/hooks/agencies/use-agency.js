@@ -5,21 +5,22 @@ import { getAgency } from "../../services/api-service";
 
 export function useAgency({ agencyId }) {
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(Boolean(agencyId));
     const [agency, setAgency] = useState(null);
 
     const alert = useAlert();
 
     useEffect(() => {
         if (!agencyId) {
-            setIsLoading(false);
             return;
         }
 
         const fetchAgency = async () => {
+            setIsLoading(true);
+            
             try {
-                const agency = await getAgency(agencyId);
-                setAgency(agency);
+                const agencyData = await getAgency(agencyId);
+                setAgency(agencyData);
             } catch (error) {
                 console.error(error);
                 alert.error('Error cargando agencia', error);

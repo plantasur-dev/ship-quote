@@ -78,21 +78,19 @@ function StatCard({ label, value, delta, trend, icon: Icon }) {
 
 function Stats() {
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [stats, setStats] = useState(null);
 
     useEffect(() => {
-        setIsLoading(true);
-
         const fetchStats = async () => {
             try {
-                const [stats, mostConsultedZone] = await Promise.all([
+                const [statsData, mostConsultedZone] = await Promise.all([
                     getStatsAudit(),
                     getMostCodePostalAudit(),
                 ]);
 
                 setStats({
-                    ...stats, 
+                    ...statsData, 
                     codePostal: Number(mostConsultedZone[0]._id), 
                     total: mostConsultedZone[0].total
                 });

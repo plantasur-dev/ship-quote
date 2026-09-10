@@ -6,7 +6,6 @@ import { useAudits } from "../../../../../hooks";
 function AuditList () {
 
     const { activities, isLoading } = useAudits({ 
-        polling: false , 
         filter: {
             limit: 40,
             action: 'TARIFF_SEARCH'

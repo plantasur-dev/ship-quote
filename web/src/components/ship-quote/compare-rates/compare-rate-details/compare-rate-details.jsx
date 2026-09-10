@@ -1,6 +1,4 @@
 
-import { useState } from "react";
-
 import { Alert } from "../../../ui";
 
 import CompareRateSkeletonDetails from "./compare-rate-skeleton-details";
@@ -24,7 +22,6 @@ function EmptyState() {
 }
 
 function CompareRateDetails({ isLoading, error, resultRates = [] }) {
-    const [open, setOpen] = useState(null);
 
     if (isLoading) return <CompareRateSkeletonDetails />;
     
@@ -40,21 +37,14 @@ function CompareRateDetails({ isLoading, error, resultRates = [] }) {
 
     if (!resultRates.length) return EmptyState();
 
-    const toggle = (id) => {
-        setOpen((prev) => (prev === id ? null : id));
-    };
-
     return (
         <div className="mx-auto mt-10 space-y-4">
             { resultRates
                 .sort((a, b) => Number(b.available) - Number(a.available))
-                .map((agency, i) => (
+                .map((carrier, i) => (
                     <AgencyCard
-                        key={ agency.agency + i }
-                        agency={ agency }
-                        index={ i }
-                        open={ open }
-                        onToggle={ toggle }
+                        key={ carrier.agency + i }
+                        carrier={ carrier }
                     />
                 ))
             }

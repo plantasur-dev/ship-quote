@@ -15,7 +15,7 @@ function FuelSurchargeField({ agency, onUpdateFuel }) {
         enabled: activeFuelSurcharge, 
         value, 
         type 
-    } = supplements?.fuelSurcharge;
+    } = supplements?.fuelSurcharge ?? {};
     
     const [draft, setDraft] = useState(value);
     const lastSavedValue = useRef(value);
@@ -102,7 +102,7 @@ function FuelSurchargeField({ agency, onUpdateFuel }) {
                     "
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-text-muted">
-                    { false ? (
+                    { saving ? (
                         <RouteSpinner size={ 13 } />
                     ) : errorSaved ?(
                         <X size={ 14 } className="text-danger" />

@@ -17,6 +17,7 @@ function AuthContextProvider ({ children }) {
                 setUser(user);
             } catch (error) {
                 setUser(null);
+                console.error(error)
             }
         };
 

@@ -1,16 +1,20 @@
 
 import './agency-form.css';
 import { Save } from "lucide-react";
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { DeleteButton } from '../../../../ui';
 import { RouteSpinner } from "../../../../ui/loaders/loader";
 import { TYPE_AGENCY } from '../../../../../utils';
+
 import { 
-    COVERAGE_OPTIONS, 
     SectionHeading, 
     FieldLabel,
     FieldError,
     FormToggleRow,
+} from './agency-form-components';
+
+import { 
+    COVERAGE_OPTIONS,
     inputClass,
     validationsForm,
     loadFieldsDefault
@@ -31,7 +35,6 @@ function AgencyForm({
         register, 
         handleSubmit,
         control,
-        watch,
         reset,
         setError,
         clearErrors,
@@ -42,9 +45,18 @@ function AgencyForm({
         defaultValues
     });
 
-    const isActiveFuelSurcharge = watch('supplements.fuelsurcharge.enabled');
-    const typeFuelSurcharge = watch('supplements.fuelsurcharge.type');
-    const typeAgency = watch('type');
+    const isActiveFuelSurcharge = useWatch({
+        control,
+        name: 'supplements.fuelsurcharge.enabled'
+    });
+    const typeFuelSurcharge = useWatch({
+        control,
+        name: 'supplements.fuelsurcharge.type'
+    });
+    const typeAgency = useWatch({
+        control,
+        name: 'type'
+    });
 
     const isApiType = typeAgency === TYPE_AGENCY.api || typeAgency === TYPE_AGENCY.hybrid;
 
@@ -135,7 +147,8 @@ function AgencyForm({
                                 render={({ field, fieldState: { error }  }) => (
                                     <>
                                         { COVERAGE_OPTIONS.map(({ value, label, icon: Icon }) => {
-                                            const selected = field.value?.includes(value);
+                                            const currentValue = field.value ?? [];
+                                            const selected = currentValue.value?.includes(value);
                                             
                                             return (
                                                 <button
@@ -143,8 +156,8 @@ function AgencyForm({
                                                     type='button'
                                                     onClick={ () => {
                                                         const nextValue = selected
-                                                            ? field.value.filter(item => item !== value)
-                                                            : [...field.value, value];
+                                                            ? currentValue.value.filter(item => item !== value)
+                                                            : [...currentValue.value, value];
 
                                                         field.onChange(nextValue);
                                                     }}

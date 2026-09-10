@@ -1,11 +1,9 @@
 
-import TotalServices from '../total-services/total-services';
-
 import ServiceCard from '../service-card/service-card';
 
-function AgencyCard({ agency, index, open, onToggle }) {
+function AgencyCard({ carrier }) {
 
-    const itemsServices = Object.values(agency.services?.reduce((acc, item) => {
+    const itemsServices = Object.values(carrier.services?.reduce((acc, item) => {
         const serviceName = item.service || "Sin servicio";
 
         if (!acc[serviceName]) {
@@ -38,22 +36,22 @@ function AgencyCard({ agency, index, open, onToggle }) {
             <div className="flex items-start justify-between gap-4">
                 <div>
                     <h3 className="text-lg font-semibold capitalize">
-                        { agency.agency }
+                        { carrier.agency }
                     </h3>
 
                     <p className="text-sm text-slate-500">
-                        { agency.zone || "" }
+                        { carrier.zone || "" }
                     </p>
                 </div>
 
                 <span
                     className={`rounded-full px-3 py-1 text-sm font-medium ${
-                        agency.available
+                        carrier.available
                             ? "bg-green-100 text-green-700"
                             : "bg-red-100 text-red-700"
                     }`}
                 >
-                    { agency.available ? "Disponible" : "No disponible" }
+                    { carrier.available ? "Disponible" : "No disponible" }
                 </span>
             </div>
 

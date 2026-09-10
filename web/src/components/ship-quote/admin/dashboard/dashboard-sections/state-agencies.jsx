@@ -6,7 +6,7 @@ import { RouteSpinner } from "../../../../ui/loaders/loader";
 function AgencyStatusRow({ name, type, active, supplements }) {
     const isOnline = active === true;
 
-    const { enabled, type: typeOperation, value } = supplements?.fuelSurcharge;
+    const { enabled, value } = supplements?.fuelSurcharge ?? {};
 
     return (
         <div className="flex items-center justify-between border-b border-panel-border py-3 last:border-0">

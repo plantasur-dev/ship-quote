@@ -1,5 +1,4 @@
 
-import { useEffect, useState } from "react";
 import { useLiveClock, formatClock } from "../../../utils";
 import { ChevronRight } from "lucide-react";
 

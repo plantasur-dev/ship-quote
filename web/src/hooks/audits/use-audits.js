@@ -1,38 +1,34 @@
 
-import { useCallback, useEffect, useState } from "react";
-import { getRecentActivitiesAudit } from "../../services/api-service"; 
-import { TIMER_ACTIVITY, wait } from "../../utils";
+import { useCallback, useState } from "react";
+import { getRecentActivitiesAudit } from "../../services/api-service";
 
-export function useAudits({ polling = true, filter = {} } = {}) {
+const EMPTY_FILTERS = {};
 
+export function useAudits({ filters = EMPTY_FILTERS } = {}) {
     const [activities, setActivities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-      
-    const fetchAudit = useCallback(async () => {
-        setIsLoading(true);
-        await wait(400);
+    const [error, setError] = useState(null);
 
+    const fetchAudits = useCallback(async () => {
         try {
-            const activity = await getRecentActivitiesAudit(filter);
-            setActivities(activity);
+            setIsLoading(true);
+            setError(null);
+
+            const activities = await getRecentActivitiesAudit(filters);
+
+            setActivities(activities);
         } catch (error) {
             console.error(error);
+            setError(error);
         } finally {
             setIsLoading(false);
         }
-    }, []);
-    
-    useEffect(() => {
-        fetchAudit();
+    }, [filters]);
 
-        if (!polling) {
-            return;
-        }
-
-        const timer = setInterval(() => fetchAudit(), TIMER_ACTIVITY);
-
-        return () => clearInterval(timer);
-    }, [fetchAudit, polling]);
-
-    return { activities, isLoading, fetchAudit };
+    return {
+        activities,
+        isLoading,
+        error,
+        refetch: fetchAudits,
+    };
 }

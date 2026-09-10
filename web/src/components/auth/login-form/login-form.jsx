@@ -213,7 +213,9 @@ function LoginForm() {
                     font-semibold 
                     tracking-wide 
                     transition-opacity 
-                    disabled:opacity-60
+                    hover:scale-[1.02]
+                    active:scale-[0.98]
+                    transition-all duration-300
                     cursor-pointer
                     bg-accent
                 "

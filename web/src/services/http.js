@@ -28,8 +28,6 @@ http.interceptors.response.use(
         
         const isAuthEndpoint = url.startsWith('/auth/');
 
-        console.error(err);
-
         if (status === 401 && !isAuthEndpoint) {
             window.dispatchEvent(
                 new Event('auth:session-expired')

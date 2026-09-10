@@ -2,7 +2,7 @@
 import './App.css';
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { AuthenticatedRouter, PrivateRouter } from './guards';
+import { LoginRouter, PrivateRouter } from './guards';
 import { HomePage, NotFoundPage } from './pages';
 import { LoadingScreen } from './components/ui';
 
@@ -34,7 +34,7 @@ function App() {
         <Route path='/admin/audits' element={ <PrivateRouter> <PanelAuditsPage /> </PrivateRouter> }/>
         <Route path='/admin/audits/:activityId' element={<PrivateRouter> <AuditPage /> </PrivateRouter> } />
 
-        <Route path='/login' element={ <AuthenticatedRouter> <LoginPage /> </AuthenticatedRouter>}/>
+        <Route path='/login' element={  <LoginRouter> <LoginPage /> </LoginRouter> }/>
 
         <Route index element={ <HomePage /> } />
 

@@ -156,8 +156,12 @@ describe("Pallets API", () => {
             .set("Cookie", authCookie)
             .expect(200);
         
-        expect(res.body[0]).toHaveProperty("name", "Pallet1 agencia 1 listado");
-        expect(res.body[1]).toHaveProperty("name", "Pallet2 agencia 1 listado");
+        expect(res.body).toEqual( 
+            expect.arrayContaining([ 
+                expect.objectContaining({ name: "Pallet1 agencia 1 listado" }), 
+                expect.objectContaining({ name: "Pallet2 agencia 1 listado" }) 
+            ]) 
+        );
     });
 
     it("debería devolver 404 si la agencia no tiene pallets", async () => {

@@ -38,12 +38,13 @@ export async function compareByProvince(req, res) {
         items
     });
 
-    if(!result.length) throw createHttpError(404, 'Compare not found');
+    if(!result) throw createHttpError(404, 'Compare not found');
 
     res.json(result);
 }
 
 export async function compareByPostalCode(req, res) {
+
     const { destinationPostalCode, countryCode, items } = req.body;
 
     const isDefaultCountry = 
@@ -65,10 +66,10 @@ export async function compareByPostalCode(req, res) {
         items
     });
 
-    if(!result.length) throw createHttpError(404, 'Compare not found');
+    if(!result) throw createHttpError(404, 'Compare not found');
 
     req.audit.action = "TARIFF_SEARCH";
     req.audit.response = result;
 
-    res.json(result);   
+    res.json(result);
 }

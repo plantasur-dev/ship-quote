@@ -1,0 +1,104 @@
+services:
+
+  app:
+    image: ghcr.io/plantasur-dev/ship-quote:${IMAGE_TAG}
+
+    container_name: ship-quote-app
+
+    ports:
+      - "8089:3000"
+
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      API_URL: ${API_URL}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      COOKIE_SECURE: ${COOKIE_SECURE}
+      MONGODB_URI: ${MONGODB_URI}
+      DEFAULT_COUNTRY: ${DEFAULT_COUNTRY}
+      COUNTRIES_API_ENABLED: ${COUNTRIES_API_ENABLED}
+      COUNTRIES_URL: ${COUNTRIES_URL}
+      COUNTRIES_API_KEY: ${COUNTRIES_API_KEY}
+      DEFAULT_VOLUME_DECIMALS: ${DEFAULT_VOLUME_DECIMALS}
+      DEFAULT_PALLET_VOLUME: ${DEFAULT_PALLET_VOLUME}
+      DEFAULT_PARCEL_VOLUME: ${DEFAULT_PARCEL_VOLUME}
+      DACHSER_API_N_CUSTOMER: ${DACHSER_API_N_CUSTOMER}
+      DACHSER_API_KEY: ${DACHSER_API_KEY}
+      GRAFANA_USERNAME: ${GRAFANA_USERNAME}
+      GRAFANA_PASSWORD: ${GRAFANA_PASSWORD}
+      
+    depends_on:
+      - mongo
+      - loki
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mongo:
+    image: mongo:8
+    container_name: ship-mongo
+
+    volumes:
+      - mongo_data:/data/db
+
+  # -------------------------
+  # LOKI (almacenamiento logs)
+  # -------------------------
+  loki:
+    image: grafana/loki:3.6.6
+    container_name: ship-loki
+
+    ports:
+      - "3100:3100"
+
+    volumes:
+      - ./infra/monitoring/loki/config.yml:/etc/loki/config.yml
+      - loki_data:/loki
+
+    command: -config.file=/etc/loki/config.yml
+
+  # -------------------------
+  # PROMTAIL (lector logs docker)
+  # -------------------------
+  promtail:
+    image: grafana/promtail:3.6.6
+    container_name: ship-promtail
+
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/log:/var/log
+      - ./infra/monitoring/promtail/config.yml:/etc/promtail/config.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    command: -config.file=/etc/promtail/config.yml
+
+    depends_on:
+      - loki
+
+  # -------------------------
+  # GRAFANA (visualización)
+  # -------------------------
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: ship-grafana
+
+    ports:
+      - "3001:3000"
+
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+
+    depends_on:
+      - loki
+
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  mongo_data:
+  grafana_data:
+  loki_data:

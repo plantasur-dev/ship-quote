@@ -63,8 +63,6 @@ export const listCountries = (req, res) => {
 
     const result = countries.listCountries(langCode);
     
-    if (!result.length) throw createHttpError(404, 'Countries not found');
-    
     res.json(result);
 };
 

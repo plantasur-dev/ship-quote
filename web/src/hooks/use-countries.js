@@ -22,7 +22,7 @@ export function useCountries() {
             } catch (error) {
                 setError({
                     type: 'warning',
-                    message: 'País asignado por defecto: España | ' + error?.message
+                    message: error
                 });
             } finally {
                 setIsLoading(false);

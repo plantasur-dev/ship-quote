@@ -12,12 +12,11 @@ function AuthContextProvider ({ children }) {
 
     useEffect(() => {
         const verifySession = async () => {
-            try {
+            try { 
                 const user = await ServiceAuth.verify();
                 setUser(user);
-            } catch (error) {
-                console.error(error);
-                navigate('/login');
+            } catch {
+                setUser(null);
             }
         };
 
@@ -27,7 +26,6 @@ function AuthContextProvider ({ children }) {
     useEffect(() => {
         const handleSessionExpired = () => {
             setUser(null);
-            navigate('/login');
         };
 
         window.addEventListener(
@@ -51,7 +49,6 @@ function AuthContextProvider ({ children }) {
             await ServiceAuth.logout();
         } finally {
             setUser(null);
-            navigate('/login');
         }
     }
 

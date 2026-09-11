@@ -1,31 +1,29 @@
 
-import Rate from '../../models/rate.model.js';
-
 import { 
-    correosRates, 
-    correosZones
-} from '../../data/cexp.js';
+    rhenusRates,
+    createRhenusZones
+} from '../../../data/rhenus.data.js';
 
-import { zonesBootstrap } from '../../utils/bootstrap.utils.js';
+import { zonesBootstrap } from '../../../utils/bootstrap.utils.js';
 
-import { checkExists, loggerMsg } from '../../utils/logger.utils.js';
+import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
 
 const paramsRate = { 
-    code: 'correosexpress', 
+    code: 'rhenus', 
     collection: 'rate'
 };
 
 const paramsZone = { 
-    code: 'correosexpress', 
+    code: 'rhenus', 
     collection: 'zone'
 };
 
 const paramsZoneRule = { 
-    code: 'correosexpress', 
+    code: 'rhenus', 
     collection: 'zoneRule'
 };
 
-export async function ratesCorreos() {
+export async function ratesRhenus() {
 
     const result = await checkExists(paramsRate);
 
@@ -33,22 +31,22 @@ export async function ratesCorreos() {
 
     const { agency, model } = result;
     
-    await model.deleteMany({ agencyId: agency.id, type: 'parcel' });
+    await model.deleteMany({ agencyId: agency.id, type: 'pallet' });
 
     const inserts = [];
 
-    for (const [zoneName, data] of Object.entries(correosRates)) {
+    for (const [zoneName, data] of Object.entries(rhenusRates)) {
 
         inserts.push({
             agencyId: agency.id,
-            type: 'parcel',
+            type: 'pallet',
             zoneName,
             palletTypeId: null,
             calculationType: 'unit',
             services: [{
                 service: 'basic',
                 priceBreaks: data.priceBreaks,
-                surcharges: data.surcharges,
+                fallbackToLastPrice: data.fallbackToLastPrice,
                 limits: data.limits
             }]
         });
@@ -63,23 +61,25 @@ export async function ratesCorreos() {
     });
 };
 
-export async function zonesCorreos() {
-
+export async function zonesRhenus() {   
     const result1 = await checkExists(paramsZone);
 
     const result2 = await checkExists(paramsZoneRule);
 
     if (!result1 || !result2) return;
 
+    const rhenusZones = await createRhenusZones();
+
     await zonesBootstrap({ 
         zoneModel: result1.model, 
         agency: result1.agency, 
-        zones: correosZones.zones,
+        zones: rhenusZones.zones,
         zoneRuleModel: result2.model,
         rules: {
-            calculationMode: correosZones.calculationMode,
-            pricingMode: correosZones.pricingMode,
-            exceptions: correosZones.postalCodeExceptions
+            calculationMode: rhenusZones.calculationMode,
+            pricingMode: rhenusZones.pricingMode,
+            exceptions: rhenusZones.postalCodeExceptions,
+            volumetric: rhenusZones.volumetric
         } 
     });
 

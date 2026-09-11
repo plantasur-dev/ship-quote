@@ -5,14 +5,14 @@ import agenciesData from '../../data/agency.js';
 
 import logger from '../../logger/logger.js';
 
-export const agencies = async () => {
+const initAgencies = async () => {
     try {
         const exists = await Agency.findOne();
 
         if (exists) {
             logger.info({
                 event: 'agencies:bootstrap:skip',
-                message: `Agencias ya existen, se omite`,
+                message: `Agencies collection existe, se omite`,
                 component: 'database'
             });
             return;
@@ -36,3 +36,5 @@ export const agencies = async () => {
         process.exit(1);
     }
 };
+
+export default initAgencies;

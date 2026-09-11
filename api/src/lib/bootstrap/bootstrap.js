@@ -1,10 +1,9 @@
 
 import mongoose from 'mongoose';
 
-import { 
-    registerDefaultUser 
-} from './users/users.bootstrap.js';
-
+import initUser from './users/init.users.js';
+import initAgencies from './agencies/init.agencies.js';
+import initAgenciesData from './agencies/init.agencies.data.js';
 import { 
     initProvinces, 
     loadProvinces
@@ -14,36 +13,6 @@ import {
     loadCountries 
 } from "../../api/services/countries.service.js";
 
-import { 
-    agencies 
-} from './agencies/agencies.js';
-
-import { 
-    zonesCayco, 
-    palletTypesCayco, 
-    ratesCayco
-} from './agencies/cayco/index.js';
-
-import { 
-    zonesTecum, 
-    palletTypesTecum, 
-    ratesTecum 
-} from './agencies/tecum/index.js';
-
-import { 
-    ratesCorreos, 
-    zonesCorreos
-} from "./agencies/cexp.js";
-
-import {
-    zoneMrw,
-    rateMrw
-} from './agencies/mrw.js';
-
-import {
-    ratesRhenus,
-    zonesRhenus
-} from './agencies/rhenus.js';
 
 async function bootstrap() {
 
@@ -64,29 +33,13 @@ async function bootstrap() {
     await initProvinces();
 
     await Promise.all([
-        registerDefaultUser(),
         loadCountries(),
-        loadProvinces()
+        loadProvinces(),
+        initUser(),
+        initAgencies(),
     ]);
 
-    await agencies();
-
-    await zonesCayco();
-    await palletTypesCayco();
-    await ratesCayco();
-
-    await zonesTecum();
-    await palletTypesTecum();
-    await ratesTecum();
-
-    await ratesCorreos();
-    await zonesCorreos();
-
-    await rateMrw();
-    await zoneMrw();
-
-    await zonesRhenus();
-    await ratesRhenus();
+    await initAgenciesData();
 }
 
 export default bootstrap;

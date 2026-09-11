@@ -1,31 +1,29 @@
 
-import Rate from '../../models/rate.model.js';
-
 import { 
-    mrwRates, 
-    mrwZones
-} from '../../data/mrw.js';
+    correosRates, 
+    correosZones
+} from '../../../data/cexp.js';
 
-import { zonesBootstrap } from '../../utils/bootstrap.utils.js';
+import { zonesBootstrap } from '../../../utils/bootstrap.utils.js';
 
-import { checkExists, loggerMsg } from '../../utils/logger.utils.js';
+import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
 
 const paramsRate = { 
-    code: 'mrw', 
+    code: 'correosexpress', 
     collection: 'rate'
 };
 
 const paramsZone = { 
-    code: 'mrw', 
+    code: 'correosexpress', 
     collection: 'zone'
 };
 
 const paramsZoneRule = { 
-    code: 'mrw', 
+    code: 'correosexpress', 
     collection: 'zoneRule'
 };
 
-export async function rateMrw() {
+export async function ratesCorreos() {
 
     const result = await checkExists(paramsRate);
 
@@ -37,7 +35,7 @@ export async function rateMrw() {
 
     const inserts = [];
 
-    for (const [zoneName, data] of Object.entries(mrwRates)) {
+    for (const [zoneName, data] of Object.entries(correosRates)) {
 
         inserts.push({
             agencyId: agency.id,
@@ -63,7 +61,7 @@ export async function rateMrw() {
     });
 };
 
-export async function zoneMrw() {
+export async function zonesCorreos() {
 
     const result1 = await checkExists(paramsZone);
 
@@ -74,12 +72,12 @@ export async function zoneMrw() {
     await zonesBootstrap({ 
         zoneModel: result1.model, 
         agency: result1.agency, 
-        zones: mrwZones.zones,
+        zones: correosZones.zones,
         zoneRuleModel: result2.model,
         rules: {
-          calculationMode: mrwZones.calculationMode,
-          pricingMode: mrwZones.pricingMode,
-          exceptions: mrwZones.postalCodeExceptions
+            calculationMode: correosZones.calculationMode,
+            pricingMode: correosZones.pricingMode,
+            exceptions: correosZones.postalCodeExceptions
         } 
     });
 

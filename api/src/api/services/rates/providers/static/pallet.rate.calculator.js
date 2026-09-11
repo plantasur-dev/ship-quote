@@ -5,7 +5,7 @@ import {
 } from '../../domains/build.rate.result.js';
 
 import {
-    calculateSinglePallet,
+    calculatePalletBasedPricing,
     calculateWeightVolume
 } from './pallet.rate.utils.js';
 
@@ -15,7 +15,7 @@ export function calculatePallet(params) {
     const { nameAgency, zone } = params;
 
     const calculators = {
-        [PRICING_MODES.WEIGHT]: () => calculateSinglePallet(params),
+        [PRICING_MODES.PALLET_CLASSIFICATION]: () => calculatePalletBasedPricing(params),
         [PRICING_MODES.WEIGHT_VOLUME]: () => calculateWeightVolume(params)
     };
 

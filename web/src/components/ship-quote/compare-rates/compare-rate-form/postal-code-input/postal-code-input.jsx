@@ -20,8 +20,6 @@ function PostalCodeInput({ isLoadingProvinces }) {
             </label>
 
             <input
-                placeholder="00000"
-
                 placeholder={
                     isLoadingProvinces
                         ? "Cargando provincias..."

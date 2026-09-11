@@ -32,7 +32,7 @@ export async function zonesCayco() {
     zoneBuilder: (zone, agency) => {
       const type = ['ZONA 11', 'ZONA 12'].includes(zone.name)
         ? 'weight_volume'
-        : 'weight';
+        : 'pallet_classification';
 
       return {
         agencyId: agency._id,

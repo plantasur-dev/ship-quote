@@ -1,11 +1,10 @@
 
 import { 
-    Boxes, 
-    Package, 
+    Boxes,
     Receipt 
 } from 'lucide-react';
 
-function TotalServices({ services, total }) {
+function TotalServices({ services }) {
 
     const groupedServices = (services || []).reduce((acc, service) => {
 

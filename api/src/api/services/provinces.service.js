@@ -1,10 +1,6 @@
 
-import mongoose from "mongoose";
-
 import Location from '../../lib/models/location.model.js';
-
 import logger from '../../lib/logger/logger.js';
-
 import { 
     provincesData, 
     specialIslands 
@@ -108,15 +104,6 @@ export async function loadProvinces() {
     }
 }
 
-export function getProvinceByCountryCodeAndPostalCode(
-    countryCode, 
-    postalCode
-) {
-    return provincesMap
-        .provinceByCountryCodeAndPostalCode
-        .get(`${countryCode}-${postalCode.slice(0, 2)}`);
-}
-
 export function getProvinces() {
     if (provincesAll.length === 0) {
         throw new Error(
@@ -127,12 +114,21 @@ export function getProvinces() {
     return provincesAll;
 }
 
-export function getProvinceByCountryCode(country) {
+export function getProvincesByCountryCode(countryCode) {
     if (provincesAll.length === 0) {
         throw new Error(
             "Las provincias por país no están cargadas."
         );
     }
 
-    return provincesByCountryCode.get(country) ?? [];
+    return provincesByCountryCode.get(countryCode) ?? [];
+}
+
+export function getProvinceByCountryCodeAndPostalCode(
+    countryCode, 
+    postalCode
+) {
+    return provincesMap
+        .provinceByCountryCodeAndPostalCode
+        .get(`${countryCode}-${postalCode.slice(0, 2)}`);
 }

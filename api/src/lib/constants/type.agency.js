@@ -4,3 +4,5 @@ export const AGENCY_TYPE = {
     STATIC: 'static',
     HYBRID: 'hybrid'
 };
+
+export const AGENCY_TYPE_ARRAY = Object.values(AGENCY_TYPE);

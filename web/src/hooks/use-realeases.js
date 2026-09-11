@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 
-import { releaseLatest } from "../services/api-services";
+import { releaseLatest } from "../services/api-service";
 
 export function useReleases() {
 

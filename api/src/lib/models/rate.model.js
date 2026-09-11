@@ -1,6 +1,16 @@
 
 import mongoose from "mongoose";
 
+import { 
+    CALCULATION_TYPES_RATE,
+    CALCULATION_TYPES_RATE_ARRAY,
+    SHIPMENT_UNIT_ARRAY,
+    SERVICE_NAMES,
+    SERVICE_NAMES_ARRAY
+ } from "../constants/index.js";
+
+import { invalidateAgencyTariffs } from "../../api/services/cache.service.js";
+
 const rangeAmountSchema = new mongoose.Schema({
     min: Number,
     max: Number,
@@ -84,8 +94,8 @@ const surchargeSchema = new mongoose.Schema({
 const servicePriceSchema = new mongoose.Schema({
     service: {
         type: String,
-        enum: ['economy', 'premium', 'express', 'basic'],
-        default: 'basic'
+        enum: SERVICE_NAMES_ARRAY,
+        default: SERVICE_NAMES.BASIC
     },
 
     priceBreaks: [rangeAmountSchema],
@@ -129,27 +139,31 @@ const rateSchema = new mongoose.Schema({
         required: true,
         index: true
     },
-    type: {
-        type: String,
-        enum: ["pallet", "parcel"],
-        required: true
-    },
-    zoneName: { 
-        type: String, 
-        required: true 
+    zoneId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Zone"
     },
     palletTypeId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "PalletType",
         default: null
     },
+    type: {
+        type: String,
+        enum: SHIPMENT_UNIT_ARRAY,
+        required: true
+    },
+    zoneName: { 
+        type: String, 
+        required: true 
+    },
     services: {
         type: [servicePriceSchema]
     },
     calculationType: {
         type: String,
-        enum: ["unit", "quantity"],
-        default: "unit"
+        enum: CALCULATION_TYPES_RATE_ARRAY,
+        default: CALCULATION_TYPES_RATE.UNIT
     }
 }, { 
     timestamps: true,
@@ -167,6 +181,14 @@ rateSchema.index({
     type: 1, 
     zoneName: 1 
 });
+
+const triggerRefresh = () => invalidateAgencyTariffs();
+
+rateSchema.post('save', triggerRefresh);
+rateSchema.post('findOneAndUpdate', triggerRefresh);
+rateSchema.post('findOneAndDelete', triggerRefresh);
+rateSchema.post('deleteOne', triggerRefresh);
+rateSchema.post('updateOne', triggerRefresh);
 
 const Rate = mongoose.model("Rate", rateSchema);
 

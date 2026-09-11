@@ -14,3 +14,22 @@
 .animate-slide-up {
     animation: slideUp 0.35s ease-out;
 }
+
+@keyframes routeFlow {
+    to { stroke-dashoffset: -120; }
+}
+
+.route-dash {
+    stroke-dashoffset: 0;
+    animation: routeFlow 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .route-dash { animation: none; }
+}
+
+.field-input:focus {
+    outline: none;
+    border-color: bg-accent;
+    box-shadow: 0 0 0 3px bg-accent-soft;
+}

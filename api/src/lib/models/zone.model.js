@@ -1,6 +1,15 @@
 
 import mongoose from "mongoose";
 
+import { 
+    PRICING_MODES,
+    PRICING_MODES_VALUES, 
+    SHIPMENT_UNITS, 
+    SHIPMENT_UNIT_ARRAY 
+} from '../constants/index.js';
+
+import { invalidateAgencyTariffs } from "../../api/services/cache.service.js";
+
 const zoneSchema = new mongoose.Schema({
     agencyId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -16,8 +25,8 @@ const zoneSchema = new mongoose.Schema({
     },
     calculationMode: {
         type: String,
-        enum: ["pallet", "parcel"],
-        default: "pallet"
+        enum: SHIPMENT_UNIT_ARRAY,
+        required: [true, 'calculationMode es obligatorio.']
     },
     volumetric: {
         enabled: {
@@ -32,8 +41,29 @@ const zoneSchema = new mongoose.Schema({
     pricingMode: {
         type: {
             type: String,
-            enum: ["weight", "weight_volume"],
-            default: "weight"
+            enum: PRICING_MODES_VALUES,
+            default: PRICING_MODES.PALLET_CLASSIFICATION,
+            required: [true, 'calculationMode es obligatorio.'],
+            validate: {
+                validator: function (value) {
+                    const allowedModes = {
+                        [SHIPMENT_UNITS.PALLET]: [
+                            PRICING_MODES.PALLET_CLASSIFICATION,
+                            PRICING_MODES.WEIGHT_VOLUME
+                            
+                        ],
+                        [SHIPMENT_UNITS.PARCEL]: [
+                            PRICING_MODES.REAL_WEIGHT,
+                            PRICING_MODES.WEIGHT_VOLUME
+                        ]
+                    };
+
+                    const calculationMode = this.calculationMode;
+
+                    return allowedModes[calculationMode]?.includes(value) ?? false;
+                },
+                message: 'calculationMode no es compatible con pricingMode.'
+            }
         },
         tonnagePricingRule: {
             enabled: { 
@@ -69,6 +99,35 @@ zoneSchema.index({
     agencyId: 1, 
     provinces: 1 
 });
+
+zoneSchema.index({ 
+    agencyId: 1, 
+    name: 1 
+},
+{
+    unique: true
+});
+
+zoneSchema.virtual('rates', {
+    ref: 'Rate',
+    localField: '_id',
+    foreignField: 'zoneId'
+});
+
+zoneSchema.virtual('rules', {
+    ref: 'ZoneRules',
+    localField: '_id',
+    foreignField: 'zoneId'
+});
+
+const triggerRefresh = () => invalidateAgencyTariffs();
+
+zoneSchema.post('save', triggerRefresh);
+zoneSchema.post('findOneAndUpdate', triggerRefresh);
+zoneSchema.post('findOneAndDelete', triggerRefresh);
+zoneSchema.post('deleteOne', triggerRefresh);
+zoneSchema.post('updateOne', triggerRefresh);
+zoneSchema.post('insertMany', triggerRefresh);
 
 const Zone = mongoose.model("Zone", zoneSchema);
 

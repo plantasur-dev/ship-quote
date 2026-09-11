@@ -2,7 +2,7 @@
 import { calculatePallet } from '../../../../../../src/api/services/rates/providers/static/pallet.rate.calculator.js';
 
 import {
-    calculateSinglePallet,
+    calculatePalletBasedPricing,
     calculateWeightVolume
 } from '../../../../../../src/api/services/rates/providers/static/pallet.rate.utils.js';
 
@@ -25,7 +25,7 @@ import {
 vi.mock(
     '../../../../../../src/api/services/rates/providers/static/pallet.rate.utils.js',
     () => ({
-        calculateSinglePallet: vi.fn(),
+        calculatePalletBasedPricing: vi.fn(),
         calculateWeightVolume: vi.fn()
     })
 );
@@ -49,20 +49,20 @@ describe('calculatePallet', () => {
         zone: {
             name: 'Madrid',
             pricingMode: {
-                type: PRICING_MODES.WEIGHT
+                type: PRICING_MODES.PALLET_CLASSIFICATION
             }
         }
     };
 
-    it('should call calculateSinglePallet when pricing mode is WEIGHT', () => {
+    it('should call calculatePalletBasedPricing when pricing mode is PALLET_CLASSIFICATION', () => {
 
-        calculateSinglePallet.mockReturnValue(['service']);
+        calculatePalletBasedPricing.mockReturnValue(['service']);
 
         buildRateComplete.mockReturnValue({ agency: 'DHL' });
 
         calculatePallet(baseParams);
 
-        expect(calculateSinglePallet).toHaveBeenCalledWith(baseParams);
+        expect(calculatePalletBasedPricing).toHaveBeenCalledWith(baseParams);
         expect(calculateWeightVolume).not.toHaveBeenCalled();
     });
 
@@ -83,12 +83,12 @@ describe('calculatePallet', () => {
         });
 
         expect(calculateWeightVolume).toHaveBeenCalled();
-        expect(calculateSinglePallet).not.toHaveBeenCalled();
+        expect(calculatePalletBasedPricing).not.toHaveBeenCalled();
     });
 
     it('should return static NO_RATE result when the calculator returns no services', () => {
 
-        calculateSinglePallet.mockReturnValue([]);
+        calculatePalletBasedPricing.mockReturnValue([]);
 
         const expected = { error: 'NO_RATE' };
 
@@ -108,7 +108,7 @@ describe('calculatePallet', () => {
 
     it('should build complete result with the raw services returned by the calculator', () => {
 
-        calculateSinglePallet.mockReturnValue([
+        calculatePalletBasedPricing.mockReturnValue([
             { service: 'EXPRESS' }
         ]);
 

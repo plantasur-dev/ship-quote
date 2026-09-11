@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-import { compareRatesByPostalCode } from '../services/api-services';
+import { getCompareRatesByPostalCode } from '../services/api-service';
 
 export function useCompareRateResult() {
 
@@ -14,8 +14,13 @@ export function useCompareRateResult() {
         setError(null);
         setIsLoading(true);
 
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+
         try {
-            const rates = await compareRatesByPostalCode(data);
+            const rates = await getCompareRatesByPostalCode(data);
             setResultRates(rates);
         } catch (error) {
             console.log(error);

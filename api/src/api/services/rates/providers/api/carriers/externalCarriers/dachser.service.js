@@ -21,42 +21,6 @@ import {
 
 export default class DachserService extends CarrierService {
 
-    async getRates(input) {
-        const { baseUrlApi, endpoints, apiKey, timeout } = this.apiConfig;
-
-        if (!isAgencyEligibleFor(this.agency, new Set([SHIPMENT_UNITS.PALLET]))) {
-            return [];
-        }
-
-        const items = input.items.filter(
-            item => item.typeServices === SHIPMENT_UNITS.PALLET
-        );
-        
-        if (items.length === 0) return [];
-
-        const { quotations } = endpoints;
-
-        const responses = await Promise.allSettled(
-            transportProducts.map(async product => ({
-                'response': await this.fetchApi(
-                    `${ baseUrlApi }/${ quotations.trim() }`,
-                    this.buildRequestHeaders(apiKey),
-                    this.buildRequestBody(input, items, product.code),
-                    timeout
-                ),
-                product
-            }))
-        );
-
-        return responses.flatMap(response => {
-            if (response.status === 'fulfilled') {
-                return this.mapResponse(response.value, items)
-            }
-            
-            return this.mapResponse({ error: response.reason }, items);
-        });
-    }
-
     buildRequestBody(input, items = [], product) {
         return {
             "transportOrder": {
@@ -173,5 +137,41 @@ export default class DachserService extends CarrierService {
                 incidents: []
             })
         ];
+    }
+
+    async getRates(input) {
+        const { baseUrlApi, endpoints, timeout } = this.apiConfig;
+
+        if (!isAgencyEligibleFor(this.agency, new Set([SHIPMENT_UNITS.PALLET]))) {
+            return [];
+        }
+
+        const items = input.items.filter(
+            item => item.typeServices === SHIPMENT_UNITS.PALLET
+        );
+        
+        if (items.length === 0) return [];
+
+        const { quotations } = endpoints;
+
+        const responses = await Promise.allSettled(
+            transportProducts.map(async product => ({
+                'response': await this.fetchApi(
+                    `${ baseUrlApi }/${ quotations.trim() }`,
+                    this.buildRequestHeaders(process.env.DACHSER_API_KEY),
+                    this.buildRequestBody(input, items, product.code),
+                    timeout
+                ),
+                product
+            }))
+        );
+
+        return responses.flatMap(response => {
+            if (response.status === 'fulfilled') {
+                return this.mapResponse(response.value, items)
+            }
+            
+            return this.mapResponse({ error: response.reason }, items);
+        });
     }
 };

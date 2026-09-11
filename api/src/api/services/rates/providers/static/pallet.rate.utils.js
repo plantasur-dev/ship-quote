@@ -134,7 +134,7 @@ export function calculateGroupServices({
     });
 }
 
-export function calculateSinglePallet({  palletItems, agencyRates, agencyPalletTypes, zone, agencySupplements }) {
+export function calculatePalletBasedPricing({  palletItems, agencyRates, agencyPalletTypes, zone, agencySupplements }) {
     const {  groups = [], rejected = [] } = groupPallets(palletItems, agencyPalletTypes) || {};
     
     return [

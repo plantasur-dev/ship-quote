@@ -1,15 +1,15 @@
 
 import { fixedToN } from '../../../../../lib/utils/rate.utils.js';
 
-export function matchPrice(breaks, packageWeight, fallbackToLastPrice = false) {
+export function matchPrice(priceRanges, lookupValue, fallbackToLastPrice = false) {
 
-    if (!Array.isArray(breaks) || !breaks.length) {
+    if (!Array.isArray(priceRanges) || !priceRanges.length) {
         return undefined;
     }
     
-    const match = breaks.find(weight => 
-        packageWeight >= weight.min && 
-        packageWeight <= weight.max
+    const match = priceRanges.find(breakRange => 
+        lookupValue >= breakRange.min && 
+        lookupValue <= breakRange.max
     );
     
     if (match && !match.price) {
@@ -17,9 +17,9 @@ export function matchPrice(breaks, packageWeight, fallbackToLastPrice = false) {
     }
 
     if (!match) {
-        const breakPrices = breaks[breaks.length - 1];
+        const breakPrices = priceRanges[priceRanges.length - 1];
 
-        if (fallbackToLastPrice && packageWeight > breakPrices.max) {
+        if (fallbackToLastPrice && lookupValue > breakPrices.max) {
             return breakPrices;
         }
 

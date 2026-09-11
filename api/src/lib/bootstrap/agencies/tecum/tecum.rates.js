@@ -7,7 +7,7 @@ import PalletType from '../../../models/palletType.model.js';
 
 import { 
   buildPriceBreaks
-} from '../../../utils/tecum.utils.js';
+} from '../../../utils/agency/tecum.utils.js';
 
 import {
   fixed

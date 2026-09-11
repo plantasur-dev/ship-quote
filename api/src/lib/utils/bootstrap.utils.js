@@ -1,4 +1,3 @@
-
 export const fixed = (price) => [{ min: 1, max: 1, price }];
 
 export function ex(from, to, province, zoneName) {
@@ -9,7 +8,7 @@ export function prefixZone(representativeCp, province, zoneName) {
     return { from: representativeCp, to: representativeCp, province, zoneName, kind: 'prefix' };
 }
 
-function buildZoneRules(insertedZones, exceptions, provincesWithExceptions) {
+function buildZoneRules(insertedZones, exceptions, agencyId) {
 
     const rules = [];
 
@@ -17,13 +16,33 @@ function buildZoneRules(insertedZones, exceptions, provincesWithExceptions) {
         insertedZones.map(zone => [zone.name, zone])
     );
 
+    const normalizedExceptions = exceptions.map(exception => {
+
+        const zone = zoneMap.get(exception.zoneName);
+
+        if (!zone) {
+            throw new Error(`Zone not found: ${ exception.zoneName }`);
+        }
+
+        return {
+            province: exception.province,
+            zoneId: zone._id,
+            from: exception.from,
+            to: exception.to,
+            kind: exception.kind
+        };
+    });
+
+    const pairsWithOwnRanges = new Set(
+        normalizedExceptions.map(exception => `${ exception.province }::${ exception.zoneId }`)
+    );
+
     for (const zone of insertedZones) {
         for (const province of zone.provinces) {
 
-            const hasExceptionRule =
-                provincesWithExceptions.has(`${province}:${zone.name}`);
+            const key = `${ province }::${ zone._id }`;
 
-            if (hasExceptionRule) {
+            if (pairsWithOwnRanges.has(key)) {
                 continue;
             }
 
@@ -39,9 +58,9 @@ function buildZoneRules(insertedZones, exceptions, provincesWithExceptions) {
 
     const groupedExceptions = new Map();
 
-    for (const exception of exceptions) {
+    for (const exception of normalizedExceptions) {
 
-        const key = `${exception.province}:${exception.zoneName}`;
+        const key = `${ exception.province }::${ exception.zoneId }`;
 
         if (!groupedExceptions.has(key)) {
             groupedExceptions.set(key, []);
@@ -56,17 +75,11 @@ function buildZoneRules(insertedZones, exceptions, provincesWithExceptions) {
 
     for (const [key, postalCodeRanges] of groupedExceptions.entries()) {
 
-        const [province, zoneName] = key.split(':');
-
-        const zone = zoneMap.get(zoneName);
-
-        if (!zone) {
-            throw new Error(`Zona no encontrada: ${zoneName}`);
-        }
+        const [province, zoneId] = key.split('::');
 
         rules.push({
-            agencyId: zone.agencyId,
-            zoneId: zone._id,
+            agencyId,
+            zoneId,
             province,
             isDefault: false,
             postalCodeRanges
@@ -82,21 +95,7 @@ async function zonesRulesBootstrap({
     exceptions,
     insertedZones
 }) {
-
-    await zoneRuleModel.deleteMany({ agencyId: agency._id });
-
-    const provincesWithExceptions = new Map();
-
-    for (const ex of exceptions) {
-        const key = `${ex.province}:${ex.zoneName}`;
-        provincesWithExceptions.set(key, true);
-    }
-
-    const rules = buildZoneRules(
-        insertedZones, 
-        exceptions, 
-        provincesWithExceptions
-    );
+    const rules = buildZoneRules(insertedZones, exceptions, agency._id);
 
     await zoneRuleModel.insertMany(rules);
 }
@@ -109,9 +108,12 @@ export async function zonesBootstrap({
     rules,
     zoneBuilder 
 }) {
-    const { calculationMode = '', pricingMode = {}, exceptions = [], volumetric = [] } = rules;
-
-    await zoneModel.deleteMany({ agencyId: agency._id });
+    const { 
+        calculationMode = '', 
+        pricingMode = {}, 
+        exceptions = [], 
+        volumetric = [] 
+    } = rules;
     
     const docs = zones.map(zone => 
      zoneBuilder

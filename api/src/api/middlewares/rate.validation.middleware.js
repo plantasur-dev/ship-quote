@@ -1,48 +1,22 @@
 
 import createHttpError from 'http-errors';
+import {
+    SHIPMENT_UNITS, 
+    SHIPMENT_UNIT_ARRAY, 
+    CALCULATION_TYPES_RATE_ARRAY,
+    PRICING_MODES 
+} from '../../lib/constants/index.js';
+import { 
+    validateService, 
+    validateItem 
+} from '../../lib/utils/middleware/rate.middleware.utils.js';
+import { 
+    normalizeString, 
+    validateAgency,
+    validatePalletType, 
+    validateZoneById
+} from '../../lib/utils/middleware/middleware.utils.js';
 
-import { SHIPMENT_UNIT_VALUES } from '../../lib/constants/shipment.units.js';
-
-const isInvalidNumber = (value) => {
-    const n = Number(value);
-    return isNaN(n) || n <= 0;
-};
-
-const validateItem = (item, index) => {
-    const errors = [];
-
-    if (item.typeServices == null) {
-        errors.push('typeServices is required');
-    } else {
-        const normalizedTypeServices = item.typeServices.trim().toLowerCase();
-
-        if (!SHIPMENT_UNIT_VALUES.includes(normalizedTypeServices)) {
-            errors.push('typeServices unknown');
-        } else {
-            item.typeServices = normalizedTypeServices;
-        }
-    }
-
-    if (isInvalidNumber(item.weight)) {
-        errors.push('weight must be a number > 0');
-    }
-
-    if (isInvalidNumber(item.large)) {
-        errors.push('large must be a number > 0');
-    }
-
-    if (isInvalidNumber(item.width)) {
-        errors.push('width must be a number > 0');
-    }
-
-    if (isInvalidNumber(item.height)) {
-        errors.push('height must be a number > 0');
-    }
-
-    if (errors.length) {
-        throw createHttpError(400, `Item ${ index + 1 }: ${ errors.join(', ') }`);
-    }
-};
 
 export const rateItemsValidation = (req, res, next) => {
     const { items } = req.body;
@@ -50,7 +24,7 @@ export const rateItemsValidation = (req, res, next) => {
     if (!Array.isArray(items)) {
         throw createHttpError(400, 'items must be an array');
     }
-    
+
     if (items.length === 0) {
         throw createHttpError(400, 'items cannot be empty');
     }
@@ -64,21 +38,17 @@ export const rateDestinationValidation = (req, res, next) => {
 
     const { destinationPostalCode, countryCode } = req.body;
 
-    if (destinationPostalCode == null 
-        || countryCode == null
-    ) {
+    if (destinationPostalCode == null || countryCode == null) {
         throw createHttpError(400, 'destinationPostalCode and countryCode are required fields');
     }
 
-    if (typeof destinationPostalCode !== 'string' 
-        || typeof countryCode !== 'string'
-    ) {
+    if (typeof destinationPostalCode !== 'string' || typeof countryCode !== 'string') {
         throw createHttpError(400, 'destinationPostalCode and countryCode must be strings');
     }
 
     const normalizedCountry = countryCode.trim().toUpperCase();
     const normalizedPostalCode = destinationPostalCode.trim();
-     
+
     if (!/^[A-Z]{2}$/.test(normalizedCountry)) {
         throw createHttpError(400, `countryCode invalid: received "${ normalizedCountry }"`);
     }
@@ -95,6 +65,75 @@ export const rateDestinationValidation = (req, res, next) => {
 
     req.body.countryCode = normalizedCountry;
     req.body.destinationPostalCode = normalizedPostalCode;
+
+    next();
+};
+
+export const rateValidation = async (req, res, next) => {
+    const {
+        agencyId,
+        type,
+        zoneId,
+        palletTypeId,
+        calculationType,
+        services
+    } = req.body;
+
+    const agency = await validateAgency(agencyId);
+
+    const normalizedShipmentUnitType = normalizeString(type);
+    
+    if (normalizedShipmentUnitType == null) {
+        throw createHttpError(400, 'type (Shipment Unit) is required');
+    }
+
+    const loweredShipmentUnitType = normalizedShipmentUnitType.toLowerCase();
+
+    if (!SHIPMENT_UNIT_ARRAY.includes(loweredShipmentUnitType)) {
+        throw createHttpError(400, `type must be one of: ${ SHIPMENT_UNIT_ARRAY.join(', ') }`);
+    }
+
+    const zone = await validateZoneById(agencyId, zoneId);
+
+    if (normalizedShipmentUnitType === SHIPMENT_UNITS.PALLET && 
+        zone.pricingMode.type === PRICING_MODES.PALLET_CLASSIFICATION
+    ) {
+        await validatePalletType(palletTypeId);
+    }
+
+    const normalizedCalculationMode = normalizeString(zone.calculationMode);
+
+    const loweredCalculationMode = normalizedCalculationMode.toLocaleLowerCase();
+
+    if (loweredShipmentUnitType !== loweredCalculationMode) {
+        throw createHttpError(400, `Only zone type "${ loweredCalculationMode }" is accepted.`);
+    }
+    
+    if (calculationType != null) {
+        const normalizedCalculationType = normalizeString(calculationType);
+
+        if (normalizedCalculationType == null) {
+            throw createHttpError(400, 'calculationType cannot be empty');
+        }
+
+        const loweredCalculationType = normalizedCalculationType.toLowerCase();
+
+        if (!CALCULATION_TYPES_RATE_ARRAY.includes(loweredCalculationType)) {
+            throw createHttpError(400, 'calculationType must be one of: unit, quantity');
+        }
+
+        req.body.calculationType = loweredCalculationType;
+    }
+
+    if (!Array.isArray(services) || services.length === 0) {
+        throw createHttpError(400, 'services must be a non-empty array');
+    }
+
+    services.forEach(validateService);
+
+    req.locals = { agency, zone };
+    req.body.type = loweredShipmentUnitType;
+    req.body.zoneName = zone.name;
 
     next();
 };

@@ -1,0 +1,110 @@
+
+import createHttpError from "http-errors";
+
+import mongoose from "mongoose";
+
+import Agency from "../../models/agency.model.js";
+import Zone from '../../models/zone.model.js';
+import PalletType from "../../models/palletType.model.js";
+
+import { AGENCY_TYPE } from "../../constants/type.agency.js";
+
+export const isInvalidNumber = (value, { allowZero = false } = {}) => {
+    const n = Number(value);
+    return Number.isNaN(n) || (allowZero ? n < 0 : n <= 0);
+};
+
+export const normalizeString = (value) => {
+    if (typeof value !== 'string') return null;
+
+    const normalized = value.trim();
+    return normalized.length ? normalized : null;
+};
+
+export const unknownFields = (fields, allowedFields) => {
+    const unknownFields = Object.keys(fields).filter(
+        field => !allowedFields.includes(field)
+    );
+
+    if (unknownFields.length > 0) {
+        throw createHttpError(400, `Unknown fields: ${ unknownFields.join(', ') }`);
+    }
+};
+
+export const missingFields = (nameObject, fields, requiredFields) => {
+    const missingFields = requiredFields.filter(field => !(field in fields));
+    
+    if (missingFields.length > 0) {
+        throw createHttpError(400, `Required fields in ${ nameObject }: ${ missingFields.join(', ') }`); 
+    }
+};
+
+export const validateName = (name) => {
+ 
+    if (typeof name !== 'string' || !name.trim()) {
+        throw createHttpError(400, 'name is required');
+    }
+};
+
+export const validatePalletType = async (palletTypeId) => {
+    
+    if (palletTypeId == null || palletTypeId === '') {
+        throw createHttpError(400, `palletTypeId is required`);
+    } 
+
+    if (!mongoose.Types.ObjectId.isValid(palletTypeId)) {
+        throw createHttpError(400, 'palletTypeId is not a valid id');
+    }
+
+    const palletType = await PalletType.findById(palletTypeId);
+
+    if (!palletType) {
+        throw createHttpError(404, `PalletType ${ palletTypeId } not found`);
+    }
+
+    return palletTypeId;
+};
+
+export const validateAgency = async (agencyId) => {
+ 
+    if (!agencyId) {
+        throw createHttpError(400, 'agencyId is required');
+    }
+ 
+    if (!mongoose.Types.ObjectId.isValid(agencyId)) {
+        throw createHttpError(400, 'agencyId is not a valid id');
+    }
+ 
+    const agency = await Agency.findById(agencyId);
+ 
+    if (!agency) {
+        throw createHttpError(404, `Agency ${ agencyId } not found`);
+    }
+ 
+    if (!agency.active) {
+        throw createHttpError(400, `Agency ${ agency.name } is not active`);
+    }
+
+    if (agency.type === AGENCY_TYPE.API) {
+        throw createHttpError(400, `Agency ${ agencyId } is type API`);
+    }
+ 
+    return agency;
+};
+
+export const validateZoneById = async (agencyId, zoneId) => {
+
+    if (!agencyId) {
+        throw createHttpError(400, 'agencyId is required');
+    }
+
+    if (!zoneId) {
+        throw createHttpError(400, 'zoneId is required');
+    }
+    
+    const zone = await Zone.findById(zoneId);
+    
+    if (!zone) throw createHttpError(404, `Zone ${ zoneId } not found`);
+
+    return zone;
+};

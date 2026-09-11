@@ -2,6 +2,8 @@
 .git
 
 api/node_modules
+api/test
+api/.env
 
 web/node_modules
 web/dist

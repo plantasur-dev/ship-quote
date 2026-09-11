@@ -37,7 +37,7 @@ export const checkExists = async ({ code, collection }) => {
    
     if (!agency) {
         loggerMsg({ 
-            status: 'error',
+            status: 'warning',
             collection,
             message: `No existe ${ code }`,
         });
@@ -59,7 +59,7 @@ export const checkExists = async ({ code, collection }) => {
 
     if (exists) {
         loggerMsg({ 
-            status: 'warning',
+            status: 'skip',
             collection,
             message: `${ collection } ya existen para ${ agency.name }, se omite`,
         });

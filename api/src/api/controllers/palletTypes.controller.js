@@ -1,11 +1,16 @@
 
 import createHttpError from "http-errors";
-
 import PalletType from "../../lib/models/palletType.model.js";
+import Agency from "../../lib/models/agency.model.js";
+
 
 export const create = async (req, res) => {
 
     const { agencyId, name, constraints } = req.body;
+
+    const agencyExists = await Agency.exists({ _id: agencyId });
+
+    if (!agencyExists) throw createHttpError(404, `Agency ${ agencyId } not found`); 
 
     const palletType = await PalletType.create({ agencyId, name, constraints });
 
@@ -17,6 +22,15 @@ export const list = async (req, res) => {
     const pallets = await PalletType.find();
 
     if (!pallets.length) throw createHttpError(404, 'Pallets not found');
+
+    res.json(pallets);
+};
+
+export const palletsByAgency = async (req, res) => {
+
+    const pallets = await PalletType.find({ agencyId: req.params.agencyId });
+
+    if (!pallets.length) throw createHttpError(404, `Pallets not found by agency ${ req.params.agencyId } `);
 
     res.json(pallets);
 };

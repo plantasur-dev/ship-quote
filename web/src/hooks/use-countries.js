@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 
-import { listCountries } from '../services/api-services';
+import { listCountries } from '../services/api-service';
 
 export function useCountries() {
 
@@ -22,7 +22,7 @@ export function useCountries() {
             } catch (error) {
                 setError({
                     type: 'warning',
-                    message: 'País asignado por defecto: España | ' + error?.message
+                    message: error
                 });
             } finally {
                 setIsLoading(false);

@@ -1,6 +1,8 @@
 
 import mongoose from "mongoose";
 
+import { invalidateAgencyTariffs } from "../../api/services/cache.service.js";
+
 const zoneRuleSchema = new mongoose.Schema({
     agencyId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -21,7 +23,10 @@ const zoneRuleSchema = new mongoose.Schema({
 
     isDefault: {
         type: Boolean,
-        required: true
+        required: true,
+        default: function () {
+            return !this.postalCodeRanges.length
+        }
     },
 
     postalCodeRanges: [{
@@ -65,6 +70,15 @@ zoneRuleSchema.index({
     }
 });
 
-const ZoneRules = mongoose.model('zoneRules', zoneRuleSchema);
+const triggerRefresh = () => invalidateAgencyTariffs();
+
+zoneRuleSchema.post('save', triggerRefresh);
+zoneRuleSchema.post('findOneAndUpdate', triggerRefresh);
+zoneRuleSchema.post('findOneAndDelete', triggerRefresh);
+zoneRuleSchema.post('deleteOne', triggerRefresh);
+zoneRuleSchema.post('updateOne', triggerRefresh);
+zoneRuleSchema.post('insertMany', triggerRefresh);
+
+const ZoneRules = mongoose.model('ZoneRules', zoneRuleSchema);
 
 export default ZoneRules;

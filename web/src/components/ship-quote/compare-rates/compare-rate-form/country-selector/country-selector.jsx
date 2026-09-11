@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
-
+import { Alert } from '.././../../../ui';
 import { findCountriesByName } from "../../utils/compare-rate-utils";
 
 function CountrySelector({ countries, isLoadingCountries }) {
@@ -15,8 +15,17 @@ function CountrySelector({ countries, isLoadingCountries }) {
 
     const [showDropdown, setShowDropdown] = useState(false);
    
-    const countriesFilter = findCountriesByName(countries, searchLocation);
+    if (!countries.length) {
+        return (
+            <Alert 
+                center={ true }
+                message={ `Actualmente solo disponible España para cotización.` }
+            />
+        );
+    }
 
+    const countriesFilter = findCountriesByName(countries, searchLocation);
+    
     return (
         <div className="space-y-2">
             <label className="text-sm font-medium text-slate-700">

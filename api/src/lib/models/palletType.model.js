@@ -1,10 +1,12 @@
 
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+
+import { invalidateAgencyTariffs } from '../../api/services/cache.service.js';
 
 const palletTypeSchema = new mongoose.Schema({
     agencyId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Agency",
+        ref: 'Agency',
         required: [true, 'Campo id Agencia obligatorio.'],
         index: true
     },
@@ -50,8 +52,14 @@ const palletTypeSchema = new mongoose.Schema({
 });
 
 const sanitizeInput = (value) => 
-    (value === "" || value == null ? 0 : Number(value))
+    (value === '' || value == null ? 0 : Number(value));
 
-const PalletType = mongoose.model("PalletType", palletTypeSchema);
+const triggerRefresh = () => invalidateAgencyTariffs();
+
+palletTypeSchema.post(
+    ['save', 'findOneAndUpdate', 'findOneAndDelete', 'deleteOne', 'updateOne']
+    , triggerRefresh);
+
+const PalletType = mongoose.model('PalletType', palletTypeSchema);
 
 export default PalletType;

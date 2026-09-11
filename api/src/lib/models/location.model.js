@@ -74,7 +74,8 @@ locationSchema.index({
 });
 
 locationSchema.index({ 
-    adminFullCode: 1 
+    adminFullCode: 1,
+    postalCode: 1
 }, { unique: true });
 
 function normalizeString(values) {

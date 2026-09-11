@@ -1,5 +1,11 @@
 
 import mongoose from "mongoose";
+import { 
+    SCOPE_TYPES, 
+    SCOPE_TYPES_ARRAY,
+    AGENCY_TYPE,
+    AGENCY_TYPE_ARRAY
+} from "../constants/index.js";
 
 const agencySchema = new mongoose.Schema({
     name: { 
@@ -28,10 +34,10 @@ const agencySchema = new mongoose.Schema({
     type: {
         type: String,
         enum: {
-            values: ["static", "api", "hybrid"],
+            values: AGENCY_TYPE_ARRAY,
             message: "El tipo de agencia debe ser static, api o hybrid"
         },
-        default: "static"
+        default: AGENCY_TYPE.STATIC
     },
     active: {
         type: Boolean,
@@ -52,8 +58,8 @@ const agencySchema = new mongoose.Schema({
         },
         coverage: {
             type: [String],
-            enum: ["national", "international"],
-            default: ["national"]
+            enum: SCOPE_TYPES_ARRAY,
+            default: [SCOPE_TYPES.NATIONAL]
         }
     },
     supplements: {
@@ -81,19 +87,14 @@ const agencySchema = new mongoose.Schema({
         baseUrlApi: { 
             type: String,
             required: function () {
-                return this.type === 'api'
+                return this.type === AGENCY_TYPE.API || 
+                    this.type === AGENCY_TYPE.HYBRID
             },
         },
         endpoints: {
             quotations: String,
             transportOrders: String
-        },
-        apiKey: { 
-            type: String,
-            required: function () {
-                return this.type === 'api'
-            },
-        },
+        }
     }
 }, { 
     timestamps: true,
@@ -102,6 +103,10 @@ const agencySchema = new mongoose.Schema({
         virtuals: true,
         transform: function (doc, ret) {
             delete ret._id;
+            
+            if (ret.apiConfig){
+                delete ret.apiConfig.apiKey;
+            }
         },
     }
 });

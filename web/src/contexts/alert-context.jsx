@@ -33,13 +33,14 @@ const AlertContext = createContext(null);
 
 export function AlertProvider({ children }) {
     const [alerts, setAlerts] = useState([]);
+    const nextId = useRef(0);
  
     const dismiss = useCallback((id) => {
         setAlerts((prev) => prev.filter((a) => a.id !== id));
     }, []);
  
     const push = useCallback((variant, title, opts = {}) => {
-        const id = crypto.randomUUID();
+        const id = `alert-${Date.now()}-${++nextId.current}`;
         const { message, duration = 4000 } = opts;
         setAlerts((prev) => [...prev, { id, variant, title, message, duration }]);
         return id;

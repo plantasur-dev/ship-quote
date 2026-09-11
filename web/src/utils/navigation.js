@@ -10,7 +10,7 @@ import {
     SquareActivity,
 } from "lucide-react";
 
-const loggingApiUrl = import.meta.env.VITE_API_URL_LOG
+const loggingApiUrl = import.meta.env.VITE_API_URL_LOG;
 
 export const NAV_ITEMS = [
     { label: "Dashboard", icon: LayoutDashboard, to: '/admin/dashboard', section: 'dashboard' },

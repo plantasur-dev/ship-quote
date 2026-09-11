@@ -18,13 +18,13 @@ beforeEach(async () => {
 
 describe('GET /api/v1/audits', () => {
 
-    it('Debería devolver 404 si no hay audits', async () => {
+    it('Debería devolver 200 si no hay audits y array vacío', async () => {
         const res = await request(app)
             .get('/api/v1/audits')
             .set('Cookie', authCookie)
-            .expect(404);
+            .expect(200);
 
-        expect(res.body).toHaveProperty("message", "Audits not founds");
+        expect(res.body.data).toHaveLength(0);
     });
 
     it('Debería devolver 401 cuando no este autenticado', async () => {

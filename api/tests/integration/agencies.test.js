@@ -196,13 +196,13 @@ describe('GET /api/agencies', () => {
         expect(res.body[1]).toHaveProperty('name');
     });
 
-    it('debería devolver 404 si no hay agencias', async () => {
+    it('debería devolver 200 si no hay agencias y array vacío', async () => {
         const res = await request(app)
             .get('/api/v1/agencies')
             .set('Cookie', authCookie)
-            .expect(404);
+            .expect(200);
 
-        expect(res.body).toHaveProperty('message', 'Agencies not found');
+        expect(res.body).toHaveLength(0);
     });
 });
 

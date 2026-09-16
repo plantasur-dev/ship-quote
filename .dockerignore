@@ -1,5 +1,6 @@
 
 .git
+docker-compose.dev.yml
 
 api/node_modules
 api/test

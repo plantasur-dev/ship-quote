@@ -1,8 +1,16 @@
 
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { Jumbotron, Siderbar } from "../../ui";
 import { AlertProvider } from "../../../contexts/alert-context";
 
 function LayoutAdminPage ({ children, jumbotron = {} }) {
+
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+    }, [pathname]);
     
     return (
         <AlertProvider>
@@ -10,7 +18,7 @@ function LayoutAdminPage ({ children, jumbotron = {} }) {
 
                     <Siderbar />
 
-                    <main className="flex min-w-0 flex-1 flex-col gap-6 overflow-y-auto p-6 lg:p-8">
+                    <main className="flex min-w-0 flex-1 flex-col gap-6 p-6 lg:p-8">
 
                         <Jumbotron { ...jumbotron } />
                         

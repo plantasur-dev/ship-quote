@@ -14,24 +14,69 @@ common:
 
 schema_config:
   configs:
-    - from: 2023-01-01
-      store: boltdb-shipper
+    - from: 2026-01-01
+      store: tsdb
       object_store: filesystem
-      schema: v11
+      schema: v13
       index:
         prefix: index_
         period: 24h
 
 storage_config:
-  boltdb_shipper:
-    active_index_directory: /loki/index
-    cache_location: /loki/cache
+  tsdb_shipper:
+    active_index_directory: /loki/tsdb-index
+    cache_location: /loki/tsdb-cache
+    cache_ttl: 24h
 
   filesystem:
     directory: /loki/chunks
 
-compactor:
-  working_directory: /loki/compactor
+ingester:
+  chunk_encoding: snappy
+  chunk_target_size: 1572864
+  chunk_idle_period: 30m
+  max_chunk_age: 2h
+
+  wal:
+    enabled: true
+    dir: /loki/wal
+    checkpoint_duration: 5m
+    flush_on_shutdown: true
+
+query_range:
+  cache_results: true
+
+  results_cache:
+    cache:
+      embedded_cache:
+        enabled: true
+        max_size_mb: 128
+        ttl: 24h
+
+querier:
+  max_concurrent: 4
 
 limits_config:
   allow_structured_metadata: false
+
+  retention_period: 480h
+  max_query_lookback: 480h
+  max_query_range: 480h
+
+  split_queries_by_interval: 1h
+  tsdb_max_query_parallelism: 64
+
+  max_cache_freshness_per_query: 10m
+
+compactor:
+  working_directory: /loki/compactor
+
+  compaction_interval: 1h
+  apply_retention_interval: 1h
+
+  retention_enabled: true
+
+  retention_delete_delay: 2h
+  retention_delete_worker_count: 16
+
+  delete_request_store: filesystem

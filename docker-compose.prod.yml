@@ -5,6 +5,8 @@ services:
 
     container_name: ship-quote-app
 
+    restart: unless-stopped
+
     ports:
       - "8089:3000"
 
@@ -43,6 +45,8 @@ services:
     image: mongo:8
     container_name: ship-mongo
 
+    restart: unless-stopped
+
     volumes:
       - mongo_data:/data/db
 
@@ -52,6 +56,8 @@ services:
   loki:
     image: grafana/loki:3.6.6
     container_name: ship-loki
+
+    restart: unless-stopped
 
     ports:
       - "3100:3100"
@@ -68,6 +74,8 @@ services:
   promtail:
     image: grafana/promtail:3.6.6
     container_name: ship-promtail
+
+    restart: unless-stopped
 
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
@@ -86,6 +94,8 @@ services:
   grafana:
     image: grafana/grafana:10.4.0
     container_name: ship-grafana
+
+    restart: unless-stopped
 
     ports:
       - "3001:3000"

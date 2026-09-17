@@ -69,6 +69,7 @@ auditSchema.index({ ip: 1, createdAt: -1 });
 auditSchema.index({ userId: 1, createdAt: -1 });
 auditSchema.index({ createdAt: -1 });
 auditSchema.index({ 'input.destinationPostalCode': 1, createdAt: -1 });
+auditSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 24 * 60 * 60 });
 
 const Audit = mongoose.model('Audit', auditSchema);
 

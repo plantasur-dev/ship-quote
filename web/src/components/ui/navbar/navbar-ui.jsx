@@ -1,4 +1,6 @@
 
+import rateIcon from '../../../assets/img/icons/rate-icon.png';
+
 function Navbar() {
     return (
         <header
@@ -20,14 +22,24 @@ function Navbar() {
                     px-6
                 "
             >
-                <div>
-                    <h1 className="text-sm font-semibold text-slate-900">
-                        Cotizador de envíos
-                    </h1>
+                <div className="flex items-center gap-3">
+                    <img
+                        src={ rateIcon }
+                        alt="Cotizador"
+                        width={ 40 }
+                        height={ 4 }
+                        className="shrink-0"
+                    />
 
-                    <p className="text-xs text-slate-500">
-                        Comparador interno de tarifas
-                    </p>
+                    <div className="flex flex-col">
+                        <span className="text-sm font-semibold leading-tight text-slate-900">
+                            RateHub
+                        </span>
+
+                        <span className="text-xs leading-tight text-slate-500">
+                            Comparador interno de tarifas
+                        </span>
+                    </div>
                 </div>
             </div>
         </header>

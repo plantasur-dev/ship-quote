@@ -9,7 +9,7 @@ function ErrorsForm({ serverErrors = {} }) {
     return entries.map(([key, error]) => {
         const message = typeof error === 'string'
             ? error
-            : error?.message || JSON.stringify(error, null, 0);
+            : error?.message.errors?.message || JSON.stringify(error, null, 0);
 
         return (
             <Alert 

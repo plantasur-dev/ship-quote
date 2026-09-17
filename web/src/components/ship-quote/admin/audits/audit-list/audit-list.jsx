@@ -1,6 +1,6 @@
 
 import { Inbox } from "lucide-react";
-import { EmptyState } from "../../../../ui";
+import { EmptyState, ErrorState } from "../../../../ui";
 import AuditItem from "../audit-item/audit-item";
 import { useAuditFilters, useAudits, usePolling } from "../../../../../hooks";
 import { TIMER_ACTIVITY } from "../../../../../utils";
@@ -12,7 +12,7 @@ function AuditList () {
         filters,
     } = useAuditFilters({ limit: 40, action: 'TARIFF_SEARCH' });
     
-    const { activities, isLoading, refetch } = useAudits({ filters });
+    const { activities, isLoading, refetch, error } = useAudits({ filters });
 
     usePolling(refetch, TIMER_ACTIVITY);
 
@@ -33,10 +33,14 @@ function AuditList () {
         );
     }
 
+    if (error !== null) {
+        return <ErrorState variant={ error.status } />;
+    }
+
     if (!activities.length) {
         return <EmptyState 
             icon={ Inbox } 
-            description={ 'No hay actividad registrada' }
+            description={ 'No existe aún actividad registrada' }
         />
     }
 

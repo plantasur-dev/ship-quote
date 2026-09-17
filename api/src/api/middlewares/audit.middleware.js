@@ -10,13 +10,12 @@ const METHOD_ACTION_MAP = {
     DELETE: 'DELETE'
 };
 
-const EXCLUDED_PATHS = [
-    '/auth',
-    '/audit'
+const ALLOWED_PATHS = [
+    '/rates/compare'
 ];
 
-function isExcluded(path) {
-    return EXCLUDED_PATHS.some(excluded => path.includes(excluded));
+function isAllowed(path) {
+    return ALLOWED_PATHS.some(allowed => path.includes(allowed));
 }
 
 function extractResource(req) {
@@ -28,7 +27,7 @@ function extractResource(req) {
 
 export function audit(req, res, next) {
  
-     if (isExcluded(req.originalUrl)) {
+    if (!isAllowed(req.originalUrl)) {
         return next();
     }
  

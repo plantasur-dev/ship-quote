@@ -17,14 +17,14 @@ function IncidentList({ item }) {
                             <div className="flex items-center gap-4">
                                 <div
                                     className={`
-                                        flex h-12 w-12 items-center justify-center rounded-2xl
+                                        flex h-10 w-10 items-center justify-center rounded-2xl
                                         bg-gradient-to-br from-red-400 to-red-300
                                         text-white shadow-lg shadow-red-200
                                         transition-transform duration-300
                                         group-hover:scale-105
                                     `}
                                 >
-                                    <X size={ 26 } />
+                                    <X size={ 22 } />
                                 </div>
 
                                 <div>

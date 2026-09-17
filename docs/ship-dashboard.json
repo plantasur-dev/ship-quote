@@ -24,7 +24,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "dfo42ku7kt5a8f"
+        "uid": "ffy7l3o7pn5dsf"
       },
       "fieldConfig": {
         "defaults": {
@@ -36,7 +36,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -75,7 +76,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "dfo42ku7kt5a8f"
+            "uid": "ffy7l3o7pn5dsf"
           },
           "editorMode": "code",
           "expr": "sum(\n  count_over_time({service=\"ship-quote-api\"}[5m])\n)",
@@ -89,7 +90,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "dfo42ku7kt5a8f"
+        "uid": "ffy7l3o7pn5dsf"
       },
       "fieldConfig": {
         "defaults": {
@@ -133,7 +134,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -167,7 +169,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "dfo42ku7kt5a8f"
+            "uid": "ffy7l3o7pn5dsf"
           },
           "editorMode": "code",
           "expr": "sum(\n  count_over_time({service=\"ship-quote-api\"}[1m])\n)",
@@ -181,7 +183,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "dfo42ku7kt5a8f"
+        "uid": "ffy7l3o7pn5dsf"
       },
       "fieldConfig": {
         "defaults": {
@@ -271,7 +273,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "dfo42ku7kt5a8f"
+            "uid": "ffy7l3o7pn5dsf"
           },
           "editorMode": "code",
           "expr": "sum by(status) (\n  count_over_time({service=\"ship-quote-api\"}[5m])\n)",
@@ -285,7 +287,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "dfo42ku7kt5a8f"
+        "uid": "ffy7l3o7pn5dsf"
       },
       "fieldConfig": {
         "defaults": {
@@ -297,20 +299,26 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 2000
               },
               {
                 "color": "red",
-                "value": 80
+                "value": 3000
               }
             ]
-          }
+          },
+          "unit": "ms"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 5,
-        "w": 12,
+        "w": 6,
         "x": 0,
         "y": 5
       },
@@ -336,21 +344,92 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "dfo42ku7kt5a8f"
+            "uid": "ffy7l3o7pn5dsf"
           },
           "editorMode": "code",
-          "expr": "avg_over_time(\n  {service=\"ship-quote-api\"}\n  | json\n  | unwrap responseTime\n  [5m]\n)",
-          "queryType": "range",
+          "expr": "avg_over_time(\n  {service=\"ship-quote-api\"}\n  | json\n  | unwrap responseTime\n  [10m]\n)",
+          "queryType": "instant",
           "refId": "A"
         }
       ],
-      "title": "Tiempo medio respuesta",
+      "title": "Tiempo avg 10min últimos",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "loki",
-        "uid": "dfo42ku7kt5a8f"
+        "uid": "ffy7l3o7pn5dsf"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 2000
+              },
+              {
+                "color": "red",
+                "value": 3000
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 5
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "ffy7l3o7pn5dsf"
+          },
+          "editorMode": "code",
+          "expr": "avg_over_time(\n  {service=\"ship-quote-api\"}\n  | json\n  | unwrap responseTime\n  [30m]\n)",
+          "queryType": "instant",
+          "refId": "A"
+        }
+      ],
+      "title": "Tiempo avg 30min últimos",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "ffy7l3o7pn5dsf"
       },
       "fieldConfig": {
         "defaults": {
@@ -394,7 +473,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -444,21 +524,21 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "dfo42ku7kt5a8f"
+            "uid": "ffy7l3o7pn5dsf"
           },
           "editorMode": "code",
-          "expr": "sum(\n  count_over_time(\n    {service=\"ship-quote-api\", level=\"warn\"}[5m]\n  )\n)",
+          "expr": "sum(\n  count_over_time(\n    {service=\"ship-quote-api\", level=\"warn\"}[10m]\n  )\n)",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Warning últimos 5m",
+      "title": "Warning últimos 10m",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "loki",
-        "uid": "dfo42ku7kt5a8f"
+        "uid": "ffy7l3o7pn5dsf"
       },
       "gridPos": {
         "h": 9,
@@ -481,7 +561,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "dfo42ku7kt5a8f"
+            "uid": "ffy7l3o7pn5dsf"
           },
           "editorMode": "code",
           "expr": "{service=\"$service\", status=~\"$status\"}\n| json\n| line_format \"[{{.level}}] {{.method}} {{.status}} {{.service}} {{.path}} ({{.responseTime}}ms) | {{.message}} \"",
@@ -493,7 +573,7 @@
       "type": "logs"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
@@ -506,7 +586,7 @@
         },
         "datasource": {
           "type": "loki",
-          "uid": "dfo42ku7kt5a8f"
+          "uid": "ffy7l3o7pn5dsf"
         },
         "definition": "",
         "hide": 1,
@@ -529,7 +609,7 @@
       },
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": [
             "All"
           ],
@@ -539,7 +619,7 @@
         },
         "datasource": {
           "type": "loki",
-          "uid": "dfo42ku7kt5a8f"
+          "uid": "ffy7l3o7pn5dsf"
         },
         "definition": "",
         "hide": 0,
@@ -569,7 +649,7 @@
   "timepicker": {},
   "timezone": "browser",
   "title": "Ship API",
-  "uid": "ffomw4tbia3uod",
-  "version": 16,
+  "uid": "ffy7l3o7pn5dsf",
+  "version": 10,
   "weekStart": ""
 }

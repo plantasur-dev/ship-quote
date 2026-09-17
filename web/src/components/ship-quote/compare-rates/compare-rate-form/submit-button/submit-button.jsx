@@ -12,10 +12,10 @@ function SubmitButton() {
 
     const items = useWatch({ control, name: 'items' });
 
-   return (
+    return (
         <button
             type="submit"
-            disabled={items.length === 0 || isSubmitting}
+            disabled={ items.length === 0 || isSubmitting }
             className="
                 group
                 relative
@@ -69,7 +69,7 @@ function SubmitButton() {
                 <div className="flex items-center gap-3 m-4">
                     <BounceLoader color="#ffffff" size={18} />
                     <span className="text-sm font-medium">
-                        Calculando rutas...
+                        Calculando tarifas...
                     </span>
                 </div>
             ) : (

@@ -1,8 +1,8 @@
 
-import { FolderSearch } from "lucide-react";
+import { Compass, FolderSearch } from "lucide-react";
 import { RouteSpinner } from "../../../../ui/loaders/loader";
-import { EmptyState, ErrorState } from "../../../../ui";
-import { useAudits, usePolling } from "../../../../../hooks";
+import { EmptyState, ErrorState, RouteButton } from "../../../../ui";
+import { useAuditFilters, useAudits, usePolling } from "../../../../../hooks";
 import { useLiveClock, formatDay, formatClock, TIMER_ACTIVITY } from "../../../../../utils";
 
 
@@ -40,7 +40,11 @@ function Activity() {
 
     const now = useLiveClock();
 
-    const { activities, isLoading, refetch, error } = useAudits();
+    const {
+        filters,
+    } = useAuditFilters({ limit: 9, action: 'TARIFF_SEARCH' });
+
+    const { activities, isLoading, refetch, error } = useAudits({ filters });
 
     usePolling(refetch, TIMER_ACTIVITY);
 
@@ -74,7 +78,19 @@ function Activity() {
                 { !activities.length && 
                     <EmptyState
                         icon={ FolderSearch }
-                        description={ 'Sin actividad' }
+                        description={
+                            <div className="flex flex-col items-center justify-center gap-8 text-center">
+                                <span className="text-sm">
+                                    Aún sin actividad
+                                </span>
+
+                                <RouteButton
+                                    title="Ver más actividades"
+                                    to="/admin/audits"
+                                    icon={ Compass }
+                                />
+                            </div>
+                        }
                     />
                 }
 

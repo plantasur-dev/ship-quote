@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { getCompareRatesByPostalCode } from '../services/api-service';
 
@@ -8,17 +8,21 @@ export function useCompareRateResult() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [resultRates, setResultRates] = useState([]);
+
+    const resultBlockY = useRef(null);
     
     const handlerCalculateRates = async (data) => {
         setResultRates([]);
         setError(null);
         setIsLoading(true);
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-
+        if (resultBlockY.current) { 
+            resultBlockY.current?.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+        
         try {
             const rates = await getCompareRatesByPostalCode(data);
             setResultRates(rates);
@@ -33,5 +37,5 @@ export function useCompareRateResult() {
         }
     };
 
-    return { isLoading, error, resultRates, handlerCalculateRates };
+    return { resultBlockY, isLoading, error, resultRates, handlerCalculateRates };
 };

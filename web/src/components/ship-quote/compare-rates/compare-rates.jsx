@@ -7,10 +7,11 @@ import CompareRateDetails from "./compare-rate-details/compare-rate-details";
 function CompareRates() {
 
     const { 
+        resultBlockY,
         isLoading, 
         error, 
         resultRates, 
-        handlerCalculateRates 
+        handlerCalculateRates
     } = useCompareRateResult();
 
     return (
@@ -32,7 +33,7 @@ function CompareRates() {
                 />
             </section>
 
-            <section>
+            <section ref={ resultBlockY } >
                 <CompareRateDetails
                     isLoading={ isLoading }
                     error={ error }

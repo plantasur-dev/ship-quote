@@ -1,4 +1,7 @@
 
+import { Truck } from 'lucide-react';
+import { agencyLogos } from '../../../../../assets/img/agencyLogos';
+
 import ServiceCard from '../service-card/service-card';
 
 function AgencyCard({ carrier }) {
@@ -31,17 +34,46 @@ function AgencyCard({ carrier }) {
         return acc;
     }, {}));
 
+    const agencyIcon = agencyLogos[carrier.agency.toUpperCase()];
+
     return (
         <div className="rounded-2xl border border-white/60 bg-white/70 p-5 shadow-md backdrop-blur-xl transition hover:shadow-lg">
             <div className="flex items-start justify-between gap-4">
-                <div>
-                    <h3 className="text-lg font-semibold capitalize">
-                        { carrier.agency }
-                    </h3>
+                <div className="flex items-center gap-3">
+                    <div
+                        className="
+                            flex h-12 w-12 shrink-0 items-center justify-center
+                            overflow-hidden rounded-2xl
+                            bg-white
+                            shadow-sm ring-1 ring-slate-100
+                        "
+                    >
+                        {agencyIcon ? (
+                            <img
+                                src={ agencyIcon }
+                                alt={ carrier.agency }
+                                className="h-full w-full object-contain p-1.5"
+                            />
+                        ) : (
+                            <Truck
+                                size={ 26 }
+                                strokeWidth={ 1.8 }
+                                className="text-indigo-500"
+                            />
+                        )}
+                    </div>
 
-                    <p className="text-sm text-slate-500">
-                        { carrier.zone || "" }
-                    </p>
+                    <div className="min-w-0">
+                        <h3 className="truncate text-lg font-semibold capitalize text-slate-900">
+                            {carrier.agency}
+                        </h3>
+
+                        {carrier.zone && (
+                            <p className="mt-0.5 text-xs text-slate-500">
+                                {carrier.zone}
+                            </p>
+                        )}
+                    </div>
                 </div>
 
                 <span
@@ -51,11 +83,11 @@ function AgencyCard({ carrier }) {
                             : "bg-red-100 text-red-700"
                     }`}
                 >
-                    { carrier.available ? "Disponible" : "No disponible" }
+                    {carrier.available ? "Disponible" : "No disponible"}
                 </span>
             </div>
 
-            <ServiceCard services={ itemsServices } /> 
+            <ServiceCard services={itemsServices} />
         </div>
     );
 }

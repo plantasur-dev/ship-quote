@@ -59,13 +59,9 @@ function CompareRateForm({ handlerCalculateRates }) {
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent" />
 
                 <div className="mb-8">
-                    <h2 className="text-2xl font-semibold tracking-tight">
-                    Compare shipping rates
-                    </h2>
+                    <h2 className="text-2xl font-semibold tracking-tight"></h2>
 
-                    <p className="mt-2 text-sm text-slate-500">
-                    Get the best shipping option instantly.
-                    </p>
+                    <p className="mt-2 text-sm text-slate-500"></p>
                 </div>
 
                 <div className="space-y-8">

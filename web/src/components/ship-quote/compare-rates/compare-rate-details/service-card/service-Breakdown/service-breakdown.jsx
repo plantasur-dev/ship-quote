@@ -17,14 +17,14 @@ function ServiceBreakdown({ item }) {
                             <div className="flex items-center gap-4">
                                 <div
                                     className={`
-                                        flex h-12 w-12 items-center justify-center rounded-2xl
+                                        flex h-10 w-10 items-center justify-center rounded-2xl
                                         bg-gradient-to-br from-indigo-500 to-cyan-500
                                         text-white shadow-lg shadow-indigo-200
                                         transition-transform duration-300
                                         group-hover:scale-105
                                     `}
                                 >
-                                    <Boxes size={ 22 } />
+                                    <Boxes size={ 20 } />
                                 </div>
 
                                 <div>

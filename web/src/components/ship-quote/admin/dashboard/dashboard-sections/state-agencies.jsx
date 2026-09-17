@@ -1,7 +1,7 @@
 
-import { Wifi, WifiOff, Fuel, Euro, Percent, FolderSearch } from "lucide-react";
+import { Wifi, WifiOff, Fuel, Euro, Percent, FolderSearch, Plus } from "lucide-react";
 import { RouteSpinner } from "../../../../ui/loaders/loader";
-import { EmptyState, ErrorState } from "../../../../ui";
+import { EmptyState, ErrorState, RouteButton } from "../../../../ui";
 import { useAgencies } from "../../../../../hooks";
 
 
@@ -100,7 +100,19 @@ function StateAgencies() {
                 { !totalAgencies && 
                     <EmptyState
                         icon={ FolderSearch }
-                        description={ 'No se encontraron agencias' }
+                        description={ 
+                            <div className="flex flex-col items-center justify-center gap-8 text-center">
+                                <span className="text-sm">
+                                    Aún sin agencias
+                                </span>
+
+                                <RouteButton
+                                    title="Crear nueva agencia"
+                                    to="/admin/agencies/new"
+                                    icon={ Plus }
+                                />
+                            </div> 
+                        }
                     />
                 }
 

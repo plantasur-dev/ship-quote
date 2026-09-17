@@ -9,7 +9,7 @@ function RouteButton({ title = 'New button', to = '/admin', size = 14, icon }) {
 
     return (
         <button 
-            onClick={ () => navigate(to)}
+            onClick={ () => navigate(to) }
             className='
                 flex 
                 items-center 

@@ -1,8 +1,10 @@
 
-import { useState } from "react";
+import { Globe } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Alert } from '.././../../../ui';
 import { findCountriesByName } from "../../utils/compare-rate-utils";
+
 
 function CountrySelector({ countries, isLoadingCountries }) {
 
@@ -13,7 +15,24 @@ function CountrySelector({ countries, isLoadingCountries }) {
  
     const [searchLocation, setSearchLocation] = useState('');
 
+    const dropdownRef = useRef(null);
     const [showDropdown, setShowDropdown] = useState(false);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        }
+
+        if (showDropdown) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showDropdown]);
    
     if (!countries.length) {
         return (
@@ -25,17 +44,16 @@ function CountrySelector({ countries, isLoadingCountries }) {
     }
 
     const countriesFilter = findCountriesByName(countries, searchLocation);
-    
+
     return (
         <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">
+            <label className="inline-block ml-3 mb-2 text-sm font-medium text-slate-700">
                 País destino
             </label>
 
             <div className="relative">
                 <input
                     value={ searchLocation }
-
                     placeholder={
                         isLoadingCountries
                             ? "Cargando países..."
@@ -47,10 +65,8 @@ function CountrySelector({ countries, isLoadingCountries }) {
                         setShowDropdown(true);
                     }}
 
-                    onFocus={() => setShowDropdown(true)}
-
+                    onFocus={ () => setShowDropdown(true) }
                     disabled={ isLoadingCountries }
-
                     className="
                         h-12
                         w-full
@@ -78,11 +94,10 @@ function CountrySelector({ countries, isLoadingCountries }) {
                 />
 
                 <div className="absolute inset-y-0 right-4 flex items-center text-slate-400">
-                    🌍
+                    <Globe className="h-5 w-5" />
                 </div>
             </div>
-
-            { showDropdown && searchLocation && (
+            { !isLoadingCountries && showDropdown && searchLocation.length > 0 && (
                 <div
                     className="
                         overflow-hidden
@@ -94,23 +109,23 @@ function CountrySelector({ countries, isLoadingCountries }) {
                         backdrop-blur-xl
                     "
                 >
-                    <div className="max-h-64 overflow-y-auto py-2">
-                        {
-                            !isLoadingCountries &&
+                    <div
+                        ref={ dropdownRef }  
+                        className="max-h-64 overflow-y-auto py-2"
+                    >
+                        { countriesFilter.length ? ( 
                             countriesFilter.map((item) => (
                                 <button
                                     type="button"
-
                                     key={ item.countryCode }
-
-                                    onClick={() => {
+                                    onClick={ () => {
                                         setSearchLocation(item.countryName);
                                         setValue("countryCode", item.countryCode);
                                         resetField('destinationPostalCode');
                                         setShowDropdown(false);
                                     }}
 
-                                    className="
+                                    className='
                                         flex
                                         w-full
                                         items-center
@@ -125,12 +140,16 @@ function CountrySelector({ countries, isLoadingCountries }) {
                                         hover:text-indigo-700
 
                                         cursor-pointer
-                                    "
+                                    '
                                 >
                                     { item.countryName }
                                 </button>
                             ))
-                        }
+                        ) : ( 
+                            <div className='px-4 py-3 text-sm text-slate-500'>
+                                No se encontraron países
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

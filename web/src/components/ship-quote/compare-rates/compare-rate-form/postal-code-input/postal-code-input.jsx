@@ -15,7 +15,7 @@ function PostalCodeInput({ isLoadingProvinces }) {
 
     return (
         <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">
+            <label className="inline-block ml-3 mb-2 text-sm font-medium text-slate-700">
                 Código postal
             </label>
 

@@ -12,10 +12,10 @@ function SubmitButton() {
 
     const items = useWatch({ control, name: 'items' });
 
-   return (
+    return (
         <button
             type="submit"
-            disabled={items.length === 0 || isSubmitting}
+            disabled={ items.length === 0 || isSubmitting }
             className="
                 group
                 relative

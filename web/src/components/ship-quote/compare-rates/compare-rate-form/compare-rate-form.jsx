@@ -13,6 +13,7 @@ import {
 import {
     SkeletonForm,
     CountrySelector,
+    CountryDisplay,
     PostalCodeInput,
     ProvinceDisplay,
     ItemDraftForm,
@@ -58,12 +59,6 @@ function CompareRateForm({ handlerCalculateRates }) {
             >
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent" />
 
-                <div className="mb-8">
-                    <h2 className="text-2xl font-semibold tracking-tight"></h2>
-
-                    <p className="mt-2 text-sm text-slate-500"></p>
-                </div>
-
                 <div className="space-y-8">
 
                     <section className="space-y-5">
@@ -80,11 +75,22 @@ function CompareRateForm({ handlerCalculateRates }) {
                             isLoadingProvinces={ isLoadingProvinces }
                         />
 
-                        <ProvinceDisplay 
-                            provinces={ provinces }
-                            postalCode={ postalCode }
-                            countryCode={ countryCode }
-                        />
+                        <div className="flex gap-6">
+                            <div className="flex-1">
+                                <CountryDisplay 
+                                    countries={ countries } 
+                                />
+                            </div>
+
+                            <div className="flex-1">
+                                <ProvinceDisplay 
+                                    provinces={ provinces }
+                                    postalCode={ postalCode }
+                                    countryCode={ countryCode }
+                                />
+                            </div>
+                        </div>
+
                     </section>
 
                     <section className="space-y-5">

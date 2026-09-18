@@ -14,8 +14,8 @@ function CountryDisplay({ countries }) {
     );
 
     return (
-        <div className="flex h-12 items-center rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm">
-            <span className="mr-2 flex size-7 items-center justify-center rounded-lg bg-indigo-50 text-indigo-500">
+        <div className="flex h-12 items-center rounded-2xl border border-slate-200 bg-slate-50/80 px-4 text-sm text-slate-900 shadow-sm">
+            <span className="mr-2 flex size-7 items-center justify-center rounded-lg bg-white text-indigo-500">
                 <Map size={ 15 } /> 
             </span>
             

@@ -57,11 +57,11 @@ function CompareRateForm({ handlerCalculateRates }) {
                 className="relative rounded-3xl border border-slate-200 bg-white/80 p-8 shadow-2xl backdrop-blur-xl"
                 onSubmit={ form.handleSubmit(handlerCalculateRates) }
             >
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent" />
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-300 to-transparent" />
 
                 <div className="space-y-8">
 
-                    <section className="space-y-5">
+                    <section className="space-y-3">
                         <ErrorsForm 
                             serverErrors={ allServerErrors } 
                         />
@@ -93,7 +93,7 @@ function CompareRateForm({ handlerCalculateRates }) {
 
                     </section>
 
-                    <section className="space-y-5">
+                    <section className="space-y-8">
                         <ItemDraftForm 
                             onAddItem={ form.addItem }
                         />

@@ -7,20 +7,22 @@ export const inputStyle = `
     bg-white
     px-4
     pr-12
+    font-medium
     text-sm
-    text-slate-900
+    text-slate-600
     shadow-sm
     outline-none
     transition-all
     duration-200
 
+    placeholder:font-normal
     placeholder:text-slate-400
 
-    hover:border-slate-300
-
-    focus:border-indigo-500
-    focus:ring-4
-    focus:ring-indigo-500/10
+    focus:border-indigo-300
+    focus:ring-2
+    focus:ring-indigo-200/70
+    focus:ring-offset-1
+    focus:ring-offset-indigo-50
 `;
 
 export const servicesLabel = [

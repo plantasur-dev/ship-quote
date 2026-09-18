@@ -28,8 +28,8 @@ const variants = {
     info: {
         icon: Info,
         className:
-            "border-sky-200 bg-sky-50 text-sky-700",
-        iconColor: "text-sky-500",
+            "border-indigo-200 bg-indigo-50 text-indigo-700",
+        iconColor: "text-indigo-500",
     },
 };
 

@@ -2,12 +2,7 @@
 function SkeletonForm() {
     return (
         <div className="space-y-6 animate-pulse">
-
-            <div className="space-y-2">
-                <div className="h-5 w-40 rounded-full bg-slate-200/70" />
-                <div className="h-4 w-64 rounded-full bg-slate-200/60" />
-            </div>
-
+            
             <div className="
                 rounded-3xl
                 border
@@ -30,8 +25,10 @@ function SkeletonForm() {
                 </div>
 
                 <div className="space-y-2">
-                    <div className="h-3 w-20 rounded-full bg-slate-200/60" />
-                    <div className="h-12 w-full rounded-2xl bg-slate-200/40" />
+                    <div className="flex gap-6">
+                        <div className="h-12 w-full rounded-2xl bg-slate-200/40" />
+                        <div className="h-12 w-full rounded-2xl bg-slate-200/40" />
+                    </div>
                 </div>
 
                 <div className="space-y-3">

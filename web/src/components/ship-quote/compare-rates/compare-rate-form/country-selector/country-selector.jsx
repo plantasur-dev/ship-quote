@@ -1,8 +1,11 @@
 
 import { Globe } from "lucide-react";
+import { inputStyle } from "../item-draft-form/item-draft-form-styles";
+import { Alert } from '.././../../../ui';
+
 import { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { Alert } from '.././../../../ui';
+
 import { findCountriesByName } from "../../utils/compare-rate-utils";
 
 
@@ -46,12 +49,17 @@ function CountrySelector({ countries, isLoadingCountries }) {
     const countriesFilter = findCountriesByName(countries, searchLocation);
 
     return (
-        <div className="space-y-2">
-            <label className="inline-block ml-3 mb-2 text-sm font-medium text-slate-700">
+        <div>
+            <label className="inline-block ml-2 mb-2 text-sm font-medium text-slate-700">
                 País destino
             </label>
 
             <div className="relative">
+                
+                <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                    <Globe size={ 18 } />
+                </div>
+
                 <input
                     value={ searchLocation }
                     placeholder={
@@ -67,36 +75,19 @@ function CountrySelector({ countries, isLoadingCountries }) {
 
                     onFocus={ () => setShowDropdown(true) }
                     disabled={ isLoadingCountries }
-                    className="
-                        h-12
-                        w-full
-                        rounded-2xl
-                        border
+                    className={` 
+                        ${ inputStyle }
+
+                        pl-11
+                                                
                         border-slate-200
-                        bg-white/80
-                        px-4
-                        pr-10
-                        text-sm
-                        text-slate-900
-                        shadow-sm
-                        outline-none
-                        transition-all
-                        duration-200
 
-                        placeholder:text-slate-400
-
-                        hover:border-slate-300
-
-                        focus:border-indigo-500
-                        focus:ring-4
-                        focus:ring-indigo-500/10
-                    "
+                        hover:border-slate-300 
+                    `}
                 />
 
-                <div className="absolute inset-y-0 right-4 flex items-center text-slate-400">
-                    <Globe className="h-5 w-5" />
-                </div>
             </div>
+
             { !isLoadingCountries && showDropdown && searchLocation.length > 0 && (
                 <div
                     className="

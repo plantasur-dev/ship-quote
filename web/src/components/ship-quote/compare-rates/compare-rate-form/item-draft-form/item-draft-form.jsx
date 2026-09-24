@@ -1,4 +1,6 @@
 
+import { PackageSearch, Ruler } from 'lucide-react';
+
 import { useState } from "react";
 
 import {
@@ -108,7 +110,7 @@ function ItemDraftForm({ onAddItem }) {
 
             <div className="space-y-6">
                 <div className="space-y-3">
-                    <label className="text-sm font-medium text-slate-700">
+                    <label className="inline-block ml-2 mb-2 text-sm font-medium text-slate-700">
                         Tipo de servicio
                     </label>
 
@@ -165,14 +167,15 @@ function ItemDraftForm({ onAddItem }) {
                     </div>
 
                     { errors.typeServices && (
-                        <p className="text-sm text-red-500">
+                        <p className="ml-4 mt-2 flex items-center gap-1 text-sm text-red-500">
+                            <PackageSearch size={ 14 }/>
                             { errors.typeServices }
                         </p>
                     )}
                 </div>
 
-                <div className="space-y-3">
-                    <label className="text-sm font-medium text-slate-700">
+                <div>
+                    <label className="inline-block ml-2 text-sm font-medium text-slate-700">
                         Dimensiones y peso
                     </label>
 
@@ -182,7 +185,7 @@ function ItemDraftForm({ onAddItem }) {
                                 key={ item.field }
                                 className="space-y-2"
                             >
-                                <label className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                                <label className="text-xs font-medium uppercase tracking-wide text-slate-500 ml-3">
                                     { item.label }
                                 </label>
 
@@ -219,8 +222,8 @@ function ItemDraftForm({ onAddItem }) {
                                             top-1/2
                                             -translate-y-1/2
                                             text-xs
-                                            font-medium
-                                            text-slate-400
+                                            font-bold
+                                            text-indigo-400
                                         "
                                     >
                                         { item.unit }
@@ -228,7 +231,8 @@ function ItemDraftForm({ onAddItem }) {
                                 </div>
 
                                 { errors[item.field] && (
-                                    <p className="text-xs text-red-500">
+                                    <p className="ml-4 mt-2 flex items-center gap-1 text-xs text-red-500">
+                                        <Ruler size={ 14 } />
                                         { errors[item.field] }
                                     </p>
                                 )}

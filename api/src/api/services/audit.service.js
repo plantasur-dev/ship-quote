@@ -30,10 +30,10 @@ export const getAuditsList = async ({ page = 1, limit = 14, criteria = {}, start
     limit = parseInt(limit) || 14;
 
     if (startDate) {
-        const startDate = new Date(pstartDate);
-        startDate.setHours(0, 0, 0, 0);
+        const parsedStartDate = new Date(startDate);
+        parsedStartDate.setHours(0, 0, 0, 0);
 
-        criteria.createdAt = { $gte: startDate };
+        criteria.createdAt = { $gte: parsedStartDate };
     }
 
     criteria.endpoint = { $not: /audits/ }

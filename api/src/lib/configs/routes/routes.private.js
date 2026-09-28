@@ -31,7 +31,7 @@ privateRouter.post('/auth/signup', Users.create);
 privateRouter.delete('/auth/logout', Users.logout);
 privateRouter.get('/auth/verify', Users.verify);
 
-privateRouter.get('/debug/maps', checkAuth, Cache.debugMap);
+privateRouter.get('/debug/maps', Cache.debugMap);
 
 privateRouter.get('/audits', Audits.list);
 privateRouter.get('/audits/recent-activity', Audits.recentActivity);

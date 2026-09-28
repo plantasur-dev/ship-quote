@@ -23,10 +23,10 @@ export async function login(req, res) {
     if (!email || !password) throw createHttpError(400, 'Fields required');
 
     const user = await User.findOne({ email });
-    if (!user) throw createHttpError(404, 'Invalid email or password');
+    if (!user) throw createHttpError(401, 'Invalid email or password');
 
     const match = await user.checkPassword(password);
-    if (!match) throw createHttpError(404, 'Invalid email or password');
+    if (!match) throw createHttpError(401, 'Invalid email or password');
 
     const session = await Session.create({ user: user.id });
 

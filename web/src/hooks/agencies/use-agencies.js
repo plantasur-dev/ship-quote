@@ -40,7 +40,7 @@ export function useAgencies() {
                 agency.id === agencyId
                 ? { ...agency,
                     supplements: {
-                        ...agency.supplements.fuelSurcharge,
+                        ...agency.supplements,
                         fuelSurcharge
                     }
                 }

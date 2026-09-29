@@ -32,7 +32,7 @@ function ErrorState({
     onRetry,
     retryLabel = 'Reintentar'
 }) {
-    const preset = VARIANTS[variant] ?? VARIANTS.generic;
+    const preset = VARIANTS[variant] ?? VARIANTS.unknown;
     const Icon = preset.icon;
 
     return (

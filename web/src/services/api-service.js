@@ -43,6 +43,9 @@ export const deleteAgency = (agencyId) =>
     http.delete(`/agencies/${ agencyId }`);
 
 
+export const getSearchActivitiesAudit = (filters = {}) =>
+    http.get('/audits', { params: filters });
+
 export const getRecentActivitiesAudit = (filters = {}) =>
     http.get('/audits/recent-activity', { params: filters });
 

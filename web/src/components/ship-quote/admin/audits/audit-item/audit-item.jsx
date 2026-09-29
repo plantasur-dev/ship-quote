@@ -6,7 +6,7 @@ import { Province } from "../../../../entities/shipping";
 
 function AuditItem({ activity }) {
 
-    const { _id: activityId, createdAt, userId, response, ip, input = {} } = activity;
+    const { id: activityId, createdAt, userId, response, ip, input = {} } = activity;
 
     const timeFormated = formatClock(new Date(createdAt));
 

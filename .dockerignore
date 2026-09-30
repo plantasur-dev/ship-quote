@@ -3,7 +3,9 @@
 docker-compose.dev.yml
 
 api/node_modules
-api/test
+api/tests
+api/coverage
+api/logs
 api/.env
 
 web/node_modules

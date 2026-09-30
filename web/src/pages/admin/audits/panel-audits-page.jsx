@@ -1,7 +1,7 @@
 
 import { ScrollText } from "lucide-react";
 import { LayoutAdminPage } from "../../../components/layouts";
-import { AuditList } from "../../../components/ship-quote/admin";
+import { AuditSearch } from "../../../components/ship-quote/admin";
 
 function PanelAuditsPage () {
 
@@ -14,7 +14,7 @@ function PanelAuditsPage () {
 
     return (
         <LayoutAdminPage jumbotron={ jumbotron } >
-            <AuditList />
+            <AuditSearch />
         </LayoutAdminPage>
     );
 }

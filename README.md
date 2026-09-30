@@ -1,6 +1,6 @@
 # Ship Quote
 
-Plataforma fullstack para consultar, comparar y administrar tarifas de transporte entre distintas agencias. El proyecto separa una API REST de un cliente Web administrativo, con MongoDB como persistencia y un stack opcional de observabilidad basado en Loki, Promtail y Grafana.
+Plataforma fullstack para consultar, comparar y administrar tarifas de transporte entre distintas agencias. El proyecto separa una API REST de un cliente Web administrativo, con MongoDB como persistencia y un stack opcional de observabilidad basado en Loki, Alloy y Grafana.
 
 ## Estado del proyecto
 
@@ -46,9 +46,9 @@ ship-quote/
 ├── web/                 # Cliente React + Vite
 │   └── src/             # Páginas, componentes, hooks, contextos y servicios HTTP
 ├── docs/                # Contrato y especificaciones funcionales
-├── infra/               # Configuración Loki y Promtail
+├── infra/               # Configuración Loki y Alloy
 ├── Dockerfile           # Build de Web y ejecución de API en una imagen
-├── docker-compose.yml   # App, MongoDB, Loki, Promtail y Grafana
+├── docker-compose.yml   # App, MongoDB, Loki, Alloy y Grafana
 └── README.md
 ```
 
@@ -277,9 +277,9 @@ Servicios publicados por `docker-compose.yml`:
 | MongoDB | `ship-mongo` | Red interna, puerto 27017 |
 | Loki | `ship-loki` | `http://localhost:3100` |
 | Grafana | `ship-grafana` | `http://localhost:3001` |
-| Promtail | `ship-promtail` | Agente interno de logs |
+| Alloy | `ship-alloy` | Agente interno de logs |
 
-La aplicación usa Winston y Morgan. Promtail recoge logs de Docker y los envía a Loki; Grafana permite consultarlos y construir dashboards. Las credenciales iniciales de Grafana definidas en Compose son `admin` / `admin`; deben cambiarse antes de un despliegue real.
+La aplicación usa Winston y Morgan. Alloy recoge logs de Docker y los envía a Loki; Grafana permite consultarlos y construir dashboards. Las credenciales iniciales de Grafana definidas en Compose son `admin` / `admin`; deben cambiarse antes de un despliegue real.
 
 Para detener el entorno:
 

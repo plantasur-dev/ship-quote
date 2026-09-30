@@ -1,9 +1,9 @@
 
+import { SearchX } from "lucide-react";
 import { useEffect, useState } from "react";
-import { EmptyState, ErrorState, InputFinder } from "../../../../ui";
-import { useAuditFilters, useAudits, usePolling } from "../../../../../hooks";
+import { EmptyState, ErrorState, InputFinder, Pagination } from "../../../../ui";
 import AuditList from "../audit-list/audit-list";
-import { Inbox } from "lucide-react";
+import { useAuditFilters, useAudits, usePolling } from "../../../../../hooks";
 
 
 const options = {
@@ -12,6 +12,7 @@ const options = {
     className: 'h-14 mb-6'
 };
 
+
 function AuditSearch() {
 
     const [search, setSearch] = useState('');
@@ -19,46 +20,64 @@ function AuditSearch() {
     const {
         filters,
         updateFilter,
-    } = useAuditFilters({ limit: 40, action: 'TARIFF_SEARCH' });
+    } = useAuditFilters({ page: 1, limit: 15, action: 'TARIFF_SEARCH' });
 
-    const { activities, isLoading, refetch, error } = useAudits({ typeList: true, filters });
-    
+    const { 
+        activities, 
+        isLoading, 
+        refetch, 
+        error, 
+        pagination,
+    } = useAudits({ typeList: true, filters });
+
+    usePolling(refetch, 60 * 8000);
+
     useEffect(() => {
-        const timerOut = setTimeout(() => {
+        const timer = setTimeout(() => {
             updateFilter('postalCode', search || undefined);
         }, 500);
 
-        return () => clearTimeout(timerOut);
+        return () => clearTimeout(timer);
     }, [search, updateFilter]);
 
-    usePolling(refetch, 60 * 5000);
+    useEffect(() => {
+        if (pagination?.totalPages === 1 && filters.page !== 1) {
+            updateFilter('page', 1);
+        }
+    }, [
+        pagination?.totalPages,
+        filters.page,
+        updateFilter,
+    ]);
 
-    if (error !== null) {
-        return <ErrorState variant={ error.status } />;
-    }
+    const handlePageChange = (newPage) => updateFilter('page', newPage);
 
     const { hasRecords, isFiltered } = activities?.meta ?? {};
 
     const hasResults = activities?.data?.length > 0;
 
-    const showNoResults =
+    const isSearchEmpty =
         !isLoading &&
         isFiltered &&
         hasRecords &&
         !hasResults;
+
+    if (error !== null) {
+        return <ErrorState variant={ error.status } />;
+    }
     
     return (
         <div>
-            <InputFinder 
+            { hasRecords && <InputFinder 
                 value={ search }
                 options={ options }
                 onChange={ setSearch }
-            />
+            /> }
 
-            { showNoResults ? (
+            { isSearchEmpty ? (
                 <EmptyState
-                    icon={ Inbox } 
-                    description={ `No se encontraron resultados para ${ search }` }
+                    icon={ SearchX } 
+                    description={ `No se encontraron resultados para el código postal ${ search }` }
                 />
             ) : (
                 <AuditList 
@@ -66,6 +85,11 @@ function AuditSearch() {
                     isLoading={ isLoading } 
                 />
             )}
+
+            <Pagination
+                pagination={ pagination }
+                onPageChange={ handlePageChange } 
+            />
         </div>
     );
 }

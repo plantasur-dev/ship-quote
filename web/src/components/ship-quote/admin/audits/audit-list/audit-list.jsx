@@ -1,11 +1,11 @@
 
-import { Inbox } from "lucide-react";
+import { PackageOpen } from "lucide-react";
 import { EmptyState } from "../../../../ui";
 import AuditItem from "../audit-item/audit-item";
 
 
 function AuditList ({ activities, isLoading }) {
-
+    
     if (isLoading) {
         return (
             <div className="flex flex-col">
@@ -19,37 +19,37 @@ function AuditList ({ activities, isLoading }) {
                         <div className="h-3 flex-1 animate-pulse rounded bg-panel-border" />
                     </div> ))}
             </div> 
+        )
+    }
+
+    if (!activities?.meta?.hasRecords) {
+        return (
+            <EmptyState 
+                icon={ PackageOpen } 
+                description={ 'No existe aún actividad registrada' }
+            />
         );
     }
 
-    return (
-        <>
-            { activities.data.length 
-                ?   ( <div className="flex h-full flex-col rounded-2xl border border-panel-border bg-panel p-5">
-                        <div className="mb-1 flex items-center justify-between">
-                            <h2 className="font-display text-sm font-semibold text-text-primary">
-                                Actividad
-                            </h2>
-                        </div>
 
-                        <div className="mt-3">
-                            { activities.data.map((activity) => (
-                                    <AuditItem 
-                                        key={ activity.id } 
-                                        activity={ activity }
-                                    />
-                                ))
-                            }
-                        </div>
-                    </div>
-                ) : ( 
-                    <EmptyState 
-                        icon={ Inbox } 
-                        description={ 'No existe aún actividad registrada' }
-                    />
-                )
-            }
-        </>
+    return (
+        <div className="flex flex-col rounded-2xl border border-panel-border bg-panel p-5 mb-6">
+            <div className="mb-1 flex items-center justify-between">
+                <h2 className="font-display text-sm font-semibold text-text-primary">
+                    Actividad
+                </h2>
+            </div>
+
+            <div className="mt-3">
+                { activities.data.map((activity) => (
+                        <AuditItem 
+                            key={ activity.id } 
+                            activity={ activity }
+                        />
+                    ))
+                }
+            </div>
+        </div>
     );
 }
 

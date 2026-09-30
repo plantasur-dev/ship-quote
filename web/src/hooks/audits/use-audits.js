@@ -4,10 +4,13 @@ import { getRecentActivitiesAudit, getSearchActivitiesAudit } from "../../servic
 
 const EMPTY_FILTERS = {};
 
+
 export function useAudits({ typeList = false, filters = EMPTY_FILTERS } = {}) {
+    
     const [activities, setActivities] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [pagination, setPagination] = useState(null);
 
     const fetchAudits = useCallback(async () => {
         try {
@@ -19,6 +22,7 @@ export function useAudits({ typeList = false, filters = EMPTY_FILTERS } = {}) {
                 : await getSearchActivitiesAudit(filters);
 
             setActivities(activities);
+            setPagination(activities.pagination);
         } catch (error) {
             console.error('use-audits', error?.errors?.message);
             setError(error);
@@ -32,5 +36,6 @@ export function useAudits({ typeList = false, filters = EMPTY_FILTERS } = {}) {
         isLoading,
         error,
         refetch: fetchAudits,
+        pagination
     };
 }

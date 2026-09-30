@@ -7,10 +7,16 @@ export function useAuditFilters(initialFilters = INITIAL_FILTERS) {
     const [filters, setFilters] = useState(initialFilters);
 
     const updateFilter = useCallback((name, value) => {
-        setFilters((currentFilters) => ({
-            ...currentFilters,
-            [name]: value,
-        }));
+        setFilters((currentFilters) => {
+            if (currentFilters[name] === value) {
+                return currentFilters;
+            }
+            
+            return {
+                ...currentFilters,
+                [name]: value,
+            }
+        });
     }, []);
 
     const resetFilters = useCallback(() => {

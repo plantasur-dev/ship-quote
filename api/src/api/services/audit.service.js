@@ -2,6 +2,7 @@
 import Agency from "../../lib/models/agency.model.js";
 import Audit from "../../lib/models/audit.model.js";
 import User from "../../lib/models/user.model.js";
+import Session from "../../lib/models/session.model.js";
 
 function dateMatch(from, to) {
     if (!from && !to) return {};
@@ -29,10 +30,10 @@ export const getAuditsList = async ({ page = 1, limit = 14, criteria = {}, start
     limit = parseInt(limit) || 14;
 
     if (startDate) {
-        const startDate = new Date(pstartDate);
-        startDate.setHours(0, 0, 0, 0);
+        const parsedStartDate = new Date(startDate);
+        parsedStartDate.setHours(0, 0, 0, 0);
 
-        criteria.createdAt = { $gte: startDate };
+        criteria.createdAt = { $gte: parsedStartDate };
     }
 
     criteria.endpoint = { $not: /audits/ }
@@ -149,7 +150,7 @@ export async function getStats() {
         tariffSearchOfYesterday,
     ] = await Promise.all([
         Agency.countDocuments(),
-        User.countDocuments({
+        Session.countDocuments({
             createdAt: { $gte: startOfToday }
         }),
         User.countDocuments({

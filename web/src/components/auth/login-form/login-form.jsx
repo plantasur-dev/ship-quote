@@ -104,11 +104,11 @@ function LoginForm() {
                 </div>
 
                 { errors.emailUser && (
-                    <div className="mt-1 text-sm text-red-500">
-                        <div className='flex items-center gap-1 ml-2 mt-2'> 
-                            <CircleAlert size={ 16 } />
+                    <div className="mt-1 ml-2 mt-2 flex items-start gap-1 text-sm text-red-500">
+                        <CircleAlert size={ 16 } className="mt-0.5 shrink-0"/>
+                        <span className="break-words whitespace-normal">
                             { errors.emailUser.message }
-                        </div>
+                        </span>
                     </div>
                 )}
             </div>
@@ -171,11 +171,11 @@ function LoginForm() {
                 </div>
 
                 { errors.passwordUser && (
-                    <div className="mt-1 text-sm text-red-500">
-                        <div className='flex items-center gap-1 ml-2 mt-2'> 
-                            <CircleAlert size={ 16 } />
+                    <div className="mt-1 ml-2 mt-2 flex items-start gap-1 text-sm text-red-500">
+                        <CircleAlert size={ 16 } className="mt-0.5 shrink-0"/>
+                        <span className="break-words whitespace-normal">
                             { errors.passwordUser.message }
-                        </div>
+                        </span>
                     </div>
                 ) }
             </div>
@@ -186,13 +186,13 @@ function LoginForm() {
                     style={{ color: "#FCA5A5" }}
                     role="alert"
                 >
-                   <> 
-                        <MessageCircleWarning 
-                            size={ 16 }
-                            absoluteStrokeWidth={ true }
-                        /> 
+                   <span className="break-words whitespace-normal"> 
+                        <MessageCircleWarning size={ 16 } absoluteStrokeWidth={ true } /> 
+                    </span>
+
+                    <div className="break-words whitespace-normal">
                         { serverError }
-                    </>
+                    </div>
                 </div>
             )}
 

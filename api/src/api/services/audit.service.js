@@ -24,10 +24,26 @@ function dateComparison() {
 export const auditStore = async (data) => 
     await Audit.create(data);
 
-export const getAuditsList = async ({ page = 1, limit = 14, criteria = {}, startDate }) => {
+export const getAuditsList = async ({ 
+    page = 1, 
+    limit = 14, 
+    action, 
+    postalCode, 
+    startDate 
+} = {}) => {
+    const criteria = {};
 
     page = parseInt(page) || 1;
     limit = parseInt(limit) || 14;
+
+    if (action) criteria.action = action;
+    
+    if (postalCode) {
+        criteria['input.destinationPostalCode'] = {
+            $regex: postalCode,
+            $options: 'i'
+        };
+    }
 
     if (startDate) {
         const parsedStartDate = new Date(startDate);
@@ -35,13 +51,11 @@ export const getAuditsList = async ({ page = 1, limit = 14, criteria = {}, start
 
         criteria.createdAt = { $gte: parsedStartDate };
     }
-
-    criteria.endpoint = { $not: /audits/ }
     
     const startIndex = (page - 1) * limit;
     
-    const [audits, total] = await Promise.all([
-        Audit.find({ ...criteria })
+    const [audits, total, totalRecords] = await Promise.all([
+        Audit.find(criteria)
         .sort({ createdAt: -1 })
         .populate({
             path: 'userId',
@@ -51,11 +65,13 @@ export const getAuditsList = async ({ page = 1, limit = 14, criteria = {}, start
         .limit(limit)
         .skip(startIndex),
 
-        Audit.countDocuments({ ...criteria })
+        Audit.countDocuments(criteria),
+
+        Audit.countDocuments({
+            ...(action ? { action } : {})
+        })
     ]);
-    
-    if (audits.length === 0) return { data: audits };
-    
+        
     const totalPages = Math.ceil(total / limit);
 
     return {
@@ -67,6 +83,10 @@ export const getAuditsList = async ({ page = 1, limit = 14, criteria = {}, start
             totalPages,
             hasNextPage: page < totalPages,
             hasPrevPage: page > 1
+        },
+        meta: {
+            hasRecords: totalRecords > 0,
+            isFiltered: Boolean(postalCode)
         }
     }
 }

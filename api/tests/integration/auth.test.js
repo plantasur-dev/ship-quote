@@ -71,7 +71,7 @@ describe("POST /api/v1/auth/login", () => {
           email: validUser.email,
           password: "wrong-password"
       })
-      .expect(404);
+      .expect(401);
 
     expect(res.body).toHaveProperty("message", "Invalid email or password");
   });

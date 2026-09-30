@@ -1,21 +1,11 @@
 
-import { Inbox } from "lucide-react";
-import { EmptyState, ErrorState } from "../../../../ui";
+import { PackageOpen } from "lucide-react";
+import { EmptyState } from "../../../../ui";
 import AuditItem from "../audit-item/audit-item";
-import { useAuditFilters, useAudits, usePolling } from "../../../../../hooks";
-import { TIMER_ACTIVITY } from "../../../../../utils";
 
 
-function AuditList () {
-
-    const {
-        filters,
-    } = useAuditFilters({ limit: 40, action: 'TARIFF_SEARCH' });
+function AuditList ({ activities, isLoading }) {
     
-    const { activities, isLoading, refetch, error } = useAudits({ filters });
-
-    usePolling(refetch, TIMER_ACTIVITY);
-
     if (isLoading) {
         return (
             <div className="flex flex-col">
@@ -27,25 +17,23 @@ function AuditList () {
                         <div className="h-3 w-16 animate-pulse rounded bg-panel-border" />
                         <div className="h-3 w-24 animate-pulse rounded bg-panel-border" />
                         <div className="h-3 flex-1 animate-pulse rounded bg-panel-border" />
-                    </div>
-                )) }
-            </div>
+                    </div> ))}
+            </div> 
+        )
+    }
+
+    if (!activities?.meta?.hasRecords) {
+        return (
+            <EmptyState 
+                icon={ PackageOpen } 
+                description={ 'No existe aún actividad registrada' }
+            />
         );
     }
 
-    if (error !== null) {
-        return <ErrorState variant={ error.status } />;
-    }
-
-    if (!activities.length) {
-        return <EmptyState 
-            icon={ Inbox } 
-            description={ 'No existe aún actividad registrada' }
-        />
-    }
 
     return (
-        <div className="flex h-full flex-col rounded-2xl border border-panel-border bg-panel p-5">
+        <div className="flex flex-col rounded-2xl border border-panel-border bg-panel p-5 mb-6">
             <div className="mb-1 flex items-center justify-between">
                 <h2 className="font-display text-sm font-semibold text-text-primary">
                     Actividad
@@ -53,9 +41,9 @@ function AuditList () {
             </div>
 
             <div className="mt-3">
-                { activities.map((activity) => (
+                { activities.data.map((activity) => (
                         <AuditItem 
-                            key={ activity._id } 
+                            key={ activity.id } 
                             activity={ activity }
                         />
                     ))

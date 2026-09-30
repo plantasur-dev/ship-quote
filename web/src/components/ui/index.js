@@ -12,3 +12,5 @@ export { default as Siderbar } from './siderbar/siderbar';
 export { default as RouteSpinner } from './loaders/loader';
 export { default as RouteButton } from './buttons/route-button'
 export { default as DeleteButton } from './buttons/delete-button';
+export { default as InputFinder } from './finder/input-finder';
+export { default as Pagination } from './pagination/pagination';

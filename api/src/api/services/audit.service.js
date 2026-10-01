@@ -4,6 +4,9 @@ import Audit from "../../lib/models/audit.model.js";
 import User from "../../lib/models/user.model.js";
 import Session from "../../lib/models/session.model.js";
 
+import { getProvinceByCountryCodeAndPostalCode } from "./provinces.service.js";
+ 
+
 function dateMatch(from, to) {
     if (!from && !to) return {};
     const createdAt = {};
@@ -21,8 +24,28 @@ function dateComparison() {
     return { startOfToday, startOfYesterday };
 }
 
-export const auditStore = async (data) => 
+export const auditStore = async (data) => {
+
+    const { destinationPostalCode, countryCode } = data?.input ?? {};
+    
+    if(destinationPostalCode?.length) {
+        const location = getProvinceByCountryCodeAndPostalCode(
+            countryCode, 
+            destinationPostalCode
+        );
+
+        data = {
+            ...data,
+            input: {
+                ...data.input,
+                countryName: location.countryName,
+                provinceName: location.name,
+            }
+        }
+    }
+
     await Audit.create(data);
+};
 
 export const getAuditsList = async ({ 
     page = 1, 

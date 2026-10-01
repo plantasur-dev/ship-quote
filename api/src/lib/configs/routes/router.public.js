@@ -21,7 +21,7 @@ publicRouter.post('/auth/login', loginLimiter, Users.login);
 
 publicRouter.get('/locations/countries', publicLimiter, Locations.listCountries);
 publicRouter.get('/locations/provinces', publicLimiter, Locations.listProvinces);
-publicRouter.get('/locations/countries/:countryCode/provinces', publicLimiter,Locations.listCountryProvinces);
+publicRouter.get('/locations/countries/:countryCode/provinces', publicLimiter, Locations.listCountryProvinces);
 publicRouter.get('/locations/countries/:countryCode/provinces/:postalCode', publicLimiter, Locations.getProvince);
 
 publicRouter.post(

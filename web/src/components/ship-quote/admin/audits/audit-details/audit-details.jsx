@@ -30,7 +30,9 @@ function AuditDetails({ activityId }) {
  
     const { 
         countryCode, 
-        destinationPostalCode, 
+        countryName,
+        destinationPostalCode,
+        provinceName,
         items = [] 
     } = input ?? {};
   
@@ -74,7 +76,9 @@ function AuditDetails({ activityId }) {
                 </h3>
 
                 <Province 
-                    countryCode={ countryCode } 
+                    countryCode={ countryCode }
+                    countryName={ countryName }
+                    provinceName={ provinceName }
                     codePostal={ destinationPostalCode }
                     className={ 'mb-3' } 
                 />

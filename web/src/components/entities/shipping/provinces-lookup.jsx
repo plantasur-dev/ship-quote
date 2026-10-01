@@ -1,13 +1,25 @@
 
 import { Globe2, MapPin } from "lucide-react";
+import { useProvince } from "../../../hooks"; 
 
-function Province({ countryCode, codePostal, countryName, provinceName, className= '' }) {
-  
+function Province({ countryCode, codePostal, className= '' }) {
+ 
+    const { province, isLoadingProvince } = useProvince({ countryCode, codePostal });
+ 
     const isDomestic = countryCode === 'ES';
-  
+ 
+    if (isLoadingProvince) {
+        return (
+            <div className="mb-3 flex items-center gap-2">
+                <div className="h-7 w-44 animate-pulse rounded-full bg-panel-border" />
+                <div className="h-7 w-28 animate-pulse rounded-full bg-panel-border" />
+            </div>
+        );
+    }
+ 
     return (
-        <div className={ `flex w-max flex-nowrap items-center gap-2 ${ className }` }>
-            <span className={`min-w-[220px] justify-center inline-flex shrink-0 items-center gap-1 rounded-full border px-3 py-1 text-[11px] font-medium
+        <div className={ `flex flex-wrap items-center gap-2 ${ className }` }>
+            <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-medium
                 ${ isDomestic
                     ? 'border-green-300/25 bg-green-300/10 text-green-300'
                     : 'border-info/25 bg-info/10 text-info' }`
@@ -16,12 +28,12 @@ function Province({ countryCode, codePostal, countryName, provinceName, classNam
                 <MapPin className="h-3.5 w-3.5 shrink-0" />
                 <span className="font-mono tracking-wide">{ countryCode } { codePostal }</span>
  
-                { provinceName && (
+                { province?.name && (
                     <>
                         <span className="opacity-30">·</span>
                         <span className="font-normal opacity-80">
-                            { provinceName }
-                            { countryName ? `, ${ countryName }` : '' }
+                            { province.name }
+                            { province.countryName ? `, ${ province.countryName }` : '' }
                         </span>
                     </>
                 ) }

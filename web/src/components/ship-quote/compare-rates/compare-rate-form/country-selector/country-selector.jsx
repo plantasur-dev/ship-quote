@@ -54,13 +54,25 @@ function CountrySelector({ countries, isLoadingCountries }) {
                 País destino
             </label>
 
-            <div className="relative">
+            <div className={`                
+                ${ inputStyle }
                 
-                <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                    <Globe size={ 18 } />
-                </div>
+                border-slate-200
 
+                hover:border-slate-300 
+                
+                focus-within:border-indigo-300
+                focus-within:ring-2
+                focus-within:ring-indigo-200/70
+                focus-within:ring-offset-indigo-50
+            `} >
+                <Globe 
+                    size={ 18 } 
+                    className="shrink-0 text-indigo-400"
+                />
+                
                 <input
+                    className="h-full min-w-0 w-full outline-none"
                     value={ searchLocation }
                     placeholder={
                         isLoadingCountries
@@ -75,15 +87,6 @@ function CountrySelector({ countries, isLoadingCountries }) {
 
                     onFocus={ () => setShowDropdown(true) }
                     disabled={ isLoadingCountries }
-                    className={` 
-                        ${ inputStyle }
-
-                        pl-11
-                                                
-                        border-slate-200
-
-                        hover:border-slate-300 
-                    `}
                 />
 
             </div>

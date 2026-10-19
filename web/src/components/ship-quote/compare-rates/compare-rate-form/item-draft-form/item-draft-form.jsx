@@ -139,15 +139,29 @@ function ItemDraftForm({ onAddItem }) {
                                         duration-200
                                         cursor-pointer
                                         ${
-                                            active
+                                            errors?.typeServices 
                                                 ? `
-                                                    border-indigo-500
+                                                    border-red-300
+
+                                                    hover:border-red-300
+
+                                                    focus:border-red-300
+                                                    focus:ring-2
+                                                    focus:ring-red-200/70
+                                                    focus:ring-offset-red-50` 
+                                            : active
+                                                ? `
                                                     bg-indigo-50
+
+                                                    border-indigo-500
+                                                    
                                                     shadow-sm
                                                 `
                                                 : `
-                                                    border-slate-200
                                                     bg-white
+
+                                                    border-slate-200
+                                                    
                                                     hover:border-slate-300
                                                     hover:bg-slate-50
                                                 `
@@ -205,11 +219,22 @@ function ItemDraftForm({ onAddItem }) {
                                                 errors[item.field]
                                                     ? `
                                                         border-red-300
+
                                                         focus:border-red-400
                                                         focus:ring-red-400/10
+                                                        focus:ring-3
+                                                        focus:ring-red-200/70
+                                                        focus:ring-offset-red-50
                                                     `
                                                     : `
                                                         border-slate-200
+
+                                                        focus:border-indigo-300
+                                                        focus:ring-2
+                                                        focus:ring-indigo-200/70
+                                                        focus:ring-offset-indigo-50  
+
+                                                        hover:border-slate-300 
                                                     `
                                             }
                                         `}

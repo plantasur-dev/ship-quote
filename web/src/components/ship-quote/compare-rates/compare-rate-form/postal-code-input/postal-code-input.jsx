@@ -1,5 +1,5 @@
 
-import { MapPinOff } from 'lucide-react';
+import { MapPinOff, MapPinSearch } from 'lucide-react';
 
 import { useFormContext } from "react-hook-form";
 
@@ -24,43 +24,54 @@ function PostalCodeInput({ isLoadingProvinces }) {
                 Código postal
             </label>
 
-            <input
-                placeholder={
-                    isLoadingProvinces
-                        ? "Cargando provincias..."
-                        : "Buscar provincia..."
+            <div className={`
+                ${ inputStyle }
+
+                ${ errors?.destinationPostalCode 
+                    ? `
+                        border-red-300
+
+                        hover:border-red-300
+
+                        focus-within:border-red-300
+                        focus-within:ring-2
+                        focus-within:ring-red-200/70
+                        focus-within:ring-offset-red-50
+                    ` 
+                    : `
+                        border-slate-200
+
+                        hover:border-slate-300 
+                        
+                        focus-within:border-indigo-300
+                        focus-within:ring-2
+                        focus-within:ring-indigo-200/70
+                        focus-within:ring-offset-indigo-50
+                    `
                 }
+            `} >
+                <MapPinSearch 
+                    size={ 18 } 
+                    className="shrink-0 text-indigo-400"
+                />
+                
+                <input
+                    className="h-full min-w-0 w-full outline-none"
 
-                disabled={ isLoadingProvinces }
-
-                { ...register(
-                    'destinationPostalCode',
-                    validations?.destinationPostalCode
-                )}
-
-                className={`
-                    ${ inputStyle }
-                    ${
-                        errors?.destinationPostalCode
-                            ? `
-                                border-red-300
-
-                                hover:border-red-300
-
-                                focus:border-red-300
-                                focus:ring-2
-                                focus:ring-red-200/70
-                                focus:ring-offset-1
-                                focus:ring-offset-red-50 
-                            `
-                            : `
-                                border-slate-200
-
-                                hover:border-slate-300
-                            `
+                    placeholder={
+                        isLoadingProvinces
+                            ? "Cargando provincias..."
+                            : "Ej. 23400"
                     }
-                `}
-            />
+
+                    disabled={ isLoadingProvinces }
+
+                    { ...register(
+                        'destinationPostalCode',
+                        validations?.destinationPostalCode
+                    )}
+                />
+            </div>
 
             { errors?.destinationPostalCode && (
                 <p className="ml-4 mt-2 flex items-center gap-1 text-sm text-red-500">
@@ -68,6 +79,7 @@ function PostalCodeInput({ isLoadingProvinces }) {
                     { errors.destinationPostalCode.message }
                 </p>
             )}
+
         </div>
     );
 }

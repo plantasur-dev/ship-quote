@@ -84,17 +84,17 @@ export const exceptions = [
   ex("24793", "24795", "ES-LE", "ZONA 6"),
 
   // Asturias → ZONA 6
-  ex("33700", "33720", "ES-LE", "ZONA 6"),
-  ex("33724", "33736", "ES-LE", "ZONA 6"),
-  ex("33740", "33747", "ES-LE", "ZONA 6"),
-  ex("33749", "33750", "ES-LE", "ZONA 6"),
-  ex("33757", "33785", "ES-LE", "ZONA 6"),
-  ex("33787", "33819", "ES-LE", "ZONA 6"),
-  ex("33827", "33827", "ES-LE", "ZONA 6"),
-  ex("33830", "33839", "ES-LE", "ZONA 6"),
-  ex("33842", "33860", "ES-LE", "ZONA 6"),
-  ex("33866", "33885", "ES-LE", "ZONA 6"),
-  ex("33887", "33891", "ES-LE", "ZONA 6"),
+  ex("33700", "33720", "ES-O", "ZONA 6"),
+  ex("33724", "33736", "ES-O", "ZONA 6"),
+  ex("33740", "33747", "ES-O", "ZONA 6"),
+  ex("33749", "33750", "ES-O", "ZONA 6"),
+  ex("33757", "33785", "ES-O", "ZONA 6"),
+  ex("33787", "33819", "ES-O", "ZONA 6"),
+  ex("33827", "33827", "ES-O", "ZONA 6"),
+  ex("33830", "33839", "ES-O", "ZONA 6"),
+  ex("33842", "33860", "ES-O", "ZONA 6"),
+  ex("33866", "33885", "ES-O", "ZONA 6"),
+  ex("33887", "33891", "ES-O", "ZONA 6"),
 
   // Lérida → ZONA 7
   ex("25530", "25530", "ES-L", "ZONA 7"),
@@ -114,19 +114,19 @@ export const exceptions = [
 
 //------------------------------ PALLETS --------------------------------
 export const palletTypesRaw = [
-  { name: "FULL PALLET", maxWeight: 1200,  maxLength: 120, maxWidth: 100, maxHeight: 220 },
-  { name: "EURO PALLET", maxWeight: 900,  maxLength: 120, maxWidth: 80, maxHeight: 220 },
-  { name: "HALF PALLET", maxWeight: 600,  maxLength: 120, maxWidth: 100, maxHeight: 160 },
-  { name: "EXTRA LIGHT PALLET", maxWeight: 450,  maxLength: 120, maxWidth: 100, maxHeight: 220 },
-  { name: "SUPER EURO LIGHT PALLET", maxWeight: 300,  maxLength: 120, maxWidth: 80, maxHeight: 220 },
-  { name: "QUARTER PALLET", maxWeight: 300,  maxLength: 120, maxWidth: 120, maxHeight: 110 },
-  { name: "MINI QUARTER PALLET", maxWeight: 150,  maxLength: 120, maxWidth: 1000, maxHeight: 80 },
-  { name: "MINI QUARTER PALLET", maxWeight: 150,  maxLength: 60, maxWidth: 80, maxHeight: 120 }
+  { name: "FULL PALLET", maxWeight: 1200,  maxLength: 100, maxWidth: 120, maxHeight: 220 },
+  { name: "EURO PALLET", maxWeight: 900,  maxLength: 80, maxWidth: 120, maxHeight: 220 },
+  { name: "HALF PALLET", maxWeight: 600,  maxLength: 100, maxWidth: 120, maxHeight: 160 },
+  { name: "EXTRA LIGHT PALLET", maxWeight: 450,  maxLength: 100, maxWidth: 120, maxHeight: 220 },
+  { name: "SUPER EURO LIGHT PALLET", maxWeight: 300,  maxLength: 80, maxWidth: 120, maxHeight: 220 },
+  { name: "QUARTER PALLET", maxWeight: 300,  maxLength: 100, maxWidth: 120, maxHeight: 110 },
+  { name: "MINI QUARTER PALLET", maxWeight: 150,  maxLength: 100, maxWidth: 120, maxHeight: 80 },
+  { name: "MINI QUARTER PALLET", maxWeight: 150,  maxLength: 80, maxWidth: 60, maxHeight: 120 }
 ];
 
 // ---------------- RATES TECUM ----------------
 // Rate economy and premium - Pallets: Mini Quarter, Quarter, Super Euro Light, Half
-export const palletSimple = {
+export const tecumPalletRates = {
   "ZONA 21": [37.07, 39.39, 44.86, 46.19, 35.14, 36.29, 42.20, 44.16],
   "ZONA 22": [38.71, 42.33, 48.69, 51.15, 36.68, 37.87, 44.81, 48.34],
   "ZONA 23": [39.69, 44.44, 50.75, 53.19, 37.69, 38.85, 46.21, 50.40],
@@ -150,7 +150,7 @@ export const palletSimple = {
   "ZONA 17": ['', '', '', '', 27.00, 27.00, 27.00, 27.00],
   };
 
-export const ExtraLight = {
+export const tecumExtraLightRates = {
   "ZONA 21": { premium: [47.66,45.92,44.77], economy: [44.40,43.25,42.11] },
   "ZONA 22": { premium: [51.63,49.82,48.62], economy: [48.75,46.93,45.74] },
   "ZONA 23": { premium: [54.25,52.44,51.28], economy: [51.36,49.61,48.43] },
@@ -172,7 +172,7 @@ export const ExtraLight = {
   "ZONA 17": { premium: [], economy: [27,27,27] }
 };
 
-export const EuroPallet = {
+export const tecumEuroPalletRates = {
   "ZONA 21": { premium: [49.66,47.88,46.71,46.13,45.53], economy: [45.75,43.98,42.82,42.24,41.64] },
   "ZONA 22": { premium: [53.75,51.91,50.67,50.05,49.45], economy: [49.70,47.74,46.52,45.92,45.30] },
   "ZONA 23": { premium: [56.99,55.19,53.98,53.35,52.76], economy: [52.86,51.06,49.86,49.26,48.66] },
@@ -199,7 +199,7 @@ export const EuroPallet = {
   "ZONA 17": { premium: [], economy: [31,31,31,31,31] }
 };
 
-export const Full = {
+export const tecumFullRates = {
   "ZONA 21": { premium: [51.06,49.32,48.16,47.57,47.01], economy: [47.21,45.48,44.34,43.75,43.18] },
   "ZONA 22": { premium: [55.16,53.34,52.13,51.53,50.92], economy: [51.04,49.25,48.05,47.43,46.84] },
   "ZONA 23": { premium: [58.30,56.52,55.33,54.75,54.13], economy: [54.22,52.45,51.29,50.69,50.11] },

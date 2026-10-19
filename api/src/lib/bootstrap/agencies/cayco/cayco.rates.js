@@ -8,8 +8,7 @@ import {
 } from '../../../utils/bootstrap.utils.js';
 
 import { 
-  buildBreaks, 
-  buildWeightBreaks 
+  buildBreaks,
 } from '../../../utils/agency/cayco.utils.js';
 
 import { 
@@ -36,10 +35,10 @@ export async function ratesCayco() {
   if (!result) return;
 
   const { agency, model } = result;
-  
-  await model.deleteMany(agency.agencyId);
 
-  const palletTypes = await PalletType.find(agency.agencyId);
+  await model.deleteMany({ agencyId: agency._id });
+
+  const palletTypes = await PalletType.find({ agencyId: agency._id });
 
   const inserts = [];
 

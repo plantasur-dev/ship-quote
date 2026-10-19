@@ -5,28 +5,24 @@ import Rate from '../../../models/rate.model.js';
 
 import PalletType from '../../../models/palletType.model.js';
 
-import { 
-  buildPriceBreaks
-} from '../../../utils/agency/tecum.utils.js';
+import { buildPriceBreaks } from '../../../utils/agency/tecum.utils.js';
 
-import {
-  fixed
-} from '../../../utils/bootstrap.utils.js';
+import { fixed } from '../../../utils/bootstrap.utils.js';
 
 import { 
-  palletSimple, 
-  ExtraLight, 
-  EuroPallet, 
-  Full,
+  tecumPalletRates, 
+  tecumExtraLightRates, 
+  tecumEuroPalletRates, 
+  tecumFullRates,
   palletMap 
 } from '../../../data/tecum.js';
 
 import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';
 
 const tablesConfig = [
-  { table: ExtraLight, palletName: 'EXTRA LIGHT PALLET' },
-  { table: EuroPallet, palletName: 'EURO PALLET' },
-  { table: Full, palletName: 'FULL PALLET' }
+  { table: tecumExtraLightRates, palletName: 'EXTRA LIGHT PALLET' },
+  { table: tecumEuroPalletRates, palletName: 'EURO PALLET' },
+  { table: tecumFullRates, palletName: 'FULL PALLET' }
 ];
 
 const params = { 
@@ -34,6 +30,7 @@ const params = {
   collection: 'rate'
 }
 
+// Pallets Quantity
 async function ratesByQuantityTecum() {
 
   const agency = await Agency.findOne({ code: params.code });
@@ -99,6 +96,7 @@ async function ratesByQuantityTecum() {
   });
 };
 
+// Pallets Simple
 export async function ratesTecum() {
 
   const result = await checkExists(params);
@@ -113,41 +111,40 @@ export async function ratesTecum() {
 
   const inserts = [];
 
-  for (const [zone, prices] of Object.entries(palletSimple)) {
-
+  for (const [zone, prices] of Object.entries(tecumPalletRates)) {
     for (let i = 0; i < palletMap.length; i++) {
-
       const palletName = palletMap[i];
-      const pallet = palletTypes.find(p => p.name === palletName);
+      const matchingPallets = palletTypes.filter(p => p.name === palletName);
 
-      if (!pallet) {
-        logger.warn({
-          event: 'rate:bootstrap:error',
-          service: 'ship-quote-api',
+      if (!matchingPallets.length) {
+        loggerMsg({
+          status: 'warning',
+          collection: params.collection,
           message: `Pallet no encontrado: ${ palletName }`,
-          component: 'database'
         });
         continue;
       }
 
-      inserts.push({
-        agencyId: agency._id,
-        type: 'pallet',
-        zoneName: zone,
-        palletTypeId: pallet._id,
-        services: [
-          {
-            service: 'premium',
-            priceBreaks: fixed(prices[i]),
-            fallbackToLastPrice: true
-          }, 
-          {
-            service: 'economy',
-            priceBreaks: fixed(prices[i + 4]),
-            fallbackToLastPrice: true
-          }
-        ]
-      });
+      for (const pallet of matchingPallets) {
+        inserts.push({
+          agencyId: agency._id,
+          type: 'pallet',
+          zoneName: zone,
+          palletTypeId: pallet._id,
+          services: [
+            {
+              service: 'premium',
+              priceBreaks: fixed(prices[i]),
+              fallbackToLastPrice: true
+            }, 
+            {
+              service: 'economy',
+              priceBreaks: fixed(prices[i + 4]),
+              fallbackToLastPrice: true
+            }
+          ]
+        });
+      }
     }
   }
 

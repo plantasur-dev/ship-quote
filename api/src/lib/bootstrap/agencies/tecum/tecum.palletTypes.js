@@ -1,6 +1,4 @@
 
-import PalletType from '../../../models/palletType.model.js';
-
 import { palletTypesRaw } from '../../../data/tecum.js';
 
 import { checkExists, loggerMsg } from '../../../utils/logger.utils.js';

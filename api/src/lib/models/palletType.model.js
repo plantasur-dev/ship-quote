@@ -57,8 +57,16 @@ const sanitizeInput = (value) =>
 const triggerRefresh = () => invalidateAgencyTariffs();
 
 palletTypeSchema.post(
-    ['save', 'findOneAndUpdate', 'findOneAndDelete', 'deleteOne', 'updateOne']
-    , triggerRefresh);
+    [
+        'save', 
+        'findOneAndUpdate', 
+        'findOneAndDelete', 
+        'deleteOne', 
+        'updateOne',
+        'insertMany'
+    ], 
+    triggerRefresh
+);
 
 const PalletType = mongoose.model('PalletType', palletTypeSchema);
 

@@ -184,11 +184,17 @@ rateSchema.index({
 
 const triggerRefresh = () => invalidateAgencyTariffs();
 
-rateSchema.post('save', triggerRefresh);
-rateSchema.post('findOneAndUpdate', triggerRefresh);
-rateSchema.post('findOneAndDelete', triggerRefresh);
-rateSchema.post('deleteOne', triggerRefresh);
-rateSchema.post('updateOne', triggerRefresh);
+rateSchema.post(
+    [
+        'save', 
+        'findOneAndUpdate', 
+        'findOneAndDelete', 
+        'deleteOne', 
+        'updateOne',
+        'insertMany'
+    ], 
+    triggerRefresh
+);
 
 const Rate = mongoose.model("Rate", rateSchema);
 

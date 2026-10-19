@@ -28,14 +28,6 @@ export const correosZones = {
                 "PT-MAD", "PT-ACO",
             ]
         },
-        {
-            name: "ANDALUCIA",
-            provinces: [],
-        },
-        {
-            name: "PROVINCIAL",
-            provinces: [],
-        }
     ],
     calculationMode: "parcel",
     pricingMode: { type: "weight_volume" },

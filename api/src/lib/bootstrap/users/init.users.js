@@ -5,46 +5,50 @@ import User from "../../models/user.model.js";
 
 const initUser = async () => {
 
-    const exists = await User.findOne();
+    const isTest = process.env.NODE_ENV === "test";
 
-    if (exists) {
-        logger.info({
-            event: 'user:bootstrap:skip',
-            message: `User collection exite, se omit`,
-            component: 'database'
-        });
-        return;
-    }
-
-    const userData = (process.env.NODE_ENV === 'test') ? {
-        "username": "ADMIN",
-        "email": "test@test.com",
-        "password": "123456"
-    } : {
-        "username": "Root",
-        "email": process.env.SHIP_ADMIN_USER,
-        "password": process.env.SHIP_ADMIN_PASS
-    };
-
-    if (process.env.NODE_ENV !== 'test' && 
+    if (!isTest && 
         (!process.env.SHIP_ADMIN_USER || !process.env.SHIP_ADMIN_PASS)
     ) {
         throw new Error('SHIP_ADMIN_USER or SHIP_ADMIN_PASS env var is not set');
     }
 
-    const user = await User.create(userData);
+    const email = isTest
+        ? "test@test.com"
+        : process.env.SHIP_ADMIN_USER;
 
-    const message = (!user) ? {
-        event: 'user:bootstrap:error',
-        message: `Usuario default no creado`,
-        component: 'database'
-    } : {
-        event: 'user:bootstrap:success',
-        message: `Usuario default completado`,
-        component: 'database'
-    };
+    const password = isTest
+        ? "123456"
+        : process.env.SHIP_ADMIN_PASS;
 
-    logger.info(message);
+    if (!email || !password) {
+        throw new Error(
+            "Admin credentials are not configured"
+        );
+    }
+
+    const exists = await User.findOne({ email });
+
+    if (exists) {
+        logger.info({
+            event: 'user:bootstrap:skip',
+            message: `Default user already exists`,
+            component: 'database'
+        });
+        return;
+    }
+
+    await User.create({
+        username: isTest ? "ADMIN" : "Root",
+        email,
+        password,
+    });
+
+    logger.info({
+        event: "user:bootstrap:success",
+        message: "Default admin user created",
+        component: "database",
+    });
 };
 
 export default initUser;

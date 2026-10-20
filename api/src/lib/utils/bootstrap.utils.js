@@ -115,16 +115,16 @@ export async function zonesBootstrap({
         volumetric = [] 
     } = rules;
     
-    const docs = zones.map(zone => 
-     zoneBuilder
-        ? zoneBuilder(zone, agency) 
+    const docs = zones.map(zone =>
+        zoneBuilder
+        ? zoneBuilder(zone, agency)
         : {
             agencyId: agency._id,
             name: zone.name,
             provinces: zone.provinces,
-            calculationMode,
-            pricingMode,
-            volumetric
+            calculationMode: zone.calculationMode ?? calculationMode,
+            pricingMode: zone.pricingMode ?? pricingMode,
+            volumetric: zone.volumetric ?? volumetric
         }
     );
 

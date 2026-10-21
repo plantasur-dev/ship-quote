@@ -1,7 +1,4 @@
-
 import createHttpError from "http-errors";
-
-import mongoose from "mongoose";
 
 import {
     SHIPMENT_UNIT_ARRAY as CALCULATION_MODES, 
@@ -14,7 +11,7 @@ import ZoneRules from "../../models/zone.rules.model.js";
 
 import { validateName } from "./middleware.utils.js";
 
-import { provincesData } from "../../data/location.js";
+import provincesData from '../../../lib/data/location.packages/location.js';
   
 const validProvinceNames = new Set(
     provincesData.map(province => (`${ province.countryCode }-${ province.adminCode }`))

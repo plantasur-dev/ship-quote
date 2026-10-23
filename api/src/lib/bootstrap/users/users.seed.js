@@ -1,6 +1,5 @@
 
-import logger from "../../logger/logger.js";
-
+import { logResult, SEED_STATUS } from "../../utils/seed.utils.js";
 import User from "../../models/user.model.js";
 
 const initUser = async () => {
@@ -30,10 +29,12 @@ const initUser = async () => {
     const exists = await User.findOne({ email });
 
     if (exists) {
-        logger.info({
-            event: 'user:bootstrap:skip',
+       logResult({
+            status: SEED_STATUS.UNCHANGED,
+            code: 'Packages users', 
             message: `Default user already exists`,
-            component: 'database'
+            errors: [],
+            warnings: []
         });
         return;
     }
@@ -44,10 +45,12 @@ const initUser = async () => {
         password,
     });
 
-    logger.info({
-        event: "user:bootstrap:success",
-        message: "Default admin user created",
-        component: "database",
+    logResult({
+        status: SEED_STATUS.APPLIED,
+        code: 'Packages users', 
+        message: `Default admin user created`,
+        errors: [],
+        warnings: []
     });
 };
 

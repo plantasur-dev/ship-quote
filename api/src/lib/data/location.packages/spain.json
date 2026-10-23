@@ -36,7 +36,6 @@
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Palencia",                 "adminCode": "P",  "postalCode": "34" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Pontevedra",               "adminCode": "PO", "postalCode": "36" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Salamanca",                "adminCode": "SA", "postalCode": "37" },
-        { "countryCode": "ES", "countryName":"Spain" ,"name": "Santa Cruz de Tenerife",   "adminCode": "TF", "postalCode": "38" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Segovia",                  "adminCode": "SG", "postalCode": "40" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Sevilla",                  "adminCode": "SE", "postalCode": "41" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Soria",                    "adminCode": "SO", "postalCode": "42" },
@@ -52,13 +51,15 @@
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Ceuta",                    "adminCode": "CE", "postalCode": "51" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Melilla",                  "adminCode": "ML", "postalCode": "52" },
 
-        { "countryCode": "ES", "countryName":"Spain" ,"name": "Gran Canaria",             "adminCode": "GC-GC", "postalCode": "35" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Tenerife",                 "adminCode": "TF-TE", "postalCode": "38" },
-        { "countryCode": "ES", "countryName":"Spain" ,"name": "Fuerteventura",            "adminCode": "GC-FU", "postalCode": "35" },
-        { "countryCode": "ES", "countryName":"Spain" ,"name": "Lanzarote",                "adminCode": "GC-LA", "postalCode": "35" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "La Palma",                 "adminCode": "TF-LP", "postalCode": "38" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "La Gomera",                "adminCode": "TF-LG", "postalCode": "38" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "El Hierro",                "adminCode": "TF-EH", "postalCode": "38" },
+        
+        { "countryCode": "ES", "countryName":"Spain" ,"name": "Gran Canaria",             "adminCode": "GC-GC", "postalCode": "35" },
+        { "countryCode": "ES", "countryName":"Spain" ,"name": "Fuerteventura",            "adminCode": "GC-FU", "postalCode": "35" },
+        { "countryCode": "ES", "countryName":"Spain" ,"name": "Lanzarote",                "adminCode": "GC-LA", "postalCode": "35" },
+
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Mallorca",                 "adminCode": "BI-ML", "postalCode": "07" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Menorca",                  "adminCode": "BI-MN", "postalCode": "07" },
         { "countryCode": "ES", "countryName":"Spain" ,"name": "Ibiza",                    "adminCode": "BI-IB", "postalCode": "07" },

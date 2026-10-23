@@ -15,6 +15,7 @@ Plataforma fullstack para consultar, comparar y administrar tarifas de transport
 - [Qué resuelve](#qué-resuelve)
 - [Arquitectura](#arquitectura)
 - [API](#api)
+- [Paquetes de agencias](#paquetes-de-agencias)
 - [Web](#web)
 - [Puesta en marcha](#puesta-en-marcha)
 - [Docker y observabilidad](#docker-y-observabilidad)
@@ -141,6 +142,22 @@ La documentación interactiva está disponible en `/api-docs` cuando la aplicaci
 5. Se aplican reglas, suplementos y restricciones de la agencia.
 6. La respuesta se normaliza para que la Web pueda ordenar y presentar los servicios comparados.
 
+### Paquetes de agencias
+
+Las tarifas estáticas y sus zonas se mantienen en paquetes JSON canónicos dentro de
+[`api/src/lib/data/rate.packages/`](api/src/lib/data/rate.packages/). El bootstrap
+recorre los archivos JSON de esa carpeta, valida las referencias de zona y pallet,
+y sincroniza los datos con MongoDB. Al aplicar un paquete se reemplazan los datos
+tarifarios de esa agencia (zonas, reglas, pallets y tarifas); la configuración
+operativa de una agencia ya existente no se actualiza desde el JSON.
+
+Para añadir o modificar una integración estática, consulta la
+[guía de paquetes de agencia](docs/PACKAGE.md), que describe el contrato JSON,
+las reglas postales, los modos de cálculo, la sincronización y las comprobaciones
+recomendadas. La guía documenta el comportamiento que implementa actualmente el
+bootstrap; no presupone validaciones de esquema o normalización que aún no estén
+conectadas al flujo.
+
 ## Web
 
 ### Responsabilidad
@@ -194,7 +211,7 @@ npm run lint      # ESLint
 
 ### Requisitos
 
-- Node.js 18 o superior; se recomienda Node.js 24.
+- Node.js 24 LTS (versión recomendada para desarrollo y ejecución).
 - npm.
 - MongoDB local o accesible desde `MONGODB_URI`.
 - Docker y Docker Compose para el despliegue containerizado.
@@ -291,7 +308,8 @@ docker compose down -v  # Elimina también los volúmenes persistentes
 ## Documentación
 
 - [API-ENDPOINTS.md](docs/API-ENDPOINTS.md): endpoints, cuerpos y respuestas de la API.
-- [DOCUMENTATION.md](docs/DOCUMENTATION.md): documentación funcional y técnica.
+- [PACKAGE.md](docs/PACKAGE.md): contrato y guía detallada para paquetes JSON de agencias.
+- [DOCUMENTATION.md](docs/DOCUMENTATION.md): índice de la documentación disponible.
 - [SPEC.md](docs/SPEC.md): especificación del dominio y cálculo de tarifas.
 - [ShipQuote API.postman_collection.json](docs/ShipQuote%20API.postman_collection.json): colección para probar la API desde Postman.
 

@@ -1,14 +1,5 @@
-export const fixed = (price) => [{ min: 1, max: 1, price }];
 
-export function ex(from, to, province, zoneName) {
-  return { from, to, province, zoneName, kind: 'exception' };
-};
-
-export function prefixZone(representativeCp, province, zoneName) {
-    return { from: representativeCp, to: representativeCp, province, zoneName, kind: 'prefix' };
-}
-
-function buildZoneRules(insertedZones, exceptions, agencyId) {
+export function buildZoneRules(insertedZones, exceptions, agencyId) {
 
     const rules = [];
 
@@ -115,16 +106,16 @@ export async function zonesBootstrap({
         volumetric = [] 
     } = rules;
     
-    const docs = zones.map(zone => 
-     zoneBuilder
-        ? zoneBuilder(zone, agency) 
+    const docs = zones.map(zone =>
+        zoneBuilder
+        ? zoneBuilder(zone, agency)
         : {
             agencyId: agency._id,
             name: zone.name,
             provinces: zone.provinces,
-            calculationMode,
-            pricingMode,
-            volumetric
+            calculationMode: zone.calculationMode ?? calculationMode,
+            pricingMode: zone.pricingMode ?? pricingMode,
+            volumetric: zone.volumetric ?? volumetric
         }
     );
 

@@ -1,6 +1,5 @@
 
-import morgan, { token } from 'morgan';
-
+import morgan from 'morgan';
 import logger from './logger.js';
 
 const logHttpRequest = (type, params) => {

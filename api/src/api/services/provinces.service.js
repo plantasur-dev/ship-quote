@@ -1,10 +1,7 @@
 
 import Location from '../../lib/models/location.model.js';
 import logger from '../../lib/logger/logger.js';
-import { 
-    provincesData, 
-    specialIslands 
-} from '../../lib/data/location.js';
+import provincesData from '../../lib/data/location.packages/location.js';
 
 let provincesByCountryCode = new Map();
 
@@ -60,7 +57,6 @@ export const initProvinces = async () => {
     const provinces = [];
 
     provinces.push(createLocations(provincesData));
-    provinces.push(createLocations(specialIslands));
 
     const locationsAll = provinces.flat();
 

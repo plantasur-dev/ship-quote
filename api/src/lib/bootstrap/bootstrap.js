@@ -1,17 +1,10 @@
 
 import mongoose from 'mongoose';
 
-import initUser from './users/init.users.js';
-import initAgencies from './agencies/init.agencies.js';
-import initAgenciesData from './agencies/init.agencies.data.js';
-import { 
-    initProvinces, 
-    loadProvinces
-} from '../../api/services/provinces.service.js';
-
-import { 
-    loadCountries 
-} from "../../api/services/countries.service.js";
+import initUser from './users/users.seed.js';
+import initAgencies from './agencies/agencies.seed.js';
+import { initProvinces, loadProvinces } from '../../api/services/provinces.service.js';
+import { loadCountries } from "../../api/services/countries.service.js";
 
 
 async function bootstrap() {
@@ -35,11 +28,10 @@ async function bootstrap() {
     await Promise.all([
         loadCountries(),
         loadProvinces(),
-        initUser(),
-        initAgencies(),
+        initUser()
     ]);
 
-    await initAgenciesData();
+    await initAgencies();
 }
 
 export default bootstrap;

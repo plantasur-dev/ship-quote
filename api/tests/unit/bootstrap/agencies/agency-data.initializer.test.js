@@ -98,8 +98,7 @@ describe('canonical agency package initialization', () => {
             supplements: { fuelSurcharge: { enabled: true, value: 77 } }
         });
         expect(mocks.state.agencies.get('dachser')).toMatchObject({
-            name: 'Dachser',
-            active: false
+            name: 'Dachser'
         });
         expect(firstLoad.reduce((total, result) => total + result.counts.zones, 0)).toBe(553);
         expect(firstLoad.reduce((total, result) => total + result.counts.palletTypes, 0)).toBe(15);

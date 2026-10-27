@@ -4,7 +4,7 @@
     "name": "Dachser",
     "code": "dachser",
     "type": "api",
-    "active": false,
+    "active": true,
     "rules": {
       "hasAndaluciaRule": false,
       "supportsPallets": true,

@@ -51,6 +51,11 @@ export const validateItem = (item, index) => {
     if (errors.length) {
         throw createHttpError(400, `Item ${ index + 1 }: ${ errors.join(', ') }`);
     }
+
+    item.weight = Number(item.weight);
+    item.large = Number(item.large);
+    item.width = Number(item.width);
+    item.height = Number(item.height);
 };
 
 const validatePriceBreaks = (priceBreaks, index) => {

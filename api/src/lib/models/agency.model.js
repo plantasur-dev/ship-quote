@@ -62,6 +62,17 @@ const agencySchema = new mongoose.Schema({
             default: [SCOPE_TYPES.NATIONAL]
         }
     },
+    volumetric: {
+        enabled: {
+            type: Boolean,
+            default: false
+        },
+        factor: {
+            type: Number,
+            min: 0,
+            default: 200
+        }
+    },
     supplements: {
         fuelSurcharge: {
             enabled: {

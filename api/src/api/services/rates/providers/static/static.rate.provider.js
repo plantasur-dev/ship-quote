@@ -1,39 +1,14 @@
 
-import { 
-    getAgencyTariffs 
-} from '../../../cache.service.js';
+import { getAgencyTariffs } from '../../../cache.service.js';
+import { loadDataStaticRate } from '../../../../../lib/utils/rate.utils.js';
+import { resolveZone } from '../../domains/zone/zone.rules.js';
+import { filterEligibleAgencies } from '../../domains/agency/agency.eligibility.js';
+import { calculatePallet } from './pallet.rate.calculator.js';
+import { calculateParcel } from './parcel.rate.calculator.js';
+import { buildStaticErrorResult } from '../../domains/build.rate.result.js';
+import { presentAgencyRate } from '../../presenters/rate.presenter.js';
+import { SHIPMENT_UNITS } from '../../../../../lib/constants/index.js';
 
-import {
-    loadDataStaticRate
-} from '../../../../../lib/utils/rate.utils.js';
-
-import {
-    resolveZone
-} from '../../domains/zone/zone.rules.js';
-
-import {
-    filterEligibleAgencies
-} from '../../domains/agency/agency.eligibility.js';
-
-import {
-    calculatePallet
-} from './pallet.rate.calculator.js';
-
-import {
-    calculateParcel
-} from './parcel.rate.calculator.js';
-
-import { 
-    buildStaticErrorResult, 
-} from '../../domains/build.rate.result.js';
-
-import {
-    presentAgencyRate
-} from '../../presenters/rate.presenter.js';
-
-import { 
-    SHIPMENT_UNITS 
-} from '../../../../../lib/constants/index.js';
 
 export default async function getStaticRates(agencies, { destinationPostalCode, province, items, zone: defaultZoneLabel }) {
     
@@ -71,11 +46,14 @@ function calculateAgencyStaticRate({ agency, tariffStore, destinationPostalCode,
             agencyPalletTypes
         } = loadDataStaticRate(agency, tariffStore);
 
+        const nameAgency = agency.name;
+        const agencyVolumetric = agency.volumetric;
+
         const zone = resolveZone(agencyData, destinationPostalCode, province);
 
         if (!zone) {
             return buildStaticErrorResult({
-                agency: agency.name,
+                agency: nameAgency,
                 zone: defaultZoneLabel,
                 code: 'ZONE_NOT_FOUND'
             });
@@ -86,18 +64,20 @@ function calculateAgencyStaticRate({ agency, tariffStore, destinationPostalCode,
 
         const calculators = {
             [SHIPMENT_UNITS.PALLET]: () => calculatePallet({
-                nameAgency: agency.name,
+                nameAgency,
                 palletItems,
                 agencyRates,
                 agencyPalletTypes,
                 zone,
+                agencyVolumetric,
                 agencySupplements
             }),
             [SHIPMENT_UNITS.PARCEL]: () => calculateParcel({
-                nameAgency: agency.name,
+                nameAgency,
                 parcelItems,
                 agencyRates,
                 zone,
+                agencyVolumetric,
                 agencySupplements
             })
         };
@@ -106,7 +86,7 @@ function calculateAgencyStaticRate({ agency, tariffStore, destinationPostalCode,
 
         if (!calculator) {
             return buildStaticErrorResult({
-                agency: agency.name,
+                agency: nameAgency,
                 zone: zone.name,
                 code: 'UNSUPPORTED_CALCULATION_MODE',
                 message: `Unsupported calculation mode: ${ zone.calculationMode }`

@@ -69,7 +69,7 @@ describe('calculateWeightVolume', () => {
     const zone = {
         calculationMode: 'pallet',
         name: 'Madrid',
-        volumetric: true,
+        volumetric: { enabled: true, factor: 250 },
         pricingMode: {
             type: 'weight_volume'
         }
@@ -143,14 +143,22 @@ describe('calculateWeightVolume', () => {
         ]);
 
         const agencySupplements = { fuelSurcharge: { enabled: true } };
+        const agencyVolumetric = { enabled: true, factor: 300 };
 
         const result = calculateWeightVolume({
             palletItems: [{}, {}],
             agencyRates,
             zone,
+            agencyVolumetric,
             agencySupplements
         });
 
+        expect(getEffectiveWeight).toHaveBeenNthCalledWith(
+            1,
+            {},
+            250
+        );
+        expect(getEffectiveWeight).toHaveBeenNthCalledWith(2, {}, 250);
         expect(buildConcept).toHaveBeenCalled();
 
         expect(buildRateResult).toHaveBeenCalledWith({

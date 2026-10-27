@@ -16,15 +16,21 @@ import {
     buildRejectedServices
 } from '../../domains/build.rate.result.js';
 
-import {
-    SHIPMENT_UNITS
-} from '../../../../../lib/constants/index.js';
+import { resolveVolumetricFactor } from '../../../../../lib/utils/rate.utils.js';
+import { SHIPMENT_UNITS } from '../../../../../lib/constants/index.js';
 
-export function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplements }) {
-    
+
+export function calculateWeightVolume({
+    palletItems,
+    agencyRates,
+    zone,
+    agencyVolumetric,
+    agencySupplements
+}) {
+    const factor = resolveVolumetricFactor(zone?.volumetric, agencyVolumetric);
     const totalWeight = palletItems.reduce((sum, item) => 
-        sum += getEffectiveWeight(item, zone?.volumetric)
-        , 0
+        sum + getEffectiveWeight(item, factor),
+        0
     );
 
     const rate = agencyRates.get(`${zone.calculationMode}|${zone.name}|none`);

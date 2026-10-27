@@ -16,6 +16,13 @@ const STAT_KEYS = ['palletTypes', 'zones', 'zoneRules', 'rates'];
 const sameStats = (a, b) =>
     Boolean(a && b) && STAT_KEYS.every(key => (a[key] ?? 0) === (b[key] ?? 0));
 
+const sameVolumetric = (stored, configured) =>
+    configured === undefined ||
+    (
+        stored?.enabled === configured.enabled &&
+        (stored?.factor ?? 200) === (configured.factor ?? 200)
+    );
+
 async function seedAgency({ file, content }, { deps, force }) {
     let pkg;
 
@@ -41,7 +48,11 @@ async function seedAgency({ file, content }, { deps, force }) {
         if (stored && !force) {
             const state = await deps.getSyncState(code);
 
-            if (state?.packageHash === hash && sameStats(state.stats, await deps.countAgencyData(stored))) {
+            if (
+                state?.packageHash === hash &&
+                sameStats(state.stats, await deps.countAgencyData(stored)) &&
+                sameVolumetric(stored.volumetric, pkg.agency.volumetric)
+            ) {
                 return { ...base, status: SEED_STATUS.UNCHANGED, message: 'sin cambios' };
             }
         }
@@ -53,6 +64,17 @@ async function seedAgency({ file, content }, { deps, force }) {
         }
 
         const counts = await deps.applyPackage({ pkg, agency });
+
+        if (pkg.agency.volumetric !== undefined) {
+            const updatedAgency = await deps.updateAgencyVolumetric(
+                agency._id,
+                pkg.agency.volumetric
+            );
+
+            if (!updatedAgency) {
+                throw new Error(`No se pudo actualizar la configuración volumétrica de ${ code }`);
+            }
+        }
 
         await deps.saveSyncState(code, {
             agencyCode: code,

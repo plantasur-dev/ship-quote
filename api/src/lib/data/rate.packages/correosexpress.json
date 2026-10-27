@@ -14,6 +14,10 @@
         "international"
       ]
     },
+    "volumetric": {
+      "enabled": true,
+      "factor": 166.67
+    },
     "supplements": {
       "fuelSurcharge": {
         "enabled": true,

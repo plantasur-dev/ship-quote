@@ -26,6 +26,13 @@ export const defaultDependencies = {
 
     createAgency: ({ code, ...definition }) => Agency.create(definition),
 
+    updateAgencyVolumetric: (agencyId, volumetric) =>
+        Agency.findByIdAndUpdate(
+            agencyId,
+            { $set: { volumetric } },
+            { new: true, runValidators: true }
+        ).lean(),
+
     getSyncState: agencyCode => PackageSync.findOne({ agencyCode }).lean(),
 
     saveSyncState: (agencyCode, data) =>

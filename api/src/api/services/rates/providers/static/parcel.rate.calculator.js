@@ -1,21 +1,15 @@
 
 import {
-    fixedToN
+    calculateChargeableWeight,
+    fixedToN,
+    resolveVolumetricFactor
 } from '../../../../../lib/utils/rate.utils.js';
-
-import {
-    PRICING_MODES
-} from '../../../../../lib/constants/index.js';
 
 import {
     validateParcelItem,
     enrichParcelItem,
     calculateParcelTotals
 } from '../../domains/parcel/parcel.rules.js';
-
-import { 
-    resolveParcelPrice
-} from './parcel.rate.utils.js';
 
 import {
     buildStaticErrorResult,
@@ -24,10 +18,15 @@ import {
     buildIncident 
 } from '../../domains/build.rate.result.js';
 
+import { resolveParcelPrice } from './parcel.rate.utils.js';
+import { PRICING_MODES } from '../../../../../lib/constants/index.js';
+
+
 export function calculateParcelRate({ 
     parcelItems,
     agencyRates,
     zone,
+    agencyVolumetric,
     agencySupplements
  }) {
     if (!parcelItems?.length) return [];
@@ -36,6 +35,9 @@ export function calculateParcelRate({
     if (!rate) return [];
 
     const pricingMode = zone.pricingMode.type;
+    const volumetricFactor = zone?.pricingMode?.type === PRICING_MODES.WEIGHT_VOLUME
+        ? resolveVolumetricFactor(zone?.volumetric, agencyVolumetric)
+        : null;
 
     return rate.services.flatMap(service => {
 
@@ -67,12 +69,16 @@ export function calculateParcelRate({
         const {
             extraDimensionsCost,
             totalItemsWeight,
-            volumetric
+            totalVolumeM3
         } = calculateParcelTotals(validItems);
 
         const realWeight = fixedToN(totalItemsWeight);
 
-        const volumetricWeight = Math.max(fixedToN(volumetric), realWeight);
+        const volumetricWeight = fixedToN(calculateChargeableWeight(
+            realWeight,
+            totalVolumeM3,
+            volumetricFactor
+        ));
 
         const weightByPricingMode = {
             [PRICING_MODES.REAL_WEIGHT]: realWeight,

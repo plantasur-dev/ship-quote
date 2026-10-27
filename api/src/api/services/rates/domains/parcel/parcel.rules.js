@@ -6,11 +6,7 @@ import { matchDimensions } from '../zone/zone.rules.js';
 import { buildIncident } from '../build.rate.result.js';
 
 export function dimensionsItem(item) {
-    const weight = Number(item.weight || 0);
-
-    const large = Number(item.large || 0);
-    const width = Number(item.width || 0);
-    const height = Number(item.height || 0);
+    const { weight, large, width, height } = item;
 
     const sumDimensions = large + width + height;
 
@@ -85,25 +81,17 @@ export function enrichParcelItem(item, surcharges = {}) {
 }
 
 export function calculateParcelTotals(items) {
-
-    const envVolume = Number(process.env.DEFAULT_PARCEL_VOLUME);
-
-    const PARCEL_VOL =
-        Number.isFinite(envVolume) && envVolume > 0
-            ? envVolume
-            : 6000;
-
     return items.reduce((acc, item) => {
         acc.extraDimensionsCost += item.dimensionSupplement || 0;
 
-        acc.totalItemsWeight += Number(item.weight || 0);
+        acc.totalItemsWeight += item.weight;
 
-        acc.volumetric += calculateVolumeM3(item, PARCEL_VOL);
+        acc.totalVolumeM3 += calculateVolumeM3(item);
 
         return acc;
     }, {
         extraDimensionsCost: 0,
         totalItemsWeight: 0,
-        volumetric: 0
+        totalVolumeM3: 0
     });
 }

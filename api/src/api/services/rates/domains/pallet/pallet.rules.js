@@ -1,16 +1,12 @@
 
-import { calculateVolumeM3 } from '../../../../../lib/utils/rate.utils.js';
+import { calculateVolumeM3, calculateChargeableWeight } from '../../../../../lib/utils/rate.utils.js';
 
-export function getEffectiveWeight(item, volumetricFactor) {
-
-    const volumeM3 = calculateVolumeM3(item);
-
-    const calculateVolumenWeight = 
-        (!volumetricFactor?.enabled) 
-            ? volumeM3 
-            : volumeM3 * volumetricFactor.factor;
-
-    return Math.max(item.weight, calculateVolumenWeight);
+export function getEffectiveWeight(item, factor = null) {
+    return calculateChargeableWeight(
+        item.weight,
+        calculateVolumeM3(item),
+        factor
+    );
 }
 
 export function classifyPallet(item, palletTypes) {

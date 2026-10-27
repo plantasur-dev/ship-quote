@@ -20,12 +20,18 @@ function stableStringify(value) {
 const withoutOrigin = list => list.map(({ origin, ...rest }) => rest);
 
 export function hashPackage(pkg) {
+    const packageData = {
+        palletTypes: pkg.palletTypes,
+        zones: pkg.zones,
+        exceptions: withoutOrigin(pkg.exceptions),
+        rates: withoutOrigin(pkg.rates)
+    };
+
+    if (pkg.agency?.volumetric !== undefined) {
+        packageData.agencyVolumetric = pkg.agency.volumetric;
+    }
+
     return createHash('sha256')
-        .update(stableStringify({
-            palletTypes: pkg.palletTypes,
-            zones: pkg.zones,
-            exceptions: withoutOrigin(pkg.exceptions),
-            rates: withoutOrigin(pkg.rates)
-        }))
+        .update(stableStringify(packageData))
         .digest('hex');
 }

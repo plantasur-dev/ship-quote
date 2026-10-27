@@ -7,6 +7,22 @@ export function validateAgencyPackage(agencyPackage) {
         throw new Error('Agency package must define agency code and name');
     }
 
+    if (agency.volumetric != null) {
+        const { enabled, factor } = agency.volumetric;
+
+        if (typeof enabled !== 'boolean') {
+            throw new Error('Agency volumetric.enabled must be a boolean');
+        }
+
+        if (factor != null && (!Number.isFinite(factor) || factor < 0)) {
+            throw new Error('Agency volumetric.factor must be a non-negative number');
+        }
+
+        if (enabled && (!Number.isFinite(factor) || factor <= 0)) {
+            throw new Error('Agency volumetric.factor must be greater than zero when enabled');
+        }
+    }
+
     for (const [name, value] of Object.entries({
         zones,
         exceptions,

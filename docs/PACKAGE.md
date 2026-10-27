@@ -64,6 +64,10 @@ valores aceptados por los modelos de la aplicación.
       "supportsParcels": false,
       "coverage": ["national"]
     },
+    "volumetric": {
+      "enabled": true,
+      "factor": 300
+    },
     "supplements": {
       "fuelSurcharge": {
         "enabled": false,
@@ -118,6 +122,14 @@ valores aceptados por los modelos de la aplicación.
 }
 ```
 
+`agency.volumetric` es opcional y tiene la misma forma que `zone.volumetric`.
+Cuando está habilitado, define el factor general de cubicaje de la agencia en
+kg/m³. Se usa únicamente en las zonas `weight_volume` que no tengan habilitado
+un factor propio. Si el factor de agencia y el de zona están deshabilitados o
+no existen, el cálculo usa el peso real. El bootstrap actualiza este campo en
+agencias existentes cuando el paquete lo declara, sin reemplazar sus demás
+ajustes operativos.
+
 ## Campos y comportamiento
 
 ### `agency`
@@ -166,11 +178,14 @@ Cada zona debe tener un nombre único, una lista `provinces`, un
 - Para `pallet`, `pricingMode.type` puede ser `pallet_classification` o
   `weight_volume`.
 - Para `parcel`, `pricingMode.type` puede ser `real_weight` o `weight_volume`.
-- `volumetric`, cuando aplique, contiene `enabled` y `factor`. Para pallets,
-  el peso volumétrico se compara con el peso real cuando está habilitado.
-- Para paquetes, `real_weight` usa el peso real total. `weight_volume` compara
-  peso real y volumétrico; el divisor volumétrico de paquetes procede de
-  `DEFAULT_PARCEL_VOLUME` (por defecto, `6000`).
+- `volumetric`, cuando aplique, contiene `enabled` y `factor` en kg/m³. En los
+  modos `weight_volume` de pallets y paquetes, las dimensiones en centímetros
+  se convierten a m³ (`largo × ancho × alto / 1.000.000`); ese volumen se
+  multiplica por el factor activo de la zona o, si no está activo, por el
+  factor general de `agency.volumetric`. Se compara el peso volumétrico con el
+  real y se factura el mayor. Si no hay factor activo, se usa el peso real.
+- Para paquetes, `real_weight` conserva el comportamiento de usar el peso
+  real total e ignora ambos factores volumétricos.
 - `pricingMode.tonnagePricingRule` es aplicable al cálculo de pallets por
   `weight_volume`; si está habilitado y se alcanza el umbral, calcula el precio
   por toneladas a partir del precio del tramo.

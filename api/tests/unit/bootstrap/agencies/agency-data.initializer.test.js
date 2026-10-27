@@ -25,6 +25,12 @@ function createDependencies() {
         readPackageFiles: defaultDependencies.readPackageFiles,
         findAgency: async code => mocks.state.agencies.get(code) ?? null,
         createAgency: mocks.createAgency,
+        updateAgencyVolumetric: async (agencyId, volumetric) => {
+            const agency = [...mocks.state.agencies.values()]
+                .find(item => item._id === agencyId);
+            agency.volumetric = volumetric;
+            return agency;
+        },
         getSyncState: async code => mocks.state.syncStates.get(code) ?? null,
         saveSyncState: async (code, state) => {
             mocks.state.syncStates.set(code, state);
@@ -172,6 +178,51 @@ describe('canonical agency package initialization', () => {
         );
         expect(mocks.createAgency).not.toHaveBeenCalled();
         expect(mocks.applyPackage).not.toHaveBeenCalled();
+    });
+
+    it('synchronizes an agency volumetric factor from the package without replacing other agency settings', async () => {
+        const packageData = {
+            schemaVersion: 1,
+            agency: {
+                code: 'cayco',
+                name: 'Cayco',
+                volumetric: { enabled: true, factor: 300 }
+            },
+            palletTypes: [],
+            zones: [],
+            exceptions: [],
+            rates: [],
+            source: {}
+        };
+        const dependencies = {
+            ...createDependencies(),
+            readPackageFiles: async () => [{
+                file: 'cayco.json',
+                content: JSON.stringify(packageData)
+            }]
+        };
+
+        const results = await initAgencies({
+            dir: packagesDirectory,
+            deps: dependencies,
+            log: false
+        });
+
+        expect(results[0].status).toBe(SEED_STATUS.APPLIED);
+        expect(mocks.state.agencies.get('cayco')).toMatchObject({
+            active: false,
+            supplements: { fuelSurcharge: { enabled: true, value: 77 } },
+            volumetric: { enabled: true, factor: 300 }
+        });
+
+        const secondLoad = await initAgencies({
+            dir: packagesDirectory,
+            deps: dependencies,
+            log: false
+        });
+
+        expect(secondLoad[0].status).toBe(SEED_STATUS.UNCHANGED);
+        expect(mocks.applyPackage).toHaveBeenCalledTimes(1);
     });
 
     it('returns an explicit failure when the package directory is empty', async () => {

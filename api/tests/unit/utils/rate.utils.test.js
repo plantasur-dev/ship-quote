@@ -3,7 +3,10 @@ import {
     calculateVolume,
     calculateVolumeM3,
     fixedToN,
-    loadDataStaticRate
+    loadDataStaticRate,
+    calculateVolumetricWeight,
+    calculateChargeableWeight,
+    resolveVolumetricFactor
 } from '../../../src/lib/utils/rate.utils.js';
 
 /**
@@ -28,11 +31,7 @@ describe('calculateVolume', () => {
 });
 
 describe('calculateVolumeM3', () => {
-    beforeEach(() => {
-        process.env.DEFAULT_PALLET_VOLUME = '1000000';
-    });
-
-    it('should use default pallet volume', () => {
+    it('converts cubic centimeters to cubic meters', () => {
         const result = calculateVolumeM3({
             large: 100,
             width: 100,
@@ -42,42 +41,46 @@ describe('calculateVolumeM3', () => {
         expect(result).toBe(1);
     });
 
-    it('should use custom volume quantity', () => {
-        const result = calculateVolumeM3(
-            {
-                large: 100,
-                width: 100,
-                height: 100
-            },
-            500000
-        );
-
-        expect(result).toBe(2);
-    });
-
-    it('should use default pallet volume when volume quantity is 0', () => {
-        const result = calculateVolumeM3(
-            {
-                large: 100,
-                width: 100,
-                height: 100
-            },
-            0
-        );
-
-        expect(result).toBe(1);
-    });
-
-    it('should use fallback default volume when environment variable is not defined', () => {
-        delete process.env.DEFAULT_PALLET_VOLUME;
-
-        const result = calculateVolumeM3({
+    it('preserves fractional cubic meters without intermediate rounding', () => {
+        expect(calculateVolumeM3({
             large: 100,
             width: 100,
-            height: 100
-        });
+            height: 50
+        })).toBe(0.5);
+    });
+});
 
-        expect(result).toBe(1);
+describe('volumetric factor and weight', () => {
+    it('prefers an enabled zone factor over the agency factor', () => {
+        expect(resolveVolumetricFactor(
+            { enabled: true, factor: 250 },
+            { enabled: true, factor: 300 }
+        )).toBe(250);
+    });
+
+    it('uses the agency factor when the zone factor is disabled', () => {
+        expect(resolveVolumetricFactor(
+            { enabled: false, factor: 200 },
+            { enabled: true, factor: 300 }
+        )).toBe(300);
+    });
+
+    it('returns no factor when zone and agency volumetric calculation are disabled', () => {
+        expect(resolveVolumetricFactor(
+            { enabled: false, factor: 200 },
+            { enabled: false, factor: 300 }
+        )).toBeNull();
+    });
+
+    it('calculates chargeable volumetric weight in kilograms', () => {
+        expect(calculateVolumetricWeight(1.25, 300)).toBe(375);
+        expect(calculateVolumetricWeight(1.25, null)).toBeNull();
+    });
+
+    it('uses the greater of real and volumetric weight, or real weight without a factor', () => {
+        expect(calculateChargeableWeight(100, 1.25, 300)).toBe(375);
+        expect(calculateChargeableWeight(400, 1.25, 300)).toBe(400);
+        expect(calculateChargeableWeight(100, 1.25, null)).toBe(100);
     });
 });
 

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "agency": {
+    "name": "Ctt",
+    "code": "ctt",
+    "type": "hybrid",
+    "active": true,
+    "rules": {
+      "hasAndaluciaRule": false,
+      "supportsPallets": false,
+      "supportsParcels": true,
+      "coverage": ["national"]
+    },
+    "volumetric": {
+      "enabled": true,
+      "factor": 300
+    },
+    "supplements": {
+      "fuelSurcharge": {
+        "enabled": false,
+        "type": "percentage",
+        "value": 5
+      }
+    },
+    "apiConfig": {
+      "timeout": 3000,
+      "baseUrlApi": "https://www.ctt.es",
+      "endpoints": {
+        "quotations": "",
+        "transportOrders": ""
+      }
+    }
+  },
+  "palletTypes": [],
+  "zones": [
+    {
+      "name": "PENINSULAR",
+      "provinces": [
+        "ES-J",
+        "ES-CO",
+        "ES-AB",
+        "ES-AL",
+        "ES-CR",
+        "ES-SE",
+        "ES-MA",
+        "ES-BA",
+        "ES-CU",
+        "ES-H",
+        "ES-MU",
+        "ES-A",
+        "ES-CA",
+        "ES-GR",
+        "ES-GU",
+        "ES-M",
+        "ES-SO",
+        "ES-TO",
+        "ES-AV",
+        "ES-BU",
+        "ES-LO",
+        "ES-SG",
+        "ES-VA",
+        "ES-Z",
+        "ES-VI",
+        "ES-HU",
+        "ES-LE",
+        "ES-NA",
+        "ES-P",
+        "ES-SA",
+        "ES-TE",
+        "ES-V",
+        "ES-ZA",
+        "ES-CS",
+        "ES-SS",
+        "ES-L",
+        "ES-O",
+        "ES-S",
+        "ES-T",
+        "ES-BI",
+        "ES-B",
+        "ES-CC",
+        "ES-C",
+        "ES-GI",
+        "ES-LU",
+        "ES-OR",
+        "ES-PO"
+      ],
+      "calculationMode": "parcel",
+      "pricingMode": {
+        "type": "weight_volume"
+      }
+    }
+  ],
+  "exceptions": [],
+  "rates": [
+    {
+      "zoneName": "PENINSULAR",
+      "type": "parcel",
+      "palletType": null,
+      "calculationType": "unit",
+      "services": [
+        {
+          "service": "basic",
+          "priceBreaks": [
+            { "min": 0, "max": 1, "price": 3.95 },
+            { "min": 1, "max": 2, "price": 3.98 },
+            { "min": 2, "max": 3, "price": 4.05 },
+            { "min": 3, "max": 4, "price": 4.25 },
+            { "min": 4, "max": 5, "price": 4.50 },
+            { "min": 5, "max": 6, "price": 4.60 },
+            { "min": 6, "max": 7, "price": 4.90 },
+            { "min": 7, "max": 8, "price": 5.30 },
+            { "min": 8, "max": 9, "price": 5.50 },
+            { "min": 9, "max": 10, "price": 5.80 }
+          ],
+          "surcharges": {
+            "extraKg": {
+              "enabled": true,
+              "pricePerKg": 0.60
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "notes": [],
+  "source": {
+    "description": "Carga inicial de Json",
+    "migratedFrom": "src/lib/data/*.js (octubre 2026)"
+  }
+}

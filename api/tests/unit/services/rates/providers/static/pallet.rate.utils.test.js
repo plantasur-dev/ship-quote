@@ -117,6 +117,89 @@ describe('calculateWeightVolume', () => {
         expect(result).toEqual([]);
     });
 
+    it('uses the last price break when weight-volume fallback is enabled', () => {
+        getEffectiveWeight.mockReturnValue(3500);
+        matchPrice.mockReturnValue({ min: 2001, max: 3000, price: 336.6 });
+        calculateTonnagePricing.mockReturnValue({ price: 1178.1, unit: '€/t' });
+        buildConcept.mockReturnValue({ concept: 'BASE' });
+        buildRateResult.mockReturnValue({ service: 'EXPRESS' });
+
+        const agencyRates = new Map([
+            [
+                'pallet|Madrid|none',
+                {
+                    services: [
+                        {
+                            service: 'EXPRESS',
+                            priceBreaks: [{ min: 2001, max: 3000, price: 336.6 }],
+                            fallbackToLastPrice: true
+                        }
+                    ]
+                }
+            ]
+        ]);
+
+        calculateWeightVolume({
+            palletItems: [{}],
+            agencyRates,
+            zone,
+            agencySupplements: {}
+        });
+
+        expect(matchPrice).toHaveBeenCalledWith(
+            agencyRates.get('pallet|Madrid|none').services[0].priceBreaks,
+            3500,
+            true
+        );
+    });
+
+    it('rejects weight-volume quotes above the service maxWeight limit', () => {
+        getEffectiveWeight.mockReturnValue(3000.01);
+        buildIncident.mockReturnValue({
+            code: 'MAX_WEIGHT_EXCEEDED',
+            meta: { maxWeight: 3000, currentWeight: 3000.01 }
+        });
+        buildRateResult.mockReturnValue({
+            service: 'EXPRESS',
+            incidents: [{ code: 'MAX_WEIGHT_EXCEEDED' }]
+        });
+
+        const agencyRates = new Map([
+            [
+                'pallet|Madrid|none',
+                {
+                    services: [
+                        {
+                            service: 'EXPRESS',
+                            priceBreaks: [{ min: 2000, max: 3000, price: 336.6 }],
+                            fallbackToLastPrice: true,
+                            limits: { maxWeight: 3000 }
+                        }
+                    ]
+                }
+            ]
+        ]);
+
+        const result = calculateWeightVolume({
+            palletItems: [{}],
+            agencyRates,
+            zone,
+            agencySupplements: {}
+        });
+
+        expect(matchPrice).not.toHaveBeenCalled();
+        expect(buildIncident).toHaveBeenCalledWith('MAX_WEIGHT_EXCEEDED', {
+            maxWeight: 3000,
+            currentWeight: 3000.01
+        });
+        expect(result).toEqual([
+            {
+                service: 'EXPRESS',
+                incidents: [{ code: 'MAX_WEIGHT_EXCEEDED' }]
+            }
+        ]);
+    });
+
     it('should build one service and forward agencySupplements to buildRateResult', () => {
 
         getEffectiveWeight

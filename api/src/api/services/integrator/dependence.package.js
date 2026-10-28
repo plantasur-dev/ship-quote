@@ -30,7 +30,7 @@ export const defaultDependencies = {
         Agency.findByIdAndUpdate(
             agencyId,
             { $set: { volumetric } },
-            { new: true, runValidators: true }
+            { returnDocument: 'after', runValidators: true }
         ).lean(),
 
     getSyncState: agencyCode => PackageSync.findOne({ agencyCode }).lean(),

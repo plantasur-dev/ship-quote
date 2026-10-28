@@ -18,7 +18,10 @@ export function resolveZone(agencyData, postalCode, province) {
         return agencyData.zonesById.get(zoneId.toString());
     }
 
-    const zonesInProvince =
+    const provinceWithPostalCode = `${province}-${postalCode.slice(0, 2)}`;
+    
+    const zonesInProvince = 
+        agencyData.zoneRulesByProvince?.get(provinceWithPostalCode) ??
         agencyData.zoneRulesByProvince.get(province);
 
     if (!zonesInProvince || !zonesInProvince.length) return null;

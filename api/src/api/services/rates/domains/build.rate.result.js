@@ -1,7 +1,7 @@
 
+import { applyFuelSurcharge } from './pricing/fuel.surcharge.js';
 import { fixedToN } from '../../../../lib/utils/rate.utils.js';
 
-import { applyFuelSurcharge } from './pricing/fuel.surcharge.js';
 
 export function buildRateComplete({
     agency,

@@ -37,7 +37,34 @@ export function calculateWeightVolume({
     if (!rate) return [];
 
     return rate.services.reduce((acc, service) => {
-        const match = matchPrice(service.priceBreaks, totalWeight);
+        const pricesRate = service.priceBreaks;
+        const maxWeight = service.limits?.maxWeight;
+        const fallbackToLastPrice = service?.fallbackToLastPrice;
+
+        if (maxWeight > 0 && totalWeight > maxWeight) {
+            acc.push(
+                buildRateResult({
+                    service: service.service,
+                    transportType: SHIPMENT_UNITS.PALLET,
+                    itemCount: palletItems.length,
+                    totalWeight,
+                    incidents: [
+                        buildIncident('MAX_WEIGHT_EXCEEDED', {
+                            maxWeight,
+                            currentWeight: totalWeight
+                        })
+                    ]
+                })
+            );
+
+            return acc;
+        }
+
+        const match = matchPrice(
+            pricesRate,
+            totalWeight,
+            fallbackToLastPrice
+        );
         if (!match) return acc;
         
         const { price, unit } = 

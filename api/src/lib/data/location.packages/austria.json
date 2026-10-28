@@ -27,6 +27,12 @@
         { "countryCode": "AT", "countryName": "Austria", "name": "Oberösterreich", "adminCode": "OB", "postalCode": "31" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Niederösterreich", "adminCode": "NI", "postalCode": "32" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Niederösterreich", "adminCode": "NI", "postalCode": "33" },
+        { "countryCode": "AT", "countryName": "Austria", "name": "Niederösterreich", "adminCode": "NI", "postalCode": "34" },
+        { "countryCode": "AT", "countryName": "Austria", "name": "Niederösterreich", "adminCode": "NI", "postalCode": "35" },
+        { "countryCode": "AT", "countryName": "Austria", "name": "Niederösterreich", "adminCode": "NI", "postalCode": "36" },
+        { "countryCode": "AT", "countryName": "Austria", "name": "Niederösterreich", "adminCode": "NI", "postalCode": "37" },
+        { "countryCode": "AT", "countryName": "Austria", "name": "Niederösterreich", "adminCode": "NI", "postalCode": "38" },
+        { "countryCode": "AT", "countryName": "Austria", "name": "Niederösterreich", "adminCode": "NI", "postalCode": "39" },
 
         { "countryCode": "AT", "countryName": "Austria", "name": "Oberösterreich", "adminCode": "OB", "postalCode": "40" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Oberösterreich", "adminCode": "OB", "postalCode": "41" },
@@ -37,28 +43,30 @@
         { "countryCode": "AT", "countryName": "Austria", "name": "Oberösterreich", "adminCode": "OB", "postalCode": "46" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Oberösterreich", "adminCode": "OB", "postalCode": "47" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Oberösterreich", "adminCode": "OB", "postalCode": "48" },
-        { "countryCode": "AT", "countryName": "Austria", "name": "Salzburg", "adminCode": "SA", "postalCode": "49" },
 
+        { "countryCode": "AT", "countryName": "Austria", "name": "Salzburg", "adminCode": "SA", "postalCode": "49" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Salzburg", "adminCode": "SA", "postalCode": "50" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Salzburg", "adminCode": "SA", "postalCode": "51" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Salzburg", "adminCode": "SA", "postalCode": "52" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Salzburg", "adminCode": "SA", "postalCode": "53" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Salzburg", "adminCode": "SA", "postalCode": "54" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Salzburg", "adminCode": "SA", "postalCode": "55" },
+
         { "countryCode": "AT", "countryName": "Austria", "name": "Tirol", "adminCode": "TI", "postalCode": "56" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Tirol", "adminCode": "TI", "postalCode": "57" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Tirol", "adminCode": "TI", "postalCode": "58" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Tirol", "adminCode": "TI", "postalCode": "59" },
-
         { "countryCode": "AT", "countryName": "Austria", "name": "Tirol", "adminCode": "TI", "postalCode": "60" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Tirol", "adminCode": "TI", "postalCode": "61" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Tirol", "adminCode": "TI", "postalCode": "62" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Tirol", "adminCode": "TI", "postalCode": "63" },
+
         { "countryCode": "AT", "countryName": "Austria", "name": "Vorarlberg", "adminCode": "VO", "postalCode": "64" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Vorarlberg", "adminCode": "VO", "postalCode": "65" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Vorarlberg", "adminCode": "VO", "postalCode": "66" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Vorarlberg", "adminCode": "VO", "postalCode": "67" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Vorarlberg", "adminCode": "VO", "postalCode": "68" },
+        { "countryCode": "AT", "countryName": "Austria", "name": "Vorarlberg", "adminCode": "VO", "postalCode": "69" },
 
         { "countryCode": "AT", "countryName": "Austria", "name": "Burgenland", "adminCode": "BU", "postalCode": "70" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Burgenland", "adminCode": "BU", "postalCode": "71" },
@@ -83,6 +91,7 @@
         { "countryCode": "AT", "countryName": "Austria", "name": "Kärnten", "adminCode": "KA", "postalCode": "92" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Kärnten", "adminCode": "KA", "postalCode": "93" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Kärnten", "adminCode": "KA", "postalCode": "94" },
+
         { "countryCode": "AT", "countryName": "Austria", "name": "Burgenland", "adminCode": "BU", "postalCode": "95" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Burgenland", "adminCode": "BU", "postalCode": "96" },
         { "countryCode": "AT", "countryName": "Austria", "name": "Burgenland", "adminCode": "BU", "postalCode": "97" },

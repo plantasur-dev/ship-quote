@@ -6,7 +6,7 @@ import {
 
 import {
     matchPrice,
-    calculateTonnagePricing
+    calculatePriceBreakPricing
 } from '../../domains/pricing/pricing.rules.js';
 
 import {
@@ -67,10 +67,10 @@ export function calculateWeightVolume({
         );
         if (!match) return acc;
         
-        const { price, unit } = 
-            calculateTonnagePricing(
+        const { price, unit } =
+            calculatePriceBreakPricing(
+                match,
                 zone.pricingMode?.tonnagePricingRule, 
-                match.price, 
                 totalWeight
             );
 

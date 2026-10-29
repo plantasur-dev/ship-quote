@@ -15,7 +15,7 @@ jobs:
 
   test:
     name: Run Tests API shipQuote
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     services:
       mongo:
@@ -40,7 +40,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
-          node-version: 24.11.1
+          node-version: 24.22.2
           cache: npm
           cache-dependency-path: api/package-lock.json
 
@@ -58,7 +58,7 @@ jobs:
   build:
     name: Build Docker
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
 
@@ -89,7 +89,7 @@ jobs:
   deploy:
     name: Deploy Docker shipQuote
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     environment:
       name: production
       

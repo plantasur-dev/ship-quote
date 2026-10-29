@@ -952,8 +952,26 @@
                         { "min": 701, "max": 800, "price": 358.71 },
                         { "min": 801, "max": 900, "price": 396.94 },
                         { "min": 901, "max": 1000, "price": 433.82 },
-                        { "min": 1001, "max": 2000, "price": 39.65 },
-                        { "min": 2001, "max": 3000, "price": 33.66 }
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 39.65,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 33.66,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
                     ],
                     "limits": {
                         "maxWeight": 3000

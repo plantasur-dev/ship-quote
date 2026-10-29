@@ -45,6 +45,29 @@ export function calculateTonnagePricing(tonnagePricingRule, priceBase, totalWeig
     };
 }
 
+export function calculatePriceBreakPricing(priceBreak, tonnagePricingRule, totalWeight) {
+    const { price, pricing } = priceBreak;
+
+    if (pricing?.type === 'fixed') {
+        return { price: fixedToN(price), unit: '€/kg' };
+    }
+
+    if (pricing?.type === 'per_weight_unit') {
+        const unit = pricing.unit ?? (
+            pricing.unitKg === 1000
+                ? '€/ton'
+                : `€/${ pricing.unitKg }kg`
+        );
+
+        return {
+            price: fixedToN(Math.ceil(totalWeight / pricing.unitKg) * price),
+            unit
+        };
+    }
+
+    return calculateTonnagePricing(tonnagePricingRule, price, totalWeight);
+}
+
 export function calculateExcessWeight(extraKg, excessWeight) {
 
     if (!extraKg?.enabled) return 0;

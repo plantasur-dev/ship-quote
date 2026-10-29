@@ -187,8 +187,9 @@ Cada zona debe tener un nombre único, una lista `provinces`, un
 - Para paquetes, `real_weight` conserva el comportamiento de usar el peso
   real total e ignora ambos factores volumétricos.
 - `pricingMode.tonnagePricingRule` es aplicable al cálculo de pallets por
-  `weight_volume`; si está habilitado y se alcanza el umbral, calcula el precio
-  por toneladas a partir del precio del tramo.
+  `weight_volume`. Se mantiene como regla predeterminada heredada: si está
+  habilitada y se alcanza el umbral, calcula el precio por toneladas a partir
+  del precio del tramo, salvo que el tramo declare su propio `pricing`.
 
 Los códigos provinciales deben ser los códigos `adminFullCode` presentes en el
 catálogo de ubicaciones, por ejemplo `ES-M` o `PT-LIS`. El motor de ubicaciones
@@ -244,11 +245,41 @@ tipo de pallet:
   solo la fórmula.
 - `services`: uno o más servicios con nombre, tramos, límites y recargos.
 
-`priceBreaks` usa `{ "min", "max", "price" }`. En tarifas por clasificación de
-pallet, el tramo se busca por cantidad de pallets y su precio se multiplica por
-la cantidad. En cálculo por peso/volumen o paquetería, los tramos se consultan
-por el peso calculado. Revisa ejemplos completos en los paquetes existentes,
-como `tecum.json`, `cayco.json` y `mrw.json`.
+`priceBreaks` usa `{ "min", "max", "price" }` y admite un campo opcional
+`pricing`:
+
+```json
+{
+  "min": 1001,
+  "max": 2000,
+  "price": 39.65,
+  "pricing": {
+    "type": "per_weight_unit",
+    "unitKg": 100,
+    "unit": "€/100kg"
+  }
+}
+```
+
+En tarifas por clasificación de pallet, el tramo se busca por cantidad de
+pallets y su precio se multiplica por la cantidad; `pricing` no modifica ese
+cálculo. En cálculo por peso/volumen, los tramos se consultan por el peso
+facturable. Si el tramo declara `pricing`, esta configuración prevalece sobre
+`pricingMode.tonnagePricingRule`:
+
+- `type: "fixed"` fuerza el precio del tramo como importe fijo.
+- `type: "per_weight_unit"` multiplica `price` por el número de unidades de
+  peso completas, calculado como `ceil(peso facturable / unitKg)`. El cálculo
+  usa todo el peso, no solo el exceso sobre el mínimo del tramo. `unitKg` debe
+  ser mayor que cero y `unit` es una etiqueta opcional para mostrar la unidad.
+- Si se omite `pricing`, se conserva el comportamiento de zona existente: se
+  aplica la regla de tonelaje si está habilitada y se alcanza su umbral; de lo
+  contrario, el precio es fijo.
+
+Para tarifa por tonelada con redondeo hacia arriba puede usarse
+`unitKg: 1000`; `unit` puede configurarse como `"€/ton"`. En paquetería,
+`pricing` no cambia el cálculo. Revisa ejemplos completos en los paquetes
+existentes, como `tecum.json`, `cayco.json` y `mrw.json`.
 
 Opciones de servicio que consume el cálculo:
 

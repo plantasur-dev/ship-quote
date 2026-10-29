@@ -5,10 +5,10 @@ function resolveZoneByZoneId(agencyData, zoneId) {
 
 function resolveFromRules(agencyData, postalCode, province) {
     return agencyData
-                ?.get(province)
-                ?.get(postalCode)
-                ?.zoneId 
-            ?? null;
+        ?.get(province)
+        ?.get(postalCode)
+        ?.zoneId 
+    ?? null;
 }
 
 function resolveZoneInProvince(agencyData, province, provinceWithPostalCode) {

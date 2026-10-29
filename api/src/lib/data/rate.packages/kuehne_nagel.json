@@ -1,0 +1,971 @@
+{
+    "schemaVersion": 1,
+    "agency": {
+        "name": "Kuehne Nagel",
+        "code": "kuehne_nagel",
+        "type": "static",
+        "active": true,
+        "rules": {
+            "hasAndaluciaRule": false,
+            "supportsPallets": true,
+            "supportsParcels": false,
+            "coverage": ["international"]
+        },
+        "volumetric": {
+            "enabled": true,
+            "factor": 250
+        },
+        "supplements": {
+            "fuelSurcharge": {
+                "enabled": true,
+                "type": "percentage",
+                "value": 16.25
+            }
+        }
+    },
+    "palletTypes": [],
+    "zones": [
+        {
+            "name": "Austria-ZONA-1",
+            "provinces": [
+                "AT-WI-10",
+                "AT-WI-11",
+                "AT-WI-12",
+                "AT-WI-13",
+                "AT-WI-14",
+                "AT-NI-21",
+                "AT-NI-22",
+                "AT-NI-23",
+                "AT-NI-34",
+                "AT-OB-40",
+                "AT-OB-46",
+                "AT-OB-47",
+                "AT-SA-50",
+                "AT-SA-51",
+                "AT-SA-52",
+                "AT-SA-53",
+                "AT-SA-54",
+                "AT-VO-68",
+                "AT-VO-69",
+                "AT-ST-80",
+                "AT-ST-84",
+                "AT-ST-85"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Austria-ZONA-2",
+            "provinces": [
+                "AT-NI-20",
+                "AT-NI-24",
+                "AT-NI-25",
+                "AT-NI-27",
+                "AT-OB-30",
+                "AT-OB-31",
+                "AT-NI-35",
+                "AT-NI-37",
+                "AT-OB-41",
+                "AT-OB-42",
+                "AT-OB-43",
+                "AT-OB-44",
+                "AT-OB-45",
+                "AT-OB-48",
+                "AT-SA-49",
+                "AT-SA-55",
+                "AT-SA-56",
+                "AT-TI-62",
+                "AT-TI-63",
+                "AT-VO-64",
+                "AT-VO-65",
+                "AT-BU-70",
+                "AT-BU-71",
+                "AT-BU-72",
+                "AT-BU-75",
+                "AT-ST-81",
+                "AT-ST-82",
+                "AT-ST-83"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Austria-ZONA-3",
+            "provinces": [
+                "AT-NI-26",
+                "AT-NI-28",
+                "AT-NI-32",
+                "AT-NI-33",
+                "AT-NI-36",
+                "AT-NI-38",
+                "AT-NI-39",
+                "AT-TI-60",
+                "AT-TI-61",
+                "AT-VO-66",
+                "AT-BU-73",
+                "AT-BU-74",
+                "AT-ST-86",
+                "AT-ST-87",
+                "AT-ST-88",
+                "AT-ST-89",
+                "AT-KA-90",
+                "AT-KA-91",
+                "AT-KA-92",
+                "AT-KA-93",
+                "AT-KA-94",
+                "AT-BU-95",
+                "AT-BU-97",
+                "AT-BU-98",
+                "AT-BU-99"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Austria-ZONA-4",
+            "provinces": [
+                "AT-BU-96"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "France-ZONA-1",
+            "provinces": [
+                "FR-OCC-09",
+                "FR-NAQ-16",
+                "FR-NAQ-17",
+                "FR-NAQ-24",
+                "FR-OCC-31",
+                "FR-OCC-32",
+                "FR-NAQ-33",
+                "FR-NAQ-40",
+                "FR-OCC-46",
+                "FR-NAQ-47",
+                "FR-NAQ-64",
+                "FR-OCC-65",
+                "FR-OCC-81",
+                "FR-OCC-82"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "France-ZONA-2",
+            "provinces": [
+                "FR-NOR-27",
+                "FR-CVL-28",
+                "FR-CVL-37",
+                "FR-CVL-41",
+                "FR-CVL-45",
+                "FR-PDL-49",
+                "FR-PDL-53",
+                "FR-HDF-60",
+                "FR-PDL-72",
+                "FR-IDF-75",
+                "FR-IDF-77",
+                "FR-IDF-78",
+                "FR-IDF-91",
+                "FR-IDF-92",
+                "FR-IDF-93",
+                "FR-IDF-94",
+                "FR-IDF-95"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "France-ZONA-3",
+            "provinces": [
+                "FR-PAC-04",
+                "FR-ARA-07",
+                "FR-PAC-13",
+                "FR-ARA-26",
+                "FR-OCC-30",
+                "FR-OCC-34",
+                "FR-PAC-83",
+                "FR-PAC-84"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "France-ZONA-4",
+            "provinces": [
+                "FR-PAC-05",
+                "FR-PAC-06",
+                "FR-OCC-11",
+                "FR-OCC-12",
+                "FR-ARA-15",
+                "FR-OCC-48",
+                "FR-OCC-66"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "France-ZONA-5",
+            "provinces": [
+                "FR-ARA-01",
+                "FR-HDF-02",
+                "FR-ARA-38",
+                "FR-ARA-42",
+                "FR-HDF-59",
+                "FR-HDF-62",
+                "FR-ARA-69",
+                "FR-BFC-71",
+                "FR-HDF-80"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "France-ZONA-6",
+            "provinces": [
+                "FR-GES-10",
+                "FR-BFC-39",
+                "FR-ARA-43",
+                "FR-GES-51",
+                "FR-ARA-63",
+                "FR-ARA-73",
+                "FR-ARA-74",
+                "FR-NOR-76",
+                "FR-BFC-89"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "France-ZONA-7",
+            "provinces": [
+                "FR-ARA-03",
+                "FR-GES-08",
+                "FR-NOR-14",
+                "FR-CVL-18",
+                "FR-BFC-21",
+                "FR-BFC-25",
+                "FR-CVL-36",
+                "FR-GES-52",
+                "FR-GES-55",
+                "FR-BFC-58",
+                "FR-NOR-61"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "France-ZONA-8",
+            "provinces": [
+                "FR-NAQ-19",
+                "FR-NAQ-23",
+                "FR-BRE-35",
+                "FR-PDL-44",
+                "FR-NOR-50",
+                "FR-GES-54",
+                "FR-GES-57",
+                "FR-BFC-70",
+                "FR-NAQ-79",
+                "FR-NAQ-86",
+                "FR-NAQ-87",
+                "FR-GES-88",
+                "FR-BFC-90"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "France-ZONA-9",
+            "provinces": [
+                "FR-BRE-22",
+                "FR-BRE-29",
+                "FR-BRE-56",
+                "FR-GES-67",
+                "FR-GES-68",
+                "FR-PDL-85",
+                "FR-NC-98",
+                "FR-PF-98",
+                "FR-WF-98"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-1",
+            "provinces": [
+                "DE-BW-70",
+                "DE-BW-71",
+                "DE-BW-74"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-2",
+            "provinces": [
+                "DE-NI-32",
+                "DE-NI-33",
+                "DE-RP-54",
+                "DE-RP-56",
+                "DE-RP-57",
+                "DE-NW-58",
+                "DE-NW-59",
+                "DE-BW-68",
+                "DE-BW-69",
+                "DE-BW-73",
+                "DE-BW-75"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-3",
+            "provinces": [
+                "DE-RP-55",
+                "DE-HE-60",
+                "DE-HE-61",
+                "DE-HE-63",
+                "DE-HE-64",
+                "DE-HE-65",
+                "DE-RP-67",
+                "DE-BW-72",
+                "DE-BW-76",
+                "DE-BW-77",
+                "DE-BW-78",
+                "DE-BY-89",
+                "DE-SN-90",
+                "DE-BY-91",
+                "DE-BY-97"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-4",
+            "provinces": [
+                "DE-NW-48",
+                "DE-NW-49",
+                "DE-RP-50",
+                "DE-NW-51",
+                "DE-NW-52",
+                "DE-NW-53",
+                "DE-SL-66",
+                "DE-BW-79"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-5",
+            "provinces": [
+                "DE-NW-40",
+                "DE-NW-41",
+                "DE-NW-42",
+                "DE-NW-44",
+                "DE-NW-45",
+                "DE-NW-46",
+                "DE-NW-47"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-6",
+            "provinces": [
+                "DE-NI-27",
+                "DE-HB-28",
+                "DE-HB-29",
+                "DE-NI-30",
+                "DE-NI-31",
+                "DE-NI-34",
+                "DE-HE-35",
+                "DE-HE-36",
+                "DE-NI-37",
+                "DE-NI-38"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-7",
+            "provinces": [
+                "DE-BY-80",
+                "DE-BY-81",
+                "DE-BY-82",
+                "DE-BY-85",
+                "DE-BY-86",
+                "DE-BY-87",
+                "DE-BY-88",
+                "DE-BY-92",
+                "DE-BY-93",
+                "DE-BY-95",
+                "DE-BY-96",
+                "DE-BY-98"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-8",
+            "provinces": [
+                "DE-HH-20",
+                "DE-HH-21",
+                "DE-HH-22",
+                "DE-NI-26",
+                "DE-TH-99"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-9",
+            "provinces": [
+                "DE-SN-01",
+                "DE-SN-02",
+                "DE-SN-03",
+                "DE-SN-04",
+                "DE-ST-06",
+                "DE-ST-07",
+                "DE-TH-08",
+                "DE-SN-09",
+                "DE-NI-39",
+                "DE-BY-83",
+                "DE-BY-84",
+                "DE-BY-94"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-10",
+            "provinces": [
+                "DE-BE-10",
+                "DE-BB-12",
+                "DE-BB-13",
+                "DE-BB-14",
+                "DE-BB-15",
+                "DE-HH-23",
+                "DE-SH-24",
+                "DE-SH-25"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Germany-ZONA-11",
+            "provinces": [
+                "DE-BB-16",
+                "DE-MV-17",
+                "DE-MV-18",
+                "DE-MV-19"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Belgium-ZONA-1",
+            "provinces": [
+                "BE-BRU-10",
+                "BE-BRU-11",
+                "BE-BRU-12",
+                "BE-BRU-13",
+                "BE-VBR-16",
+                "BE-VBR-17",
+                "BE-VBR-18",
+                "BE-VBR-19",
+                "BE-VAN-21",
+                "BE-VAN-22",
+                "BE-VAN-25",
+                "BE-VAN-26",
+                "BE-VAN-28",
+                "BE-VBR-30",
+                "BE-VBR-31"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Belgium-ZONA-2",
+            "provinces": [
+                "BE-WBR-14",
+                "BE-VBR-15",
+                "BE-VAN-20",
+                "BE-VAN-23",
+                "BE-VAN-24",
+                "BE-VAN-29",
+                "BE-VBR-32",
+                "BE-VBR-33",
+                "BE-VBR-34",
+                "BE-VLI-35",
+                "BE-VLI-36",
+                "BE-VLI-37",
+                "BE-VLI-38",
+                "BE-VLI-39",
+                "BE-WLG-42",
+                "BE-WLG-43",
+                "BE-WLG-44",
+                "BE-WLG-45",
+                "BE-WLG-46",
+                "BE-WNA-50",
+                "BE-WNA-51",
+                "BE-WNA-52",
+                "BE-WNA-53",
+                "BE-WHT-60",
+                "BE-WHT-61",
+                "BE-WHT-62",
+                "BE-WHT-70",
+                "BE-WHT-71",
+                "BE-WHT-72",
+                "BE-VOV-90",
+                "BE-VOV-91",
+                "BE-VOV-92",
+                "BE-VOV-93",
+                "BE-VOV-94",
+                "BE-VOV-95",
+                "BE-VOV-96",
+                "BE-VOV-97",
+                "BE-VOV-98",
+                "BE-VOV-99"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Belgium-ZONA-3",
+            "provinces": [
+                "BE-WLG-40",
+                "BE-WLG-41",
+                "BE-WLG-47",
+                "BE-WLG-48",
+                "BE-WLG-49",
+                "BE-WNA-55",
+                "BE-WNA-56",
+                "BE-WHT-64",
+                "BE-WHT-65",
+                "BE-WHT-66",
+                "BE-WHT-68",
+                "BE-WHT-69",
+                "BE-WHT-73",
+                "BE-WHT-75",
+                "BE-WHT-76",
+                "BE-WHT-77",
+                "BE-WHT-78",
+                "BE-VOV-79",
+                "BE-VWV-80",
+                "BE-VWV-81",
+                "BE-VWV-82",
+                "BE-VWV-83",
+                "BE-VWV-84",
+                "BE-VWV-85",
+                "BE-VWV-86",
+                "BE-VWV-87",
+                "BE-VWV-88",
+                "BE-VWV-89"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Belgium-ZONA-4",
+            "provinces": [
+                "BE-WHT-67"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Netherlands-ZONA-1",
+            "provinces": [
+                "NL-GE-65",
+                "NL-GE-66",
+                "NL-GE-67",
+                "NL-GE-68",
+                "NL-GE-69",
+                "NL-GE-70",
+                "NL-GE-73"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Netherlands-ZONA-2",
+            "provinces": [
+                "NL-NH-12",
+                "NL-FL-13",
+                "NL-UT-34",
+                "NL-UT-35",
+                "NL-UT-36",
+                "NL-UT-37",
+                "NL-UT-38",
+                "NL-UT-39",
+                "NL-GE-40",
+                "NL-GE-41",
+                "NL-ZH-42",
+                "NL-ZE-43",
+                "NL-ZE-44",
+                "NL-ZE-45",
+                "NL-NB-52",
+                "NL-NB-53",
+                "NL-NB-54",
+                "NL-LI-58",
+                "NL-GE-71",
+                "NL-GE-72",
+                "NL-OV-74",
+                "NL-OV-80",
+                "NL-OV-81",
+                "NL-FL-82"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Netherlands-ZONA-3",
+            "provinces": [
+                "NL-NH-10",
+                "NL-NH-11",
+                "NL-NH-14",
+                "NL-NH-15",
+                "NL-NH-16",
+                "NL-NH-17",
+                "NL-NH-18",
+                "NL-NH-19",
+                "NL-NH-20",
+                "NL-NH-21",
+                "NL-ZH-22",
+                "NL-ZH-23",
+                "NL-ZH-24",
+                "NL-ZH-25",
+                "NL-ZH-26",
+                "NL-ZH-27",
+                "NL-ZH-28",
+                "NL-ZH-29",
+                "NL-ZH-30",
+                "NL-ZH-31",
+                "NL-ZH-32",
+                "NL-ZH-33",
+                "NL-NB-46",
+                "NL-NB-47",
+                "NL-NB-48",
+                "NL-NB-49",
+                "NL-NB-50",
+                "NL-NB-51",
+                "NL-NB-55",
+                "NL-NB-56",
+                "NL-NB-57",
+                "NL-LI-59",
+                "NL-LI-60",
+                "NL-LI-61",
+                "NL-LI-62",
+                "NL-LI-63",
+                "NL-LI-64",
+                "NL-OV-75",
+                "NL-OV-76",
+                "NL-OV-77",
+                "NL-DR-78",
+                "NL-DR-79",
+                "NL-FL-83",
+                "NL-FR-84",
+                "NL-FR-85",
+                "NL-FR-86",
+                "NL-FR-87",
+                "NL-FR-88",
+                "NL-FR-89",
+                "NL-FR-90",
+                "NL-FR-91",
+                "NL-FR-92",
+                "NL-DR-93",
+                "NL-DR-94",
+                "NL-GR-95",
+                "NL-GR-96",
+                "NL-GR-97",
+                "NL-GR-98"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Netherlands-ZONA-4",
+            "provinces": [
+                "NL-GR-99"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Czech Republic-ZONA-1",
+            "provinces": [
+                "CZ-PR-10",
+                "CZ-PR-11",
+                "CZ-PR-12",
+                "CZ-PR-13",
+                "CZ-PR-14",
+                "CZ-PR-15",
+                "CZ-PR-16",
+                "CZ-PR-17",
+                "CZ-PR-18",
+                "CZ-PR-19",
+                "CZ-ST-25",
+                "CZ-ST-27"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Czech Republic-ZONA-2",
+            "provinces": [
+                "CZ-ST-26",
+                "CZ-ST-28",
+                "CZ-ST-29",
+                "CZ-PL-30",
+                "CZ-PL-31",
+                "CZ-PL-32",
+                "CZ-PL-33",
+                "CZ-US-41",
+                "CZ-US-43",
+                "CZ-LI-44",
+                "CZ-LI-47"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Czech Republic-ZONA-3",
+            "provinces": [
+                "CZ-JM-60",
+                "CZ-JM-61",
+                "CZ-JM-62",
+                "CZ-JM-63",
+                "CZ-JM-64",
+                "CZ-JM-66"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Czech Republic-ZONA-4",
+            "provinces": [
+                "CZ-PL-34",
+                "CZ-KA-35",
+                "CZ-KA-36",
+                "CZ-JC-37",
+                "CZ-JC-38",
+                "CZ-JC-39",
+                "CZ-US-40",
+                "CZ-LI-46",
+                "CZ-KR-50",
+                "CZ-KR-51",
+                "CZ-PA-53",
+                "CZ-KR-54",
+                "CZ-PA-55",
+                "CZ-VY-58"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Czech Republic-ZONA-5",
+            "provinces": [
+                "CZ-PA-56",
+                "CZ-PA-57",
+                "CZ-VY-59",
+                "CZ-JM-67",
+                "CZ-ZL-68",
+                "CZ-ZL-69",
+                "CZ-OL-77"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Czech Republic-ZONA-6",
+            "provinces": [
+                "CZ-MO-70",
+                "CZ-MO-71",
+                "CZ-MO-72",
+                "CZ-MO-73",
+                "CZ-MO-74",
+                "CZ-OL-75",
+                "CZ-OL-76",
+                "CZ-OL-78",
+                "CZ-OL-79"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Slovenia-ZONA-1",
+            "provinces": [
+                "SI-LJ10-10",
+                "SI-LJ12-12",
+                "SI-LJ15-15",
+                "SI-CE33-33",
+                "SI-KR40-40",
+                "SI-KR43-43"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Slovenia-ZONA-2",
+            "provinces": [
+                "SI-LJ13-13",
+                "SI-LJ14-14",
+                "SI-MA24-24",
+                "SI-CE30-30",
+                "SI-CE32-32",
+                "SI-NM80-80",
+                "SI-NM82-82",
+                "SI-NM84-84"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Slovenia-ZONA-3",
+            "provinces": [
+                "SI-MA20-20",
+                "SI-MA23-23",
+                "SI-NG50-50",
+                "SI-NG53-53",
+                "SI-KO60-60",
+                "SI-KO63-63",
+                "SI-NM83-83",
+                "SI-MS90-90",
+                "SI-MS92-92",
+                "SI-MS93-93"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        },
+        {
+            "name": "Slovenia-ZONA-4",
+            "provinces": [
+                "SI-MS91-91"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        }
+    ],
+    "exceptions": [],
+    "rates": [
+        {
+            "zoneName": "Austria-ZONA-1",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 50, "price": 62.4 },
+                        { "min": 51, "max": 100, "price": 64 },
+                        { "min": 101, "max": 200, "price": 114.1 }
+                    ]
+                }
+            ]
+        },
+        {
+            "zoneName": "Austria-ZONA-2",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 50, "price": 62.4 },
+                        { "min": 51, "max": 100, "price": 64 },
+                        { "min": 101, "max": 200, "price": 114.1 }
+                    ]
+                }
+            ]
+        }
+    ],
+    "source": {
+        "description": "Carga inicial de Nagel",
+        "migratedFrom": "src/lib/data/*.js (octubre 2026)"
+    }
+}

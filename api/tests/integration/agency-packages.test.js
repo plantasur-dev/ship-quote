@@ -43,10 +43,10 @@ describe('agency package bootstrap', () => {
             ])
         );
 
-        expect(await Agency.countDocuments()).toBe(6);
-        expect(await Zone.countDocuments()).toBe(553);
+        expect(await Agency.countDocuments()).toBe(8);
+        expect(await Zone.countDocuments()).toBe(596);
         expect(await PalletType.countDocuments()).toBe(15);
-        expect(await Rate.countDocuments()).toBe(733);
+        expect(await Rate.countDocuments()).toBe(776);
 
         const rules = await ZoneRules.find().lean();
         expect(rules.flatMap(({ postalCodeRanges }) => postalCodeRanges)).toHaveLength(572);
@@ -88,9 +88,9 @@ describe('agency package bootstrap', () => {
 
         await initAgenciesData();
 
-        expect(await Agency.countDocuments()).toBe(6);
-        expect(await Zone.countDocuments()).toBe(553);
+        expect(await Agency.countDocuments()).toBe(8);
+        expect(await Zone.countDocuments()).toBe(596);
         expect(await PalletType.countDocuments()).toBe(15);
-        expect(await Rate.countDocuments()).toBe(733);
+        expect(await Rate.countDocuments()).toBe(776);
     });
 });

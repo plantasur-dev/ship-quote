@@ -941,7 +941,7 @@
                     "service": "basic",
                     "priceBreaks": [
                         { "min": 0, "max": 30, "price": 66.28 },
-                        { "min": 31, "max": 50, "price": 66.57 },
+                        { "min": 31, "max": 50, "price": 68.57 },
                         { "min": 51, "max": 100, "price": 75.98 },
                         { "min": 101, "max": 200, "price": 120.19 },
                         { "min": 201, "max": 300, "price": 162.92 },
@@ -988,10 +988,1491 @@
                 {
                     "service": "basic",
                     "priceBreaks": [
-                        { "min": 0, "max": 50, "price": 62.4 },
-                        { "min": 51, "max": 100, "price": 64 },
-                        { "min": 101, "max": 200, "price": 114.1 }
-                    ]
+                        { "min": 0, "max": 30, "price": 76.18 },
+                        { "min": 31, "max": 50, "price": 78.46 },
+                        { "min": 51, "max": 100, "price": 86.00 },
+                        { "min": 101, "max": 200, "price": 130.57 },
+                        { "min": 201, "max": 300, "price": 173.75 },
+                        { "min": 301, "max": 400, "price": 215.27 },
+                        { "min": 401, "max": 500, "price": 258.56 },
+                        { "min": 501, "max": 600, "price": 293.26 },
+                        { "min": 601, "max": 700, "price": 332.53 },
+                        { "min": 701, "max": 800, "price": 370.86 },
+                        { "min": 801, "max": 900, "price": 409.48 },
+                        { "min": 901, "max": 1000, "price": 446.76 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 40.42,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 34.22,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 3000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "Austria-ZONA-3",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 78.02 },
+                        { "min": 31, "max": 50, "price": 80.30 },
+                        { "min": 51, "max": 100, "price": 88.94 },
+                        { "min": 101, "max": 200, "price": 136.81 },
+                        { "min": 201, "max": 300, "price": 184.04 },
+                        { "min": 301, "max": 400, "price": 229.62 },
+                        { "min": 401, "max": 500, "price": 276.96 },
+                        { "min": 501, "max": 600, "price": 313.81 },
+                        { "min": 601, "max": 700, "price": 356.97 },
+                        { "min": 701, "max": 800, "price": 396.76 },
+                        { "min": 801, "max": 900, "price": 438.95 },
+                        { "min": 901, "max": 1000, "price": 479.79 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 43.27,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 36.60,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 3000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "Austria-ZONA-4",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 79.86 },
+                        { "min": 31, "max": 50, "price": 82.14 },
+                        { "min": 51, "max": 100, "price": 91.87 },
+                        { "min": 101, "max": 200, "price": 143.04 },
+                        { "min": 201, "max": 300, "price": 194.33 },
+                        { "min": 301, "max": 400, "price": 243.96 },
+                        { "min": 401, "max": 500, "price": 295.37 },
+                        { "min": 501, "max": 600, "price": 334.36 },
+                        { "min": 601, "max": 700, "price": 381.41 },
+                        { "min": 701, "max": 800, "price": 422.65 },
+                        { "min": 801, "max": 900, "price": 468.41 },
+                        { "min": 901, "max": 1000, "price": 512.81 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 46.13,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 38.97,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 3000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "France-ZONA-1",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 40.36 },
+                        { "min": 31, "max": 50, "price": 42.65 },
+                        { "min": 51, "max": 100, "price": 55.20 },
+                        { "min": 101, "max": 200, "price": 84.11 },
+                        { "min": 201, "max": 300, "price": 110.51 },
+                        { "min": 301, "max": 400, "price": 135.25 },
+                        { "min": 401, "max": 500, "price": 161.76 },
+                        { "min": 501, "max": 600, "price": 185.87 },
+                        { "min": 601, "max": 700, "price": 209.05 },
+                        { "min": 701, "max": 800, "price": 234.89 },
+                        { "min": 801, "max": 900, "price": 257.92 },
+                        { "min": 901, "max": 1000, "price": 279.59 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 25.50,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 24.67,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 3001,
+                            "max": 5000,
+                            "price": 18.40,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 5000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "France-ZONA-2",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 40.30 },
+                        { "min": 31, "max": 50, "price": 42.59 },
+                        { "min": 51, "max": 100, "price": 51.48 },
+                        { "min": 101, "max": 200, "price": 78.33 },
+                        { "min": 201, "max": 300, "price": 102.65 },
+                        { "min": 301, "max": 400, "price": 125.32 },
+                        { "min": 401, "max": 500, "price": 149.76 },
+                        { "min": 501, "max": 600, "price": 172.36 },
+                        { "min": 601, "max": 700, "price": 193.57 },
+                        { "min": 701, "max": 800, "price": 217.44 },
+                        { "min": 801, "max": 900, "price": 238.48 },
+                        { "min": 901, "max": 1000, "price": 258.16 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 23.50,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 22.71,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 3001,
+                            "max": 5000,
+                            "price": 18.94,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 5000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "France-ZONA-3",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 42.91 },
+                        { "min": 31, "max": 50, "price": 45.20 },
+                        { "min": 51, "max": 100, "price": 56.49 },
+                        { "min": 101, "max": 200, "price": 86.71 },
+                        { "min": 201, "max": 300, "price": 114.41 },
+                        { "min": 301, "max": 400, "price": 140.48 },
+                        { "min": 401, "max": 500, "price": 168.29 },
+                        { "min": 501, "max": 600, "price": 193.37 },
+                        { "min": 601, "max": 700, "price": 217.80 },
+                        { "min": 701, "max": 800, "price": 244.89 },
+                        { "min": 801, "max": 900, "price": 269.17 },
+                        { "min": 901, "max": 1000, "price": 292.09 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 26.71,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 25.87,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 3001,
+                            "max": 5000,
+                            "price": 20.51,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 5000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "France-ZONA-4",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 43.46 },
+                        { "min": 31, "max": 50, "price": 45.75 },
+                        { "min": 51, "max": 100, "price": 57.59 },
+                        { "min": 101, "max": 200, "price": 88.92 },
+                        { "min": 201, "max": 300, "price": 117.71 },
+                        { "min": 301, "max": 400, "price": 144.86 },
+                        { "min": 401, "max": 500, "price": 173.78 },
+                        { "min": 501, "max": 600, "price": 199.68 },
+                        { "min": 601, "max": 700, "price": 225.16 },
+                        { "min": 701, "max": 800, "price": 253.31 },
+                        { "min": 801, "max": 900, "price": 278.65 },
+                        { "min": 901, "max": 1000, "price": 302.61 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 27.72,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 26.88,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 3001,
+                            "max": 5000,
+                            "price": 21.12,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 5000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "France-ZONA-5",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 44.09 },
+                        { "min": 31, "max": 50, "price": 46.38 },
+                        { "min": 51, "max": 100, "price": 55.77 },
+                        { "min": 101, "max": 200, "price": 83.67 },
+                        { "min": 201, "max": 300, "price": 109.04 },
+                        { "min": 301, "max": 400, "price": 132.73 },
+                        { "min": 401, "max": 500, "price": 158.22 },
+                        { "min": 501, "max": 600, "price": 181.46 },
+                        { "min": 601, "max": 700, "price": 203.65 },
+                        { "min": 701, "max": 800, "price": 228.51 },
+                        { "min": 801, "max": 900, "price": 250.54 },
+                        { "min": 901, "max": 1000, "price": 271.21 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 24.62,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 23.77,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 3001,
+                            "max": 5000,
+                            "price": 19.78,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 5000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "France-ZONA-6",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 44.35 },
+                        { "min": 31, "max": 50, "price": 46.64 },
+                        { "min": 51, "max": 100, "price": 57.94 },
+                        { "min": 101, "max": 200, "price": 89.60 },
+                        { "min": 201, "max": 300, "price": 118.73 },
+                        { "min": 301, "max": 400, "price": 146.25 },
+                        { "min": 401, "max": 500, "price": 175.49 },
+                        { "min": 501, "max": 600, "price": 201.65 },
+                        { "min": 601, "max": 700, "price": 227.47 },
+                        { "min": 701, "max": 800, "price": 255.94 },
+                        { "min": 801, "max": 900, "price": 281.60 },
+                        { "min": 901, "max": 1000, "price": 305.90 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 28.04,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 27.20,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 3001,
+                            "max": 5000,
+                            "price": 21.83,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 5000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "France-ZONA-7",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 44.90 },
+                        { "min": 31, "max": 50, "price": 47.19 },
+                        { "min": 51, "max": 100, "price": 59.03 },
+                        { "min": 101, "max": 200, "price": 91.80 },
+                        { "min": 201, "max": 300, "price": 122.03 },
+                        { "min": 301, "max": 400, "price": 150.63 },
+                        { "min": 401, "max": 500, "price": 180.98 },
+                        { "min": 501, "max": 600, "price": 207.96 },
+                        { "min": 601, "max": 700, "price": 234.83 },
+                        { "min": 701, "max": 800, "price": 264.36 },
+                        { "min": 801, "max": 900, "price": 291.07 },
+                        { "min": 901, "max": 1000, "price": 316.42 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 29.06,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 28.21,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 3001,
+                            "max": 5000,
+                            "price": 22.44,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 5000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "France-ZONA-8",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 45.58 },
+                        { "min": 31, "max": 50, "price": 47.86 },
+                        { "min": 51, "max": 100, "price": 60.41 },
+                        { "min": 101, "max": 200, "price": 94.54 },
+                        { "min": 201, "max": 300, "price": 126.15 },
+                        { "min": 301, "max": 400, "price": 156.12 },
+                        { "min": 401, "max": 500, "price": 187.84 },
+                        { "min": 501, "max": 600, "price": 215.86 },
+                        { "min": 601, "max": 700, "price": 244.04 },
+                        { "min": 701, "max": 800, "price": 274.88 },
+                        { "min": 801, "max": 900, "price": 302.91 },
+                        { "min": 901, "max": 1000, "price": 329.58 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 30.32,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 29.47,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 3001,
+                            "max": 5000,
+                            "price": 23.20,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 5000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "France-ZONA-9",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 47.36 },
+                        { "min": 31, "max": 50, "price": 49.65 },
+                        { "min": 51, "max": 100, "price": 63.97 },
+                        { "min": 101, "max": 200, "price": 101.67 },
+                        { "min": 201, "max": 300, "price": 136.86 },
+                        { "min": 301, "max": 400, "price": 170.40 },
+                        { "min": 401, "max": 500, "price": 205.68 },
+                        { "min": 501, "max": 600, "price": 236.37 },
+                        { "min": 601, "max": 700, "price": 267.98 },
+                        { "min": 701, "max": 800, "price": 302.24 },
+                        { "min": 801, "max": 900, "price": 333.69 },
+                        { "min": 901, "max": 1000, "price": 363.77 },
+                        {
+                            "min": 1001,
+                            "max": 2000,
+                            "price": 33.63,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 2001,
+                            "max": 3000,
+                            "price": 32.76,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        },
+                        {
+                            "min": 3001,
+                            "max": 5000,
+                            "price": 25.21,
+                            "pricing": {
+                                "type": "per_weight_unit",
+                                "unitKg": 100,
+                                "unit": "€/100kg"
+                            }
+                        }
+                    ],
+                    "limits": {
+                        "maxWeight": 5000
+                    }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-1",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 41.92 },
+                        { "min": 31, "max": 50, "price": 44.21 },
+                        { "min": 51, "max": 100, "price": 52.32 },
+                        { "min": 101, "max": 200, "price": 74.59 },
+                        { "min": 201, "max": 300, "price": 99.70 },
+                        { "min": 301, "max": 400, "price": 123.14 },
+                        { "min": 401, "max": 500, "price": 148.34 },
+                        { "min": 501, "max": 600, "price": 171.76 },
+                        { "min": 601, "max": 700, "price": 193.70 },
+                        { "min": 701, "max": 800, "price": 220.75 },
+                        { "min": 801, "max": 900, "price": 241.56 },
+                        { "min": 901, "max": 1000, "price": 262.11 },
+                        { "min": 1001, "max": 2000, "price": 23.75, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 23.21, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 21.53, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-2",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 42.02 },
+                        { "min": 31, "max": 50, "price": 44.31 },
+                        { "min": 51, "max": 100, "price": 52.43 },
+                        { "min": 101, "max": 200, "price": 74.79 },
+                        { "min": 201, "max": 300, "price": 100.01 },
+                        { "min": 301, "max": 400, "price": 123.55 },
+                        { "min": 401, "max": 500, "price": 148.86 },
+                        { "min": 501, "max": 600, "price": 172.35 },
+                        { "min": 601, "max": 700, "price": 194.39 },
+                        { "min": 701, "max": 800, "price": 221.54 },
+                        { "min": 801, "max": 900, "price": 242.45 },
+                        { "min": 901, "max": 1000, "price": 263.10 },
+                        { "min": 1001, "max": 2000, "price": 23.85, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 23.30, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 21.62, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-3",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 44.72 },
+                        { "min": 31, "max": 50, "price": 47.00 },
+                        { "min": 51, "max": 100, "price": 55.47 },
+                        { "min": 101, "max": 200, "price": 78.53 },
+                        { "min": 201, "max": 300, "price": 104.39 },
+                        { "min": 301, "max": 400, "price": 128.58 },
+                        { "min": 401, "max": 500, "price": 154.57 },
+                        { "min": 501, "max": 600, "price": 178.45 },
+                        { "min": 601, "max": 700, "price": 201.12 },
+                        { "min": 701, "max": 800, "price": 229.33 },
+                        { "min": 801, "max": 900, "price": 250.71 },
+                        { "min": 901, "max": 1000, "price": 271.99 },
+                        { "min": 1001, "max": 2000, "price": 24.53, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 23.98, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 22.27, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-4",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 44.82 },
+                        { "min": 31, "max": 50, "price": 47.11 },
+                        { "min": 51, "max": 100, "price": 55.58 },
+                        { "min": 101, "max": 200, "price": 78.74 },
+                        { "min": 201, "max": 300, "price": 104.70 },
+                        { "min": 301, "max": 400, "price": 129.00 },
+                        { "min": 401, "max": 500, "price": 155.09 },
+                        { "min": 501, "max": 600, "price": 179.04 },
+                        { "min": 601, "max": 700, "price": 201.81 },
+                        { "min": 701, "max": 800, "price": 230.12 },
+                        { "min": 801, "max": 900, "price": 251.59 },
+                        { "min": 901, "max": 1000, "price": 272.98 },
+                        { "min": 1001, "max": 2000, "price": 24.62, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 24.07, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 22.36, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-5",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 44.89 },
+                        { "min": 31, "max": 50, "price": 47.18 },
+                        { "min": 51, "max": 100, "price": 57.08 },
+                        { "min": 101, "max": 200, "price": 82.89 },
+                        { "min": 201, "max": 300, "price": 111.54 },
+                        { "min": 301, "max": 400, "price": 138.54 },
+                        { "min": 401, "max": 500, "price": 167.29 },
+                        { "min": 501, "max": 600, "price": 193.30 },
+                        { "min": 601, "max": 700, "price": 218.64 },
+                        { "min": 701, "max": 800, "price": 250.55 },
+                        { "min": 801, "max": 900, "price": 274.21 },
+                        { "min": 901, "max": 1000, "price": 298.25 },
+                        { "min": 1001, "max": 2000, "price": 27.06, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 26.49, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 24.81, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-6",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 45.00 },
+                        { "min": 31, "max": 50, "price": 47.28 },
+                        { "min": 51, "max": 100, "price": 57.18 },
+                        { "min": 101, "max": 200, "price": 83.10 },
+                        { "min": 201, "max": 300, "price": 111.84 },
+                        { "min": 301, "max": 400, "price": 138.95 },
+                        { "min": 401, "max": 500, "price": 167.81 },
+                        { "min": 501, "max": 600, "price": 193.90 },
+                        { "min": 601, "max": 700, "price": 219.34 },
+                        { "min": 701, "max": 800, "price": 251.34 },
+                        { "min": 801, "max": 900, "price": 275.10 },
+                        { "min": 901, "max": 1000, "price": 299.24 },
+                        { "min": 1001, "max": 2000, "price": 27.16, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 26.58, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 24.90, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-7",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 45.31 },
+                        { "min": 31, "max": 50, "price": 47.59 },
+                        { "min": 51, "max": 100, "price": 57.87 },
+                        { "min": 101, "max": 200, "price": 84.51 },
+                        { "min": 201, "max": 300, "price": 113.95 },
+                        { "min": 301, "max": 400, "price": 141.76 },
+                        { "min": 401, "max": 500, "price": 171.31 },
+                        { "min": 501, "max": 600, "price": 197.94 },
+                        { "min": 601, "max": 700, "price": 224.08 },
+                        { "min": 701, "max": 800, "price": 257.07 },
+                        { "min": 801, "max": 900, "price": 281.38 },
+                        { "min": 901, "max": 1000, "price": 306.22 },
+                        { "min": 1001, "max": 2000, "price": 27.81, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 27.23, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 25.55, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-8",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 45.41 },
+                        { "min": 31, "max": 50, "price": 47.70 },
+                        { "min": 51, "max": 100, "price": 57.98 },
+                        { "min": 101, "max": 200, "price": 84.72 },
+                        { "min": 201, "max": 300, "price": 114.26 },
+                        { "min": 301, "max": 400, "price": 142.17 },
+                        { "min": 401, "max": 500, "price": 171.83 },
+                        { "min": 501, "max": 600, "price": 198.54 },
+                        { "min": 601, "max": 700, "price": 224.77 },
+                        { "min": 701, "max": 800, "price": 257.86 },
+                        { "min": 801, "max": 900, "price": 282.27 },
+                        { "min": 901, "max": 1000, "price": 307.21 },
+                        { "min": 1001, "max": 2000, "price": 27.91, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 27.32, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 25.64, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-9",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 45.79 },
+                        { "min": 31, "max": 50, "price": 48.08 },
+                        { "min": 51, "max": 100, "price": 58.89 },
+                        { "min": 101, "max": 200, "price": 86.53 },
+                        { "min": 201, "max": 300, "price": 117.00 },
+                        { "min": 301, "max": 400, "price": 145.81 },
+                        { "min": 401, "max": 500, "price": 176.38 },
+                        { "min": 501, "max": 600, "price": 203.77 },
+                        { "min": 601, "max": 700, "price": 230.83 },
+                        { "min": 701, "max": 800, "price": 265.21 },
+                        { "min": 801, "max": 900, "price": 290.34 },
+                        { "min": 901, "max": 1000, "price": 316.17 },
+                        { "min": 1001, "max": 2000, "price": 28.75, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 28.16, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 26.47, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-10",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 45.90 },
+                        { "min": 31, "max": 50, "price": 48.18 },
+                        { "min": 51, "max": 100, "price": 58.99 },
+                        { "min": 101, "max": 200, "price": 86.74 },
+                        { "min": 201, "max": 300, "price": 117.31 },
+                        { "min": 301, "max": 400, "price": 146.22 },
+                        { "min": 401, "max": 500, "price": 176.89 },
+                        { "min": 501, "max": 600, "price": 204.36 },
+                        { "min": 601, "max": 700, "price": 231.53 },
+                        { "min": 701, "max": 800, "price": 266.00 },
+                        { "min": 801, "max": 900, "price": 291.23 },
+                        { "min": 901, "max": 1000, "price": 317.16 },
+                        { "min": 1001, "max": 2000, "price": 28.85, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 28.25, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 26.56, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Germany-ZONA-11",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 47.24 },
+                        { "min": 31, "max": 50, "price": 49.52 },
+                        { "min": 51, "max": 100, "price": 61.61 },
+                        { "min": 101, "max": 200, "price": 91.98 },
+                        { "min": 201, "max": 300, "price": 125.17 },
+                        { "min": 301, "max": 400, "price": 156.72 },
+                        { "min": 401, "max": 500, "price": 190.02 },
+                        { "min": 501, "max": 600, "price": 219.46 },
+                        { "min": 601, "max": 700, "price": 249.16 },
+                        { "min": 701, "max": 800, "price": 287.16 },
+                        { "min": 801, "max": 900, "price": 314.52 },
+                        { "min": 901, "max": 1000, "price": 343.05 },
+                        { "min": 1001, "max": 2000, "price": 31.27, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 30.66, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 28.98, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Belgium-ZONA-1",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 48.64 },
+                        { "min": 31, "max": 50, "price": 50.92 },
+                        { "min": 51, "max": 100, "price": 58.56 },
+                        { "min": 101, "max": 200, "price": 87.56 },
+                        { "min": 201, "max": 300, "price": 115.23 },
+                        { "min": 301, "max": 400, "price": 141.24 },
+                        { "min": 401, "max": 500, "price": 169.01 },
+                        { "min": 501, "max": 600, "price": 192.49 },
+                        { "min": 601, "max": 700, "price": 216.90 },
+                        { "min": 701, "max": 800, "price": 240.13 },
+                        { "min": 801, "max": 900, "price": 263.87 },
+                        { "min": 901, "max": 1000, "price": 286.25 },
+                        { "min": 1001, "max": 2000, "price": 25.44, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 22.67, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 19.18, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Belgium-ZONA-2",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 57.20 },
+                        { "min": 31, "max": 50, "price": 59.49 },
+                        { "min": 51, "max": 100, "price": 67.27 },
+                        { "min": 101, "max": 200, "price": 96.68 },
+                        { "min": 201, "max": 300, "price": 124.86 },
+                        { "min": 301, "max": 400, "price": 151.39 },
+                        { "min": 401, "max": 500, "price": 179.68 },
+                        { "min": 501, "max": 600, "price": 203.08 },
+                        { "min": 601, "max": 700, "price": 227.98 },
+                        { "min": 701, "max": 800, "price": 251.39 },
+                        { "min": 801, "max": 900, "price": 275.57 },
+                        { "min": 901, "max": 1000, "price": 298.40 },
+                        { "min": 1001, "max": 2000, "price": 26.18, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 23.23, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 19.56, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Belgium-ZONA-3",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 59.29 },
+                        { "min": 31, "max": 50, "price": 61.58 },
+                        { "min": 51, "max": 100, "price": 70.32 },
+                        { "min": 101, "max": 200, "price": 102.62 },
+                        { "min": 201, "max": 300, "price": 134.37 },
+                        { "min": 301, "max": 400, "price": 164.46 },
+                        { "min": 401, "max": 500, "price": 196.31 },
+                        { "min": 501, "max": 600, "price": 221.58 },
+                        { "min": 601, "max": 700, "price": 249.90 },
+                        { "min": 701, "max": 800, "price": 274.60 },
+                        { "min": 801, "max": 900, "price": 301.91 },
+                        { "min": 901, "max": 1000, "price": 327.88 },
+                        { "min": 1001, "max": 2000, "price": 28.09, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 25.33, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 20.99, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Belgium-ZONA-4",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 61.37 },
+                        { "min": 31, "max": 50, "price": 63.66 },
+                        { "min": 51, "max": 100, "price": 73.37 },
+                        { "min": 101, "max": 200, "price": 108.56 },
+                        { "min": 201, "max": 300, "price": 143.87 },
+                        { "min": 301, "max": 400, "price": 177.54 },
+                        { "min": 401, "max": 500, "price": 212.96 },
+                        { "min": 501, "max": 600, "price": 240.09 },
+                        { "min": 601, "max": 700, "price": 271.82 },
+                        { "min": 701, "max": 800, "price": 297.80 },
+                        { "min": 801, "max": 900, "price": 328.24 },
+                        { "min": 901, "max": 1000, "price": 357.34 },
+                        { "min": 1001, "max": 2000, "price": 31.25, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 25.76, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 19.18, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Netherlands-ZONA-1",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 44.39 },
+                        { "min": 31, "max": 50, "price": 46.68 },
+                        { "min": 51, "max": 100, "price": 54.04 },
+                        { "min": 101, "max": 200, "price": 82.79 },
+                        { "min": 201, "max": 300, "price": 110.04 },
+                        { "min": 301, "max": 400, "price": 135.63 },
+                        { "min": 401, "max": 500, "price": 162.99 },
+                        { "min": 501, "max": 600, "price": 186.55 },
+                        { "min": 601, "max": 700, "price": 210.56 },
+                        { "min": 701, "max": 800, "price": 233.99 },
+                        { "min": 801, "max": 900, "price": 257.40 },
+                        { "min": 901, "max": 1000, "price": 279.45 },
+                        { "min": 1001, "max": 2000, "price": 25.07, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 22.40, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 19.18, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Netherlands-ZONA-2",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 51.02 },
+                        { "min": 31, "max": 50, "price": 53.31 },
+                        { "min": 51, "max": 100, "price": 60.77 },
+                        { "min": 101, "max": 200, "price": 89.83 },
+                        { "min": 201, "max": 300, "price": 117.42 },
+                        { "min": 301, "max": 400, "price": 143.37 },
+                        { "min": 401, "max": 500, "price": 171.09 },
+                        { "min": 501, "max": 600, "price": 194.57 },
+                        { "min": 601, "max": 700, "price": 218.92 },
+                        { "min": 701, "max": 800, "price": 242.48 },
+                        { "min": 801, "max": 900, "price": 266.20 },
+                        { "min": 901, "max": 1000, "price": 288.57 },
+                        { "min": 1001, "max": 2000, "price": 25.62, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 22.81, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 19.56, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Netherlands-ZONA-3",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 52.73 },
+                        { "min": 31, "max": 50, "price": 55.02 },
+                        { "min": 51, "max": 100, "price": 63.24 },
+                        { "min": 101, "max": 200, "price": 94.60 },
+                        { "min": 201, "max": 300, "price": 125.05 },
+                        { "min": 301, "max": 400, "price": 153.85 },
+                        { "min": 401, "max": 500, "price": 184.40 },
+                        { "min": 501, "max": 600, "price": 209.38 },
+                        { "min": 601, "max": 700, "price": 236.44 },
+                        { "min": 701, "max": 800, "price": 261.04 },
+                        { "min": 801, "max": 900, "price": 287.26 },
+                        { "min": 901, "max": 1000, "price": 312.14 },
+                        { "min": 1001, "max": 2000, "price": 27.64, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 24.49, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 20.99, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Netherlands-ZONA-4",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 54.42 },
+                        { "min": 31, "max": 50, "price": 56.71 },
+                        { "min": 51, "max": 100, "price": 65.71 },
+                        { "min": 101, "max": 200, "price": 99.38 },
+                        { "min": 201, "max": 300, "price": 132.67 },
+                        { "min": 301, "max": 400, "price": 164.31 },
+                        { "min": 401, "max": 500, "price": 197.72 },
+                        { "min": 501, "max": 600, "price": 224.18 },
+                        { "min": 601, "max": 700, "price": 253.98 },
+                        { "min": 701, "max": 800, "price": 279.60 },
+                        { "min": 801, "max": 900, "price": 308.31 },
+                        { "min": 901, "max": 1000, "price": 335.69 },
+                        { "min": 1001, "max": 2000, "price": 29.67, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 26.17, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 3001, "max": 5000, "price": 23.52, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 5000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Czech Republic-ZONA-1",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 39.83 },
+                        { "min": 31, "max": 50, "price": 42.12 },
+                        { "min": 51, "max": 100, "price": 50.34 },
+                        { "min": 101, "max": 200, "price": 80.52 },
+                        { "min": 201, "max": 300, "price": 108.18 },
+                        { "min": 301, "max": 400, "price": 134.18 },
+                        { "min": 401, "max": 500, "price": 161.93 },
+                        { "min": 501, "max": 600, "price": 187.22 },
+                        { "min": 601, "max": 700, "price": 211.62 },
+                        { "min": 701, "max": 800, "price": 238.68 },
+                        { "min": 801, "max": 900, "price": 262.91 },
+                        { "min": 901, "max": 1000, "price": 285.78 },
+                        { "min": 1001, "max": 2000, "price": 26.38, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 25.57, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 3000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Czech Republic-ZONA-2",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 42.78 },
+                        { "min": 31, "max": 50, "price": 45.07 },
+                        { "min": 51, "max": 100, "price": 53.69 },
+                        { "min": 101, "max": 200, "price": 84.66 },
+                        { "min": 201, "max": 300, "price": 113.13 },
+                        { "min": 301, "max": 400, "price": 139.93 },
+                        { "min": 401, "max": 500, "price": 168.50 },
+                        { "min": 501, "max": 600, "price": 194.29 },
+                        { "min": 601, "max": 700, "price": 219.45 },
+                        { "min": 701, "max": 800, "price": 247.28 },
+                        { "min": 801, "max": 900, "price": 272.28 },
+                        { "min": 901, "max": 1000, "price": 295.91 },
+                        { "min": 1001, "max": 2000, "price": 27.24, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 26.38, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 3000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Czech Republic-ZONA-3",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 42.04 },
+                        { "min": 31, "max": 50, "price": 44.33 },
+                        { "min": 51, "max": 100, "price": 52.55 },
+                        { "min": 101, "max": 200, "price": 84.94 },
+                        { "min": 201, "max": 300, "price": 114.81 },
+                        { "min": 301, "max": 400, "price": 143.02 },
+                        { "min": 401, "max": 500, "price": 172.98 },
+                        { "min": 501, "max": 600, "price": 199.93 },
+                        { "min": 601, "max": 700, "price": 226.44 },
+                        { "min": 701, "max": 800, "price": 255.62 },
+                        { "min": 801, "max": 900, "price": 281.97 },
+                        { "min": 901, "max": 1000, "price": 306.96 },
+                        { "min": 1001, "max": 2000, "price": 28.42, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 27.59, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 3000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Czech Republic-ZONA-4",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 42.97 },
+                        { "min": 31, "max": 50, "price": 45.26 },
+                        { "min": 51, "max": 100, "price": 55.37 },
+                        { "min": 101, "max": 200, "price": 89.27 },
+                        { "min": 201, "max": 300, "price": 120.67 },
+                        { "min": 301, "max": 400, "price": 150.41 },
+                        { "min": 401, "max": 500, "price": 181.92 },
+                        { "min": 501, "max": 600, "price": 209.98 },
+                        { "min": 601, "max": 700, "price": 237.95 },
+                        { "min": 701, "max": 800, "price": 268.58 },
+                        { "min": 801, "max": 900, "price": 296.40 },
+                        { "min": 901, "max": 1000, "price": 322.86 },
+                        { "min": 1001, "max": 2000, "price": 29.90, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 29.04, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 3000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Czech Republic-ZONA-5",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 44.99 },
+                        { "min": 31, "max": 50, "price": 47.28 },
+                        { "min": 51, "max": 100, "price": 55.90 },
+                        { "min": 101, "max": 200, "price": 89.09 },
+                        { "min": 201, "max": 300, "price": 119.76 },
+                        { "min": 301, "max": 400, "price": 148.77 },
+                        { "min": 401, "max": 500, "price": 179.55 },
+                        { "min": 501, "max": 600, "price": 207.00 },
+                        { "min": 601, "max": 700, "price": 234.28 },
+                        { "min": 701, "max": 800, "price": 264.22 },
+                        { "min": 801, "max": 900, "price": 291.34 },
+                        { "min": 901, "max": 1000, "price": 317.09 },
+                        { "min": 1001, "max": 2000, "price": 29.28, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 28.41, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 3000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Czech Republic-ZONA-6",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 45.18 },
+                        { "min": 31, "max": 50, "price": 47.47 },
+                        { "min": 51, "max": 100, "price": 57.58 },
+                        { "min": 101, "max": 200, "price": 93.69 },
+                        { "min": 201, "max": 300, "price": 127.30 },
+                        { "min": 301, "max": 400, "price": 159.25 },
+                        { "min": 401, "max": 500, "price": 192.97 },
+                        { "min": 501, "max": 600, "price": 222.69 },
+                        { "min": 601, "max": 700, "price": 252.77 },
+                        { "min": 701, "max": 800, "price": 285.53 },
+                        { "min": 801, "max": 900, "price": 315.46 },
+                        { "min": 901, "max": 1000, "price": 344.04 },
+                        { "min": 1001, "max": 2000, "price": 31.94, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 31.06, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 3000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Slovenia-ZONA-1",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 66.40 },
+                        { "min": 31, "max": 50, "price": 68.78 },
+                        { "min": 51, "max": 100, "price": 76.21 },
+                        { "min": 101, "max": 200, "price": 114.10 },
+                        { "min": 201, "max": 300, "price": 153.37 },
+                        { "min": 301, "max": 400, "price": 190.98 },
+                        { "min": 401, "max": 500, "price": 230.36 },
+                        { "min": 501, "max": 600, "price": 262.84 },
+                        { "min": 601, "max": 700, "price": 298.36 },
+                        { "min": 701, "max": 800, "price": 333.84 },
+                        { "min": 801, "max": 900, "price": 368.83 },
+                        { "min": 901, "max": 1000, "price": 402.48 },
+                        { "min": 1001, "max": 2000, "price": 38.02, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 37.50, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 3000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Slovenia-ZONA-2",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 76.10 },
+                        { "min": 31, "max": 50, "price": 78.48 },
+                        { "min": 51, "max": 100, "price": 86.01 },
+                        { "min": 101, "max": 200, "price": 123.80 },
+                        { "min": 201, "max": 300, "price": 163.43 },
+                        { "min": 301, "max": 400, "price": 201.40 },
+                        { "min": 401, "max": 500, "price": 241.14 },
+                        { "min": 501, "max": 600, "price": 273.43 },
+                        { "min": 601, "max": 700, "price": 309.30 },
+                        { "min": 701, "max": 800, "price": 344.91 },
+                        { "min": 801, "max": 900, "price": 380.22 },
+                        { "min": 901, "max": 1000, "price": 414.18 },
+                        { "min": 1001, "max": 2000, "price": 38.72, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 38.17, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 3000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Slovenia-ZONA-3",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 76.97 },
+                        { "min": 31, "max": 50, "price": 79.35 },
+                        { "min": 51, "max": 100, "price": 87.79 },
+                        { "min": 101, "max": 200, "price": 128.12 },
+                        { "min": 201, "max": 300, "price": 170.97 },
+                        { "min": 301, "max": 400, "price": 212.16 },
+                        { "min": 401, "max": 500, "price": 255.11 },
+                        { "min": 501, "max": 600, "price": 289.14 },
+                        { "min": 601, "max": 700, "price": 328.09 },
+                        { "min": 701, "max": 800, "price": 364.85 },
+                        { "min": 801, "max": 900, "price": 402.99 },
+                        { "min": 901, "max": 1000, "price": 439.77 },
+                        { "min": 1001, "max": 2000, "price": 41.04, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 41.53, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 3000 }
+                }
+            ]
+        },
+        {
+            "zoneName": "Slovenia-ZONA-4",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 30, "price": 77.84 },
+                        { "min": 31, "max": 50, "price": 80.22 },
+                        { "min": 51, "max": 100, "price": 89.56 },
+                        { "min": 101, "max": 200, "price": 132.45 },
+                        { "min": 201, "max": 300, "price": 178.51 },
+                        { "min": 301, "max": 400, "price": 222.91 },
+                        { "min": 401, "max": 500, "price": 269.08 },
+                        { "min": 501, "max": 600, "price": 304.84 },
+                        { "min": 601, "max": 700, "price": 346.87 },
+                        { "min": 701, "max": 800, "price": 384.79 },
+                        { "min": 801, "max": 900, "price": 425.75 },
+                        { "min": 901, "max": 1000, "price": 465.37 },
+                        { "min": 1001, "max": 2000, "price": 43.35, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } },
+                        { "min": 2001, "max": 3000, "price": 44.90, "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" } }
+                    ],
+                    "limits": { "maxWeight": 3000 }
                 }
             ]
         }

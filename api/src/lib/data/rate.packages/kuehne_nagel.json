@@ -940,10 +940,24 @@
                 {
                     "service": "basic",
                     "priceBreaks": [
-                        { "min": 0, "max": 50, "price": 62.4 },
-                        { "min": 51, "max": 100, "price": 64 },
-                        { "min": 101, "max": 200, "price": 114.1 }
-                    ]
+                        { "min": 0, "max": 30, "price": 66.28 },
+                        { "min": 31, "max": 50, "price": 66.57 },
+                        { "min": 51, "max": 100, "price": 75.98 },
+                        { "min": 101, "max": 200, "price": 120.19 },
+                        { "min": 201, "max": 300, "price": 162.92 },
+                        { "min": 301, "max": 400, "price": 204.00 },
+                        { "min": 401, "max": 500, "price": 246.84 },
+                        { "min": 501, "max": 600, "price": 281.70 },
+                        { "min": 601, "max": 700, "price": 320.54 },
+                        { "min": 701, "max": 800, "price": 358.71 },
+                        { "min": 801, "max": 900, "price": 396.94 },
+                        { "min": 901, "max": 1000, "price": 433.82 },
+                        { "min": 1001, "max": 2000, "price": 39.65 },
+                        { "min": 2001, "max": 3000, "price": 33.66 }
+                    ],
+                    "limits": {
+                        "maxWeight": 3000
+                    }
                 }
             ]
         },

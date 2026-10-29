@@ -6,6 +6,9 @@ import germanyPackage from './germany.json' with { type: 'json' };
 import italyPackage from './italy.json' with { type: 'json' };
 import portugalPackage from './portugal.json' with { type: 'json' };
 import francePackage from './france.json' with { type: 'json' };
+import netherlandPackage from './netherland.json' with { type: 'json' };
+import esloveniaPackage from './eslovenia.json' with { type: 'json' };
+
 import spainPackage from './spain.json' with { type: 'json' };
 
 const provincesData = [
@@ -16,6 +19,8 @@ const provincesData = [
     ...italyPackage.locations,
     ...portugalPackage.locations,
     ...francePackage.locations,
+    ...netherlandPackage.locations,
+    ...esloveniaPackage.locations,
     ...spainPackage.locations
 ];
 

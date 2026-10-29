@@ -38,8 +38,8 @@ export const auditStore = async (data) => {
             ...data,
             input: {
                 ...data.input,
-                countryName: location.countryName,
-                provinceName: location.name,
+                countryName: location?.countryName ?? 'unknown country',
+                provinceName: location?.name ?? 'unknown region',
             }
         }
     }

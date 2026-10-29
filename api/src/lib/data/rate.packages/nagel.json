@@ -1,0 +1,83 @@
+{
+    "schemaVersion": 1,
+    "agency": {
+        "name": "Nagel",
+        "code": "nagel",
+        "type": "static",
+        "active": true,
+        "rules": {
+            "hasAndaluciaRule": false,
+            "supportsPallets": true,
+            "supportsParcels": false,
+            "coverage": ["international"]
+        },
+        "volumetric": {
+            "enabled": true,
+            "factor": 250
+        },
+        "supplements": {
+            "fuelSurcharge": {
+                "enabled": true,
+                "type": "percentage",
+                "value": 16.25
+            }
+        }
+    },
+    "palletTypes": [],
+    "zones": [
+        {
+            "name": "ZONA 1",
+            "provinces": [
+                "AT-WI-10",
+                "AT-WI-11",
+                "AT-WI-12",
+                "AT-WI-13",
+                "AT-NI-21",
+                "AT-NI-22",
+                "AT-NI-23",
+
+                "AT-OB-40",
+                "AT-OB-46",
+                "AT-OB-47",
+                "AT-SA-50",
+                "AT-SA-51",
+                "AT-SA-52",
+                "AT-SA-53",
+                "AT-SA-54",
+
+                "AT-VO-68",
+                "AT-ST-80",
+                "AT-ST-84",
+                "AT-ST-85"
+            ],
+            "calculationMode": "pallet",
+            "pricingMode": {
+                "type": "weight_volume"
+            }
+        }
+    ],
+    "exceptions": [
+    ],
+    "rates": [
+        {
+            "zoneName": "ZONA 1",
+            "type": "pallet",
+            "palletType": null,
+            "calculationType": "unit",
+            "services": [
+                {
+                    "service": "basic",
+                    "priceBreaks": [
+                        { "min": 0, "max": 50, "price": 62.4 },
+                        { "min": 51, "max": 100, "price": 64 },
+                        { "min": 101, "max": 200, "price": 114.1 }
+                    ]
+                }
+            ]
+        }
+    ],
+    "source": {
+        "description": "Carga inicial de Nagel",
+        "migratedFrom": "src/lib/data/*.js (octubre 2026)"
+    }
+}

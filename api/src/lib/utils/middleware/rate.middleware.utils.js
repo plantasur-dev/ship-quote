@@ -83,6 +83,31 @@ const validatePriceBreaks = (priceBreaks, index) => {
         if (isInvalidNumber(range.price)) {
             throw createHttpError(400, `services[${ index }].priceBreaks[${ rangeIndex }].price must be a number > 0`);
         }
+
+        if (range.pricing != null) {
+            const pricingPath = `services[${ index }].priceBreaks[${ rangeIndex }].pricing`;
+
+            if (typeof range.pricing !== 'object' || Array.isArray(range.pricing)) {
+                throw createHttpError(400, `${ pricingPath } must be an object`);
+            }
+
+            const { type, unitKg, unit } = range.pricing;
+
+            if (!['fixed', 'per_weight_unit'].includes(type)) {
+                throw createHttpError(400, `${ pricingPath }.type must be one of: fixed, per_weight_unit`);
+            }
+
+            if (type === 'per_weight_unit' && (
+                !Number.isFinite(Number(unitKg)) ||
+                isInvalidNumber(unitKg)
+            )) {
+                throw createHttpError(400, `${ pricingPath }.unitKg must be a number > 0`);
+            }
+
+            if (unit != null && (typeof unit !== 'string' || unit.trim() === '')) {
+                throw createHttpError(400, `${ pricingPath }.unit must be a non-empty string`);
+            }
+        }
     });
 };
 

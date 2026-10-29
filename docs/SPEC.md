@@ -130,7 +130,12 @@ Cada agencia clasifica distinto → desacoplamos:
     {
       "min": "Number",
       "max": "Number",
-      "price": "Number"
+      "price": "Number",
+      "pricing": {
+        "type": "fixed | per_weight_unit",
+        "unitKg": "Number (per_weight_unit)",
+        "unit": "String (optional display label)"
+      }
     }
   ]
 }
@@ -174,7 +179,20 @@ Tarifa depende de:
 
 { "min": 0, "max": 100, "price": 30 }
 { "min": 101, "max": 300, "price": 70 }
+```
 
+En las tarifas de pallets por peso/volumen, `priceBreaks[].pricing` puede
+sobrescribir la regla de tonelaje de la zona. `fixed` fuerza un importe fijo;
+`per_weight_unit` calcula `ceil(peso facturable / unitKg) * price` sobre todo
+el peso. Si se omite, se conserva la regla de zona existente.
+
+```json
+{
+  "min": 1001,
+  "max": 2000,
+  "price": 39.65,
+  "pricing": { "type": "per_weight_unit", "unitKg": 100, "unit": "€/100kg" }
+}
 ```
 ---
 

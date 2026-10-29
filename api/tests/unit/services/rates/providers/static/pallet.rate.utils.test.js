@@ -12,7 +12,7 @@ import {
 
 import {
     matchPrice,
-    calculateTonnagePricing
+    calculatePriceBreakPricing
 } from '../../../../../../src/api/services/rates/domains/pricing/pricing.rules.js';
 
 import {
@@ -46,7 +46,7 @@ vi.mock(
     '../../../../../../src/api/services/rates/domains/pricing/pricing.rules.js',
     () => ({
         matchPrice: vi.fn(),
-        calculateTonnagePricing: vi.fn()
+        calculatePriceBreakPricing: vi.fn()
     })
 );
 
@@ -120,7 +120,7 @@ describe('calculateWeightVolume', () => {
     it('uses the last price break when weight-volume fallback is enabled', () => {
         getEffectiveWeight.mockReturnValue(3500);
         matchPrice.mockReturnValue({ min: 2001, max: 3000, price: 336.6 });
-        calculateTonnagePricing.mockReturnValue({ price: 1178.1, unit: '€/t' });
+        calculatePriceBreakPricing.mockReturnValue({ price: 1178.1, unit: '€/t' });
         buildConcept.mockReturnValue({ concept: 'BASE' });
         buildRateResult.mockReturnValue({ service: 'EXPRESS' });
 
@@ -208,7 +208,7 @@ describe('calculateWeightVolume', () => {
 
         matchPrice.mockReturnValue({ price: 100 });
 
-        calculateTonnagePricing.mockReturnValue({ price: 100, unit: '€/kg' });
+        calculatePriceBreakPricing.mockReturnValue({ price: 100, unit: '€/kg' });
 
         buildConcept.mockReturnValue({ concept: 'BASE' });
 
@@ -242,6 +242,11 @@ describe('calculateWeightVolume', () => {
             250
         );
         expect(getEffectiveWeight).toHaveBeenNthCalledWith(2, {}, 250);
+        expect(calculatePriceBreakPricing).toHaveBeenCalledWith(
+            { price: 100 },
+            undefined,
+            1000
+        );
         expect(buildConcept).toHaveBeenCalled();
 
         expect(buildRateResult).toHaveBeenCalledWith({
@@ -262,7 +267,7 @@ describe('calculateWeightVolume', () => {
 
         matchPrice.mockReturnValue({ price: 100 });
 
-        calculateTonnagePricing.mockReturnValue({ price: 100, unit: '€/kg' });
+        calculatePriceBreakPricing.mockReturnValue({ price: 100, unit: '€/kg' });
 
         buildConcept.mockReturnValue({ concept: 'BASE' });
 

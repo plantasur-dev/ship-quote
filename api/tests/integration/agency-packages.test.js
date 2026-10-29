@@ -23,10 +23,30 @@ describe('agency package bootstrap', () => {
 
         await initAgenciesData();
 
-        expect(await Agency.countDocuments()).toBe(6);
-        expect(await Zone.countDocuments()).toBe(553);
+        const kuehneNagel = await Agency.findOne({ code: 'kuehne_nagel' });
+        const kuehneRate = await Rate.findOne({
+            agencyId: kuehneNagel._id,
+            zoneName: 'Austria-ZONA-1',
+            palletTypeId: null
+        }).lean();
+        expect(kuehneRate.services[0].priceBreaks).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    min: 1001,
+                    max: 2000,
+                    pricing: {
+                        type: 'per_weight_unit',
+                        unitKg: 100,
+                        unit: '€/100kg'
+                    }
+                })
+            ])
+        );
+
+        expect(await Agency.countDocuments()).toBe(8);
+        expect(await Zone.countDocuments()).toBe(596);
         expect(await PalletType.countDocuments()).toBe(15);
-        expect(await Rate.countDocuments()).toBe(733);
+        expect(await Rate.countDocuments()).toBe(776);
 
         const rules = await ZoneRules.find().lean();
         expect(rules.flatMap(({ postalCodeRanges }) => postalCodeRanges)).toHaveLength(572);
@@ -68,9 +88,9 @@ describe('agency package bootstrap', () => {
 
         await initAgenciesData();
 
-        expect(await Agency.countDocuments()).toBe(6);
-        expect(await Zone.countDocuments()).toBe(553);
+        expect(await Agency.countDocuments()).toBe(8);
+        expect(await Zone.countDocuments()).toBe(596);
         expect(await PalletType.countDocuments()).toBe(15);
-        expect(await Rate.countDocuments()).toBe(733);
+        expect(await Rate.countDocuments()).toBe(776);
     });
 });

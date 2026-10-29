@@ -91,12 +91,7 @@
       ],
       "calculationMode": "pallet",
       "pricingMode": {
-        "type": "pallet_classification",
-        "tonnagePricingRule": {
-          "enabled": false,
-          "threshold": 1001,
-          "unit": "€/ton"
-        }
+        "type": "pallet_classification"
       },
       "volumetric": {
         "enabled": false,
@@ -110,12 +105,7 @@
       ],
       "calculationMode": "pallet",
       "pricingMode": {
-        "type": "pallet_classification",
-        "tonnagePricingRule": {
-          "enabled": false,
-          "threshold": 1001,
-          "unit": "€/ton"
-        }
+        "type": "pallet_classification"
       },
       "volumetric": {
         "enabled": false,
@@ -132,12 +122,7 @@
       ],
       "calculationMode": "pallet",
       "pricingMode": {
-        "type": "pallet_classification",
-        "tonnagePricingRule": {
-          "enabled": false,
-          "threshold": 1001,
-          "unit": "€/ton"
-        }
+        "type": "pallet_classification"
       },
       "volumetric": {
         "enabled": false,
@@ -163,12 +148,7 @@
       ],
       "calculationMode": "pallet",
       "pricingMode": {
-        "type": "pallet_classification",
-        "tonnagePricingRule": {
-          "enabled": false,
-          "threshold": 1001,
-          "unit": "€/ton"
-        }
+        "type": "pallet_classification"
       },
       "volumetric": {
         "enabled": false,
@@ -190,12 +170,7 @@
       ],
       "calculationMode": "pallet",
       "pricingMode": {
-        "type": "pallet_classification",
-        "tonnagePricingRule": {
-          "enabled": false,
-          "threshold": 1001,
-          "unit": "€/ton"
-        }
+        "type": "pallet_classification"
       },
       "volumetric": {
         "enabled": false,
@@ -211,12 +186,7 @@
       ],
       "calculationMode": "pallet",
       "pricingMode": {
-        "type": "pallet_classification",
-        "tonnagePricingRule": {
-          "enabled": false,
-          "threshold": 1001,
-          "unit": "€/ton"
-        }
+        "type": "pallet_classification"
       },
       "volumetric": {
         "enabled": false,
@@ -237,12 +207,7 @@
       ],
       "calculationMode": "pallet",
       "pricingMode": {
-        "type": "pallet_classification",
-        "tonnagePricingRule": {
-          "enabled": false,
-          "threshold": 1001,
-          "unit": "€/ton"
-        }
+        "type": "pallet_classification"
       },
       "volumetric": {
         "enabled": false,

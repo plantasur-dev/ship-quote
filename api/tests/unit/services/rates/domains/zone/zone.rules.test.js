@@ -15,6 +15,33 @@ const tecumPackage = JSON.parse(
     )
 );
 
+const kuehneNagelPackage = JSON.parse(
+    readFileSync(
+        new URL('../../../../../../src/lib/data/rate.packages/kuehne_nagel.json', import.meta.url),
+        'utf8'
+    )
+);
+
+describe('buildAgencyDocuments', () => {
+    it('preserves price-break weight-unit pricing from agency packages', () => {
+        validateAgencyPackage(kuehneNagelPackage);
+
+        const documents = buildAgencyDocuments(kuehneNagelPackage, 'agency-kuehne-nagel');
+        const rate = documents.rates.find(({ zoneName }) => zoneName === 'Austria-ZONA-1');
+        const priceBreak = rate.services[0].priceBreaks.find(({ min }) => min === 1001);
+
+        expect(priceBreak).toMatchObject({
+            max: 2000,
+            price: 39.65,
+            pricing: {
+                type: 'per_weight_unit',
+                unitKg: 100,
+                unit: '€/100kg'
+            }
+        });
+    });
+});
+
 describe('resolveZone', () => {
     it('should resolve Tecum island postal code ranges to their configured zones', () => {
         validateAgencyPackage(tecumPackage);

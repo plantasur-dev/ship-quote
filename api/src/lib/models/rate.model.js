@@ -27,6 +27,45 @@ const rangeAmountSchema = new mongoose.Schema({
     }
 });
 
+const priceBreakPricingSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ['fixed', 'per_weight_unit'],
+        required: true
+    },
+    unitKg: {
+        type: Number,
+        min: 0,
+        validate: {
+            validator: value => value > 0,
+            message: 'unitKg must be greater than zero'
+        },
+        required: function () {
+            return this.type === 'per_weight_unit';
+        }
+    },
+    unit: String
+}, {
+    _id: false,
+    versionKey: false
+});
+
+const priceBreakSchema = new mongoose.Schema({
+    min: Number,
+    max: Number,
+    price: Number,
+    pricing: priceBreakPricingSchema
+}, {
+    timestamps: true,
+    versionKey: false,
+    toJSON: {
+        virtuals: true,
+        transform: function (doc, ret) {
+            delete ret._id;
+        },
+    }
+});
+
 const surchargeSchema = new mongoose.Schema({
     extraKg: {
         enabled: {
@@ -98,7 +137,7 @@ const servicePriceSchema = new mongoose.Schema({
         default: SERVICE_NAMES.BASIC
     },
 
-    priceBreaks: [rangeAmountSchema],
+    priceBreaks: [priceBreakSchema],
         
     fallbackToLastPrice: {
         type: Boolean,

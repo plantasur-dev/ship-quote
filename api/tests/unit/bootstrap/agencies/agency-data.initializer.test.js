@@ -90,9 +90,9 @@ describe('canonical agency package initialization', () => {
             log: false
         });
 
-        expect(firstLoad).toHaveLength(6);
+        expect(firstLoad).toHaveLength(8);
         expect(firstLoad.every(result => result.status === SEED_STATUS.APPLIED)).toBe(true);
-        expect(mocks.state.agencies.size).toBe(6);
+        expect(mocks.state.agencies.size).toBe(8);
         expect(mocks.state.agencies.get('cayco')).toMatchObject({
             active: false,
             supplements: { fuelSurcharge: { enabled: true, value: 77 } }
@@ -100,9 +100,9 @@ describe('canonical agency package initialization', () => {
         expect(mocks.state.agencies.get('dachser')).toMatchObject({
             name: 'Dachser'
         });
-        expect(firstLoad.reduce((total, result) => total + result.counts.zones, 0)).toBe(553);
+        expect(firstLoad.reduce((total, result) => total + result.counts.zones, 0)).toBe(596);
         expect(firstLoad.reduce((total, result) => total + result.counts.palletTypes, 0)).toBe(15);
-        expect(firstLoad.reduce((total, result) => total + result.counts.rates, 0)).toBe(733);
+        expect(firstLoad.reduce((total, result) => total + result.counts.rates, 0)).toBe(776);
         expect([...mocks.state.documents.values()]
             .flatMap(({ zoneRules }) => zoneRules)
             .flatMap(({ postalCodeRanges }) => postalCodeRanges)
@@ -129,17 +129,17 @@ describe('canonical agency package initialization', () => {
         expect(tecumDocuments.rates.every(rate => zoneIds.has(rate.zoneId.toString()))).toBe(true);
         expect(tecumDocuments.rates.every(rate => rate.agencyId === tecum._id)).toBe(true);
 
-        expect(mocks.applyPackage).toHaveBeenCalledTimes(6);
+        expect(mocks.applyPackage).toHaveBeenCalledTimes(8);
         const secondLoad = await initAgencies({
             dir: packagesDirectory,
             deps: dependencies,
             log: false
         });
 
-        expect(secondLoad).toHaveLength(6);
+        expect(secondLoad).toHaveLength(8);
         expect(secondLoad.every(result => result.status === SEED_STATUS.UNCHANGED)).toBe(true);
-        expect(mocks.applyPackage).toHaveBeenCalledTimes(6);
-        expect(mocks.createAgency).toHaveBeenCalledTimes(5);
+        expect(mocks.applyPackage).toHaveBeenCalledTimes(8);
+        expect(mocks.createAgency).toHaveBeenCalledTimes(7);
     });
 
     it('returns validation failures and does not create agencies for invalid package data', async () => {

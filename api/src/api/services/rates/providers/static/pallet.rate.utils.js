@@ -6,7 +6,7 @@ import {
 
 import {
     matchPrice,
-    calculateTonnagePricing
+    calculatePriceBreakPricing
 } from '../../domains/pricing/pricing.rules.js';
 
 import {
@@ -16,28 +16,61 @@ import {
     buildRejectedServices
 } from '../../domains/build.rate.result.js';
 
-import {
-    SHIPMENT_UNITS
-} from '../../../../../lib/constants/index.js';
+import { resolveVolumetricFactor } from '../../../../../lib/utils/rate.utils.js';
+import { SHIPMENT_UNITS } from '../../../../../lib/constants/index.js';
 
-export function calculateWeightVolume({ palletItems, agencyRates, zone, agencySupplements }) {
-    
+
+export function calculateWeightVolume({
+    palletItems,
+    agencyRates,
+    zone,
+    agencyVolumetric,
+    agencySupplements
+}) {
+    const factor = resolveVolumetricFactor(zone?.volumetric, agencyVolumetric);
     const totalWeight = palletItems.reduce((sum, item) => 
-        sum += getEffectiveWeight(item, zone?.volumetric)
-        , 0
+        sum + getEffectiveWeight(item, factor),
+        0
     );
 
     const rate = agencyRates.get(`${zone.calculationMode}|${zone.name}|none`);
     if (!rate) return [];
 
     return rate.services.reduce((acc, service) => {
-        const match = matchPrice(service.priceBreaks, totalWeight);
+        const pricesRate = service.priceBreaks;
+        const maxWeight = service.limits?.maxWeight;
+        const fallbackToLastPrice = service?.fallbackToLastPrice;
+
+        if (maxWeight > 0 && totalWeight > maxWeight) {
+            acc.push(
+                buildRateResult({
+                    service: service.service,
+                    transportType: SHIPMENT_UNITS.PALLET,
+                    itemCount: palletItems.length,
+                    totalWeight,
+                    incidents: [
+                        buildIncident('MAX_WEIGHT_EXCEEDED', {
+                            maxWeight,
+                            currentWeight: totalWeight
+                        })
+                    ]
+                })
+            );
+
+            return acc;
+        }
+
+        const match = matchPrice(
+            pricesRate,
+            totalWeight,
+            fallbackToLastPrice
+        );
         if (!match) return acc;
         
-        const { price, unit } = 
-            calculateTonnagePricing(
+        const { price, unit } =
+            calculatePriceBreakPricing(
+                match,
                 zone.pricingMode?.tonnagePricingRule, 
-                match.price, 
                 totalWeight
             );
 

@@ -1,5 +1,8 @@
 
 export const inputStyle = `
+    flex 
+    items-center 
+    gap-3
     h-12
     w-full
     rounded-2xl
@@ -18,11 +21,9 @@ export const inputStyle = `
     placeholder:font-normal
     placeholder:text-slate-400
 
-    focus:border-indigo-300
-    focus:ring-2
-    focus:ring-indigo-200/70
+    focus-within:ring-offset-1
+
     focus:ring-offset-1
-    focus:ring-offset-indigo-50
 `;
 
 export const servicesLabel = [

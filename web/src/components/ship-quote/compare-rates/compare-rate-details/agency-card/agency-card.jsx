@@ -1,6 +1,6 @@
 
 import { Truck } from 'lucide-react';
-import { agencyLogos } from '../../../../../assets/img/agencyLogos';
+import { agencyLogos } from '../../../../../assets/img/agency-logos';
 
 import ServiceCard from '../service-card/service-card';
 

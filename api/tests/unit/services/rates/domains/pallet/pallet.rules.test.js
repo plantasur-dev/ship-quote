@@ -6,10 +6,6 @@ import {
 } from '../../../../../../src/api/services/rates/domains/pallet/pallet.rules.js';
 
 describe('getEffectiveWeight', () => {
-    beforeEach(() => {
-        process.env.DEFAULT_PALLET_VOLUME = '1000000';
-    });
-
     it('should return real weight when greater than volumetric', () => {
         const result = getEffectiveWeight({
             weight: 50,
@@ -21,7 +17,7 @@ describe('getEffectiveWeight', () => {
         expect(result).toBe(50);
     });
 
-    it('should return volumetric weight when greater', () => {
+    it('returns volumetric weight when greater than real weight', () => {
         const result = getEffectiveWeight(
             {
                 weight: 50,
@@ -29,30 +25,23 @@ describe('getEffectiveWeight', () => {
                 width: 200,
                 height: 200
             },
-            {
-                enabled: true,
-                factor: 250
-            }
+            250
         );
 
         expect(result).toBe(2000);
     });
 
-    it('should ignore factor when disabled', () => {
+    it('uses the real weight when no factor has been resolved', () => {
         const result = getEffectiveWeight(
             {
-                weight: 10,
+                weight: 50,
                 large: 100,
                 width: 100,
                 height: 100
-            },
-            {
-                enabled: false,
-                factor: 250
             }
         );
 
-        expect(result).toBe(10);
+        expect(result).toBe(50);
     });
 });
 

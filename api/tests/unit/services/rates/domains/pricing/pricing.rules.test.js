@@ -2,6 +2,7 @@
 import {
     matchPrice,
     calculateTonnagePricing,
+    calculatePriceBreakPricing,
     calculateExcessWeight,
     calculateAdditionalWeightBlockCost
 } from '../../../../../../src/api/services/rates/domains/pricing/pricing.rules.js';
@@ -83,6 +84,54 @@ describe('calculateTonnagePricing', () => {
                 2500
             )
         ).toEqual({ price: 50, unit: '€/tn' });
+    });
+});
+
+describe('calculatePriceBreakPricing', () => {
+    it('calculates whole weight units and rounds fractional units up', () => {
+        expect(
+            calculatePriceBreakPricing(
+                {
+                    price: 39.65,
+                    pricing: { type: 'per_weight_unit', unitKg: 100 }
+                },
+                undefined,
+                1001
+            )
+        ).toEqual({ price: 436.15, unit: '€/100kg' });
+    });
+
+    it('uses the entire weight rather than only the weight above the threshold', () => {
+        expect(
+            calculatePriceBreakPricing(
+                {
+                    price: 39.65,
+                    pricing: { type: 'per_weight_unit', unitKg: 100 }
+                },
+                undefined,
+                1500
+            )
+        ).toEqual({ price: 594.75, unit: '€/100kg' });
+    });
+
+    it('uses break-level fixed pricing in preference to the zone tonnage rule', () => {
+        expect(
+            calculatePriceBreakPricing(
+                { price: 30, pricing: { type: 'fixed' } },
+                { enabled: true, threshold: 1000, unit: '€/ton' },
+                2500
+            )
+        ).toEqual({ price: 30, unit: '€/kg' });
+    });
+
+    it('falls back to the zone tonnage rule when break pricing is omitted', () => {
+        expect(
+            calculatePriceBreakPricing(
+                { price: 20 },
+                { enabled: true, threshold: 1000, unit: '€/ton' },
+                2500
+            )
+        ).toEqual({ price: 50, unit: '€/ton' });
     });
 });
 

@@ -5,6 +5,8 @@ import Rate from "../../lib/models/rate.model.js";
 import PalletType from "../../lib/models/palletType.model.js";
 
 let agencyTariffs = null;
+let suspendedRefreshes = 0;
+let refreshPending = false;
 
 function buildRateKey({ type, zoneName, palletTypeId }) {
     return [
@@ -217,6 +219,26 @@ export function getAgencyTariffs() {
 }
 
 export async function invalidateAgencyTariffs() {
+    if (suspendedRefreshes > 0) {
+        refreshPending = true;
+        return;
+    }
+
     await loadAgencyTariffs().
         catch (error => console.error('Error refrescando caché', error));
+}
+
+export async function withSuspendedRefresh(operation) {
+    suspendedRefreshes++;
+
+    try {
+        return await operation();
+    } finally {
+        suspendedRefreshes--;
+
+        if (suspendedRefreshes === 0 && refreshPending) {
+            refreshPending = false;
+            await invalidateAgencyTariffs();
+        }
+    }
 }

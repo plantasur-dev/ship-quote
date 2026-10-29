@@ -4,13 +4,14 @@ import {
     calculateParcel
 } from '../../../../../../src/api/services/rates/providers/static/parcel.rate.calculator.js';
 
-function buildZone(pricingModeType = 'real_weight') {
+function buildZone(pricingModeType = 'real_weight', volumetric = undefined) {
     return {
         name: 'Madrid',
         calculationMode: 'parcel',
         pricingMode: {
             type: pricingModeType
-        }
+        },
+        ...(volumetric ? { volumetric } : {})
     };
 }
 
@@ -108,7 +109,7 @@ describe('calculateParcelRate', () => {
         });
     });
 
-    it('uses the volumetric weight when it is higher than the real weight', () => {
+    it('uses the zone factor to calculate volumetric weight when higher than real weight', () => {
         const result = calculateParcelRate({
             parcelItems: [{ weight: 1, large: 100, width: 100, height: 100 }],
             agencyRates: buildAgencyRates([
@@ -117,17 +118,88 @@ describe('calculateParcelRate', () => {
                     priceBreaks: [{ min: 0, max: 200, price: 10 }]
                 }
             ]),
-            zone: buildZone('weight_volume'),
+            zone: buildZone('weight_volume', { enabled: true, factor: 200 }),
             agencySupplements: {}
         });
 
         expect(result[0]).toMatchObject({
             service: 'express',
             itemCount: 1,
-            totalWeight: 167,
+            totalWeight: 200,
             incidents: [],
             concepts: [{ code: 'BASE', amount: 10 }]
         });
+    });
+
+    it('uses the agency factor when the zone factor is disabled', () => {
+        const result = calculateParcelRate({
+            parcelItems: [{ weight: 50, large: 100, width: 100, height: 100 }],
+            agencyRates: buildAgencyRates([
+                {
+                    service: 'express',
+                    priceBreaks: [{ min: 0, max: 400, price: 10 }]
+                }
+            ]),
+            zone: buildZone('weight_volume', { enabled: false, factor: 200 }),
+            agencyVolumetric: { enabled: true, factor: 300 },
+            agencySupplements: {}
+        });
+
+        expect(result[0].totalWeight).toBe(300);
+    });
+
+    it('uses the zone factor before the agency factor and applies it to total shipment volume', () => {
+        const result = calculateParcelRate({
+            parcelItems: [
+                { weight: 50, large: 100, width: 100, height: 50 },
+                { weight: 50, large: 100, width: 100, height: 50 }
+            ],
+            agencyRates: buildAgencyRates([
+                {
+                    service: 'express',
+                    priceBreaks: [{ min: 0, max: 300, price: 10 }]
+                }
+            ]),
+            zone: buildZone('weight_volume', { enabled: true, factor: 250 }),
+            agencyVolumetric: { enabled: true, factor: 300 },
+            agencySupplements: {}
+        });
+
+        expect(result[0].totalWeight).toBe(250);
+    });
+
+    it('uses real weight for weight_volume when neither factor is enabled', () => {
+        const result = calculateParcelRate({
+            parcelItems: [{ weight: 50, large: 100, width: 100, height: 100 }],
+            agencyRates: buildAgencyRates([
+                {
+                    service: 'express',
+                    priceBreaks: [{ min: 0, max: 100, price: 10 }]
+                }
+            ]),
+            zone: buildZone('weight_volume', { enabled: false, factor: 200 }),
+            agencyVolumetric: { enabled: false, factor: 300 },
+            agencySupplements: {}
+        });
+
+        expect(result[0].totalWeight).toBe(50);
+    });
+
+    it('keeps real_weight mode unchanged when volumetric factors are active', () => {
+        const result = calculateParcelRate({
+            parcelItems: [{ weight: 50, large: 100, width: 100, height: 100 }],
+            agencyRates: buildAgencyRates([
+                {
+                    service: 'express',
+                    priceBreaks: [{ min: 0, max: 100, price: 10 }]
+                }
+            ]),
+            zone: buildZone('real_weight', { enabled: true, factor: 300 }),
+            agencyVolumetric: { enabled: true, factor: 400 },
+            agencySupplements: {}
+        });
+
+        expect(result[0].totalWeight).toBe(50);
     });
 
     it('adds the extra dimensions concept when a parcel exceeds the standard dimensions', () => {

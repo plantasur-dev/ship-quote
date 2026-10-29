@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "agency": {
+    "name": "Dachser",
+    "code": "dachser",
+    "type": "api",
+    "active": true,
+    "rules": {
+      "hasAndaluciaRule": false,
+      "supportsPallets": true,
+      "supportsParcels": false,
+      "coverage": [
+        "national",
+        "international"
+      ]
+    },
+    "apiConfig": {
+      "timeout": 3000,
+      "baseUrlApi": "https://api-gateway.dachser.com/rest/v2",
+      "endpoints": {
+        "quotations": "quotations",
+        "transportOrders": ""
+      }
+    }
+  },
+  "palletTypes": [],
+  "zones": [],
+  "exceptions": [],
+  "rates": [],
+  "source": {
+    "description": "Carga inicial de Dachser",
+    "migratedFrom": "src/lib/data/*.js (octubre 2026)"
+  }
+}

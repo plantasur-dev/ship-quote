@@ -27,8 +27,8 @@
       "name": "FULL PALLET",
       "constraints": {
         "maxWeight": 1200,  
-        "maxLength": 100, 
-        "maxWidth": 120, 
+        "maxLength": 120, 
+        "maxWidth": 100, 
         "maxHeight": 220
       }
     },
@@ -36,8 +36,8 @@
       "name": "EURO PALLET",
       "constraints": {
         "maxWeight": 900,  
-        "maxLength": 80, 
-        "maxWidth": 120, 
+        "maxLength": 120, 
+        "maxWidth": 80, 
         "maxHeight": 220
       }
     },
@@ -45,8 +45,8 @@
       "name": "HALF PALLET",
       "constraints": {
         "maxWeight": 600,  
-        "maxLength": 100, 
-        "maxWidth": 120, 
+        "maxLength": 120, 
+        "maxWidth": 100, 
         "maxHeight": 160
       }
     },
@@ -54,8 +54,8 @@
       "name": "EXTRA LIGHT PALLET",
       "constraints": {
         "maxWeight": 450,  
-        "maxLength": 100, 
-        "maxWidth": 120, 
+        "maxLength": 120, 
+        "maxWidth": 100, 
         "maxHeight": 220
       }
     },
@@ -63,8 +63,8 @@
       "name": "SUPER EURO LIGHT PALLET",
       "constraints": {
         "maxWeight": 300,
-        "maxLength": 80, 
-        "maxWidth": 120, 
+        "maxLength": 120, 
+        "maxWidth": 80, 
         "maxHeight": 220
       }
     },
@@ -72,8 +72,8 @@
       "name": "QUARTER PALLET",
       "constraints": {
         "maxWeight": 300,
-        "maxLength": 100, 
-        "maxWidth": 120, 
+        "maxLength": 120, 
+        "maxWidth": 100, 
         "maxHeight": 110
       }
     },
@@ -81,8 +81,8 @@
       "name": "MINI QUARTER PALLET",
       "constraints": {
         "maxWeight": 150,  
-        "maxLength": 100, 
-        "maxWidth": 120, 
+        "maxLength": 120, 
+        "maxWidth": 100, 
         "maxHeight": 80
       }
     },
@@ -90,8 +90,8 @@
       "name": "MINI QUARTER PALLET",
       "constraints": {
         "maxWeight": 150,
-        "maxLength": 80, 
-        "maxWidth": 60, 
+        "maxLength": 60, 
+        "maxWidth": 80, 
         "maxHeight": 120
       }
     }

@@ -6,6 +6,7 @@ import mrwLogo from './logos/mrw-logo.png';
 import rhenusLogo from './logos/rhenus-logo.png';
 import cttLogo from './logos/ctt-logo.png';
 import kuehneLogo from './logos/kuehne-logo.png';
+import tecumLogo from './logos/tecum-logo.png';
 
 export const agencyLogos = {
     CORREOSEXPRESS: correosExpLogo,
@@ -14,5 +15,6 @@ export const agencyLogos = {
     MRW: mrwLogo,
     RHENUS: rhenusLogo,
     CTT: cttLogo,
-    'KUEHNE NAGEL': kuehneLogo
+    'KUEHNE NAGEL': kuehneLogo,
+    TECUM: tecumLogo
 };

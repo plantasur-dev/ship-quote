@@ -1,23 +1,21 @@
 
-import { calculateVolumeM3 } from '../../../../../../../lib/utils/rate.utils.js';
-
-import { dateFormat } from '../../../../../../../lib/utils/date.utils.js';
-
-import { transportProducts } from '../../../../../../../lib/constants/dachser.products.js';
-
 import { isAgencyEligibleFor } from '../../../../domains/agency/agency.eligibility.js';
 
 import CarrierService from '../carriers.service.interface.js';
 
-import { 
-    SHIPMENT_UNITS 
-} from '../../../../../../../lib/constants/shipment.units.js';
+import { SHIPMENT_UNITS } from '../../../../../../../lib/constants/shipment.units.js';
 
 import { 
     buildRateResult, 
     buildConcept,
     buildIncident
 } from '../../../../domains/build.rate.result.js';
+
+import { calculateVolumeM3, fixedToN } from '../../../../../../../lib/utils/rate.utils.js';
+
+import { dateFormat } from '../../../../../../../lib/utils/date.utils.js';
+
+import { transportProducts } from '../../../../../../../lib/constants/dachser.products.js';
 
 export default class DachserService extends CarrierService {
 
@@ -51,7 +49,7 @@ export default class DachserService extends CarrierService {
                             "height": item.height,
                             "unit": "CM",
                             "volume": {
-                                "amount": calculateVolumeM3(item),
+                                "amount": fixedToN(calculateVolumeM3(item)),
                                 "unit": "M3"
                             }
                         }
